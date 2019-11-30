@@ -1,0 +1,3053 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Python Notes - Mukul Pareek</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href=".">Python Notes - Mukul Pareek</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href=".">Python Notes</a>
+                            </li>
+                            <li >
+                                <a href="RNN_for_texts/">RNN</a>
+                            </li>
+                            <li >
+                                <a href="RNN_parameters/">RNN parameters</a>
+                            </li>
+                            <li >
+                                <a href="OneHot/">One Hot</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="disabled">
+                                <a rel="next" >
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="RNN_for_texts/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#notes-for-getting-started-with-python">Notes for getting started with Python.</a></li>
+            <li><a href="#basic-commands">Basic commands</a></li>
+        <li class="main "><a href="#list-dicts-sets-and-tuples">List, Dicts, Sets and Tuples</a></li>
+        <li class="main "><a href="#numpy-arrays">Numpy arrays</a></li>
+            <li><a href="#create-arrays">Create arrays</a></li>
+            <li><a href="#subsetting-arrays-slices">Subsetting arrays ('slices')</a></li>
+            <li><a href="#picking-selected-rows-or-columns">Picking selected rows or columns</a></li>
+            <li><a href="#dot-product">Dot product</a></li>
+        <li class="main "><a href="#matrix-math">Matrix math</a></li>
+            <li><a href="#transpose-with-a-t">Transpose with a .T</a></li>
+            <li><a href="#inverse-with-a-i">Inverse with a .I</a></li>
+            <li><a href="#matrix-multiplication">Matrix multiplication</a></li>
+            <li><a href="#time-your-code-with-time">Time your code with %time</a></li>
+            <li><a href="#exponents-with-matrices-and-arrays">Exponents with matrices and arrays **.</a></li>
+            <li><a href="#modulus-of-a-vector-matrix-or-an-array">Modulus of a vector, matrix or an array</a></li>
+            <li><a href="#determinant-of-a-matrix-nplinalgdeta">Determinant of a matrix np.linalg.det(a)</a></li>
+            <li><a href="#converting-from-matrix-to-array-and-vice-versa">Converting from matrix to array and vice-versa</a></li>
+        <li class="main "><a href="#data-frames">Data Frames</a></li>
+            <li><a href="#create-a-dataframe">Create a DataFrame</a></li>
+            <li><a href="#selecting-columns-and-rows">Selecting columns and rows</a></li>
+            <li><a href="#select-rows">Select rows:</a></li>
+            <li><a href="#change-column-type-to-categorical-equivalent-to-rs-factors">Change column type to categorical (equivalent to R's factors) </a></li>
+            <li><a href="#add-a-column">Add a column</a></li>
+            <li><a href="#delete-a-column">Delete a column</a></li>
+            <li><a href="#get-column-names">Get column names</a></li>
+            <li><a href="#loc-and-iloc">loc and iloc</a></li>
+            <li><a href="#sort-values">Sort values</a></li>
+            <li><a href="#extract-unique-values">Extract unique values</a></li>
+            <li><a href="#add-a-calculated-column-to-a-dataframe-with-assign">Add a calculated column to a dataframe with assign</a></li>
+            <li><a href="#take-a-sample-from-a-dataframe">Take a sample from a dataframe</a></li>
+            <li><a href="#groupby">Groupby</a></li>
+            <li><a href="#rename-columns">rename columns</a></li>
+            <li><a href="#pivot-tables">Pivot Tables</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="notes-for-getting-started-with-python">Notes for getting started with Python.</h1>
+<h3 id="basic-commands">Basic commands</h3>
+<h1 id="list-dicts-sets-and-tuples">List, Dicts, Sets and Tuples</h1>
+<pre><code class="python">import pandas as pd
+import os
+import random
+import numpy as np
+import scipy
+import math
+</code></pre>
+
+<p>Lists are expressed as []<br>
+Dicts are {} <br>
+Sets are also {}, except they don't have the colons separating the key:value pairs<br>
+Tuples are in ()</p>
+<pre><code class="python">empty_dict = {}
+dict1 = {'first': ['John', 'Jane'], 2: (1,2,3)}
+dict1
+</code></pre>
+
+<pre><code>{'first': ['John', 'Jane'], 2: (1, 2, 3)}
+</code></pre>
+<pre><code class="python">type(dict1)
+</code></pre>
+
+<pre><code>dict
+</code></pre>
+<pre><code class="python">empty_list = []
+list1 = ['a', 2,4, 'python']
+list1
+</code></pre>
+
+<pre><code>['a', 2, 4, 'python']
+</code></pre>
+<pre><code class="python">type(list1)
+</code></pre>
+
+<pre><code>list
+</code></pre>
+<pre><code class="python">set1 = {1,2,4,5} # Sets can do intersect, union and difference
+tuple1 = 1, 3, 4 # or
+tuple1 = (1, 3, 4)
+tuple1
+</code></pre>
+
+<pre><code>(1, 3, 4)
+</code></pre>
+<h1 id="numpy-arrays">Numpy arrays</h1>
+<p>Everything that Numpy touches ends as an array, just like everything from a pandas function is a dataframe.  Easiest way to generate a random array is <code>np.random.randn(2,3)</code> which will give an array with dimensions 2,3.  You can pick any other dimensions too.  <code>randn</code> gives random normal numbers.</p>
+<pre><code class="python">data = np.random.randn(2, 3, 4)
+data
+# The number of `[` gives the number of dimensions in the array.  
+# Two are represented on screen, the rows and columns.  All others appear afterwards.
+# The last two dimensions, eg here 3, 4 represent rows and columns.  The 2, the first one, means there are two 
+# sets of these rows and columns in the array.
+</code></pre>
+
+<pre><code>array([[[-0.73898693,  0.51561367, -0.14324109, -2.20707533],
+        [-0.20505355,  0.66627953,  1.39213086, -1.02366192],
+        [ 0.55395784,  0.72740874, -0.35003872, -0.03550918]],
+
+       [[ 1.62380742,  0.85009929,  0.79981568, -0.04168263],
+        [ 0.72727456, -1.45392259, -0.16194214, -1.66648635],
+        [ 0.05611599,  1.02078349, -0.36051036,  1.20331837]]])
+</code></pre>
+<pre><code class="python"># Now let us add another dimension.  But this time random integers than random normal.
+# However randint requires specifying low and high for the uniform distribution.
+data = np.random.randint(low = 1, high = 100, size = (2,3,2,4))
+data
+</code></pre>
+
+<pre><code>array([[[[91,  3, 78, 18],
+         [31, 40, 15, 57]],
+
+        [[ 6, 18, 48, 68],
+         [14, 91, 56, 57]],
+
+        [[21, 30, 19, 98],
+         [84, 63, 80, 16]]],
+
+
+       [[[16, 63, 49, 36],
+         [72, 77, 10, 50]],
+
+        [[84, 67, 46, 49],
+         [ 5, 97, 15, 64]],
+
+        [[74, 60, 32,  2],
+         [14, 18, 68,  7]]]])
+</code></pre>
+<p>So there will be a collection of 2 rows x 4 columns matrices, repeated 3 times, and that entire set another 2 times. <br><br>
+And the 4 occurrences of <code>[[[[</code> means there are 4 dimensions to the array.</p>
+<pre><code class="python">type(data)
+</code></pre>
+
+<pre><code>numpy.ndarray
+</code></pre>
+<pre><code class="python"># Converting a list to an array
+list1 = list(range(12))
+list1
+</code></pre>
+
+<pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+</code></pre>
+<pre><code class="python">array1 = np.array(list1)
+array1
+</code></pre>
+
+<pre><code>array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+</code></pre>
+<pre><code class="python"># This array1 is one dimensional, let us convert to a 3x4 array.
+array1.shape = (3,4)
+array1
+</code></pre>
+
+<pre><code>array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11]])
+</code></pre>
+<h2 id="create-arrays">Create arrays</h2>
+<pre><code class="python">array1 = np.zeros((2,3)) # The dimensions must be a tuple inside the brackets
+array1
+</code></pre>
+
+<pre><code>array([[0., 0., 0.],
+       [0., 0., 0.]])
+</code></pre>
+<pre><code class="python">array1 = np.arange((12))
+array1
+</code></pre>
+
+<pre><code>array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+</code></pre>
+<pre><code class="python">array1.reshape(3,4) #You can reshape the dimensions of an array
+</code></pre>
+
+<pre><code>array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11]])
+</code></pre>
+<pre><code class="python">array1.reshape(3,2,2)
+</code></pre>
+
+<pre><code>array([[[ 0,  1],
+        [ 2,  3]],
+
+       [[ 4,  5],
+        [ 6,  7]],
+
+       [[ 8,  9],
+        [10, 11]]])
+</code></pre>
+<pre><code class="python">array1 = np.ones((3,5))
+array1
+</code></pre>
+
+<pre><code>array([[1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.]])
+</code></pre>
+<pre><code class="python">array1 = np.eye(4) #Creates the identity matrix 
+array1
+</code></pre>
+
+<pre><code>array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+</code></pre>
+<p><strong>All math on arrays is element wise, and scalars are multiplied/added with each element.</strong></p>
+<pre><code class="python">array1 + 4
+</code></pre>
+
+<pre><code>array([[5., 5., 5., 5., 5.],
+       [5., 5., 5., 5., 5.],
+       [5., 5., 5., 5., 5.]])
+</code></pre>
+<pre><code class="python">array1 &gt; np.random.randint(0, 2, (3,5))
+</code></pre>
+
+<pre><code>array([[False, False,  True,  True, False],
+       [False, False,  True, False, False],
+       [False, False, False, False,  True]])
+</code></pre>
+<pre><code class="python">array1 + 2
+</code></pre>
+
+<pre><code>array([[3., 2., 2., 2.],
+       [2., 3., 2., 2.],
+       [2., 2., 3., 2.],
+       [2., 2., 2., 3.]])
+</code></pre>
+<pre><code class="python">np.sum(array1) # adds all the elements of an array
+</code></pre>
+
+<pre><code>4.0
+</code></pre>
+<pre><code class="python">np.sum(array1, axis = 0) # adds all elements of the array along a particular axis
+</code></pre>
+
+<pre><code>array([1., 1., 1., 1.])
+</code></pre>
+<h2 id="subsetting-arrays-slices">Subsetting arrays ('slices')</h2>
+<p>The confusing thing is that the first element of every dimension is 0.  The portion of the dimension you wish to select is given in the form <code>start:finish</code> where the <code>start</code> element is included, but the <code>finish</code> is excluded.  So <code>1:3</code> means include 1 and 2 but not 3.</p>
+<pre><code class="python">array1 = np.random.randint(0, 100, (3,5))
+array1
+</code></pre>
+
+<pre><code>array([[86, 18, 67, 13, 42],
+       [43, 30, 63, 28, 50],
+       [55, 32, 88, 31, 38]])
+</code></pre>
+<pre><code class="python">array1[0:2, 0:2]
+</code></pre>
+
+<pre><code>array([[86, 18],
+       [43, 30]])
+</code></pre>
+<pre><code class="python">array1[:,0:2] # ':' means include everything
+</code></pre>
+
+<pre><code>array([[86, 18],
+       [43, 30],
+       [55, 32]])
+</code></pre>
+<pre><code class="python">
+
+array1[0:2]
+</code></pre>
+
+<pre><code>array([[86, 18, 67, 13, 42],
+       [43, 30, 63, 28, 50]])
+</code></pre>
+<pre><code class="python">#Slices are references to the original array.  So you if you need a copy, use the below:
+array1[0:2].copy()
+</code></pre>
+
+<pre><code>array([[86, 18, 67, 13, 42],
+       [43, 30, 63, 28, 50]])
+</code></pre>
+<p>Generally, use the above 'Long Form' way for slicing where you specify the indices for each dimension. Where everything is to be included, use <code>:</code>.  There are other short-cut methods of slicing, but can leave those as is.</p>
+<p>Imagine an array a1 with dimensions (3, 5, 2, 4).  This means:
+ - This array has 3 arrays in it that have the dimensions (5, 2, 4)
+ - Each of these 3 arrays have 5 additional arrays each in them of the dimension (2,4).  (So there are 3*5=15 of these 2x4 arrays)
+ - Each of these (2,4) arrays has 2 one-dimensional arrays with 4 columns.</p>
+<p>If in the slice notation only a portion of what to include is specified, eg a1[0], then it means we are asking for the first one of these bullets, ie the dimension parameters are specifying from the left of (3, 5, 2, 4).  It means give me the first of the 3 arrays with size (5,2,4).  </p>
+<p>If the slice notation says a1[0,1], then it means 0th element of the first dim, and 1st element of the second dim.</p>
+<p>Check it out using the following code:</p>
+<pre><code class="python">a1 = np.random.randint(0, 100, (3,5,2,4))
+a1
+</code></pre>
+
+<pre><code>array([[[[46, 90, 12, 16],
+         [56, 65, 93, 87]],
+
+        [[52, 77, 92, 49],
+         [22, 20, 65, 93]],
+
+        [[85, 52, 50, 97],
+         [82, 49, 37,  7]],
+
+        [[37, 73, 64, 98],
+         [80, 23, 98,  5]],
+
+        [[83,  5, 30, 25],
+         [ 7,  7, 41, 80]]],
+
+
+       [[[96, 27, 99, 49],
+         [29, 13, 80, 41]],
+
+        [[47, 69,  5, 11],
+         [34, 33, 56, 29]],
+
+        [[70, 68, 62, 95],
+         [63, 99, 16,  7]],
+
+        [[77, 30, 14,  3],
+         [80, 16, 10, 88]],
+
+        [[76, 73, 19, 92],
+         [94, 79, 92, 28]]],
+
+
+       [[[55, 66, 97, 68],
+         [14, 50, 80, 53]],
+
+        [[46, 89, 92, 65],
+         [28, 39, 55, 68]],
+
+        [[ 2,  4, 59, 60],
+         [89, 17, 75, 32]],
+
+        [[96, 63, 72, 80],
+         [91, 52, 69, 55]],
+
+        [[37, 30, 33, 37],
+         [15, 55, 19, 43]]]])
+</code></pre>
+<pre><code class="python">a1[0].shape
+</code></pre>
+
+<pre><code>(5, 2, 4)
+</code></pre>
+<pre><code class="python">a1[0]
+</code></pre>
+
+<pre><code>array([[[46, 90, 12, 16],
+        [56, 65, 93, 87]],
+
+       [[52, 77, 92, 49],
+        [22, 20, 65, 93]],
+
+       [[85, 52, 50, 97],
+        [82, 49, 37,  7]],
+
+       [[37, 73, 64, 98],
+        [80, 23, 98,  5]],
+
+       [[83,  5, 30, 25],
+        [ 7,  7, 41, 80]]])
+</code></pre>
+<pre><code class="python">a1[0,1]
+</code></pre>
+
+<pre><code>array([[52, 77, 92, 49],
+       [22, 20, 65, 93]])
+</code></pre>
+<h2 id="picking-selected-rows-or-columns">Picking selected rows or columns</h2>
+<pre><code class="python">a1 = np.random.randint(0, 100, (8,9))
+a1
+</code></pre>
+
+<pre><code>array([[86, 55, 21, 69, 63, 56, 60, 56, 27],
+       [68,  7, 17,  3, 63, 28, 31, 49, 38],
+       [50, 73, 47, 54, 13, 21, 28, 14, 91],
+       [95, 59, 69, 85, 41, 40, 99, 78,  9],
+       [99,  2, 32, 13, 96, 90, 15, 58, 89],
+       [27, 45, 46, 25, 61, 61, 93, 77, 40],
+       [47, 28, 71, 31,  5, 65, 20, 74, 98],
+       [46, 11, 59, 62, 52, 61,  4, 53, 76]])
+</code></pre>
+<pre><code class="python">a1[[0,3]] #pick the first and the fourth rows
+</code></pre>
+
+<pre><code>array([[86, 55, 21, 69, 63, 56, 60, 56, 27],
+       [95, 59, 69, 85, 41, 40, 99, 78,  9]])
+</code></pre>
+<pre><code class="python">a1[[0, 3]][:,[0, 1]] # Named rows and columns.  
+# Note that a1[[0, 3],[0, 1]] does not work as expected, it selects two points (0,0)and (3,1).  Really crazy but it is
+# what it is.
+</code></pre>
+
+<pre><code>array([[86, 55],
+       [95, 59]])
+</code></pre>
+<h2 id="dot-product">Dot product</h2>
+<p><strong>Size of a vector, angle between vectors, distance between vectors</strong></p>
+<pre><code class="python">a = np.array([1,2,3]); b = np.array([5,4,3])
+</code></pre>
+
+<pre><code class="python">np.linalg.norm(a) # Size of the vector, computed as the root of the squares of each of the elements
+</code></pre>
+
+<pre><code>3.7416573867739413
+</code></pre>
+<pre><code class="python">np.linalg.norm(a - b) # Distance between two vectora
+</code></pre>
+
+<pre><code>4.47213595499958
+</code></pre>
+<pre><code class="python">np.arccos(np.dot(a,b) / (np.linalg.norm(a) * np.linalg.norm(b))) 
+
+# Angle in radians between two vectors. To get the
+# answer in degrees, multiply by 180/pi, or 180/math.pi (after import math).  Also there is a function in math called
+# math.radians to get radians from degrees, or math.degrees(x) to convert angle x from radians to degrees.
+</code></pre>
+
+<pre><code>0.5889546074455115
+</code></pre>
+<pre><code class="python">math.acos(np.dot(a,b) / (np.linalg.norm(a) * np.linalg.norm(b))) # Same as above using math.acos instead of np.arccos
+</code></pre>
+
+<pre><code>0.5889546074455115
+</code></pre>
+<h1 id="matrix-math">Matrix math</h1>
+<p>Numpy has arrays as well as matrices.  Matrices are 2D, arrays can have any number of dimensions. The only real difference between a matrix (type = <code>numpy.matrix</code>) and an array (type = <code>numpy.ndarray</code>) is that all array operations are element wise, ie the special R x C matrix multiplication does not apply to arrays.  However, for an array that is 2 x 2 in shape you can use the <code>@</code> operator to do matrix math.</p>
+<p>So that leaves matrices and arrays interchangeable in a practical sense.  Except that you can't do an inverse of an array using <code>.I</code> which you can for a matrix.</p>
+<pre><code class="python"># Create a matrix 'm' and an array 'a' that are identical
+m = np.matrix(np.random.randint(0,10,(3,3)))
+a = np.array(m)
+</code></pre>
+
+<pre><code class="python">m
+</code></pre>
+
+<pre><code>matrix([[1, 3, 7],
+        [0, 2, 5],
+        [2, 9, 5]])
+</code></pre>
+<pre><code class="python">a
+</code></pre>
+
+<pre><code>array([[1, 3, 7],
+       [0, 2, 5],
+       [2, 9, 5]])
+</code></pre>
+<h2 id="transpose-with-a-t">Transpose with a <code>.T</code></h2>
+<pre><code class="python">m.T
+</code></pre>
+
+<pre><code>matrix([[1, 0, 2],
+        [3, 2, 9],
+        [7, 5, 5]])
+</code></pre>
+<pre><code class="python">a.T
+</code></pre>
+
+<pre><code>array([[1, 0, 2],
+       [3, 2, 9],
+       [7, 5, 5]])
+</code></pre>
+<h2 id="inverse-with-a-i">Inverse with a <code>.I</code></h2>
+<p><strong>Does not work for arrays</strong></p>
+<pre><code class="python">m.I
+</code></pre>
+
+<pre><code>matrix([[ 1.06060606, -1.45454545, -0.03030303],
+        [-0.3030303 ,  0.27272727,  0.15151515],
+        [ 0.12121212,  0.09090909, -0.06060606]])
+</code></pre>
+<h2 id="matrix-multiplication">Matrix multiplication</h2>
+<p>For matrices, just a <code>*</code> suffices for matrix multiplication.  If using arrays, use <code>@</code> for matrix multiplication, which also works for matrices.  So just to be safe, just use <code>@</code>.</p>
+<p><strong>Dot-product</strong> is the same as row-by-column matrix multiplication, and is not elementwise.</p>
+<pre><code class="python">a=np.matrix([[4, 3], [2, 1]])
+b=np.mat([[1, 2], [3, 4]])
+</code></pre>
+
+<pre><code class="python">a
+</code></pre>
+
+<pre><code>matrix([[4, 3],
+        [2, 1]])
+</code></pre>
+<pre><code class="python">b
+</code></pre>
+
+<pre><code>matrix([[1, 2],
+        [3, 4]])
+</code></pre>
+<pre><code class="python">a*b
+</code></pre>
+
+<pre><code>matrix([[13, 20],
+        [ 5,  8]])
+</code></pre>
+<pre><code class="python">a@b
+</code></pre>
+
+<pre><code>matrix([[13, 20],
+        [ 5,  8]])
+</code></pre>
+<pre><code class="python"># Now check with arrays
+a=np.array([[4, 3], [2, 1]])
+b=np.array([[1, 2], [3, 4]])
+</code></pre>
+
+<pre><code class="python">a@b # does matrix multiplication.  
+</code></pre>
+
+<pre><code>array([[13, 20],
+       [ 5,  8]])
+</code></pre>
+<pre><code class="python">a
+</code></pre>
+
+<pre><code>array([[4, 3],
+       [2, 1]])
+</code></pre>
+<pre><code class="python">b
+</code></pre>
+
+<pre><code>array([[1, 2],
+       [3, 4]])
+</code></pre>
+<pre><code class="python">a*b # element-wise multiplication as a and b are arrays
+</code></pre>
+
+<pre><code>array([[4, 6],
+       [6, 4]])
+</code></pre>
+<p><code>@</code> is the same as <code>np.dot(a, b)</code>, which is just a longer fully spelled out function.</p>
+<pre><code class="python">np.dot(a,b)
+</code></pre>
+
+<pre><code>array([[13, 20],
+       [ 5,  8]])
+</code></pre>
+<h2 id="time-your-code-with-time">Time your code with <code>%time</code></h2>
+<pre><code class="python">%time np.dot(array1, array1)
+</code></pre>
+
+<pre><code>Wall time: 362 ms
+
+
+
+
+
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+</code></pre>
+<h2 id="exponents-with-matrices-and-arrays">Exponents with matrices and arrays <code>**</code>.</h2>
+<pre><code class="python">a = np.array([[4, 3], [2, 1]])
+m = np.matrix(a)
+m
+</code></pre>
+
+<pre><code>matrix([[4, 3],
+        [2, 1]])
+</code></pre>
+<pre><code class="python">a**2 # Because a is an array, this will square each element of a.
+</code></pre>
+
+<pre><code>array([[16,  9],
+       [ 4,  1]], dtype=int32)
+</code></pre>
+<pre><code class="python">m**2 # Because m is a matrix, this will be read as m*m, and dot product of the matrix with itself will result.
+</code></pre>
+
+<pre><code>matrix([[22, 15],
+        [10,  7]])
+</code></pre>
+<p>which is same as <code>a@a</code></p>
+<pre><code class="python">a@a
+</code></pre>
+
+<pre><code>array([[22, 15],
+       [10,  7]])
+</code></pre>
+<h2 id="modulus-of-a-vector-matrix-or-an-array">Modulus of a vector, matrix or an array</h2>
+<p>The modulus is just sqrt(a^2 + b^2 + ....n^2), where a, b...n are elements of the vector, matrix or array.  Can be calculated using <code>np.linalg.norm(a)</code></p>
+<pre><code class="python">a = np.array([4,3,2,1])
+np.linalg.norm(a)
+</code></pre>
+
+<pre><code>5.477225575051661
+</code></pre>
+<pre><code class="python"># Same as calculating manually
+(4**2 + 3**2 + 2**2 + 1**2) ** 0.5
+</code></pre>
+
+<pre><code>5.477225575051661
+</code></pre>
+<pre><code class="python">b
+
+</code></pre>
+
+<pre><code>array([[1, 2],
+       [3, 4]])
+</code></pre>
+<pre><code class="python">np.linalg.norm(b)
+</code></pre>
+
+<pre><code>5.477225575051661
+</code></pre>
+<pre><code class="python">m
+</code></pre>
+
+<pre><code>matrix([[4, 3],
+        [2, 1]])
+</code></pre>
+<pre><code class="python">np.linalg.norm(m)
+</code></pre>
+
+<pre><code>5.477225575051661
+</code></pre>
+<pre><code class="python">m = np.matrix(np.random.randint(0,10,(3,3)))
+m
+</code></pre>
+
+<pre><code>matrix([[5, 8, 7],
+        [9, 8, 7],
+        [1, 5, 4]])
+</code></pre>
+<pre><code class="python">np.linalg.norm(m)
+</code></pre>
+
+<pre><code>19.339079605813716
+</code></pre>
+<pre><code class="python">(5**2 + 8**2 + 7**2 + 9**2 + 8**2 + 7**2 + 1**2 + 5**2 + 4**2) **0.5
+</code></pre>
+
+<pre><code>19.339079605813716
+</code></pre>
+<h2 id="determinant-of-a-matrix-nplinalgdeta">Determinant of a matrix <code>np.linalg.det(a)</code></h2>
+<p>The determinant explains whether a matrix is expanding or shrinking space.</p>
+<pre><code class="python">np.linalg.det(m)
+</code></pre>
+
+<pre><code>11.999999999999979
+</code></pre>
+<h2 id="converting-from-matrix-to-array-and-vice-versa">Converting from matrix to array and vice-versa</h2>
+<p><code>np.asmatrix</code> and <code>np.asarray</code> allow you to convert one to the other. Though above we have just used np.array and np.matrix without any issue.</p>
+<p>The above references: https://stackoverflow.com/questions/4151128/what-are-the-differences-between-numpy-arrays-and-matrices-which-one-should-i-u</p>
+<h1 id="data-frames">Data Frames</h1>
+<p><strong>Operations Mimicking Excel Functionality</strong></p>
+<h2 id="create-a-dataframe">Create a DataFrame</h2>
+<p>You can create a data frame as follows:</p>
+<pre><code class="python">
+os.chdir('C:\\Users\\user\\Documents')
+
+data = {'state': ['New York', 'Florida', 'Arizona'],
+        'year': ['1999', '2000', '2001'],
+        'pop': [100, 121, 132]}
+</code></pre>
+
+<pre><code class="python">type(data)
+</code></pre>
+
+<pre><code>dict
+</code></pre>
+<pre><code class="python">mydf = pd.DataFrame(data)
+mydf
+
+# or
+df = pd.DataFrame(np.random.randint(0,100,size=(100, 4)), columns=list('ABCD'))
+</code></pre>
+
+<pre><code class="python">os.getcwd()
+</code></pre>
+
+<pre><code>'C:\\Users\\user\\Documents'
+</code></pre>
+<h3 id="read-the-diamonds-dataframe-for-analysis">Read the diamonds dataframe for analysis</h3>
+<pre><code class="python">diamonds = pd.read_csv(&quot;diamonds.csv&quot;)
+</code></pre>
+
+<pre><code class="python">type(diamonds)
+</code></pre>
+
+<pre><code>pandas.core.frame.DataFrame
+</code></pre>
+<pre><code class="python">diamonds.shape  #Gives dimensions of the dataframe.
+</code></pre>
+
+<pre><code>(53940, 11)
+</code></pre>
+<pre><code class="python">diamonds.shape[0]  #Gives row count.
+</code></pre>
+
+<pre><code>53940
+</code></pre>
+<pre><code class="python">diamonds.shape[1]  #Gives column count.
+</code></pre>
+
+<pre><code>11
+</code></pre>
+<pre><code class="python">diamonds.describe() #equivalent to R's summary
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+      <td>53940.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>26970.500000</td>
+      <td>0.797940</td>
+      <td>61.749405</td>
+      <td>57.457184</td>
+      <td>3932.799722</td>
+      <td>5.731157</td>
+      <td>5.734526</td>
+      <td>3.538734</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>15571.281097</td>
+      <td>0.474011</td>
+      <td>1.432621</td>
+      <td>2.234491</td>
+      <td>3989.439738</td>
+      <td>1.121761</td>
+      <td>1.142135</td>
+      <td>0.705699</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.200000</td>
+      <td>43.000000</td>
+      <td>43.000000</td>
+      <td>326.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>13485.750000</td>
+      <td>0.400000</td>
+      <td>61.000000</td>
+      <td>56.000000</td>
+      <td>950.000000</td>
+      <td>4.710000</td>
+      <td>4.720000</td>
+      <td>2.910000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>26970.500000</td>
+      <td>0.700000</td>
+      <td>61.800000</td>
+      <td>57.000000</td>
+      <td>2401.000000</td>
+      <td>5.700000</td>
+      <td>5.710000</td>
+      <td>3.530000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>40455.250000</td>
+      <td>1.040000</td>
+      <td>62.500000</td>
+      <td>59.000000</td>
+      <td>5324.250000</td>
+      <td>6.540000</td>
+      <td>6.540000</td>
+      <td>4.040000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>53940.000000</td>
+      <td>5.010000</td>
+      <td>79.000000</td>
+      <td>95.000000</td>
+      <td>18823.000000</td>
+      <td>10.740000</td>
+      <td>58.900000</td>
+      <td>31.800000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.head(8)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>0.24</td>
+      <td>Very Good</td>
+      <td>J</td>
+      <td>VVS2</td>
+      <td>62.8</td>
+      <td>57.0</td>
+      <td>336</td>
+      <td>3.94</td>
+      <td>3.96</td>
+      <td>2.48</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>0.24</td>
+      <td>Very Good</td>
+      <td>I</td>
+      <td>VVS1</td>
+      <td>62.3</td>
+      <td>57.0</td>
+      <td>336</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.47</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>0.26</td>
+      <td>Very Good</td>
+      <td>H</td>
+      <td>SI1</td>
+      <td>61.9</td>
+      <td>55.0</td>
+      <td>337</td>
+      <td>4.07</td>
+      <td>4.11</td>
+      <td>2.53</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="selecting-columns-and-rows">Selecting columns and rows</h2>
+<p>Select columns as follows: <code>dataframe_name['column_name']</code><br>
+Or multiple columns as <code>dataframe_name[['col1', 'col2', 'col3']]</code> <br>
+Select rows: <code>df[(df.Col1 == 1) &amp; (df.col2 == 6)]</code></p>
+<pre><code class="python">diamonds[['carat', 'price']].head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>326</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>326</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>327</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>334</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>335</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="select-rows">Select rows:</h2>
+<p>Select rows: <code>df[(df.Col1 == 1) &amp; (df.col2 == 6)]</code> <br>
+or <code>df.query('conditions separated by &amp; or |')</code></p>
+<pre><code class="python">diamonds.query('carat &gt; 3 &amp; cut == &quot;Premium&quot;')
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19339</th>
+      <td>19340</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>I1</td>
+      <td>62.7</td>
+      <td>58.0</td>
+      <td>8040</td>
+      <td>9.10</td>
+      <td>8.97</td>
+      <td>5.67</td>
+    </tr>
+    <tr>
+      <th>21862</th>
+      <td>21863</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>F</td>
+      <td>I1</td>
+      <td>62.2</td>
+      <td>56.0</td>
+      <td>9925</td>
+      <td>9.24</td>
+      <td>9.13</td>
+      <td>5.73</td>
+    </tr>
+    <tr>
+      <th>22428</th>
+      <td>22429</td>
+      <td>3.05</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>I1</td>
+      <td>60.9</td>
+      <td>58.0</td>
+      <td>10453</td>
+      <td>9.26</td>
+      <td>9.25</td>
+      <td>5.66</td>
+    </tr>
+    <tr>
+      <th>24131</th>
+      <td>24132</td>
+      <td>3.24</td>
+      <td>Premium</td>
+      <td>H</td>
+      <td>I1</td>
+      <td>62.1</td>
+      <td>58.0</td>
+      <td>12300</td>
+      <td>9.44</td>
+      <td>9.40</td>
+      <td>5.85</td>
+    </tr>
+    <tr>
+      <th>25460</th>
+      <td>25461</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>G</td>
+      <td>SI2</td>
+      <td>59.8</td>
+      <td>58.0</td>
+      <td>14220</td>
+      <td>9.44</td>
+      <td>9.37</td>
+      <td>5.62</td>
+    </tr>
+    <tr>
+      <th>25998</th>
+      <td>25999</td>
+      <td>4.01</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>I1</td>
+      <td>61.0</td>
+      <td>61.0</td>
+      <td>15223</td>
+      <td>10.14</td>
+      <td>10.10</td>
+      <td>6.17</td>
+    </tr>
+    <tr>
+      <th>25999</th>
+      <td>26000</td>
+      <td>4.01</td>
+      <td>Premium</td>
+      <td>J</td>
+      <td>I1</td>
+      <td>62.5</td>
+      <td>62.0</td>
+      <td>15223</td>
+      <td>10.02</td>
+      <td>9.94</td>
+      <td>6.24</td>
+    </tr>
+    <tr>
+      <th>26534</th>
+      <td>26535</td>
+      <td>3.67</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>I1</td>
+      <td>62.4</td>
+      <td>56.0</td>
+      <td>16193</td>
+      <td>9.86</td>
+      <td>9.81</td>
+      <td>6.13</td>
+    </tr>
+    <tr>
+      <th>27514</th>
+      <td>27515</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>SI2</td>
+      <td>60.2</td>
+      <td>59.0</td>
+      <td>18242</td>
+      <td>9.36</td>
+      <td>9.31</td>
+      <td>5.62</td>
+    </tr>
+    <tr>
+      <th>27638</th>
+      <td>27639</td>
+      <td>3.04</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>SI2</td>
+      <td>59.3</td>
+      <td>60.0</td>
+      <td>18559</td>
+      <td>9.51</td>
+      <td>9.46</td>
+      <td>5.62</td>
+    </tr>
+    <tr>
+      <th>27679</th>
+      <td>27680</td>
+      <td>3.51</td>
+      <td>Premium</td>
+      <td>J</td>
+      <td>VS2</td>
+      <td>62.5</td>
+      <td>59.0</td>
+      <td>18701</td>
+      <td>9.66</td>
+      <td>9.63</td>
+      <td>6.03</td>
+    </tr>
+    <tr>
+      <th>27684</th>
+      <td>27685</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>60.7</td>
+      <td>59.0</td>
+      <td>18710</td>
+      <td>9.35</td>
+      <td>9.22</td>
+      <td>5.64</td>
+    </tr>
+    <tr>
+      <th>27685</th>
+      <td>27686</td>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>59.7</td>
+      <td>58.0</td>
+      <td>18710</td>
+      <td>9.41</td>
+      <td>9.32</td>
+      <td>5.59</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># You can combine the column selection and the row filter.  The dot almost functions as dplyr's `%&gt;%`:
+diamonds[['carat', 'cut']].query('carat &gt; 3').head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19339</th>
+      <td>3.01</td>
+      <td>Premium</td>
+    </tr>
+    <tr>
+      <th>21758</th>
+      <td>3.11</td>
+      <td>Fair</td>
+    </tr>
+    <tr>
+      <th>21862</th>
+      <td>3.01</td>
+      <td>Premium</td>
+    </tr>
+    <tr>
+      <th>22428</th>
+      <td>3.05</td>
+      <td>Premium</td>
+    </tr>
+    <tr>
+      <th>22540</th>
+      <td>3.02</td>
+      <td>Fair</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="change-column-type-to-categorical-equivalent-to-rs-factors">Change column type to categorical (equivalent to R's factors) <br></h2>
+<pre><code class="python">x = diamonds[['carat', 'cut']].query('carat &gt; 3').head()
+x.info()
+
+</code></pre>
+
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Int64Index: 5 entries, 19339 to 22540
+Data columns (total 2 columns):
+carat    5 non-null float64
+cut      5 non-null object
+dtypes: float64(1), object(1)
+memory usage: 120.0+ bytes
+</code></pre>
+<pre><code class="python">x['cut'] = x['cut'].astype('category')
+x.info()
+
+</code></pre>
+
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Int64Index: 5 entries, 19339 to 22540
+Data columns (total 2 columns):
+carat    5 non-null float64
+cut      5 non-null category
+dtypes: category(1), float64(1)
+memory usage: 181.0 bytes
+</code></pre>
+<h2 id="add-a-column">Add a column</h2>
+<pre><code class="python">x['NewCol'] = 1
+x
+
+
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>NewCol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19339</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21758</th>
+      <td>3.11</td>
+      <td>Fair</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>21862</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22428</th>
+      <td>3.05</td>
+      <td>Premium</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22540</th>
+      <td>3.02</td>
+      <td>Fair</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">#Also mydf.insert(col_location, col_title, contents) does the trick
+x.insert(3, &quot;random_value&quot;, np.random.randint(0, 100, x.shape[0]))
+x
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>NewCol</th>
+      <th>random_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19339</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>1</td>
+      <td>82</td>
+    </tr>
+    <tr>
+      <th>21758</th>
+      <td>3.11</td>
+      <td>Fair</td>
+      <td>1</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>21862</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>1</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>22428</th>
+      <td>3.05</td>
+      <td>Premium</td>
+      <td>1</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>22540</th>
+      <td>3.02</td>
+      <td>Fair</td>
+      <td>1</td>
+      <td>43</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="delete-a-column">Delete a column</h2>
+<pre><code class="python">del x['NewCol']
+x
+
+# Note that you don't have to assign the result to x, del just directly deletes the column!! Very unlike R.
+
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>random_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19339</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>82</td>
+    </tr>
+    <tr>
+      <th>21758</th>
+      <td>3.11</td>
+      <td>Fair</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>21862</th>
+      <td>3.01</td>
+      <td>Premium</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>22428</th>
+      <td>3.05</td>
+      <td>Premium</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>22540</th>
+      <td>3.02</td>
+      <td>Fair</td>
+      <td>43</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="get-column-names">Get column names</h2>
+<pre><code class="python">diamonds.columns
+</code></pre>
+
+<pre><code>Index(['Unnamed: 0', 'carat', 'cut', 'color', 'clarity', 'depth', 'table',
+       'price', 'x', 'y', 'z'],
+      dtype='object')
+</code></pre>
+<pre><code class="python"># Or, list it for a cleaner list
+list(diamonds.columns)
+</code></pre>
+
+<pre><code>['Unnamed: 0',
+ 'carat',
+ 'cut',
+ 'color',
+ 'clarity',
+ 'depth',
+ 'table',
+ 'price',
+ 'x',
+ 'y',
+ 'z']
+</code></pre>
+<pre><code class="python">diamonds.columns.tolist()
+# same thing as above
+</code></pre>
+
+<pre><code>['Unnamed: 0',
+ 'carat',
+ 'cut',
+ 'color',
+ 'clarity',
+ 'depth',
+ 'table',
+ 'price',
+ 'x',
+ 'y',
+ 'z']
+</code></pre>
+<h3 id="reorder-columns-in-a-dataframe">Reorder columns in a dataframe</h3>
+<pre><code class="python">diamonds2 = diamonds[['price', 'carat',
+ 'cut',
+ 'color',
+ 'clarity',
+ 'depth',
+ 'table',
+ 'x',
+ 'y',
+ 'z']]
+</code></pre>
+
+<pre><code class="python">diamonds2.head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>326</td>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>326</td>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>327</td>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>334</td>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>335</td>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="loc-and-iloc"><code>loc</code> and <code>iloc</code></h2>
+<p><strong>- subsetting a data frame</strong> <br>
+<code>loc</code> is label based, ie based on the row index and column names <br>
+<code>iloc</code> is row and column number based <br></p>
+<p>Separate the row and column selections by commas.  If no comma, then the entire entry is assumed to be for the rows.</p>
+<pre><code class="python">diamonds.iloc[:3] # only for iloc, the range excludes the right hand number.  Here the row with index 3 is excluded.
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.iloc[1,2]
+</code></pre>
+
+<pre><code>'Premium'
+</code></pre>
+<pre><code class="python">diamonds.loc[1,'cut']
+</code></pre>
+
+<pre><code>'Premium'
+</code></pre>
+<pre><code class="python">diamonds.loc[1:3, ['cut','depth']] # Note here you need the square brackets, in the next one you don't
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cut</th>
+      <th>depth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Premium</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Good</td>
+      <td>56.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Premium</td>
+      <td>62.4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.loc[1:3, 'cut':'depth']
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.iloc[1:3,2:4] #See the rows and columns that were excluded
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cut</th>
+      <th>color</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Premium</td>
+      <td>E</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Good</td>
+      <td>E</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="sort-values">Sort values</h2>
+<p>Format is <code>df.sort_values(['a', 'b'], ascending=[True, False])</code></p>
+<pre><code class="python">diamonds.sort_values(['price', 'table'], ascending = [False, True]).head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27749</th>
+      <td>27750</td>
+      <td>2.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>60.8</td>
+      <td>60.0</td>
+      <td>18823</td>
+      <td>8.50</td>
+      <td>8.47</td>
+      <td>5.16</td>
+    </tr>
+    <tr>
+      <th>27748</th>
+      <td>27749</td>
+      <td>2.00</td>
+      <td>Very Good</td>
+      <td>G</td>
+      <td>SI1</td>
+      <td>63.5</td>
+      <td>56.0</td>
+      <td>18818</td>
+      <td>7.90</td>
+      <td>7.97</td>
+      <td>5.04</td>
+    </tr>
+    <tr>
+      <th>27747</th>
+      <td>27748</td>
+      <td>1.51</td>
+      <td>Ideal</td>
+      <td>G</td>
+      <td>IF</td>
+      <td>61.7</td>
+      <td>55.0</td>
+      <td>18806</td>
+      <td>7.37</td>
+      <td>7.41</td>
+      <td>4.56</td>
+    </tr>
+    <tr>
+      <th>27746</th>
+      <td>27747</td>
+      <td>2.07</td>
+      <td>Ideal</td>
+      <td>G</td>
+      <td>SI2</td>
+      <td>62.5</td>
+      <td>55.0</td>
+      <td>18804</td>
+      <td>8.20</td>
+      <td>8.13</td>
+      <td>5.11</td>
+    </tr>
+    <tr>
+      <th>27745</th>
+      <td>27746</td>
+      <td>2.00</td>
+      <td>Very Good</td>
+      <td>H</td>
+      <td>SI1</td>
+      <td>62.8</td>
+      <td>57.0</td>
+      <td>18803</td>
+      <td>7.95</td>
+      <td>8.00</td>
+      <td>5.01</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="extract-unique-values">Extract unique values</h2>
+<pre><code class="python">diamonds.cut.unique()
+# You can put `tolist()` at the end to get a cleaner output, or enclose everything in `list`.
+</code></pre>
+
+<pre><code>array(['Ideal', 'Premium', 'Good', 'Very Good', 'Fair'], dtype=object)
+</code></pre>
+<h2 id="add-a-calculated-column-to-a-dataframe-with-assign">Add a calculated column to a dataframe with <code>assign</code></h2>
+<pre><code class="python">diamonds.assign(total = diamonds.x + diamonds.y + diamonds.z).head()
+# This does not add the column to the original data frame unless you make it equal to the new one
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+      <td>10.36</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+      <td>10.04</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+      <td>10.43</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+      <td>11.06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+      <td>11.44</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.head(2)
+# The 'total' column is not there.
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="take-a-sample-from-a-dataframe">Take a sample from a dataframe</h2>
+<pre><code class="python">diamonds.sample(4) # or diamonds.sample(n = 4)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>46045</th>
+      <td>46046</td>
+      <td>0.52</td>
+      <td>Ideal</td>
+      <td>H</td>
+      <td>SI1</td>
+      <td>62.0</td>
+      <td>55.0</td>
+      <td>1730</td>
+      <td>5.16</td>
+      <td>5.20</td>
+      <td>3.21</td>
+    </tr>
+    <tr>
+      <th>49552</th>
+      <td>49553</td>
+      <td>0.55</td>
+      <td>Ideal</td>
+      <td>G</td>
+      <td>VVS2</td>
+      <td>61.9</td>
+      <td>56.0</td>
+      <td>2129</td>
+      <td>5.27</td>
+      <td>5.23</td>
+      <td>3.25</td>
+    </tr>
+    <tr>
+      <th>43017</th>
+      <td>43018</td>
+      <td>0.50</td>
+      <td>Ideal</td>
+      <td>H</td>
+      <td>VS1</td>
+      <td>61.9</td>
+      <td>54.0</td>
+      <td>1370</td>
+      <td>5.12</td>
+      <td>5.15</td>
+      <td>3.18</td>
+    </tr>
+    <tr>
+      <th>14100</th>
+      <td>14101</td>
+      <td>1.00</td>
+      <td>Premium</td>
+      <td>F</td>
+      <td>VS2</td>
+      <td>60.6</td>
+      <td>59.0</td>
+      <td>5718</td>
+      <td>6.50</td>
+      <td>6.46</td>
+      <td>3.93</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">diamonds.sample(frac = 4/53000) # Take a fraction of the total row count
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>53143</th>
+      <td>53144</td>
+      <td>0.80</td>
+      <td>Ideal</td>
+      <td>F</td>
+      <td>SI2</td>
+      <td>62.7</td>
+      <td>55.0</td>
+      <td>2622</td>
+      <td>5.94</td>
+      <td>5.90</td>
+      <td>3.71</td>
+    </tr>
+    <tr>
+      <th>37648</th>
+      <td>37649</td>
+      <td>0.41</td>
+      <td>Very Good</td>
+      <td>H</td>
+      <td>VVS1</td>
+      <td>61.7</td>
+      <td>58.0</td>
+      <td>991</td>
+      <td>4.74</td>
+      <td>4.79</td>
+      <td>2.94</td>
+    </tr>
+    <tr>
+      <th>21201</th>
+      <td>21202</td>
+      <td>1.51</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>SI1</td>
+      <td>61.7</td>
+      <td>60.0</td>
+      <td>9344</td>
+      <td>7.31</td>
+      <td>7.27</td>
+      <td>4.50</td>
+    </tr>
+    <tr>
+      <th>20210</th>
+      <td>20211</td>
+      <td>1.03</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>VS1</td>
+      <td>62.6</td>
+      <td>57.0</td>
+      <td>8645</td>
+      <td>6.44</td>
+      <td>6.50</td>
+      <td>4.05</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="groupby">Groupby</h2>
+<p><code>groupby</code> and <code>rename</code> use as parameters the <code>dict</code> format, which is curly brackets, and key : value, each within quotes.</p>
+<p>For example, <code>{"old_colname" : "new_colname", "old_colname2" : "new_colname2"}</code> </p>
+<pre><code class="python">mydf = diamonds.groupby('cut')
+summ = mydf.agg({&quot;price&quot;: &quot;sum&quot;, &quot;clarity&quot;: &quot;count&quot;, &quot;table&quot;: &quot;mean&quot;}) 
+summ
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>clarity</th>
+      <th>table</th>
+    </tr>
+    <tr>
+      <th>cut</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fair</th>
+      <td>7017600</td>
+      <td>1610</td>
+      <td>59.053789</td>
+    </tr>
+    <tr>
+      <th>Good</th>
+      <td>19275009</td>
+      <td>4906</td>
+      <td>58.694639</td>
+    </tr>
+    <tr>
+      <th>Ideal</th>
+      <td>74513487</td>
+      <td>21551</td>
+      <td>55.951668</td>
+    </tr>
+    <tr>
+      <th>Premium</th>
+      <td>63221498</td>
+      <td>13791</td>
+      <td>58.746095</td>
+    </tr>
+    <tr>
+      <th>Very Good</th>
+      <td>48107623</td>
+      <td>12082</td>
+      <td>57.956150</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># Alternatively, everything could be combined together:
+diamonds.groupby('cut').agg({&quot;price&quot;: &quot;sum&quot;, &quot;clarity&quot;: &quot;count&quot;, &quot;table&quot;: &quot;mean&quot;})
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>clarity</th>
+      <th>table</th>
+    </tr>
+    <tr>
+      <th>cut</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fair</th>
+      <td>7017600</td>
+      <td>1610</td>
+      <td>59.053789</td>
+    </tr>
+    <tr>
+      <th>Good</th>
+      <td>19275009</td>
+      <td>4906</td>
+      <td>58.694639</td>
+    </tr>
+    <tr>
+      <th>Ideal</th>
+      <td>74513487</td>
+      <td>21551</td>
+      <td>55.951668</td>
+    </tr>
+    <tr>
+      <th>Premium</th>
+      <td>63221498</td>
+      <td>13791</td>
+      <td>58.746095</td>
+    </tr>
+    <tr>
+      <th>Very Good</th>
+      <td>48107623</td>
+      <td>12082</td>
+      <td>57.956150</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># Or, groupby two variables:
+diamonds.groupby(['cut', 'color']).agg({&quot;price&quot;: &quot;sum&quot;, &quot;clarity&quot;: &quot;count&quot;, &quot;table&quot;: &quot;mean&quot;})
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>price</th>
+      <th>clarity</th>
+      <th>table</th>
+    </tr>
+    <tr>
+      <th>cut</th>
+      <th>color</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="7" valign="top">Fair</th>
+      <th>D</th>
+      <td>699443</td>
+      <td>163</td>
+      <td>58.969325</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>824838</td>
+      <td>224</td>
+      <td>59.364732</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>1194025</td>
+      <td>312</td>
+      <td>59.453205</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>1331126</td>
+      <td>314</td>
+      <td>58.773248</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>1556112</td>
+      <td>303</td>
+      <td>58.696370</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>819953</td>
+      <td>175</td>
+      <td>59.237143</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>592103</td>
+      <td>119</td>
+      <td>58.917647</td>
+    </tr>
+    <tr>
+      <th rowspan="7" valign="top">Good</th>
+      <th>D</th>
+      <td>2254363</td>
+      <td>662</td>
+      <td>58.541541</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>3194260</td>
+      <td>933</td>
+      <td>58.779957</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>3177637</td>
+      <td>909</td>
+      <td>58.910891</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>3591553</td>
+      <td>871</td>
+      <td>58.471986</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>3001931</td>
+      <td>702</td>
+      <td>58.611111</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>2650994</td>
+      <td>522</td>
+      <td>58.773946</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>1404271</td>
+      <td>307</td>
+      <td>58.813029</td>
+    </tr>
+    <tr>
+      <th rowspan="7" valign="top">Ideal</th>
+      <th>D</th>
+      <td>7450854</td>
+      <td>2834</td>
+      <td>55.965632</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>10138238</td>
+      <td>3903</td>
+      <td>55.967461</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>12912518</td>
+      <td>3826</td>
+      <td>55.924203</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>18171930</td>
+      <td>4884</td>
+      <td>55.902375</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>12115278</td>
+      <td>3115</td>
+      <td>55.965843</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>9317974</td>
+      <td>2093</td>
+      <td>56.021357</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>4406695</td>
+      <td>896</td>
+      <td>56.012612</td>
+    </tr>
+    <tr>
+      <th rowspan="7" valign="top">Premium</th>
+      <th>D</th>
+      <td>5820962</td>
+      <td>1603</td>
+      <td>58.718964</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>8270443</td>
+      <td>2337</td>
+      <td>58.779461</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>10081319</td>
+      <td>2331</td>
+      <td>58.679279</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>13160170</td>
+      <td>2924</td>
+      <td>58.702360</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>12311428</td>
+      <td>2360</td>
+      <td>58.792034</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>8491146</td>
+      <td>1428</td>
+      <td>58.771849</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>5086030</td>
+      <td>808</td>
+      <td>58.874752</td>
+    </tr>
+    <tr>
+      <th rowspan="7" valign="top">Very Good</th>
+      <th>D</th>
+      <td>5250817</td>
+      <td>1513</td>
+      <td>58.041309</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>7715165</td>
+      <td>2400</td>
+      <td>58.038875</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>8177367</td>
+      <td>2164</td>
+      <td>57.848429</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>8903461</td>
+      <td>2299</td>
+      <td>57.784428</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>8272552</td>
+      <td>1824</td>
+      <td>57.903015</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>6328079</td>
+      <td>1204</td>
+      <td>58.105150</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>3460182</td>
+      <td>678</td>
+      <td>58.277729</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="rename-columns"><code>rename</code> columns</h2>
+<pre><code class="python"># We continue the above examples to rename the aggregated columns we created using groupby
+
+diamonds.groupby('cut').agg({&quot;price&quot;: &quot;sum&quot;, 
+                             &quot;clarity&quot;: &quot;count&quot;}).rename(columns = {&quot;price&quot;: &quot;total_price&quot;, &quot;clarity&quot;: &quot;diamond_count&quot;})
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_price</th>
+      <th>diamond_count</th>
+    </tr>
+    <tr>
+      <th>cut</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fair</th>
+      <td>7017600</td>
+      <td>1610</td>
+    </tr>
+    <tr>
+      <th>Good</th>
+      <td>19275009</td>
+      <td>4906</td>
+    </tr>
+    <tr>
+      <th>Ideal</th>
+      <td>74513487</td>
+      <td>21551</td>
+    </tr>
+    <tr>
+      <th>Premium</th>
+      <td>63221498</td>
+      <td>13791</td>
+    </tr>
+    <tr>
+      <th>Very Good</th>
+      <td>48107623</td>
+      <td>12082</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="pivot-tables">Pivot Tables</h2>
+<p>https://pbpython.com/pandas-pivot-table-explained.html</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
+        <script src="mathjaxhelper.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-11-29 22:29:49
+-->
