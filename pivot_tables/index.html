@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Pivot Tables - Python Notes - Mukul Pareek</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Pivot tables", url: "#_top", children: [
+              {title: "Basic pivot table", url: "#basic-pivot-table" },
+              {title: "pd.Series.nunique for unique counts", url: "#pdseriesnunique-for-unique-counts" },
+              {title: "Separate aggregate functions for different values", url: "#separate-aggregate-functions-for-different-values" },
+              {title: "Crosstab", url: "#crosstab" },
+              {title: "Table equivalent", url: "#table-equivalent" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-link">
+        RNN
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href=".." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href=".." class="btn btn-xs btn-link">
+        Python Notes
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="pivot-tables">Pivot tables</h1>
+<p>Specify:<br />
+ - Index, ie those columns that appear on the left, equivalent to the 'Rows' in an Excel pivot<br />
+ - Values, ie the columns that need the sum or other function performed on them<br />
+ - Columns, ie the columns by whose uniquesh the Values above are split into the pivot columns  </p>
+<p>You can specify the aggregation functions, which can be multiple (default is np.mean), and also different for different Values cols.</p>
+<p>We start with a random dataframe.</p>
+<pre><code class="python">import pandas as pd
+import numpy as np
+</code></pre>
+
+<pre><code class="python">data = pd.DataFrame(
+    {'state': ['New York', 'Florida', 'Arizona', 'New York', 'Florida', 'Arizona'], 
+     'location': ['East', 'East', 'West', 'East', 'East', 'West'],
+     'males': list(np.random.randint(100,150,6)),
+     'females': list(np.random.randint(100,150,6)),
+     'children': list(np.random.randint(100,150,6)),
+     'politics': list(np.random.choice([&quot;Red&quot;, &quot;Blue&quot;], size=(6), p=[.5, .5]))
+    })
+</code></pre>
+
+<pre><code class="python">data
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>location</th>
+      <th>males</th>
+      <th>females</th>
+      <th>children</th>
+      <th>politics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>New York</td>
+      <td>East</td>
+      <td>139</td>
+      <td>126</td>
+      <td>114</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Florida</td>
+      <td>East</td>
+      <td>100</td>
+      <td>114</td>
+      <td>109</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>133</td>
+      <td>120</td>
+      <td>132</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>New York</td>
+      <td>East</td>
+      <td>143</td>
+      <td>149</td>
+      <td>129</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Florida</td>
+      <td>East</td>
+      <td>143</td>
+      <td>147</td>
+      <td>121</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>122</td>
+      <td>149</td>
+      <td>147</td>
+      <td>Blue</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr />
+<h2 id="basic-pivot-table">Basic pivot table</h2>
+<pre><code class="python">data.pivot_table(index=[&quot;state&quot;,&quot;location&quot;], # Index values on the left, ie the rows
+                 values=[&quot;males&quot;,&quot;females&quot;], # DF cols to apply aggfunc to, &amp; show in pivot results
+                 columns = ['politics'], # Break the columns down by uniques of these df.cols
+                 aggfunc=[np.sum,np.mean], # agg functions to apply, can be multiple. Default=np.mean
+                 fill_value=0, # If blanks result, ie NANs, then replace with zero
+                 dropna=True, # Drop NAs in the data for the pivot table
+                 margins=True) # Provide totals 
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="6" halign="left">sum</th>
+      <th colspan="6" halign="left">mean</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="3" halign="left">females</th>
+      <th colspan="3" halign="left">males</th>
+      <th colspan="3" halign="left">females</th>
+      <th colspan="3" halign="left">males</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>politics</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th>location</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>149</td>
+      <td>120</td>
+      <td>269</td>
+      <td>122</td>
+      <td>133</td>
+      <td>255</td>
+      <td>149</td>
+      <td>120.0</td>
+      <td>134.500000</td>
+      <td>122</td>
+      <td>133.0</td>
+      <td>127.5</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>East</td>
+      <td>0</td>
+      <td>261</td>
+      <td>261</td>
+      <td>0</td>
+      <td>243</td>
+      <td>243</td>
+      <td>0</td>
+      <td>130.5</td>
+      <td>130.500000</td>
+      <td>0</td>
+      <td>121.5</td>
+      <td>121.5</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>East</td>
+      <td>0</td>
+      <td>275</td>
+      <td>275</td>
+      <td>0</td>
+      <td>282</td>
+      <td>282</td>
+      <td>0</td>
+      <td>137.5</td>
+      <td>137.500000</td>
+      <td>0</td>
+      <td>141.0</td>
+      <td>141.0</td>
+    </tr>
+    <tr>
+      <td>All</td>
+      <td></td>
+      <td>149</td>
+      <td>656</td>
+      <td>805</td>
+      <td>122</td>
+      <td>658</td>
+      <td>780</td>
+      <td>149</td>
+      <td>131.2</td>
+      <td>134.166667</td>
+      <td>122</td>
+      <td>131.6</td>
+      <td>130.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="pdseriesnunique-for-unique-counts"><code>pd.Series.nunique</code> for unique counts</h2>
+<pre><code class="python">data.pivot_table(index=[&quot;state&quot;,&quot;location&quot;], # Index values on the left, ie the rows
+                 values=[&quot;males&quot;,&quot;females&quot;], # DF cols to apply aggfunc to, &amp; show in pivot results
+                 columns = ['politics'], # Break the columns down by uniques of these df.cols
+                 aggfunc=[pd.Series.nunique], #agg func to apply
+                 fill_value=0, # If blanks result, ie NANs, then replace with zero
+                 margins=True) # Provide totals 
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="6" halign="left">nunique</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="3" halign="left">females</th>
+      <th colspan="3" halign="left">males</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>politics</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th>location</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>East</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>East</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>All</td>
+      <td></td>
+      <td>1</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="separate-aggregate-functions-for-different-values">Separate aggregate functions for different values</h2>
+<pre><code class="python">data
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>location</th>
+      <th>males</th>
+      <th>females</th>
+      <th>children</th>
+      <th>politics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>New York</td>
+      <td>East</td>
+      <td>139</td>
+      <td>126</td>
+      <td>114</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Florida</td>
+      <td>East</td>
+      <td>100</td>
+      <td>114</td>
+      <td>109</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>133</td>
+      <td>120</td>
+      <td>132</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>New York</td>
+      <td>East</td>
+      <td>143</td>
+      <td>149</td>
+      <td>129</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Florida</td>
+      <td>East</td>
+      <td>143</td>
+      <td>147</td>
+      <td>121</td>
+      <td>Red</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>122</td>
+      <td>149</td>
+      <td>147</td>
+      <td>Blue</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># Here we don't specify the value, only the columns.  All numerical columns will be returned
+
+data.pivot_table(index=[&quot;state&quot;], # Index values on the left, ie the rows
+                 columns = ['politics'], # Break the columns down by uniques of these df.cols
+                 aggfunc=[np.sum,np.mean], # agg functions to apply, can be multiple. Default=np.mean
+                 fill_value=0, # If blanks result, ie NANs, then replace with zero
+                 dropna=True, # Drop NAs in the data for the pivot table
+                 margins=True) # Provide totals 
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="9" halign="left">sum</th>
+      <th colspan="9" halign="left">mean</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th colspan="3" halign="left">children</th>
+      <th colspan="3" halign="left">females</th>
+      <th colspan="3" halign="left">males</th>
+      <th colspan="3" halign="left">children</th>
+      <th colspan="3" halign="left">females</th>
+      <th colspan="3" halign="left">males</th>
+    </tr>
+    <tr>
+      <th>politics</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+      <th>Blue</th>
+      <th>Red</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>147</td>
+      <td>132</td>
+      <td>279</td>
+      <td>149</td>
+      <td>120</td>
+      <td>269</td>
+      <td>122</td>
+      <td>133</td>
+      <td>255</td>
+      <td>147</td>
+      <td>132.0</td>
+      <td>139.500000</td>
+      <td>149</td>
+      <td>120.0</td>
+      <td>134.500000</td>
+      <td>122</td>
+      <td>133.0</td>
+      <td>127.5</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>0</td>
+      <td>230</td>
+      <td>230</td>
+      <td>0</td>
+      <td>261</td>
+      <td>261</td>
+      <td>0</td>
+      <td>243</td>
+      <td>243</td>
+      <td>0</td>
+      <td>115.0</td>
+      <td>115.000000</td>
+      <td>0</td>
+      <td>130.5</td>
+      <td>130.500000</td>
+      <td>0</td>
+      <td>121.5</td>
+      <td>121.5</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>0</td>
+      <td>243</td>
+      <td>243</td>
+      <td>0</td>
+      <td>275</td>
+      <td>275</td>
+      <td>0</td>
+      <td>282</td>
+      <td>282</td>
+      <td>0</td>
+      <td>121.5</td>
+      <td>121.500000</td>
+      <td>0</td>
+      <td>137.5</td>
+      <td>137.500000</td>
+      <td>0</td>
+      <td>141.0</td>
+      <td>141.0</td>
+    </tr>
+    <tr>
+      <td>All</td>
+      <td>147</td>
+      <td>605</td>
+      <td>752</td>
+      <td>149</td>
+      <td>656</td>
+      <td>805</td>
+      <td>122</td>
+      <td>658</td>
+      <td>780</td>
+      <td>147</td>
+      <td>121.0</td>
+      <td>125.333333</td>
+      <td>149</td>
+      <td>131.2</td>
+      <td>134.166667</td>
+      <td>122</td>
+      <td>131.6</td>
+      <td>130.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># Here we don't specify the columns, just the values
+data.pivot_table(index=[&quot;state&quot;,&quot;location&quot;],
+                 values=[&quot;males&quot;,&quot;politics&quot;],
+                 aggfunc={&quot;politics&quot;:[pd.Series.nunique],&quot;males&quot;:[np.sum, np.mean]},
+                 fill_value=0,
+                 dropna=True,
+                 margins=False)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">males</th>
+      <th>politics</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>sum</th>
+      <th>nunique</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th>location</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>West</td>
+      <td>127.5</td>
+      <td>255</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>East</td>
+      <td>121.5</td>
+      <td>243</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>East</td>
+      <td>141.0</td>
+      <td>282</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr />
+<h2 id="crosstab">Crosstab</h2>
+<pre><code class="python"># Simple crosstab between two columns of a df
+pd.crosstab(index = data['state'], columns = data['politics'])
+
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>politics</th>
+      <th>Blue</th>
+      <th>Red</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># You can make crosstabs more complex with columns and values and aggfunc
+pd.crosstab(index = data['state'], 
+            columns = data['politics'], 
+            values = data['males'], 
+            aggfunc = np.sum)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>politics</th>
+      <th>Blue</th>
+      <th>Red</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arizona</td>
+      <td>122.0</td>
+      <td>133.0</td>
+    </tr>
+    <tr>
+      <td>Florida</td>
+      <td>NaN</td>
+      <td>243.0</td>
+    </tr>
+    <tr>
+      <td>New York</td>
+      <td>NaN</td>
+      <td>282.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<hr />
+<h2 id="table-equivalent">Table equivalent</h2>
+<pre><code class="python">data.state.value_counts()
+</code></pre>
+
+<pre><code>Arizona     2
+Florida     2
+New York    2
+Name: state, dtype: int64
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-link">
+        RNN
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href=".." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href=".." class="btn btn-xs btn-link">
+        Python Notes
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

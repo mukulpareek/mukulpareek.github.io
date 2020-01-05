@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>RNN parameters - Python Notes - Mukul Pareek</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Counting parameters for an RNN", url: "#_top", children: [
+              {title: "How the Embedding Layer works", url: "#how-the-embedding-layer-works" },
+              {title: "SimpleRNN", url: "#simplernn" },
+              {title: "LSTM parameters", url: "#lstm-parameters" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../OneHot/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../OneHot/" class="btn btn-xs btn-link">
+        One Hot
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../RNN_for_texts/" class="btn btn-xs btn-link">
+        RNN
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="counting-parameters-for-an-rnn">Counting parameters for an RNN</h1>
+<p>In order to get the RNN to consume text data, we need two things:
+1. A list of all the texts, eg <code>texts = ['Today is a nice day', 'Yesterday was gorgeous',....]</code>
+2. We need the labels in a list too, eg <code>labels = [1, 0, 1, 1,...]</code></p>
+<p>We tokenize and do other preprocessing to get tensors for the data and the labels to feed into our NN.  </p>
+<p>We use pretrained Glove embeddings to build the Embeddings layer.</p>
+<p>At this point the <code>embedding_matrix</code> has one row per word in the vocabulary.  Each row has the vector for that word, picked from glove.  Because it is an np.array, it has no row or column names. The order of the words in the rows is the same as the order of words in the dict word_index.  </p>
+<p>We will feed this embedding matrix as weights to the embedding layer. </p>
+<pre><code class="python">from keras.models import Sequential
+from keras.layers import Embedding, Flatten, Dense, LSTM, SimpleRNN
+
+</code></pre>
+
+<pre><code>Using TensorFlow backend.
+</code></pre>
+<h2 id="how-the-embedding-layer-works">How the Embedding Layer works</h2>
+<p>The embedding layer has three parameters.  </p>
+<p><strong>Arguments to specify</strong>
+1. input_dim: This is the size of the vocabulary in the text data. For example, if your data is integer encoded to values between 0-10000, then the size of the vocabulary would be 10001 words (because the first element is not used and is all zeros).
+2. output_dim: This is the size of the vector space in which words will be embedded. It defines the size of the output vectors from this layer for each word. In the current example it is 100 long.
+3. input_length - optional parameter, default is 'None': This is the length of input sequences, as you would define for any input layer of a Keras model. In the current case we are using maxlen=100.</p>
+<p><strong>Param count</strong><br />
+The total count of trainable parameters will be vocab_size * embedding_depth.  </p>
+<p>The Embeddings Layer is just a weights matrix - with dimensions equal to the (vocab_size, embedding_depth).  In our case we have vocab_size=100, and embedding_dim=100 so we will have 100*100 weights which means the count of parameters is 10,000.  </p>
+<p><strong>Output shape</strong><br />
+The output shape will be maxlen * embedding_depth.  </p>
+<p>The Embedding Layer will take every single observation, which has a length of 100 (maxlen), and replace each numerical number with the corresponding weight from the embedding matrix.  Which means the output of the embedding layer will be (maxlen, embedding_depth), or in this case 100*100, also 10,000.  That is its output shape, which feeds into the next layer.</p>
+<pre><code class="python"># Setup parameters for illustration
+vocab_size, embedding_dim, maxlen= 10000, 100, 100
+</code></pre>
+
+<pre><code class="python">model = Sequential()
+model.add(Embedding(vocab_size, embedding_dim, input_length=maxlen)) # Note that vocab_size=10000, embedding_dim = 100 (100 dense vector for each word from Glove), maxlen=100 (using only first 100 words of each review)
+model.add(Flatten()) # Get flat layer equal to the output size of the prior layer
+model.add(Dense(32, activation = 'relu')) # Dense layer with 32 nodes. So param # = (Prior layer output size * 32) + 32 biases
+model.add(Dense(1, activation='sigmoid')) # Dense layer with 1 node. So param # = (Prior layer output size * 1) + 1 bias
+model.summary()
+</code></pre>
+
+<pre><code>Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding_1 (Embedding)      (None, 100, 100)          1000000   
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 10000)             0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 32)                320032    
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 1,320,065
+Trainable params: 1,320,065
+Non-trainable params: 0
+_________________________________________________________________
+</code></pre>
+<h2 id="simplernn">SimpleRNN</h2>
+<p>The parameter count for a SimpleRNN layer is given by:  </p>
+<p><strong>((InputSize + Number of nodes) * Number of nodes)  +  Number of nodes</strong>  </p>
+<p>In a simple RNN layer (that has no memory cell, or <script type="math/tex">\tilde{c}</script>, like GRU or LSTM, two things are input: the recurrent activation <script type="math/tex">a^{<t-1>}</script> from the prior cell, and the <script type="math/tex">x^{<t>}</script>.  </p>
+<p>Then there are two things output: the activation of the SimpleRNN cell, or <script type="math/tex">a^{<t-1>}</script>, and <script type="math/tex">\hat{y}^{<t>}</script>.  </p>
+<p>
+<script type="math/tex; mode=display">a^{<t>} = g(W_a[a^{<t-1>}, x^{<t>}] + b_a)</script>
+<br />
+and<br />
+<script type="math/tex">\hat{y}^{<t>} = g'(W_{ya}a^{<t>} + b_y)</script>
+</p>
+<p>(where <script type="math/tex">g</script> and <script type="math/tex">g'</script> are activation functions that can be different from one another.)  </p>
+<p>Now <script type="math/tex">[a^{<t-1>}, x^{<t>}]</script> is the side-by-side stacking of <script type="math/tex">a^{<t-1>}</script> and <script type="math/tex">x^{<t>}</script>.  </p>
+<p>All the <script type="math/tex">a^{<n>}</script>s are the same in size, and are really just the count of the output nodes of the RNN, in this case 32.  The <script type="math/tex">x^{<n>}</script>s are all words, equal in size to the embedding length, in this case 100.  So the side-by-side stacking of <script type="math/tex">a^{<t-1>}</script> and <script type="math/tex">x^{<t>}</script> is 132 in length.  Therefore <script type="math/tex">W_a</script> is also 132 in length.  </p>
+<p>So now you have an incoming vector of dimension (132,), being multiplied by 32 nodes inside the SimpleRNN cell, giving us 132 * 32 = 4224 parameters.  Add 32 biases to that, and 4224 + 32 = 4256.  Which gives us the 4256 parameter count as above.</p>
+<p>In the second equation, <script type="math/tex">W_{ya}</script> has the same dimensions as <script type="math/tex">a^{<t>}</script>, which is 32.  So this has 32 * 32 = 1024 parameters, plus 32 biases which should give us 1056 additional parameters which seem to be not counted in the Keras calculation above.  </p>
+<pre><code class="python">model = Sequential()
+model.add(Embedding(vocab_size, embedding_dim)) # Note that vocab_size=10000 (vocab size), embedding_dim = 100 (100 dense vector for each word from Glove), maxlen=100 (using only first 100 words of each review)
+model.add(SimpleRNN(32))
+#model.add(Dense(32, activation = 'relu'))
+model.add(Dense(1, activation='sigmoid'))
+model.summary()
+</code></pre>
+
+<pre><code>Model: "sequential_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding_2 (Embedding)      (None, None, 100)         1000000   
+_________________________________________________________________
+simple_rnn_1 (SimpleRNN)     (None, 32)                4256      
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 1,004,289
+Trainable params: 1,004,289
+Non-trainable params: 0
+_________________________________________________________________
+</code></pre>
+<h2 id="lstm-parameters">LSTM parameters</h2>
+<p>In an LSTM layer, the parameter count is similarly done, except that there are 4 equations so everything we did for the SimpleRNN needs to be multiplied by 4.  </p>
+<p><strong>[((InputSize + Number of nodes) * Number of nodes) + Number of nodes] * 4</strong></p>
+<p>An LSTM has the following equations for its various things.</p>
+<p>Inputs:<br />
+1. Prior activation (<script type="math/tex">a^{<t-1>}</script>), which is identical to the node size of the LSTM<br />
+2. Input <script type="math/tex">x^{<t>}</script>, ie the word, represented as a vector<br />
+3. Prior <script type="math/tex">\tilde{c}^{<t-1>}</script>, which is the candidate memory cell</p>
+<p>Outputs:
+1. Memory cell <script type="math/tex">\tilde{c}^{<t>}</script>
+2. Activation <script type="math/tex">a^{<t>}</script>
+</p>
+<p>
+<script type="math/tex">\tilde{c}^{<t>} = tanh(W_c[a^{<t-1>}, x^{<t>}) + b_c)</script> : <strong>Candidate memory cell</strong>  <br />
+<script type="math/tex">\Gamma_u = \sigma(W_u[a^{<t-1>}, x^{<t>}) + b_u)</script> : <strong>UPDATE GATE</strong><br />
+<script type="math/tex">\Gamma_f = \sigma(W_f[a^{<t-1>}, x^{<t>}) + b_u)</script> : <strong>FORGET GATE</strong><br />
+<script type="math/tex">\Gamma_o = \sigma(W_o[a^{<t-1>}, x^{<t>}) + b_u)</script> : <strong>OUTPUT GATE</strong><br />
+<script type="math/tex">c^{<t>} = \Gamma_u * \tilde{c}^{<t>} + \Gamma_f * \tilde{c}^{<t-1>}</script>  : <strong>MEMORY CELL OUTPUT</strong> 
+<script type="math/tex">a^{<t>} = \Gamma_o * tanh(c^{<t>})</script>  : <strong>ACTIVATION OUTPUT</strong>  </p>
+<p>
+<script type="math/tex">\sigma</script> is the sigmoid function  </p>
+<p>Now each one of W_c, W_u, W_f, and W_o will have the dimensions determined by the concatenation of a^<t-1> and x^t.  That will be Node Size + Input size, multiplied by the number of nodes (as it behaves like a fully connected layer).  Add to that the number of biases (equal to the number of nodes), and because there are 4 of these, multiply in the end by 4.  </p>
+<p>For the example above, input size is 100 (embedding size), and number of nodes is 32, therefore the count of parameters is =(((100+32) * 32)+32) * 4 = 17024.  </p>
+<pre><code class="python">model = Sequential()
+model.add(Embedding(vocab_size, embedding_dim)) # Note that vocab_size=10000 (vocab size), embedding_dim = 100 (100 dense vector for each word from Glove), maxlen=100 (using only first 100 words of each review)
+model.add(LSTM(32))
+model.add(Dense(1, activation='sigmoid'))
+model.summary()
+# model.layers[0].set_weights([embedding_matrix])
+# model.layers[0].trainable = False
+</code></pre>
+
+<pre><code>Model: "sequential_4"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding_4 (Embedding)      (None, None, 100)         1000000   
+_________________________________________________________________
+lstm_2 (LSTM)                (None, 32)                17024     
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 1,017,057
+Trainable params: 1,017,057
+Non-trainable params: 0
+_________________________________________________________________
+</code></pre>
+<p><strong>Run the model</strong></p>
+<pre><code class="python">model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
+history = model.fit(x_train, y_train, epochs=10, batch_size=128, validation_split=0.2)
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../OneHot/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../OneHot/" class="btn btn-xs btn-link">
+        One Hot
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../RNN_for_texts/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../RNN_for_texts/" class="btn btn-xs btn-link">
+        RNN
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

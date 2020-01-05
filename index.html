@@ -1,128 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Python Notes - Mukul Pareek</title>
+    <link href="./css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="./css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/bootstrap-3.3.7.min.js"></script>
+    <script src="./js/highlight.pack.js"></script>
+    
+      <script src="./js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '.';
+      var is_top_frame = (window === window.parent);
         
+        var pageToc = [
+          {title: "Notes for getting started with Python.", url: "#_top", children: [
+          ]},
+          {title: "List, Dicts, Sets and Tuples", url: "#list-dicts-sets-and-tuples", children: [
+          ]},
+          {title: "Numpy arrays", url: "#numpy-arrays", children: [
+              {title: "Create arrays", url: "#create-arrays" },
+              {title: "Subsetting arrays ('slices')", url: "#subsetting-arrays-slices" },
+              {title: "Picking selected rows or columns", url: "#picking-selected-rows-or-columns" },
+              {title: "Dot product", url: "#dot-product" },
+          ]},
+          {title: "Matrix math", url: "#matrix-math", children: [
+              {title: "Transpose with a .T", url: "#transpose-with-a-t" },
+              {title: "Inverse with a .I", url: "#inverse-with-a-i" },
+              {title: "Matrix multiplication", url: "#matrix-multiplication" },
+              {title: "Time your code with %time", url: "#time-your-code-with-time" },
+              {title: "Exponents with matrices and arrays **.", url: "#exponents-with-matrices-and-arrays" },
+              {title: "Modulus of a vector, matrix or an array", url: "#modulus-of-a-vector-matrix-or-an-array" },
+              {title: "Determinant of a matrix np.linalg.det(a)", url: "#determinant-of-a-matrix-nplinalgdeta" },
+              {title: "Converting from matrix to array and vice-versa", url: "#converting-from-matrix-to-array-and-vice-versa" },
+              {title: "Understanding numpy axes", url: "#understanding-numpy-axes" },
+          ]},
+          {title: "Data Frames", url: "#data-frames", children: [
+              {title: "Create a DataFrame", url: "#create-a-dataframe" },
+              {title: "Selecting columns and rows", url: "#selecting-columns-and-rows" },
+              {title: "Select rows:", url: "#select-rows" },
+              {title: "Change column to categorical", url: "#change-column-to-categorical" },
+              {title: "Add a column", url: "#add-a-column" },
+              {title: "Delete a column", url: "#delete-a-column" },
+              {title: "Get column names", url: "#get-column-names" },
+              {title: "loc and iloc", url: "#loc-and-iloc" },
+              {title: "Sort values", url: "#sort-values" },
+              {title: "Extract unique values", url: "#extract-unique-values" },
+              {title: "Add a calculated column to a dataframe with assign", url: "#add-a-calculated-column-to-a-dataframe-with-assign" },
+              {title: "Take a sample from a dataframe", url: "#take-a-sample-from-a-dataframe" },
+              {title: "Groupby", url: "#groupby" },
+              {title: "rename columns", url: "#rename-columns" },
+              {title: "Pivot Tables", url: "#pivot-tables" },
+          ]},
+        ];
+
+    </script>
+    <script src="./js/base.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="./search.html">
         
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>Python Notes - Mukul Pareek</title>
-        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
 
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap-3.0.3.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
-    </head>
-
-    <body class="homepage">
-
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-
-                <!-- Collapsed navigation -->
-                <div class="navbar-header">
-                    <!-- Expander button -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href=".">Python Notes - Mukul Pareek</a>
-                </div>
-
-                <!-- Expanded navigation -->
-                <div class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="active">
-                                <a href=".">Python Notes</a>
-                            </li>
-                            <li >
-                                <a href="RNN_for_texts/">RNN</a>
-                            </li>
-                            <li >
-                                <a href="RNN_parameters/">RNN parameters</a>
-                            </li>
-                            <li >
-                                <a href="OneHot/">One Hot</a>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="disabled">
-                                <a rel="next" >
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li >
-                                <a rel="prev" href="RNN_for_texts/">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
         </div>
+      </form>
+    </div>
 
-        <div class="container">
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#notes-for-getting-started-with-python">Notes for getting started with Python.</a></li>
-            <li><a href="#basic-commands">Basic commands</a></li>
-        <li class="main "><a href="#list-dicts-sets-and-tuples">List, Dicts, Sets and Tuples</a></li>
-        <li class="main "><a href="#numpy-arrays">Numpy arrays</a></li>
-            <li><a href="#create-arrays">Create arrays</a></li>
-            <li><a href="#subsetting-arrays-slices">Subsetting arrays ('slices')</a></li>
-            <li><a href="#picking-selected-rows-or-columns">Picking selected rows or columns</a></li>
-            <li><a href="#dot-product">Dot product</a></li>
-        <li class="main "><a href="#matrix-math">Matrix math</a></li>
-            <li><a href="#transpose-with-a-t">Transpose with a .T</a></li>
-            <li><a href="#inverse-with-a-i">Inverse with a .I</a></li>
-            <li><a href="#matrix-multiplication">Matrix multiplication</a></li>
-            <li><a href="#time-your-code-with-time">Time your code with %time</a></li>
-            <li><a href="#exponents-with-matrices-and-arrays">Exponents with matrices and arrays **.</a></li>
-            <li><a href="#modulus-of-a-vector-matrix-or-an-array">Modulus of a vector, matrix or an array</a></li>
-            <li><a href="#determinant-of-a-matrix-nplinalgdeta">Determinant of a matrix np.linalg.det(a)</a></li>
-            <li><a href="#converting-from-matrix-to-array-and-vice-versa">Converting from matrix to array and vice-versa</a></li>
-        <li class="main "><a href="#data-frames">Data Frames</a></li>
-            <li><a href="#create-a-dataframe">Create a DataFrame</a></li>
-            <li><a href="#selecting-columns-and-rows">Selecting columns and rows</a></li>
-            <li><a href="#select-rows">Select rows:</a></li>
-            <li><a href="#change-column-type-to-categorical-equivalent-to-rs-factors">Change column type to categorical (equivalent to R's factors) </a></li>
-            <li><a href="#add-a-column">Add a column</a></li>
-            <li><a href="#delete-a-column">Delete a column</a></li>
-            <li><a href="#get-column-names">Get column names</a></li>
-            <li><a href="#loc-and-iloc">loc and iloc</a></li>
-            <li><a href="#sort-values">Sort values</a></li>
-            <li><a href="#extract-unique-values">Extract unique values</a></li>
-            <li><a href="#add-a-calculated-column-to-a-dataframe-with-assign">Add a calculated column to a dataframe with assign</a></li>
-            <li><a href="#take-a-sample-from-a-dataframe">Take a sample from a dataframe</a></li>
-            <li><a href="#groupby">Groupby</a></li>
-            <li><a href="#rename-columns">rename columns</a></li>
-            <li><a href="#pivot-tables">Pivot Tables</a></li>
-    </ul>
-</div></div>
-                <div class="col-md-9" role="main">
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
 
-<h1 id="notes-for-getting-started-with-python">Notes for getting started with Python.</h1>
-<h3 id="basic-commands">Basic commands</h3>
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Python Notes - Mukul Pareek<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Python Notes</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="pivot_tables/" class="wm-article-link wm-toc-text">Pivot Tables</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="RNN_for_texts/" class="wm-article-link wm-toc-text">RNN</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="RNN_parameters/" class="wm-article-link wm-toc-text">RNN parameters</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="OneHot/" class="wm-article-link wm-toc-text">One Hot</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="mkdocs/" class="wm-article-link wm-toc-text">Using mkdocs</a>
+</li>
+        <li class="wm-toc-li wm-toc-lev1 "><a href="SyncFiles/" class="wm-article-link wm-toc-text">Sync Files</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="pivot_tables/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="pivot_tables/" class="btn btn-xs btn-link">
+        Pivot Tables
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="notes-for-getting-started-with-python">Notes for getting started with Python.</h1>
 <h1 id="list-dicts-sets-and-tuples">List, Dicts, Sets and Tuples</h1>
 <pre><code class="python">import pandas as pd
 import os
@@ -727,6 +781,53 @@ m
 <h2 id="converting-from-matrix-to-array-and-vice-versa">Converting from matrix to array and vice-versa</h2>
 <p><code>np.asmatrix</code> and <code>np.asarray</code> allow you to convert one to the other. Though above we have just used np.array and np.matrix without any issue.</p>
 <p>The above references: https://stackoverflow.com/questions/4151128/what-are-the-differences-between-numpy-arrays-and-matrices-which-one-should-i-u</p>
+<h2 id="understanding-numpy-axes">Understanding numpy axes</h2>
+<pre><code class="python">x = np.random.randint(low = 1, high = 5, size = (2,3,4))
+print('Shape: ', x.shape)
+x
+</code></pre>
+
+<pre><code>Shape:  (2, 3, 4)
+
+
+
+
+
+array([[[4, 3, 3, 2],
+        [3, 4, 4, 3],
+        [3, 1, 2, 1]],
+
+       [[1, 3, 3, 4],
+        [4, 1, 1, 2],
+        [4, 2, 3, 2]]])
+</code></pre>
+<p>Shape is (2, 3, 4)  </p>
+<p>axis = 0 means : (<strong>2</strong>, 3, 4)<br />
+axis = 1 means : (2, <strong>3</strong>, 4)<br />
+axis = 2 means : (2, 3, <strong>4</strong>)  </p>
+<p>Numpy axes numbers run from left to right, starting with the index 0.  So <code>x.shape</code> gives me 2, 3, 4 which means 2 is the 0th axis, 3 rows are the 1st axis and 4 columns are the 2nd axis.  </p>
+<p>Putting the axis = n argument in a function makes axis n disappear, leaving only the rest of the dimensions.  So <code>np.sum(array_name, axis = n)</code>, similarly <code>mean()</code>, <code>min()</code>, <code>median()</code>, <code>std()</code> etc will calculate the aggregation function by collapsing all the elements of the selected axis number into one and performing that operation.  See below using the sum function.  </p>
+<pre><code class="python"># So with axis = 0, the very first dimension, ie the 2, will collapse leaving an array of shape (3,4)
+x.sum(axis = 0) # (3,4) will remain
+</code></pre>
+
+<pre><code>array([[5, 6, 6, 6],
+       [7, 5, 5, 5],
+       [7, 3, 5, 3]])
+</code></pre>
+<pre><code class="python">x.sum(axis = 1) # (2,4) will remain
+</code></pre>
+
+<pre><code>array([[10,  8,  9,  6],
+       [ 9,  6,  7,  8]])
+</code></pre>
+<pre><code class="python">x.sum(axis = 2) # (2,3) will remain
+</code></pre>
+
+<pre><code>array([[12, 14,  7],
+       [11,  8, 11]])
+</code></pre>
+<p>That's about it!</p>
 <h1 id="data-frames">Data Frames</h1>
 <p><strong>Operations Mimicking Excel Functionality</strong></p>
 <h2 id="create-a-dataframe">Create a DataFrame</h2>
@@ -1394,7 +1495,8 @@ diamonds[['carat', 'cut']].query('carat &gt; 3').head()
 </table>
 </div>
 
-<h2 id="change-column-type-to-categorical-equivalent-to-rs-factors">Change column type to categorical (equivalent to R's factors) <br></h2>
+<h2 id="change-column-to-categorical">Change column to categorical</h2>
+<p>(equivalent to R's factors)   </p>
 <pre><code class="python">x = diamonds[['carat', 'cut']].query('carat &gt; 3').head()
 x.info()
 
@@ -2964,90 +3066,40 @@ diamonds.groupby('cut').agg({&quot;price&quot;: &quot;sum&quot;,
 </div>
 
 <h2 id="pivot-tables">Pivot Tables</h2>
-<p>https://pbpython.com/pandas-pivot-table-explained.html</p></div>
-        </div>
+<p>https://pbpython.com/pandas-pivot-table-explained.html</p>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script>
-            var base_url = ".",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="js/base.js" defer></script>
-        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" defer></script>
-        <script src="mathjaxhelper.js" defer></script>
-        <script src="search/main.js" defer></script>
+  <br>
+    
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form role="form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="pivot_tables/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="pivot_tables/" class="btn btn-xs btn-link">
+        Pivot Tables
+      </a>
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+    
+  </div>
+
+    <br>
 </div>
 
-    </body>
-</html>
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
 
+</body>
+</html>
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-11-29 22:29:49
+Build Date UTC : 2020-01-05 21:16:33
 -->

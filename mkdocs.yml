@@ -1,0 +1,14 @@
+site_name: Python Notes - Mukul Pareek
+nav:
+    - Python Notes: index.md
+    - RNN : RNN_for_texts.md
+    - RNN parameters: RNN_parameters.md
+    - One Hot: OneHot.md
+
+markdown_extensions:
+  - extra
+  - tables
+  - fenced_code
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
+  - mathjaxhelper.js

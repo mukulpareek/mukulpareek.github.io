@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>One Hot - Python Notes - Mukul Pareek</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "One Hot Encoding", url: "#_top", children: [
+              {title: "One hot using sklearn", url: "#one-hot-using-sklearn" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../mkdocs/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../mkdocs/" class="btn btn-xs btn-link">
+        Using mkdocs
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../RNN_parameters/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../RNN_parameters/" class="btn btn-xs btn-link">
+        RNN parameters
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="one-hot-encoding">One Hot Encoding</h1>
+<p>In a multi-classification problem, you need one-hot encoding of the y-variable to feed the neural net.  There are many functions available in sklearn to do this, described below.  </p>
+<p><strong>X Variable</strong><br />
+However the easiest to use is Pandas <code>pd.get_dummies(dataframe columns to encode)</code>.  The reason is that Pandas will give you column headings, whereas sklearn uses arrays that have no column headings and in the first two functions it is not possible to figure out which column is which.  </p>
+<p><strong>Y Variable</strong><br />
+Easiest to use <code>LabelBinarizer</code> and <code>MultiLabelBinarizer</code> that both give column headings too.  See usage below.</p>
+<p>Once you have the pandas one-hot dataframe, you can convert it to an array using <code>np.asarray(df)</code> and feed it to the neural net.  </p>
+<p>See example below:  </p>
+<pre><code class="python">mylist = ['apple', 'banana', 'pear', 'pear', 'apple', 'apple']
+
+
+</code></pre>
+
+<pre><code class="python">pd.get_dummies(pd.DataFrame(mylist))
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_apple</th>
+      <th>0_banana</th>
+      <th>0_pear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="one-hot-using-sklearn">One hot using sklearn</h2>
+<p>sklearn has many functions for one hot encoding.  All have examples below.  All of these have an interesting way to implement:<br />
+1. Each needs to be assigned to a string first, eg <code>le=LabelEncoder()</code>,
+2. Then use the <code>string.fit_transform(values)</code>, where values is the array containing the text label categories.
+3. Each returns an array.</p>
+<hr />
+<p><strong>Prep the data</strong></p>
+<pre><code class="python"># Convert list of labels to array
+values = np.asarray(mylist)
+print('values: \n',values, '\n\n')
+print('values shape: \n',values.shape, '\n\n')
+
+# Now reshape it to be a 2D array
+values= values.reshape(values.shape[0],1) 
+print('values after reshape: \n',values, '\n\n')
+print('values new shape: \n',values.shape, '\n\n')
+
+</code></pre>
+
+<pre><code>values: 
+ ['apple' 'banana' 'pear' 'pear' 'apple' 'apple']
+
+
+values shape: 
+ (6,)
+
+
+values after reshape: 
+ [['apple']
+ ['banana']
+ ['pear']
+ ['pear']
+ ['apple']
+ ['apple']]
+
+
+values new shape: 
+ (6, 1)
+</code></pre>
+<pre><code class="python">import numpy as np
+import pandas as pd
+from numpy import array
+from numpy import argmax
+
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import MultiLabelBinarizer
+</code></pre>
+
+<hr />
+<p><strong>OneHotEncoder</strong><br />
+Used for X variables.  Can convert multiple columns to one hot format directly from categorical text. Directly takes an array as an input. </p>
+<pre><code class="python">oh = OneHotEncoder(sparse=False)
+myonehot = oh.fit_transform(values)
+myonehot
+
+</code></pre>
+
+<pre><code>array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]])
+</code></pre>
+<hr />
+<p><strong>LabelEncoder</strong><br />
+Used for Y variables - this doesn't give you one-hot encoding, but gives you integer encoding.</p>
+<pre><code class="python">le = LabelEncoder()
+int = le.fit_transform(values.ravel()) # This needs a 1D arrary
+print(&quot;Now int has integers, type is &quot;, type(int))
+print('int shape: ', int.shape)
+int
+</code></pre>
+
+<pre><code>Now int has integers, type is  &lt;class 'numpy.ndarray'&gt;
+int shape:  (6,)
+
+
+
+
+
+array([0, 1, 2, 2, 0, 0], dtype=int64)
+</code></pre>
+<hr />
+<p><strong>LabelBinarizer</strong><br />
+Used for Y variables - produces one-hot encoding for Y variables.  Each observation belongs to one and only one class.</p>
+<pre><code class="python">lb = LabelBinarizer()
+myonehot = lb.fit_transform(values) 
+my1hot_df = pd.DataFrame(lb.fit_transform(values), columns=lb.classes_)
+print(my1hot_df)
+print('\n \n')
+print(myonehot)
+</code></pre>
+
+<pre><code>   apple  banana  pear
+0      1       0     0
+1      0       1     0
+2      0       0     1
+3      0       0     1
+4      1       0     0
+5      1       0     0
+
+
+
+[[1 0 0]
+ [0 1 0]
+ [0 0 1]
+ [0 0 1]
+ [1 0 0]
+ [1 0 0]]
+</code></pre>
+<hr />
+<p><strong>MultiLabelBinarizer</strong>: This is used when an observation can belong to multiple labels</p>
+<pre><code class="python">df = pd.DataFrame({&quot;genre&quot;: [[&quot;action&quot;, &quot;drama&quot;,&quot;fantasy&quot;], \
+                             [&quot;fantasy&quot;,&quot;action&quot;], [&quot;drama&quot;], 
+                             [&quot;sci-fi&quot;, &quot;drama&quot;]]})
+</code></pre>
+
+<pre><code class="python">df
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>[action, drama, fantasy]</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>[fantasy, action]</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>[drama]</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>[sci-fi, drama]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">
+</code></pre>
+
+<pre><code class="python">mlb = MultiLabelBinarizer()
+myonehot = mlb.fit_transform(df['genre'])
+my1hot_df = pd.DataFrame(mlb.fit_transform(df['genre']), columns=mlb.classes_)
+print('mlb.classes \n',mlb.classes_, '\n\n')
+print('my1hot_df \n', my1hot_df, '\n\n')
+print('myonehot \n', myonehot, '\n\n')
+</code></pre>
+
+<pre><code>mlb.classes 
+ ['action' 'drama' 'fantasy' 'sci-fi']
+
+
+my1hot_df 
+    action  drama  fantasy  sci-fi
+0       1      1        1       0
+1       1      0        1       0
+2       0      1        0       0
+3       0      1        0       1
+
+
+myonehot 
+ [[1 1 1 0]
+ [1 0 1 0]
+ [0 1 0 0]
+ [0 1 0 1]]
+</code></pre>
+<hr />
+<p><strong>useless stuff</strong><br />
+I created a function to get the equivalent of LabelEncoder before I knew about it, but useless now.</p>
+<pre><code class="python">def to_cat(l):
+    uniques = list(set(l))
+    l1=[]
+    word_to_index = {}
+    index_to_word = {}
+    x=0
+    for i in uniques:
+        x = x + 1
+        index_to_word.update({x: i})
+        word_to_index.update({i: x})
+        print(i)
+        print(word_to_index[i])
+
+    for t in l:
+        print(l1)
+        print(word_to_index[t])
+        l1.append(word_to_index[t])
+
+    return l1, index_to_word, word_to_index
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../mkdocs/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../mkdocs/" class="btn btn-xs btn-link">
+        Using mkdocs
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../RNN_parameters/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../RNN_parameters/" class="btn btn-xs btn-link">
+        RNN parameters
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
