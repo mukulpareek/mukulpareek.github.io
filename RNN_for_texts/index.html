@@ -83,30 +83,32 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     
 
     <h1 id="text-processing-with-an-rnn">Text processing with an RNN</h1>
-<p>In order to get the RNN to consume text data, we need two things:
-1. A list of all the texts, eg <code>texts = ['Today is a nice day', 'Yesterday was gorgeous',....]</code>
-2. We need the labels in a list too, eg <code>labels = [1, 0, 1, 1,...]</code>.  If labels are text string categories, then use one-hot encoding to convert them into an array, with each row of the array corresponding to an observation.  </p>
-<p>We first set up a tokenizer as follows:</p>
-<pre><code class="python">from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+<p>In order to get the RNN to consume text data, we need two things:  </p>
+<ol>
+<li>A list of all the texts, eg <code>texts = ['Today is a nice day', 'Yesterday was gorgeous',....]</code>  </li>
+<li>We need the labels in a list too, eg <code>labels = [1, 0, 1, 1,...]</code>.  If labels are text string categories, then use one-hot encoding to convert them into an array, with each row of the array corresponding to an observation.  </li>
+</ol>
+<p>We first set up a tokenizer as follows:  </p>
+<pre><code class="python">from keras.preprocessing.text import Tokenizer  
+from keras.preprocessing.sequence import pad_sequences  
 
-tokenizer = Tokenizer(num_words = vocab_size) #Sets up a blank tokenizer
-tokenizer.fit_on_texts(texts) 
-# fit_on_texts creates the vocabulary based on `texts`, based on word frequency. So if you give it something like, &quot;The cat sat on the mat.&quot; It will create a dictionary s.t. word_index[&quot;the&quot;] = 1; word_index[&quot;cat&quot;] = 2 it is word -&gt; index dictionary so every word gets a unique integer value. 0 is reserved for padding. So lower integer means more frequent word (often the first few are stop words because they appear a lot).
+tokenizer = Tokenizer(num_words = vocab_size) #Sets up a blank tokenizer  
+tokenizer.fit_on_texts(texts)   
+# fit_on_texts creates the vocabulary based on `texts`, based on word frequency. So if you give it something like, &quot;The cat sat on the mat.&quot; It will create a dictionary s.t. word_index[&quot;the&quot;] = 1; word_index[&quot;cat&quot;] = 2 it is word -&gt; index dictionary so every word gets a unique integer value. 0 is reserved for padding. So lower integer means more frequent word (often the first few are stop words because they appear a lot).  
 
-sequences = tokenizer.texts_to_sequences(texts)
-# This step transforms each text in texts to a sequence of integers. So it basically takes each word in the text and replaces it with its corresponding integer value from the word_index dictionary. 
+sequences = tokenizer.texts_to_sequences(texts)  
+# This step transforms each text in texts to a sequence of integers. So it basically takes each word in the text and replaces it with its corresponding integer value from the word_index dictionary.   
 
-word_index = tokenizer.word_index # This is the dictionary of words and their indexes which one can see using word_index.items()
+word_index = tokenizer.word_index # This is the dictionary of words and their indexes which one can see using  word_index.items()  
 
-data = pad_sequences(sequences, maxlen = maxlen) # Here we make all texts equal in length, and padding is pre (can be changed by padding='post')
+data = pad_sequences(sequences, maxlen = maxlen) # Here we make all texts equal in length, and padding is pre (can be changed   by padding='post')  
 
-labels = np.asarray(labels) # We convert the labels into an array from its original list form.
+labels = np.asarray(labels) # We convert the labels into an array from its original list form.  
 
 </code></pre>
 
 <p>At this point all our input text data exists as perfectly sized tensors in the variable called <code>data</code>, and <code>labels</code>.  The <code>data</code> variable has references to the <code>word_index</code> which is essentially the dictionary for the task.  </p>
-<p>Next, we need to create the embeddings_matrix based on Glove.  For this, we first load up Glove in a giant matrix, and then we look up each item in the <code>word_index</code> in the Glove matrix and create our pre-trained embeddings_matrix based on Glove.  In this matrix, we preserve the index order as in the <code>word_index</code>, so what is #3 in the word index is also the 3rd row in the embeddings_matrix.  The 0th row is all zeros, and only the first row onwards are used because in the <code>word_index</code> dictionary there is no entry for zero.</p>
+<p>Next, we need to create the embeddings_matrix based on Glove.  For this, we first load up Glove in a giant matrix, and then we look up each item in the <code>word_index</code> in the Glove matrix and create our pre-trained embeddings_matrix based on Glove.  In this matrix, we preserve the index order as in the <code>word_index</code>, so what is #3 in the word index is also the 3rd row in the embeddings_matrix.  The 0th row is all zeros, and only the first row onwards are used because in the <code>word_index</code> dictionary there is no entry for zero.  </p>
 <p>Now we are good to go to feed this into our NN. The pretrained embeddings_matrix makes its way into the NN using the following commands:  </p>
 <pre><code class="python">model.layers[0].set_weights([embedding_matrix])
 model.layers[0].trainable = False

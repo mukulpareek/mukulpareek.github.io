@@ -85,13 +85,15 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     
 
     <h1 id="counting-parameters-for-an-rnn">Counting parameters for an RNN</h1>
-<p>In order to get the RNN to consume text data, we need two things:
-1. A list of all the texts, eg <code>texts = ['Today is a nice day', 'Yesterday was gorgeous',....]</code>
-2. We need the labels in a list too, eg <code>labels = [1, 0, 1, 1,...]</code></p>
+<p>In order to get the RNN to consume text data, we need two things:  </p>
+<ol>
+<li>A list of all the texts, eg <code>texts = ['Today is a nice day', 'Yesterday was gorgeous',....]</code>  </li>
+<li>We need the labels in a list too, eg <code>labels = [1, 0, 1, 1,...]</code>  </li>
+</ol>
 <p>We tokenize and do other preprocessing to get tensors for the data and the labels to feed into our NN.  </p>
-<p>We use pretrained Glove embeddings to build the Embeddings layer.</p>
+<p>We use pretrained Glove embeddings to build the Embeddings layer.  </p>
 <p>At this point the <code>embedding_matrix</code> has one row per word in the vocabulary.  Each row has the vector for that word, picked from glove.  Because it is an np.array, it has no row or column names. The order of the words in the rows is the same as the order of words in the dict word_index.  </p>
-<p>We will feed this embedding matrix as weights to the embedding layer. </p>
+<p>We will feed this embedding matrix as weights to the embedding layer.  </p>
 <pre><code class="python">from keras.models import Sequential
 from keras.layers import Embedding, Flatten, Dense, LSTM, SimpleRNN
 
@@ -146,8 +148,7 @@ _________________________________________________________________
 <p>In a simple RNN layer (that has no memory cell, or <script type="math/tex">\tilde{c}</script>, like GRU or LSTM, two things are input: the recurrent activation <script type="math/tex">a^{<t-1>}</script> from the prior cell, and the <script type="math/tex">x^{<t>}</script>.  </p>
 <p>Then there are two things output: the activation of the SimpleRNN cell, or <script type="math/tex">a^{<t-1>}</script>, and <script type="math/tex">\hat{y}^{<t>}</script>.  </p>
 <p>
-<script type="math/tex; mode=display">a^{<t>} = g(W_a[a^{<t-1>}, x^{<t>}] + b_a)</script>
-<br />
+<script type="math/tex">a^{<t>} = g(W_a[a^{<t-1>}, x^{<t>}] + b_a)</script>
 and<br />
 <script type="math/tex">\hat{y}^{<t>} = g'(W_{ya}a^{<t>} + b_y)</script>
 </p>

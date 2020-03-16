@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Seaborn - Python Notes - Mukul Pareek</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Summary", url: "#_top", children: [
+              {title: "Save the graphic file", url: "#save-the-graphic-file" },
+          ]},
+          {title: "Manage axis", url: "#manage-axis", children: [
+          ]},
+          {title: "Detailed examples", url: "#detailed-examples", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../SyncFiles/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../SyncFiles/" class="btn btn-xs btn-link">
+        Sync Files
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <pre><code class="python">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+</code></pre>
+
+<h3 id="summary">Summary</h3>
+<p><code>sns.distplot(np.log(df['price']), bins = 20, hist_kws=dict(edgecolor="k", linewidth=2))  # Histogram
+sns.countplot(x='color', data=df) # Barplot, sort order with np.sort(df['color'].unique())
+sns.countplot(x='cut', data=df, hue='color') # Barplot with groupby cut, split by color
+sns.boxplot(data = df, y = 'carat', x = 'clarity', hue = 'cut') # Boxplot
+sns.scatterplot(data = df, x = 'carat', y = 'price', hue = 'cut', alpha = .8, edgecolor = 'None') # Scatterplot
+sns.pairplot(data = df[['table', 'price', 'x', 'y', 'color']], hue = 'color') # Pairplot
+plt.plot(x,y) # Lineplot
+sns.lineplot(data=df, x = 'price', y = 'carat') #Lineplot Seaborn
+sns.lmplot(data=df, x = 'price', y = 'carat') # Linear model with conf line
+sns.heatmap(data = df.corr(), annot=True) #Heatmap, corr() automatically takes all the numerical variables
+sns.heatmap(flights, annot=True, fmt="d") #Heatmap for a entire numerical dataframe</code></p>
+<p>You can superimpose graphs on top of each other if they are in the same cell and use the same
+x and y variables.  eg you can combine a scatterplot with a line graph.</p>
+<h4 id="save-the-graphic-file">Save the graphic file</h4>
+<p><code>plt.figure(figsize = (10,6), dpi = 350) # set the size and DPI for saving if needed
+plt.savefig('test2.png') # add 'transparent=True' for png</code></p>
+<pre><code class="python"># Load dataset
+# sns.get_dataset_names()
+df = sns.load_dataset('diamonds')
+df.head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="manage-axis">Manage axis</h3>
+<pre><code class="python">plt.rcParams[&quot;axes.labelsize&quot;] = 16 # Set the fontsize of the axis title
+
+# Assigning a plot to a variable 'ax' has no effect, except that varying the parameters
+# for the plot becomes easier by referencing the variable.
+
+ax = sns.distplot(np.log(df['price']), bins = 20, hist_kws=dict(edgecolor=&quot;k&quot;, linewidth=2)) 
+
+# Set axis limits
+plt.xlim(6,10) # Hardcode, or set to 'None' for automatic setting
+plt.ylim(None,None)
+
+# Controlling ticks
+xmin, xmax = ax.get_xlim()  # Can also be ylim
+custom_ticks = np.linspace(xmin, xmax, 10) #Pick how many ticks in the linear spacing
+# custom_ticks = np.linspace(xmin, xmax, 10, dtype=int) # Use this line for integer ticks
+ax.set_xticks(custom_ticks)
+ax.set_xticklabels(np.round(custom_ticks,2)) #limit x-axis label to 2 decimal places
+for label in ax.get_xticklabels(): #rotate all labels by 90 degrees
+        label.set_rotation(90)     # Note it is being done individually for each label by a loop
+ax.tick_params(axis=&quot;x&quot;, labelsize=8) #set fontsize for tick labels
+
+</code></pre>
+
+<p><img alt="png" src="../output_4_0.png" /></p>
+<h3 id="detailed-examples">Detailed examples</h3>
+<pre><code class="python">#plt.figure(figsize = (10,6), dpi = 350) # set the size and DPI for saving if needed
+
+# Histogram with edge for the bars, and a density plot (KDE, kernel density estimate)
+# You can turn off the kde or the histogram, or add a rug.
+# kws means keywords, and kwargs means keyword arguments
+# Adding colors based on colormaps using the palette argument:
+# https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+
+sns.distplot(np.log(df['price']), bins = 20, hist_kws=dict(edgecolor=&quot;k&quot;, linewidth=2)) 
+
+# Labeling
+plt.title('Title')
+plt.xlabel('X Label')
+plt.ylabel('Y Label')
+
+# Axis and ticks
+plt.xlim(None,None) # Hardcode, or set to 'None' for automatic setting
+plt.ylim(None,None)
+
+# Save the graphic file from this cell. Can also add 'transparent=True' for png
+plt.savefig('test2.png') 
+</code></pre>
+
+<p><img alt="png" src="../output_6_0.png" /></p>
+<pre><code class="python"># Barplot for categorical variables
+sns.countplot(x='color', data=df, order = np.sort(df['color'].unique()) )
+# or sns.countplot(df['sex'])
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289cfcc4e08&gt;
+</code></pre>
+<p><img alt="png" src="../output_7_1.png" /></p>
+<pre><code class="python"># Barplot with two variables
+sns.countplot(x='cut', data=df, hue='color');
+</code></pre>
+
+<p><img alt="png" src="../output_8_0.png" /></p>
+<pre><code class="python">&quot;&quot;&quot;
+For a basic boxplot, you only need one variable.  You can call it either x or y variable.  
+You get one boxplot from this, either along the x-axis or the y-axis. Don't select a 
+categorical variable for a boxplot, only a continuous one so there is something to show.
+
+Preferably put the continuous variable along the y-axis.
+
+You can then do a sort of 'group-by' by adding an x-variable which should be categorical,
+and the categories will then show on the x-axis.  You can further break down the boxplot
+by adding 'hue' as equal to another categorical variable.
+&quot;&quot;&quot;
+plt.figure(figsize = (12,8))
+sns.boxplot(data = df, y = 'carat', x = 'clarity', hue = 'cut')
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289d092aa88&gt;
+</code></pre>
+<p><img alt="png" src="../output_9_1.png" /></p>
+<pre><code class="python"># Scatterplots are pretty self-explanatory.
+plt.figure(figsize = (12,8))
+sns.scatterplot(data = df, x = 'carat', y = 'price', hue = 'cut', alpha = .8, edgecolor = 'None')
+# edgecolor takes out all the whiteness by too many datapoints with a white border on top of each other.
+# sns.lineplot(data = df, x = 'price', y = 'table')
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289d0d9f688&gt;
+</code></pre>
+<p><img alt="png" src="../output_10_1.png" /></p>
+<pre><code class="python"># Pairplots are simple, subset the right columns first.  If using hue, make sure 
+# it is there in the data.
+
+sns.pairplot(data = df[['table', 'price', 'x', 'y', 'color']], hue = 'color')
+</code></pre>
+
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x289d12235c8&gt;
+</code></pre>
+<p><img alt="png" src="../output_11_1.png" /></p>
+<pre><code class="python">df
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>53935</th>
+      <td>0.72</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>60.8</td>
+      <td>57.0</td>
+      <td>2757</td>
+      <td>5.75</td>
+      <td>5.76</td>
+      <td>3.50</td>
+    </tr>
+    <tr>
+      <th>53936</th>
+      <td>0.72</td>
+      <td>Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>63.1</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.69</td>
+      <td>5.75</td>
+      <td>3.61</td>
+    </tr>
+    <tr>
+      <th>53937</th>
+      <td>0.70</td>
+      <td>Very Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>62.8</td>
+      <td>60.0</td>
+      <td>2757</td>
+      <td>5.66</td>
+      <td>5.68</td>
+      <td>3.56</td>
+    </tr>
+    <tr>
+      <th>53938</th>
+      <td>0.86</td>
+      <td>Premium</td>
+      <td>H</td>
+      <td>SI2</td>
+      <td>61.0</td>
+      <td>58.0</td>
+      <td>2757</td>
+      <td>6.15</td>
+      <td>6.12</td>
+      <td>3.74</td>
+    </tr>
+    <tr>
+      <th>53939</th>
+      <td>0.75</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI2</td>
+      <td>62.2</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.83</td>
+      <td>5.87</td>
+      <td>3.64</td>
+    </tr>
+  </tbody>
+</table>
+<p>53940 rows × 10 columns</p>
+</div>
+
+<pre><code class="python">sns.lineplot(data=df, x = 'price', y = 'carat')
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289d1a395c8&gt;
+</code></pre>
+<p><img alt="png" src="../output_13_1.png" /></p>
+<pre><code class="python">sns.lmplot(x='carat', y='price', data=df) # Linear model with conf line
+</code></pre>
+
+<pre><code>&lt;seaborn.axisgrid.FacetGrid at 0x289d4eaa748&gt;
+</code></pre>
+<p><img alt="png" src="../output_14_1.png" /></p>
+<pre><code class="python"># First get correlation matrix using 'df.corr' then pass that to sns.heatmap
+#sns.heatmap(data = df[['table', 'price', 'carat', 'x', 'y', 'z', 'color']].corr(), annot=True)
+sns.heatmap(data = df.corr(), annot=True) #corr() automatically takes all the numerical variables
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289d4f52cc8&gt;
+</code></pre>
+<p><img alt="png" src="../output_15_1.png" /></p>
+<pre><code class="python">data = df[['table', 'price', 'x', 'y', 'color']]
+</code></pre>
+
+<pre><code class="python">data.corr()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>table</th>
+      <td>1.000000</td>
+      <td>0.127134</td>
+      <td>0.195344</td>
+      <td>0.183760</td>
+    </tr>
+    <tr>
+      <th>price</th>
+      <td>0.127134</td>
+      <td>1.000000</td>
+      <td>0.884435</td>
+      <td>0.865421</td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td>0.195344</td>
+      <td>0.884435</td>
+      <td>1.000000</td>
+      <td>0.974701</td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td>0.183760</td>
+      <td>0.865421</td>
+      <td>0.974701</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">flights_long = sns.load_dataset(&quot;flights&quot;)
+flights = flights_long.pivot(&quot;month&quot;, &quot;year&quot;, &quot;passengers&quot;)
+</code></pre>
+
+<pre><code class="python">flights
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>1949</th>
+      <th>1950</th>
+      <th>1951</th>
+      <th>1952</th>
+      <th>1953</th>
+      <th>1954</th>
+      <th>1955</th>
+      <th>1956</th>
+      <th>1957</th>
+      <th>1958</th>
+      <th>1959</th>
+      <th>1960</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>January</th>
+      <td>112</td>
+      <td>115</td>
+      <td>145</td>
+      <td>171</td>
+      <td>196</td>
+      <td>204</td>
+      <td>242</td>
+      <td>284</td>
+      <td>315</td>
+      <td>340</td>
+      <td>360</td>
+      <td>417</td>
+    </tr>
+    <tr>
+      <th>February</th>
+      <td>118</td>
+      <td>126</td>
+      <td>150</td>
+      <td>180</td>
+      <td>196</td>
+      <td>188</td>
+      <td>233</td>
+      <td>277</td>
+      <td>301</td>
+      <td>318</td>
+      <td>342</td>
+      <td>391</td>
+    </tr>
+    <tr>
+      <th>March</th>
+      <td>132</td>
+      <td>141</td>
+      <td>178</td>
+      <td>193</td>
+      <td>236</td>
+      <td>235</td>
+      <td>267</td>
+      <td>317</td>
+      <td>356</td>
+      <td>362</td>
+      <td>406</td>
+      <td>419</td>
+    </tr>
+    <tr>
+      <th>April</th>
+      <td>129</td>
+      <td>135</td>
+      <td>163</td>
+      <td>181</td>
+      <td>235</td>
+      <td>227</td>
+      <td>269</td>
+      <td>313</td>
+      <td>348</td>
+      <td>348</td>
+      <td>396</td>
+      <td>461</td>
+    </tr>
+    <tr>
+      <th>May</th>
+      <td>121</td>
+      <td>125</td>
+      <td>172</td>
+      <td>183</td>
+      <td>229</td>
+      <td>234</td>
+      <td>270</td>
+      <td>318</td>
+      <td>355</td>
+      <td>363</td>
+      <td>420</td>
+      <td>472</td>
+    </tr>
+    <tr>
+      <th>June</th>
+      <td>135</td>
+      <td>149</td>
+      <td>178</td>
+      <td>218</td>
+      <td>243</td>
+      <td>264</td>
+      <td>315</td>
+      <td>374</td>
+      <td>422</td>
+      <td>435</td>
+      <td>472</td>
+      <td>535</td>
+    </tr>
+    <tr>
+      <th>July</th>
+      <td>148</td>
+      <td>170</td>
+      <td>199</td>
+      <td>230</td>
+      <td>264</td>
+      <td>302</td>
+      <td>364</td>
+      <td>413</td>
+      <td>465</td>
+      <td>491</td>
+      <td>548</td>
+      <td>622</td>
+    </tr>
+    <tr>
+      <th>August</th>
+      <td>148</td>
+      <td>170</td>
+      <td>199</td>
+      <td>242</td>
+      <td>272</td>
+      <td>293</td>
+      <td>347</td>
+      <td>405</td>
+      <td>467</td>
+      <td>505</td>
+      <td>559</td>
+      <td>606</td>
+    </tr>
+    <tr>
+      <th>September</th>
+      <td>136</td>
+      <td>158</td>
+      <td>184</td>
+      <td>209</td>
+      <td>237</td>
+      <td>259</td>
+      <td>312</td>
+      <td>355</td>
+      <td>404</td>
+      <td>404</td>
+      <td>463</td>
+      <td>508</td>
+    </tr>
+    <tr>
+      <th>October</th>
+      <td>119</td>
+      <td>133</td>
+      <td>162</td>
+      <td>191</td>
+      <td>211</td>
+      <td>229</td>
+      <td>274</td>
+      <td>306</td>
+      <td>347</td>
+      <td>359</td>
+      <td>407</td>
+      <td>461</td>
+    </tr>
+    <tr>
+      <th>November</th>
+      <td>104</td>
+      <td>114</td>
+      <td>146</td>
+      <td>172</td>
+      <td>180</td>
+      <td>203</td>
+      <td>237</td>
+      <td>271</td>
+      <td>305</td>
+      <td>310</td>
+      <td>362</td>
+      <td>390</td>
+    </tr>
+    <tr>
+      <th>December</th>
+      <td>118</td>
+      <td>140</td>
+      <td>166</td>
+      <td>194</td>
+      <td>201</td>
+      <td>229</td>
+      <td>278</td>
+      <td>306</td>
+      <td>336</td>
+      <td>337</td>
+      <td>405</td>
+      <td>432</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python">plt.figure(figsize = (10,6), dpi = 350)
+sns.heatmap(flights, annot=True, fmt=&quot;d&quot;)
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x289d508c7c8&gt;
+</code></pre>
+<p><img alt="png" src="../output_20_1.png" /></p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../SyncFiles/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../SyncFiles/" class="btn btn-xs btn-link">
+        Sync Files
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>

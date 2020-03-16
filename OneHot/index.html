@@ -163,10 +163,12 @@ Easiest to use <code>LabelBinarizer</code> and <code>MultiLabelBinarizer</code> 
 </div>
 
 <h2 id="one-hot-using-sklearn">One hot using sklearn</h2>
-<p>sklearn has many functions for one hot encoding.  All have examples below.  All of these have an interesting way to implement:<br />
-1. Each needs to be assigned to a string first, eg <code>le=LabelEncoder()</code>,
-2. Then use the <code>string.fit_transform(values)</code>, where values is the array containing the text label categories.
-3. Each returns an array.</p>
+<p>sklearn has many functions for one hot encoding.  All have examples below.  All of these have an interesting way to implement:  </p>
+<ol>
+<li>Each needs to be assigned to a string first, eg <code>le=LabelEncoder()</code>,  </li>
+<li>Then use the <code>string.fit_transform(values)</code>, where values is the array containing the text label categories.  </li>
+<li>Each returns an array.  </li>
+</ol>
 <hr />
 <p><strong>Prep the data</strong></p>
 <pre><code class="python"># Convert list of labels to array
