@@ -1,0 +1,836 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+    
+    
+      
+        <title>RSS-scraping & Topic Modeling - Python Notes - Mukul Pareek</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#web-scraping-rss-and-topic-models" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Python Notes - Mukul Pareek" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Python Notes - Mukul Pareek
+            </span>
+            <span class="md-header-nav__topic">
+              
+                RSS-scraping & Topic Modeling
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="Python Notes - Mukul Pareek" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Python Notes - Mukul Pareek
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Mukul Pareek Home" class="md-nav__link">
+      Mukul Pareek Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../python/" title="Numpy" class="md-nav__link">
+      Numpy
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../pandas/" title="Pandas" class="md-nav__link">
+      Pandas
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../pivot_tables/" title="Pivot Tables" class="md-nav__link">
+      Pivot Tables
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../RNN_for_texts/" title="RNN" class="md-nav__link">
+      RNN
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../RNN_parameters/" title="RNN parameters" class="md-nav__link">
+      RNN parameters
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../OneHot/" title="One Hot" class="md-nav__link">
+      One Hot
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../mkdocs/" title="Using mkdocs" class="md-nav__link">
+      Using mkdocs
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../SyncFiles/" title="Sync Files" class="md-nav__link">
+      Sync Files
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../Visualization/" title="Seaborn" class="md-nav__link">
+      Seaborn
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        RSS-scraping & Topic Modeling
+      </label>
+    
+    <a href="./" title="RSS-scraping & Topic Modeling" class="md-nav__link md-nav__link--active">
+      RSS-scraping & Topic Modeling
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web-scraping" class="md-nav__link">
+    Web Scraping
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic-modeling" class="md-nav__link">
+    Topic Modeling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-and-outputs" class="md-nav__link">
+    Inputs and outputs
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web-scraping" class="md-nav__link">
+    Web Scraping
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topic-modeling" class="md-nav__link">
+    Topic Modeling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-and-outputs" class="md-nav__link">
+    Inputs and outputs
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="web-scraping-rss-and-topic-models">Web scraping RSS and Topic Models</h1>
+<pre><code class="python">import newspaper
+import feedparser
+import numpy as np
+import pandas as pd
+import requests
+import datetime 
+import nltk
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import NMF, LatentDirichletAllocation
+import joblib
+</code></pre>
+
+<h2 id="web-scraping">Web Scraping</h2>
+<pre><code class="python"># Blank dataframe, based on fields identified later
+
+rss_feeds = pd.DataFrame(columns = ['title',  'summary',  'links',  'link',  'id',  'guidislink',  'published',  
+                                    'published_parsed',  'title_detail.type',  'title_detail.language',  
+                                    'title_detail.base',  'title_detail.value',  'summary_detail.type',  
+                                    'summary_detail.language',  'summary_detail.base',  'summary_detail.value',  
+                                    'media_content',  'feedburner_origlink'])
+
+</code></pre>
+
+<pre><code class="python"># List of RSS URLs to scrape
+
+rss_urls = [r'http://www.schneier.com/blog/index.rdf', 
+            r'http://feeds.feedburner.com/darknethackers', 
+            r'http://securityaffairs.co/wordpress/feed', 
+            r'http://healthitsecurity.com/feed/', 
+            r'http://blog.seanmason.com/feed/', 
+            r'http://threatpost.com/feed', 
+            r'http://feeds.trendmicro.com/Anti-MalwareBlog/', 
+            r'http://www.infosecurity-magazine.com/rss/news/', 
+            r'http://krebsonsecurity.com/feed/', 
+            r'http://www.darkreading.com/rss/all.xml', 
+            r'http://blog.kaspersky.com/feed/', 
+            r'http://www.baesystems.com/page/rss?lg=en', 
+            r'http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml', 
+            r'http://feeds.feedburner.com/scmagazinenews', 
+            r'http://taosecurity.blogspot.com/atom.xml', 
+            r'http://www.rms.com/blog/feed/', 
+            r'http://iscxml.sans.org/rssfeed.xml', 
+            r'https://community.qualys.com/blogs/securitylabs/feeds/posts', 
+            r'http://googleonlinesecurity.blogspot.com/atom.xml', 
+            r'http://thehackernews.com/feeds/posts/default', 
+            r'http://www.us-cert.gov/current/index.rdf', 
+            r'http://feeds.feedburner.com/Securityweek', 
+            r'http://nakedsecurity.sophos.com/feed/', 
+            r'http://feeds.arstechnica.com/arstechnica/index/', 
+            r'http://www.csoonline.com/feed/attribute/41014', 
+            r'http://blogs.rsa.com/feed/', 
+            r'http://feeds.feedburner.com/Techcrunch', 
+            r'http://recode.net/feed/', 
+            r'http://www.techmeme.com/index.xml', 
+            r'http://www.technologyreview.com/stream/rss/']
+</code></pre>
+
+<pre><code class="python"># Get all the feed entries.  But the dataframe resulting from this has only a summary line, 
+# not the entire text of the article.  For that we will pull the URL in using the 
+# newspaper library later.
+
+for rss in rss_urls:
+    feed = feedparser.parse(rss)
+    rss_feeds=pd.concat([rss_feeds, pd.json_normalize(feed.entries)], axis=0)
+print(len(rss_feeds), 'items in rss_feed dataframe')    
+</code></pre>
+
+<pre><code>363 items in rss_feed dataframe
+</code></pre>
+<pre><code class="python"># Remove duplicate URLs
+
+urllist =rss_feeds.link.unique()
+</code></pre>
+
+<pre><code class="python"># Get full text using scraping from the newspaper library
+
+from newspaper import Article
+import pandas as pd
+df = pd.DataFrame(columns = [&quot;date&quot;,  &quot;URL&quot;, &quot;authors&quot;, &quot;keywords&quot;, &quot;summary&quot;, &quot;text&quot;])
+
+for url in urllist:
+    article = Article(url)
+    try:
+        article.download()
+        article.parse()
+        article.nlp()
+        dict1 = {&quot;date&quot;: article.publish_date, &quot;URL&quot;: url, &quot;authors&quot;: article.authors, \
+             &quot;keywords&quot;: article.keywords, &quot;summary&quot;: article.summary, &quot;text&quot;: article.text}
+    #print(dict1)
+        df = df.append(dict1, ignore_index=True)
+    except:
+        print('Something wrong with', url)
+
+print(len(df),'stories in dataframe df')
+
+df.sample(4)
+</code></pre>
+
+<pre><code>363 stories in dataframe df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>URL</th>
+      <th>authors</th>
+      <th>keywords</th>
+      <th>summary</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>155</th>
+      <td>None</td>
+      <td>https://taosecurity.blogspot.com/2018/12/the-o...</td>
+      <td>[Richard Bejtlich, View My Complete Profile]</td>
+      <td>[types, quote, taosecurity, companies, origin]</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>None</td>
+      <td>https://isc.sans.edu/diary/rss/26050</td>
+      <td>[Sans Internet Storm Center]</td>
+      <td>[infosec, contact, blog, handlers, interactive...</td>
+      <td>Use our contact form orFor interactive help an...</td>
+      <td>Use our contact form orFor interactive help an...</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>2020-04-22 00:00:00</td>
+      <td>https://www.us-cert.gov/ncas/current-activity/...</td>
+      <td>[]</td>
+      <td>[released, necessary, review, vulnerability, u...</td>
+      <td>OpenSSL version 1.1.1g has been released to ad...</td>
+      <td>OpenSSL version 1.1.1g has been released to ad...</td>
+    </tr>
+    <tr>
+      <th>328</th>
+      <td>2020-04-24 16:00:15</td>
+      <td>http://feedproxy.google.com/~r/Techcrunch/~3/p...</td>
+      <td>[]</td>
+      <td>[kids, epic, entertainment, acquisition, billi...</td>
+      <td>Every major carrier and internet provider has ...</td>
+      <td>To: Hans (Mr. Vestberg? Boss?)\n\nRE: An Epic ...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="python"># Merge the RSS dataframe with the full text obtained from the 
+# newspaper library
+
+final = rss_feeds.merge(df,how=&quot;right&quot;, left_on=&quot;link&quot;, right_on=&quot;URL&quot;)
+print(len(final),'unique articles in file.')
+</code></pre>
+
+<pre><code>363 unique articles in file.
+</code></pre>
+<pre><code class="python"># Save the file
+final.to_pickle('securitynews_' + datetime.datetime.now().strftime(&quot;date_%Y.%m.%d_time_%H.%M&quot;) + '.pkl')
+print('Pickle file created')
+</code></pre>
+
+<pre><code>Pickle file created
+</code></pre>
+<pre><code class="python">final.text[3]
+</code></pre>
+
+<pre><code>'Last year, ZecOps discovered two iPhone zero-day exploits. They will be patched in the next iOS release:\n\nAvraham declined to disclose many details about who the targets were, and did not say whether they lost any data as a result of the attacks, but said "we were a bit surprised about who was targeted." He said some of the targets were an executive from a telephone carrier in Japan, a "VIP" from Germany, managed security service providers from Saudi Arabia and Israel, people who work for a Fortune 500 company in North America, and an executive from a Swiss company.\n\n[...]\n\nOn the other hand, this is not as polished a hack as others, as it relies on sending an oversized email, which may get blocked by certain email providers. Moreover, Avraham said it only works on the default Apple Mail app, and not on Gmail or Outlook, for example.'
+</code></pre>
+<h2 id="topic-modeling">Topic Modeling</h2>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<p>There are just two cells for doing topic modeling.  The first one<br />
+specifies the different inputs.  Adjust these to what we need<br />
+the topic modeling to do, ie number of topics, top n words per<br />
+topic that we wish to see, count vs tfidf, and Non-negative<br />
+Matrix Factorization vs Latent Dirichlet Algorithm.  </p>
+<p>Once done, the below code will create with two dataframes:<br />
+Main output is:<br />
+ - words_in_topics_df - top_n_words per topic<br />
+ - topic_for_doc_df - topic to which a document is identified  </p>
+<p>Additional outputs of interest:  </p>
+<ul>
+<li>vocab = This is the dict from which you can pull the words, eg vocab['ocean']  </li>
+<li>terms = Just the list equivalent of vocab, indexed in the same order  </li>
+<li>doc_term_matrix = Document term matrix <br />
+Now doc_term_matrix is factorized as = W x H.  You can get W and H:    </li>
+<li>W = This matrix has docs as rows and num_topicss as columns  </li>
+<li>H = This matrix has num_topics as rows and vocab as columns  </li>
+</ul>
+<hr />
+<pre><code class="python"># Input incoming text as a list called raw_documents
+
+raw_documents= list(final['text'])
+custom_stop_words = joblib.load('stopwords.pkl')
+# custom_stop_words = stopwords.words('english') - use this from nltk if custom file not available
+num_topics = 10
+top_n_words = 10
+vectorizer_to_use = 2 # Use 1 for CountVectorizer, and 2 for TFIDF_Vectorizer
+NMF_or_LDA = 'nmf' # Use 'nmf' for NMF or 'lda' for LDA
+
+# Once done, the below code will create with two dataframes:
+# Main output is:
+#     words_in_topics_df - top_n_words per topic
+#     topic_for_doc_df - topic to which a document is identified
+
+# Additional outputs of interest
+# vocab = This is the dict from which you can pull the words, eg vocab['ocean']
+# terms = Just the list equivalent of vocab, indexed in the same order
+# doc_term_matrix = Document term matrix 
+# doc_term_matrix = W x H
+# W = This matrix has docs as rows and num_topicss as columns
+# H = This matrix has num_topics as rows and vocab as columns
+
+
+</code></pre>
+
+<pre><code class="python"># use count based vectorizer
+if vectorizer_to_use ==1:
+    vectorizer = CountVectorizer(stop_words = custom_stop_words, min_df = 2)
+else:
+    # or use TF-IDF based vectorizer
+    vectorizer = TfidfVectorizer(max_df=0.95, min_df=2, stop_words=custom_stop_words)
+
+doc_term_matrix = vectorizer.fit_transform(raw_documents)
+print( &quot;Created %d X %d document-term matrix in variable doc_term_matrix\n&quot; % (doc_term_matrix.shape[0], doc_term_matrix.shape[1]) )
+
+vocab = vectorizer.vocabulary_ #This is the dict from which you can pull the words, eg vocab['ocean']
+terms = vectorizer.get_feature_names() #Just the list equivalent of vocab, indexed in the same order
+print(&quot;Vocabulary has %d distinct terms, examples below &quot; % len(terms))
+print(terms[500:550], '\n')
+
+
+# create the model
+# Pick between NMF or LDA methods (don't know what they are, try whichever gives better results)
+if NMF_or_LDA == 'nmf':
+    model = NMF( init=&quot;nndsvd&quot;, n_components=num_topics ) 
+else:
+    model = LatentDirichletAllocation(n_components=num_topics, learning_method='online') 
+
+# apply the model and extract the two factor matrices
+W = model.fit_transform( doc_term_matrix ) #This matrix has docs as rows and k-topics as columns
+H = model.components_ #This matrix has k-topics as rows and vocab as columns
+print('Shape of W is', W.shape, 'docs as rows and', num_topics, 'topics as columns. First row below')
+print(W[0].round(1))
+print('\nShape of H is', H.shape, num_topics, 'topics as rows and vocab as columns. First row below')
+print(H[0].round(1))
+
+# Check which document belongs to which topic, and print value_count
+topic_for_doc_df = pd.DataFrame(columns = ['article', 'topic', 'value'])
+for i in range(W.shape[0]):
+    a = W[i] 
+    b = np.argsort(a)[::-1]
+    temp_df = pd.DataFrame({'article': [i], 'topic':['Topic_'+str(b[0])], 'value': [a[b[0]]]})
+    topic_for_doc_df = pd.concat([topic_for_doc_df, temp_df])
+
+print('\n')
+print('Topic number and counts of documents against each:')
+print(topic_for_doc_df.topic.value_counts())
+
+# Create dataframe with top-10 words for each topic
+words_in_topics_df = pd.DataFrame(columns = ['topic', 'words', 'freq'])
+for i in range(H.shape[0]):
+    a = H[i] 
+    b = np.argsort(a)[::-1]
+    np.array(b[:top_n_words])
+    words = [terms[i] for i in b[:top_n_words]]
+    freq = [a[i] for i in b[:top_n_words]]
+    temp_df = pd.DataFrame({'topic':'Topic_'+str(i), 'words': words, 'freq': freq})
+    words_in_topics_df = pd.concat([words_in_topics_df, temp_df])
+
+print('\n')
+print('Top', top_n_words, 'words dataframe with weights')
+print(words_in_topics_df.head(10))
+
+
+
+# print as list
+print('\nSame list as above as a list')
+words_in_topics_list = words_in_topics_df.groupby('topic')['words'].apply(list)
+lala =[]
+for i in range(len(words_in_topics_list)):
+    a = [list(words_in_topics_list.index)[i]]
+    b = words_in_topics_list[i]
+    lala = lala + [a+b]
+    print(a + b) 
+</code></pre>
+
+<pre><code>C:\Users\user\Anaconda3\lib\site-packages\sklearn\feature_extraction\text.py:385: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens ['articl', 'mon'] not in stop_words.
+  'stop_words.' % sorted(inconsistent))
+
+
+Created 363 X 6599 document-term matrix in variable doc_term_matrix
+
+Vocabulary has 6599 distinct terms, examples below 
+['assess', 'assessed', 'assessing', 'assessment', 'assessments', 'asset', 'assets', 'assetview', 'assigned', 'assist', 'assistance', 'assistant', 'assisted', 'associate', 'association', 'assume', 'assumed', 'assuming', 'assumption', 'assurance', 'assurances', 'assure', 'assured', 'astra', 'asus', 'atlanta', 'atlantic', 'atlas', 'atlas_client', 'atm', 'atmosphere', 'atoms', 'atredis', 'att', 'attach', 'attached', 'attachment', 'attachments', 'attack', 'attacked', 'attacker', 'attackers', 'attacking', 'attacks', 'attempt', 'attempted', 'attempting', 'attempts', 'attended', 'attending']
+
+Shape of W is (363, 10) docs as rows and 10 topics as columns. First row below
+[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+Shape of H is (10, 6599) 10 topics as rows and vocab as columns. First row below
+[0. 0. 0. ... 0. 0. 0.]
+
+
+Topic number and counts of documents against each:
+Topic_1    121
+Topic_9     87
+Topic_8     78
+Topic_0     16
+Topic_6     15
+Topic_4     13
+Topic_2     11
+Topic_3     11
+Topic_5      6
+Topic_7      5
+Name: topic, dtype: int64
+
+
+Top 10 words dataframe with weights
+     topic     words      freq
+0  Topic_0      site  1.146564
+1  Topic_0  techmeme  0.814619
+2  Topic_0  snapshot  0.803520
+3  Topic_0   archive  0.771207
+4  Topic_0    modify  0.726875
+5  Topic_0  appeared  0.685893
+6  Topic_0     click  0.641560
+7  Topic_0      view  0.572533
+8  Topic_0   earlier  0.564073
+9  Topic_0   current  0.531312
+
+Same list as above as a list
+['Topic_0', 'site', 'techmeme', 'snapshot', 'archive', 'modify', 'appeared', 'click', 'view', 'earlier', 'current']
+['Topic_1', 'security', 'data', 'company', 'people', 'time', 'employees', 'zoom', 'companies', 'network', 'work']
+['Topic_2', 'listened', 'listen', 'podcast', 'music', 'friends', 'season', 'ozark', 'kaspersky', 'favorite', 'videoconferencing']
+['Topic_3', 'insights', 'safety', 'latest', 'news', 'google', 'internet', 'security', 'app', 'iphone', 'activating']
+['Topic_4', 'cisa', 'administrators', 'encourages', 'vulnerabilities', 'updates', 'security', 'apply', 'agency', 'review', 'exploit']
+['Topic_5', 'orfor', 'interactive', 'slack', 'chat', 'contact', 'form', 'group', 'users', 'privacy', 'facebook']
+['Topic_6', 'zecops', 'ios', 'apple', 'flaws', 'mail', 'iphone', 'vulnerabilities', 'app', 'exploited', 'email']
+['Topic_7', 'sick', 'family', 'caregiver', 'room', 'separate', 'member', 'doorknobs', 'counters', 'dishes', 'toilets']
+['Topic_8', 'file', 'cve', 'malware', 'vulnerability', 'code', 'windows', 'botnet', 'web', 'qualys', 'malicious']
+['Topic_9', 'covid', 'email', 'ransomware', 'phishing', 'pandemic', 'health', 'attacks', 'coronavirus', 'organizations', 'emails']
+</code></pre>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../Visualization/" title="Seaborn" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Seaborn
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>
