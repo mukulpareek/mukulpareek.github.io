@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Deep Learning - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Deep Learning";
+        var mkdocs_page_input_path = "10_Deep_Learning.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Deep Learning</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#ai-machine-learning-and-deep-learning">AI, Machine Learning and Deep Learning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#a-first-neural-net">A First Neural Net</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#diamond-price-prediction">Diamond price prediction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#understanding-neural-networks">Understanding Neural Networks</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-the-structure">Understanding the structure</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hidden-layers">Hidden Layers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#activation-function">Activation Function</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#softmax-activation">Softmax Activation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#which-activation-function-to-use">Which Activation Function to Use?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#compiling-a-model">Compiling a Model</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#backpropagation">Backpropagation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#batch-sizes-epochs">Batch Sizes &amp; Epochs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#learning-rate">Learning Rate</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#parameters-and-hyperparameters">Parameters and Hyperparameters</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#parameters-weights-and-biases">Parameters: weights and biases</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#hyperparameters">Hyperparameters</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#overfitting">Overfitting</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#l2-regularization">L2 Regularization</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#drop-out-regularization">Drop-out Regularization</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#training-validation-and-test-sets">Training, Validation and Test Sets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#data-pre-processing-for-neural-nets">Data Pre-Processing for Neural Nets</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#california-housing-deep-learning">California Housing - Deep Learning</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#california-housing-xgboost">California Housing - XGBoost</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#classification-example">Classification Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#multi-class-classification-example">Multi-class Classification Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#image-recognition-with-cnns">Image Recognition with CNNs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recurrent-neural-networks">Recurrent Neural Networks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#end">END</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-of-the-same-model-built-using-the-keras-functional-api">Example of the same model built using the Keras Functional API</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Deep Learning</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="deep-learning">Deep Learning</h1>
+<h2 id="ai-machine-learning-and-deep-learning">AI, Machine Learning and Deep Learning</h2>
+<p>Artificial Intelligence is the widest categorization of analytical methods that aim to automate intellectual tasks normally performed by humans.  Machine learning can be considered to be a sub-set of the wider AI domain where a system is trained rather than explicitly programmed. It’s presented with many examples relevant to a task, and it finds statistical structure in these examples that eventually allows the system to come up with rules for automating the task.  </p>
+<p>The "deep" in deep learning is not a reference to any kind of deeper or intuitive understanding of data achieved by the approach.  It simply stands for the idea of successive layers of representation of data.  The number of layers in a model of the data is called the depth of the model.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/baa31963-cab3-4800-b3d6-0d7beed989e8.png" /></p>
+<p>Modern deep learning may involve tens or even hundreds of successive layers of representations.  Each layer has parameters that have been ‘learned’ (or optimized) from the training data.  These layered representations are encapsulated in models termed neural networks, quite literally layers of data arrays stacked on top of each other.</p>
+<p><strong>Deep Learning, ML and AI:</strong> Deep learning is a specific subfield of machine learning: learning from data that puts an emphasis on learning successive layers of increasingly meaningful representations. The deep in deep stands for this idea of successive layers of representations.  Deep learning is used extensively for problems of perception – vision, speech and language.   </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/e18410db-160b-468c-b752-fb1d8a553f5a.png" /></p>
+<p>The below graphic explains the difference between traditional programming and machine learning (which includes deep learning).  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/419755e2-7102-4511-9b11-30952d99e02b.png" /></p>
+<h2 id="a-first-neural-net">A First Neural Net</h2>
+<p>Before we dive into more detail, let us build our first neural net with Tensorflow &amp; Keras.  This will help place in context the explanations that are provided later.  Do not worry if not everything in the example makes sense yet, the goal is to get a high level view before we look at the more interesting stuff.  </p>
+<h3 id="diamond-price-prediction">Diamond price prediction</h3>
+<p>We will use our diamonds dataset again, and try to predict the price of a diamond with the dataset.  We load the data, and split it into training and test sets.  In fact, we follow the regular machine learning workflow that we repeatedly followed in the prior chapter. </p>
+<p><strong>As always, some library imports first...</strong></p>
+<pre><code class="language-python">import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Input
+from tensorflow.keras import regularizers
+from tensorflow.keras.utils import to_categorical
+
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn import datasets
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import sklearn.preprocessing as preproc
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, ConfusionMatrixDisplay
+from sklearn import metrics
+
+from sklearn.model_selection import train_test_split
+</code></pre>
+<pre><code class="language-python">## Load data
+
+diamonds = sns.load_dataset(&quot;diamonds&quot;)
+</code></pre>
+<pre><code class="language-python">## Let us examine the dataset
+
+diamonds
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>53935</th>
+      <td>0.72</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>60.8</td>
+      <td>57.0</td>
+      <td>2757</td>
+      <td>5.75</td>
+      <td>5.76</td>
+      <td>3.50</td>
+    </tr>
+    <tr>
+      <th>53936</th>
+      <td>0.72</td>
+      <td>Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>63.1</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.69</td>
+      <td>5.75</td>
+      <td>3.61</td>
+    </tr>
+    <tr>
+      <th>53937</th>
+      <td>0.70</td>
+      <td>Very Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>62.8</td>
+      <td>60.0</td>
+      <td>2757</td>
+      <td>5.66</td>
+      <td>5.68</td>
+      <td>3.56</td>
+    </tr>
+    <tr>
+      <th>53938</th>
+      <td>0.86</td>
+      <td>Premium</td>
+      <td>H</td>
+      <td>SI2</td>
+      <td>61.0</td>
+      <td>58.0</td>
+      <td>2757</td>
+      <td>6.15</td>
+      <td>6.12</td>
+      <td>3.74</td>
+    </tr>
+    <tr>
+      <th>53939</th>
+      <td>0.75</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI2</td>
+      <td>62.2</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.83</td>
+      <td>5.87</td>
+      <td>3.64</td>
+    </tr>
+  </tbody>
+</table>
+<p>53940 rows × 10 columns</p>
+</div>
+
+<pre><code class="language-python">## Get dummy variables
+
+diamonds = pd.get_dummies(diamonds)
+</code></pre>
+<pre><code class="language-python">diamonds.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+      <th>cut_Ideal</th>
+      <th>cut_Premium</th>
+      <th>cut_Very Good</th>
+      <th>...</th>
+      <th>color_I</th>
+      <th>color_J</th>
+      <th>clarity_IF</th>
+      <th>clarity_VVS1</th>
+      <th>clarity_VVS2</th>
+      <th>clarity_VS1</th>
+      <th>clarity_VS2</th>
+      <th>clarity_SI1</th>
+      <th>clarity_SI2</th>
+      <th>clarity_I1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>...</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 27 columns</p>
+</div>
+
+<pre><code class="language-python">## Define X and y as arrays. y is the price column, X is everything else
+
+X = diamonds.loc[:, diamonds.columns != 'price'].values
+y = diamonds.price.values
+</code></pre>
+<pre><code class="language-python">## Train test split
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+
+# A step to convert the arrays to floats
+X_train = X_train.astype('float')
+X_test = X_test.astype('float')
+</code></pre>
+<p><strong>Next, we build a model</strong><br />
+We created a model using Layers.<br />
+  - A ‘Layer’ is a fundamental building block that takes an array, or a ‘tensor’ as an input, performs some calculations, and provides an output. Layers generally have weights, or parameters.  Some layers are ‘stateless’, in that they do not have weights (eg, the flatten layer).<br />
+  - Layers were arranged sequentially in our model.  The output of a layer becomes the input for the next layer.  Because layers will accept an input of only a certain shape, the layers need to be compatible.<br />
+  - The arrangement of the layers defines the architecture of our model.  </p>
+<pre><code class="language-python">## Now we build our model
+
+model = keras.Sequential() #Instantiate the model
+model.add(Input(shape=(X_train.shape[1],))) ## INPUT layer
+model.add(Dense(200, activation = 'relu')) ## Hidden layer 1
+model.add(Dense(200, activation = 'relu')) ## Hidden layer 2
+model.add(Dense(200, activation = 'relu')) ## Hidden layer 3
+model.add(Dense(200, activation = 'relu')) ## Hidden layer 4
+model.add(Dense(1, activation = 'linear')) ## OUTPUT layer
+model.summary()
+</code></pre>
+<pre><code>Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense (Dense)               (None, 200)               5400
+
+ dense_1 (Dense)             (None, 200)               40200
+
+ dense_2 (Dense)             (None, 200)               40200
+
+ dense_3 (Dense)             (None, 200)               40200
+
+ dense_4 (Dense)             (None, 1)                 201
+
+=================================================================
+Total params: 126201 (492.97 KB)
+Trainable params: 126201 (492.97 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</code></pre>
+<p><strong>Compile</strong> the model.<br />
+Next, we compile() the model.  The compile step configures the learning process.  As part of this step, we define at least three more things: 
+  - The Loss function/Objective function,<br />
+  - Optimizer, and<br />
+  - Metrics.  </p>
+<pre><code class="language-python">model.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error'])
+</code></pre>
+<p>Finally, we <code>fit()</code> the model.  </p>
+<p>This is where the training loop runs.  It needs the data, the number of epochs, and the batch size for mini-batch gradient descent.</p>
+<pre><code class="language-python">history = model.fit(X_train, y_train, epochs = 3, batch_size = 128, validation_split = 0.2)
+</code></pre>
+<pre><code>Epoch 1/3
+270/270 [==============================] - 1s 3ms/step - loss: 14562129.0000 - mean_squared_error: 14562129.0000 - val_loss: 3446444.2500 - val_mean_squared_error: 3446444.2500
+Epoch 2/3
+270/270 [==============================] - 1s 3ms/step - loss: 1964322.2500 - mean_squared_error: 1964322.2500 - val_loss: 1639353.7500 - val_mean_squared_error: 1639353.7500
+Epoch 3/3
+270/270 [==============================] - 1s 3ms/step - loss: 1265392.1250 - mean_squared_error: 1265392.1250 - val_loss: 1009011.9375 - val_mean_squared_error: 1009011.9375
+</code></pre>
+<p>Notice that when fitting the model, we assigned the fitting process to a variable called <code>history</code>.  This helps us capture the training metrics and plot them afterwards.  We do that next.  </p>
+<p>Now we can plot the training and validation MSE</p>
+<pre><code class="language-python">plt.plot(history.history['mean_squared_error'], label='Trg MSE')
+plt.plot(history.history['val_mean_squared_error'], label='Val MSE')
+plt.xlabel('Epoch')
+plt.ylabel('Squared Error')
+plt.legend()
+plt.grid(True)
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_17_0.png" /></p>
+<pre><code class="language-python">X_test
+</code></pre>
+<pre><code>array([[ 0.51, 61.  , 57.  , ...,  0.  ,  0.  ,  0.  ],
+       [ 0.24, 61.8 , 56.  , ...,  0.  ,  0.  ,  0.  ],
+       [ 0.42, 61.5 , 55.  , ...,  0.  ,  0.  ,  0.  ],
+       ...,
+       [ 0.9 , 63.8 , 61.  , ...,  1.  ,  0.  ,  0.  ],
+       [ 2.26, 63.2 , 58.  , ...,  0.  ,  1.  ,  0.  ],
+       [ 0.5 , 61.3 , 57.  , ...,  0.  ,  0.  ,  0.  ]])
+</code></pre>
+<pre><code class="language-python">## Perform predictions
+
+y_pred = model.predict(X_test)
+</code></pre>
+<pre><code>338/338 [==============================] - 0s 951us/step
+</code></pre>
+<pre><code class="language-python">## With the predictions in hand, we can calculate RMSE and other evaluation metrics
+
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+
+</code></pre>
+<pre><code>MSE =  874640.7129841921
+RMSE =  935.2222799870585
+MAE =  493.7015598142947
+</code></pre>
+<pre><code class="language-python">## Next, we scatterplot the actuals against the predictions
+
+plt.figure(figsize = (8,8))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.title('Actual vs Predicted \n Closer to red line (identity) means more accurate prediction')
+plt.plot( [y_test.min(),y_test.max()],[y_test.min(),y_test.max()], color='red' )
+plt.xlabel(&quot;Actual&quot;)
+plt.ylabel(&quot;Predicted&quot;)
+</code></pre>
+<pre><code>Text(0, 0.5, 'Predicted')
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_21_1.png" /></p>
+<pre><code class="language-python">## R-squared calculation
+
+pd.DataFrame({'actual':y_test, 'predicted':y_pred.ravel()}).corr()**2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>actual</th>
+      <th>predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>actual</th>
+      <td>1.000000</td>
+      <td>0.945001</td>
+    </tr>
+    <tr>
+      <th>predicted</th>
+      <td>0.945001</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="understanding-neural-networks">Understanding Neural Networks</h2>
+<h3 id="understanding-the-structure">Understanding the structure</h3>
+<p>A neural net is akin to a mechanism that can model any type of function.  So given any input, and a set of labels/outputs, we can ‘train the network’ to produce the output we desire.  </p>
+<p>Imagine a simple case where there is an input <script type="math/tex">a^0</script> and an output <script type="math/tex">a^1</script>. (The superscript indicates the layer number, and is not the same as a^n!)  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/05bd27aa-1531-4262-a2a7-9895e4120582.png" />  </p>
+<p>In other words, we have a transformation to perform.
+One way to do this  <script type="math/tex">a^0→ a^1</script> is using a scalar weight w, and a bias term b.</p>
+<p>
+<script type="math/tex">a^1=\sigma(wa^0+b)</script>
+<br />
+  - <script type="math/tex">\sigma</script> is the activation function (more on this later)<br />
+  - w is the weight<br />
+  - b is the bias  </p>
+<p>The question for us is: How can we derive the values of <script type="math/tex">w</script> and <script type="math/tex">b</script> as to get the correct value for the output?</p>
+<p>Now imagine there are two input variables (or two features)</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/4932090d-f6ab-48af-90b4-22e59784ecf5.png" />  </p>
+<p>
+<script type="math/tex">a_0^1=\sigma(w_0 a_0^0+w_1 a_1^0+b)</script>
+</p>
+<p>If we have more inputs/features, say <script type="math/tex">a_j^0</script>, then generally:</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/91521787-b786-4a4e-bf1f-07b85f497417.png" /></p>
+<p>Now consider a situation where there is an extra output <script type="math/tex">a_1^1</script> (eg, multiple categories).<br />
+<img alt="image.png" src="../10_Deep_Learning_files/2d3fb112-64e6-4957-9def-e3e69ae26558.png" /></p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/7649432d-256a-4318-80b4-148ee98c4805.png" /></p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/0d7940e6-ab33-4ef3-bfe0-67b74917c401.png" /></p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/fa438e25-c635-4fe9-9c5f-b9d08f546ee6.png" /></p>
+<h3 id="hidden-layers">Hidden Layers</h3>
+<p>So far we have seen the input layer (called Layer 0), and the output layer (Layer 1).  We started with one input, one output, and went to two inputs and two outputs.  </p>
+<p>At this point, we have 4 weights, and 2 bias terms.  We also don’t know what their values should be.  Next, let us think about adding a new hidden layer between the input and the output layers!  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/2e62e3a2-2690-48b0-a747-06c1311e9d8a.png" /></p>
+<p>The above is a fully connected network, because each node is connected with every node in the subsequent layer.
+‘Connected’ means the node contributes to the calculation of the subsequent node in the network.  </p>
+<p>The value of each node (other than the input layer which is provided to us) can be calculated by a generalization of the formula below.
+Fortunately, all the weights for a Layer can be captured as a weights matrix, and all the biases can also be captured as a vector. That makes the math expression very concise.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/b6269dd1-c7cf-43ef-bc33-962e5afd6763.png" /></p>
+<p><strong>An Example Calculation</strong><br />
+<img alt="image.png" src="../10_Deep_Learning_files/647dc07f-14fd-4fc0-a655-28e9be1fab95.png" /></p>
+<p><strong>Generalizing the Calculation</strong></p>
+<p>In fact, not only can we combine all the weights and bias for a single layer into a convenient matrix representation, we can also combine all the weights and biases for all the layers in a network into a single weights matrix, and a bias matrix.</p>
+<p>The arrangement of the weights and biases matrices, that is, the manner in which the dimensions are chosen, and the weights/biases are recorded inside the matrix, is done in a way that they can simply be multiplied to get the final results.</p>
+<p>This reduces the representation of the network’s equation to: <script type="math/tex">\hat{y}=\sigma(w^T x+b)</script>, where w is the weights matrix, b is the bias matrix, and \sigma is the activation function.  (y-hat is the prediction, and <script type="math/tex">w^T</script> stands for transpose of the weights matrix.  The transposition is generally required given the traditional way of writing the weights matrix.)  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/65348706-5bc9-49ec-8a22-75498847105a.png" /></p>
+<h3 id="activation-function">Activation Function</h3>
+<p>So far all we have covered is that in a neural net, every subsequent layer is a function of weights, bias, and something that is called an activation function.  </p>
+<p>Before the function is applied, the math is linear, and the equation similar to the one for regression (compare <script type="math/tex">mx+b</script>  to <script type="math/tex">w^T x+b</script>).</p>
+<p>An activation function is applied to the linear output of a layer to obtain a non-linear output.  The ability to obtain non-linear results significantly expands the nature of  problems that can be solved, as decision boundaries of any shape can be modeled. 
+There are many different choices of activation functions, and a choice is generally made based on the use case.  </p>
+<p>The below are the most commonly used activation functions.  </p>
+<p>You can find many other specialized activation functions in other textbooks, and also on Wikipedia.  </p>
+<p>The main function of activation functions is to allow non-linearity into the outputs, increasing significantly the flexibility of the patterns that can be modeled by a neural network.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/9b2ee9c5-11ef-44f1-a2e5-c0d1ae751d04.png" /></p>
+<h4 id="softmax-activation">Softmax Activation</h4>
+<p>The softmax activation takes a vector and raises <script type="math/tex">e</script> to the power of each of its elements.  This has the effect of making everything a positive number.</p>
+<p>If we want probabilities, then we can divide each of the elements by the sum of the elements, ie by dividing the softmax by <script type="math/tex">(e^1 + e^{-1} + e^0 + e^3)</script>.</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/88dcf217-1c18-4706-8354-c796170e1cb1.png" /></p>
+<p>A vector obtained from a softmax operations will have probabilities that add to 1.  </p>
+<p>A HARDMAX will be identical to a softmax except that all entries will be zero except one which will be equal to 1.</p>
+<p><strong>Loss Calculation for Softmax</strong>  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/e2d7b425-d8d2-40e6-9821-d914e673cfd5.png" /></p>
+<p>In this case, the loss for the above will be calculated as:  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/67a2c7b0-ab9c-4c7a-8098-53b49a88d41e.png" /></p>
+<p>Here you have only the second category, ie <script type="math/tex">y_2=1</script>, the rest are zero.  </p>
+<p>So effectively the loss reduces to <script type="math/tex">-log(0.2)</script>.  </p>
+<h3 id="which-activation-function-to-use">Which Activation Function to Use?</h3>
+<p>Mostly always RELU for hidden layers.  </p>
+<p>The last layer’s activation function must match your use case, and give you an answer in the shape you desire your output.  So SIGMOID would not be a useful activation function for a regression problem (eg, home prices).  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/3b0510a5-ab98-43a8-863f-1afcd95986ef.png" /></p>
+<p>Source: Deep Learning with Python, François Chollet, Manning Publications</p>
+<h3 id="compiling-a-model">Compiling a Model</h3>
+<p>Compiling a model means configures it for training.  As part of compiling the model, you specify the loss function, the metrics and the optimizer to use.  These are provided as three parameters:
+ - Optimizer: Use rmsprop, and leave the default learning rate.  (You can also try adam if rmsprop errors out.)
+ - Loss: Generally mse for regression problems, and binary_crossentropy/ categorical_crossentropy for binary and multiclass classification problems respectively.<br />
+   - Categorical Cross Entropy loss is given by  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/6bf6391b-d3f8-4eec-9c37-b2ec10ef6dca.png" /><br />
+   where i=1 to m are m observations, c= 1 to n are n classes, and <script type="math/tex">p_{ic}</script> is the predicted probability.</p>
+<ul>
+<li>If you have only two classes, ie binary classification, you get the loss   </li>
+</ul>
+<p><img alt="image.png" src="../10_Deep_Learning_files/491e11dd-3b49-40fa-b50e-c3f1594fbad9.png" /></p>
+<ul>
+<li>Metrics: This can be accuracy for classification, and MAE or MSE for regression problems.</li>
+</ul>
+<p>The difference between Metrics and Loss is that metrics are for humans to interpret, and need to be intuitive.  Loss functions may use similar measures that are mathematically elegant, eg differentiable, continuous etc.  Often they can be the same (eg MSE), but sometimes they can be different (eg, cross entropy for classification, but accuracy for humans).</p>
+<h3 id="backpropagation">Backpropagation</h3>
+<p><strong>How do we get w and b?</strong><br />
+So far, we have understood how a neural net is constructed, but how do we get the values of weights and biases so that the final layer gives us our desired output?  </p>
+<p>At this point, calculus comes to our rescue.  </p>
+<p>If y is our label/target, we want y-hat to be the same as (or as close as possible) to y.  </p>
+<p>The loss function that we seek to minimize is a function of <script type="math/tex">L(\hat{y},y)</script>, where <script type="math/tex">\hat{y} </script> is our prediction of <script type="math/tex">y</script>, and <script type="math/tex">y</script> is the true value/label.  Know that <script type="math/tex">\hat{y} </script> is also known as <script type="math/tex">a</script>, using the convention for nodes.</p>
+<p><strong>The Setup for Understanding Backprop</strong>  </p>
+<p>Let us consider a simple example of binary classification, with two features x_1 and x_2 in our feature vector X.  There are two weights, w_1 and w_2, and a bias term b.  Our output is a.
+In other words:</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/b0fcb6c9-9b8a-4891-88ae-1300b1bc6c15.png" /></p>
+<p>Our goal is to calculate a, or  </p>
+<p>
+<script type="math/tex">\hat{y}=a=\sigma(z)</script>, where  <script type="math/tex">z=w_1 x_1+w_2 x_2+b</script>
+</p>
+<p>We use the sigmoid function as our activation function, and use the log-loss as our Loss function to optimize.  </p>
+<ul>
+<li>
+<p>Activation Function: <script type="math/tex">\sigma(z)=1/(1+e^{−z} )</script> .  (Remember, <script type="math/tex">z=w_1 x_1+w_2 x_2+b</script>)  </p>
+</li>
+<li>
+<p>Loss Function: <script type="math/tex">L(\hat{y},y)= −(y\cdotlog\hat{y}+(1−y)log(1−\hat{y})</script>)  </p>
+</li>
+</ul>
+<p>We need to minimize the loss function. We can minimize a function by calculating its derivative (and setting it equal to zero, etc)  </p>
+<p>Our loss function is a function of <script type="math/tex">w_1,w_2</script>  and <script type="math/tex">b</script>. (Look again at the equations on the prior slide to confirm.)  </p>
+<p>If we can calculate the partial derivatives <script type="math/tex">\delta  L/\delta  w_1</script>,<script type="math/tex">\delta L/\delta w_2</script> and <script type="math/tex">\delta L/\delta b</script> (or the Jacobian vector of partial derivatives), we can get to the minimum for our Loss function.  </p>
+<p>For the loss function for our example, the derivative of the log-loss function is <script type="math/tex">f'(x) = f(x)(1-f(x)) = a(1-a)</script> (stated without proof, but can be easily derived using the chain rule).  </p>
+<p>That is an elegant derivative, easily computed.  Since backpropagation uses the chain rule for derivatives, which ends up pulling in the activation function into the mix together with the loss function, it is important that activation functions be differentiable.</p>
+<p><strong>How it works</strong><br />
+1. We start with random values for <script type="math/tex">w_1</script>,<script type="math/tex">w_2</script> and <script type="math/tex">b</script>.<br />
+2. We figure out the formulas for  <script type="math/tex">\delta L/\delta w_1</script>,<script type="math/tex">\delta L/\delta w_2</script> and <script type="math/tex">\delta L/\delta b</script>.<br />
+3. For each observation in our training set, we calculate the value of the derivative for each <script type="math/tex">x_1</script>,<script type="math/tex">x_2</script> etc.<br />
+4. We average the derivatives for the observations to get the derivative for our entire training population.<br />
+5. We use this average derivative value to get the next better value of <script type="math/tex">w_1</script>,<script type="math/tex">w_2</script> and <script type="math/tex">b</script>.<br />
+   - <script type="math/tex">w_1  :=w_1−\alpha  \delta L/(\delta w_1 )</script>
+<br />
+   - <script type="math/tex">w_2  :=w_2−\alpha  \delta L/(\delta w_2 )</script>
+<br />
+   - <script type="math/tex">b :=b−\alpha  \delta L/\delta b</script>
+<br />
+6. Where <script type="math/tex">\alpha </script> is the learning rate as we don’t want to go too fast and miss the minima.<br />
+7. Once we have better values of <script type="math/tex">w_1</script>,<script type="math/tex">w_2</script> and <script type="math/tex">b</script>, we repeat this again.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/b62f8fb4-8f87-4efe-bd01-bd17056e0285.png" /></p>
+<p><strong>Backpropagation</strong>  </p>
+<ol>
+<li>
+<p>Perform iterations – a full forward pass followed by a backward pass is a single iteration.  </p>
+</li>
+<li>
+<p>For every iteration, you can use all the observations, or only a sample to speed up learning.  The number of observations in an iteration is called batch size.  </p>
+</li>
+<li>
+<p>When all observations have completed an iteration, an epoch  is said to have been completed.  </p>
+</li>
+</ol>
+<p>That, in short, is how back-propagation works. Because it uses derivatives to arrive at the optimum value, it is also called gradient descent.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/cd1ddeed-7c7d-46e4-9bc6-d2d875e37010.png" />  </p>
+<p>We considered a very simple two variable case, but even with larger networks and thousands of variables, the concept is the same.  </p>
+<h3 id="batch-sizes-epochs">Batch Sizes &amp; Epochs</h3>
+<p><strong>BATCH GRADIENT DESCENT</strong><br />
+If you have m examples and pass all of them through the forward and backward pass simultaneously, it would be called BATCH GRADIENT DESCENT.<br />
+If m is very large, say 5 million observations, then the gradient descent process can become very slow.  </p>
+<p><strong>MINI-BATCH GRADIENT DESCENT</strong><br />
+A better strategy may be to divide the m observations into mini-batches of 1000 each so that we can start getting the benefit from gradient descent quickly.
+So we can divide m into ‘t’ mini-batches and loop through the t batches one by one, and keep improving network performance with each mini-batch.
+Mini batch sizes are generally powers of 2, eg 64 (2^6), 128, 256, 512, 1024 etc.
+So if m is 5 million, and mini-batch size is 1000, t will be from 1 to 5000.</p>
+<p><strong>STOCHASTIC GRADIENT DESCENT</strong><br />
+When mini-batch size is 1, it is called stochastic gradient descent, or SGD.</p>
+<p>To sum up:<br />
+ - When mini batch size = m, it is called BATCH GRADIENT DESCENT.<br />
+ - When mini batch size = 1, it is called STOCHASTIC GRADIENT DESCENT.<br />
+ - When mini batch size is between 1 and m, it is called MINI-BATCH GRADIENT DESCENT.  </p>
+<p><strong>What is an EPOCH</strong><br />
+An epoch is when the entire training dataset has been worked through the backpropagation algorithm.  That is when a complete pass of the data has been completed through the backpropagation algorithm.  </p>
+<h3 id="learning-rate">Learning Rate</h3>
+<p>We take small steps from our random starting point to the optimum value of the weights and biases.
+The step size is controlled by the learning rate (alpha).
+If the learning rate is too small, it will take very long for the training to complete.
+If the rate is large, we may miss the minima as we may step over it.</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/8bb02bd6-56fc-44f5-ac48-e14cf56af0ed.png" /></p>
+<ul>
+<li>Intuitively, what we want is large steps in the beginning, and slower steps as we get closer to the optimal point.  </li>
+<li>We can do this by using a momentum term, which can make the move towards the op+timum faster.  </li>
+<li>The momentum term is called <script type="math/tex">\beta</script>  beta, and it is in addition to the \alpha  term.  </li>
+<li>There are several optimization algorithms to choose from (eg ADAM, RMS Prop), and each may have its own implementation of beta.  </li>
+<li>We can also vary the learning rate by decaying it for each subsequent epoch, for example:  </li>
+</ul>
+<p>
+<script type="math/tex">\alpha _1 = \frac{1}{1 + \mbox{decay rate \times epoch number}}</script>
+<script type="math/tex">\cdot \alpha _0</script>
+</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/5b40a8f8-e6db-4303-a4a3-fce10a326a56.png" /><br />
+etc</p>
+<h3 id="parameters-and-hyperparameters">Parameters and Hyperparameters</h3>
+<h4 id="parameters-weights-and-biases">Parameters: weights and biases</h4>
+<p>Consider the network in the image. Each node’s output is <script type="math/tex">a^L</script>, and represents a 'feature' for consumption by the next layer.<br />
+<img alt="image.png" src="../10_Deep_Learning_files/b1a43d6b-8b11-42e1-bd35-ed390df5e340.png" /></p>
+<p>This feature is a new feature calculated as a synthetic combination of previous inputs using <script type="math/tex">\sigma(w^T x+b)</script>.  </p>
+<p>Each layer will have a weights vector <script type="math/tex">w^L</script>, and a bias <script type="math/tex">b^L</script>.  </p>
+<p>Let us pause a moment to think about how many weights and biases we need, and generally the ‘shape’ of our network.  </p>
+<ul>
+<li>Layer 0 is the input layer.  It will have m observations and n features. </li>
+<li>In the example network below, there are 2 features in our input layer.  </li>
+<li>The 2 features join with 4 nodes in Layer 1.  For each node in Layer 1, we need 2 weights and 1 bias term.  Since there are 4 nodes in Layer 2, we will need 8 weights and 4 biases.  </li>
+<li>For the output layer, each of the 2 nodes will have 4 weights, and 1 bias term, making for 8 weights and 2 bias parameters.  </li>
+<li>For the entire network, we need to optimize 16 weights and 6 bias parameters.  And this has to be done for every single observation in the training set for each epoch.  </li>
+</ul>
+<h4 id="hyperparameters">Hyperparameters</h4>
+<p>Hyperparameters for a network control several architectural aspects of a network.
+The below are the key hyperparameters an analyst needs to think about:
+  - Learning rate (alpha)<br />
+  - Mini-batch size<br />
+  - Beta (momentum term)<br />
+  - Number of hidden neurons in each layer<br />
+  - Number of layers<br />
+There are other hyperparameters as well, and different hyperparameters for different network architectures.  </p>
+<p>All hyperparameters can be specified as part of the deep learning network.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/b7b3c615-b1e8-4eb0-ae1f-369efc635f10.png" /></p>
+<p><font color='red'>
+Applied deep learning is a very empirical process, ie, requires a lot of trial and error.
+</font></p>
+<h3 id="overfitting">Overfitting</h3>
+<p><strong>The Problem of Overfitting</strong>  </p>
+<p>Optimization refers to the process of adjusting a model to get the best performance on training data.  </p>
+<p>Generalization refers to how well the model performs on data it has not seen before.  </p>
+<p>As part of optimization, the model will try to "memorize" the training data using the parameters it is allowed.  If there is not a lot of data to train on, optimization may happen quickly, as patterns would be learned.  </p>
+<p>But such a model may have poor real world performance, while having exceptional training set performance.  This problem is called ‘overfitting’.  </p>
+<p><strong>Fighting Overfitting</strong><br />
+There are several ways of dealing with overfitting:<br />
+ - Get more training data:  More training data means better generalization, and avoiding learning misleading patterns that only exist in the training data.<br />
+ - Reduce the size of the network: By reducing layers and nodes in the network, we can reduce the ability of the network to overfit.  Surprisingly, smaller networks can have better results than larger ones!<br />
+ - Regularization: Penalize large weights, biases and activations.  </p>
+<p><strong>Regularization of Networks</strong>  </p>
+<h4 id="l2-regularization">L2 Regularization</h4>
+<ul>
+<li>In regularization, we add a term to our cost function as to create a penalty for large w vectors. This helps reduce variance (overfitting) by pushing w entries closer to zero.</li>
+<li>But regularization can increase bias, but often a balance can be struck.</li>
+<li>L2 regularization can cause ‘weight decay’, ie gradient descent shrinks the weights on each iteration.</li>
+</ul>
+<p><img alt="image.png" src="../10_Deep_Learning_files/d0202ae3-197a-4772-b8c3-0820cb82e693.png" />  </p>
+<p>In Keras, regularization can be specified as part of the layer parameters.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/73d8a852-8351-4d44-8f5c-cd2f88fe9636.png" />  </p>
+<p>Source: https://keras.io/api/layers/regularizers/</p>
+<h4 id="drop-out-regularization">Drop-out Regularization</h4>
+<p>With drop-out regularization, we drop, which means completely zero out many of a network’s nodes by setting their output to zero.  We do this separately for each observation in the forward prop step.  Which means in the same pass, different nodes would be deleted for each training example.  This has the effect of reducing network size, hence reducing variance/overfitting.  </p>
+<p>Setting a node’s output to zero means eliminating an input into the next layer.  Which means reducing features at random.  Since inputs disappear at random, the weight gets spread out instead of relying upon one feature.  </p>
+<p>‘Keep-prob’ means how much of the network we keep.  So 80% keep-prob means we drop 20%.  You can have different keep-prob values for different layers.  </p>
+<p>One disadvantage of drop-out regularization is that the cost function becomes ill defined.  And gradient descent does not work well.  </p>
+<p>So you can still optimize without drop-outs, and once all hyper-parameters have been optimized, switch to a drop-out version with the hope that the same hyper-parameters are still the best.  </p>
+<p>Drop-out regularization is implemented in Keras as a layer type.  </p>
+<h3 id="training-validation-and-test-sets">Training, Validation and Test Sets</h3>
+<p>In deep learning, data is split into 3 sets: training, validation and test.<br />
+ - Train on training data, and evaluate on validation data.<br />
+ - When ready for the real world, test it a final time on the test set  </p>
+<p>Why not just training and test sets?  This is because developing a model always involves tuning its hyperparameters.  This tuning happens on the validation set.   </p>
+<p>Doing it repeatedly can lead to overfitting to the validation set, even though the model never directly sees it.  As you tweak the hyperparameters repeatedly, information leakage occurs where the algorithm starts to fit the model to do well on the validation set, with poor generalization.</p>
+<p><strong>Approaches to Validation</strong><br />
+Two primary approaches:<br />
+ - Simple hold-out validation: Useful if you have lots of data<br />
+<img alt="image.png" src="../10_Deep_Learning_files/3bdff252-348a-4447-a34d-3aa7906ff609.png" /><br />
+ - K-fold Validation: (in the illustration below, k is 4) – if you have less data  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/c7157fa9-0c72-42bf-997d-766bc740e26b.png" />  </p>
+<h3 id="data-pre-processing-for-neural-nets">Data Pre-Processing for Neural Nets</h3>
+<p>All data must be expressed as tensors (another name for arrays) of floating point data.  Not integers, not text.  Neural networks:
+ - Do not like large numbers.  Ideally, your data should be in the 0-1 range.<br />
+ - Do not like heterogenous data.  Data is heterogenous when one feature is in the range, say, 0-1, and another is in the range 0-100.  </p>
+<p>The above upset gradient updates, and the network may not converge or give you good results.
+Standard Scaling of the data can help avoid the above problems.  As a default option – always standard scale your data.  </p>
+<h2 id="examples">Examples</h2>
+<h2 id="california-housing-deep-learning">California Housing - Deep Learning</h2>
+<p>Next, we try to predict home prices using the California Housing dataset</p>
+<pre><code class="language-python">## California housing dataset. medv is the median value to predict
+from sklearn import datasets
+
+X = datasets.fetch_california_housing()['data']
+y = datasets.fetch_california_housing()['target']
+features = datasets.fetch_california_housing()['feature_names']
+DESCR = datasets.fetch_california_housing()['DESCR']
+
+cali_df = pd.DataFrame(X, columns = features)
+cali_df.insert(0,'Value', y)
+cali_df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Value</th>
+      <th>MedInc</th>
+      <th>HouseAge</th>
+      <th>AveRooms</th>
+      <th>AveBedrms</th>
+      <th>Population</th>
+      <th>AveOccup</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.526</td>
+      <td>8.3252</td>
+      <td>41.0</td>
+      <td>6.984127</td>
+      <td>1.023810</td>
+      <td>322.0</td>
+      <td>2.555556</td>
+      <td>37.88</td>
+      <td>-122.23</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.585</td>
+      <td>8.3014</td>
+      <td>21.0</td>
+      <td>6.238137</td>
+      <td>0.971880</td>
+      <td>2401.0</td>
+      <td>2.109842</td>
+      <td>37.86</td>
+      <td>-122.22</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.521</td>
+      <td>7.2574</td>
+      <td>52.0</td>
+      <td>8.288136</td>
+      <td>1.073446</td>
+      <td>496.0</td>
+      <td>2.802260</td>
+      <td>37.85</td>
+      <td>-122.24</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.413</td>
+      <td>5.6431</td>
+      <td>52.0</td>
+      <td>5.817352</td>
+      <td>1.073059</td>
+      <td>558.0</td>
+      <td>2.547945</td>
+      <td>37.85</td>
+      <td>-122.25</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.422</td>
+      <td>3.8462</td>
+      <td>52.0</td>
+      <td>6.281853</td>
+      <td>1.081081</td>
+      <td>565.0</td>
+      <td>2.181467</td>
+      <td>37.85</td>
+      <td>-122.25</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>20635</th>
+      <td>0.781</td>
+      <td>1.5603</td>
+      <td>25.0</td>
+      <td>5.045455</td>
+      <td>1.133333</td>
+      <td>845.0</td>
+      <td>2.560606</td>
+      <td>39.48</td>
+      <td>-121.09</td>
+    </tr>
+    <tr>
+      <th>20636</th>
+      <td>0.771</td>
+      <td>2.5568</td>
+      <td>18.0</td>
+      <td>6.114035</td>
+      <td>1.315789</td>
+      <td>356.0</td>
+      <td>3.122807</td>
+      <td>39.49</td>
+      <td>-121.21</td>
+    </tr>
+    <tr>
+      <th>20637</th>
+      <td>0.923</td>
+      <td>1.7000</td>
+      <td>17.0</td>
+      <td>5.205543</td>
+      <td>1.120092</td>
+      <td>1007.0</td>
+      <td>2.325635</td>
+      <td>39.43</td>
+      <td>-121.22</td>
+    </tr>
+    <tr>
+      <th>20638</th>
+      <td>0.847</td>
+      <td>1.8672</td>
+      <td>18.0</td>
+      <td>5.329513</td>
+      <td>1.171920</td>
+      <td>741.0</td>
+      <td>2.123209</td>
+      <td>39.43</td>
+      <td>-121.32</td>
+    </tr>
+    <tr>
+      <th>20639</th>
+      <td>0.894</td>
+      <td>2.3886</td>
+      <td>16.0</td>
+      <td>5.254717</td>
+      <td>1.162264</td>
+      <td>1387.0</td>
+      <td>2.616981</td>
+      <td>39.37</td>
+      <td>-121.24</td>
+    </tr>
+  </tbody>
+</table>
+<p>20640 rows × 9 columns</p>
+</div>
+
+<pre><code class="language-python">cali_df.Value.describe()
+</code></pre>
+<pre><code>count    20640.000000
+mean         2.068558
+std          1.153956
+min          0.149990
+25%          1.196000
+50%          1.797000
+75%          2.647250
+max          5.000010
+Name: Value, dtype: float64
+</code></pre>
+<pre><code class="language-python">cali_df = cali_df.query(&quot;Value&lt;5&quot;)
+</code></pre>
+<pre><code class="language-python">X = cali_df.iloc[:, 1:]
+y = cali_df.iloc[:, :1]
+</code></pre>
+<pre><code class="language-python">X = pd.DataFrame(preproc.StandardScaler().fit_transform(X))
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+</code></pre>
+<pre><code class="language-python">X
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.959952</td>
+      <td>1.009853</td>
+      <td>0.707472</td>
+      <td>-0.161044</td>
+      <td>-0.978430</td>
+      <td>-0.050851</td>
+      <td>1.036333</td>
+      <td>-1.330014</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.944799</td>
+      <td>-0.589669</td>
+      <td>0.382175</td>
+      <td>-0.275899</td>
+      <td>0.838805</td>
+      <td>-0.092746</td>
+      <td>1.027030</td>
+      <td>-1.325029</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.280068</td>
+      <td>1.889591</td>
+      <td>1.276098</td>
+      <td>-0.051258</td>
+      <td>-0.826338</td>
+      <td>-0.027663</td>
+      <td>1.022379</td>
+      <td>-1.335000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.252220</td>
+      <td>1.889591</td>
+      <td>0.198688</td>
+      <td>-0.052114</td>
+      <td>-0.772144</td>
+      <td>-0.051567</td>
+      <td>1.022379</td>
+      <td>-1.339986</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.108107</td>
+      <td>1.889591</td>
+      <td>0.401238</td>
+      <td>-0.034372</td>
+      <td>-0.766026</td>
+      <td>-0.086014</td>
+      <td>1.022379</td>
+      <td>-1.339986</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>19643</th>
+      <td>-1.347359</td>
+      <td>-0.269765</td>
+      <td>-0.137906</td>
+      <td>0.081199</td>
+      <td>-0.521280</td>
+      <td>-0.050377</td>
+      <td>1.780515</td>
+      <td>-0.761637</td>
+    </tr>
+    <tr>
+      <th>19644</th>
+      <td>-0.712873</td>
+      <td>-0.829598</td>
+      <td>0.328060</td>
+      <td>0.484752</td>
+      <td>-0.948710</td>
+      <td>0.002467</td>
+      <td>1.785166</td>
+      <td>-0.821466</td>
+    </tr>
+    <tr>
+      <th>19645</th>
+      <td>-1.258410</td>
+      <td>-0.909574</td>
+      <td>-0.068098</td>
+      <td>0.051913</td>
+      <td>-0.379677</td>
+      <td>-0.072463</td>
+      <td>1.757259</td>
+      <td>-0.826452</td>
+    </tr>
+    <tr>
+      <th>19646</th>
+      <td>-1.151951</td>
+      <td>-0.829598</td>
+      <td>-0.014039</td>
+      <td>0.166543</td>
+      <td>-0.612186</td>
+      <td>-0.091490</td>
+      <td>1.757259</td>
+      <td>-0.876310</td>
+    </tr>
+    <tr>
+      <th>19647</th>
+      <td>-0.819968</td>
+      <td>-0.989550</td>
+      <td>-0.046655</td>
+      <td>0.145187</td>
+      <td>-0.047523</td>
+      <td>-0.045078</td>
+      <td>1.729352</td>
+      <td>-0.836423</td>
+    </tr>
+  </tbody>
+</table>
+<p>19648 rows × 8 columns</p>
+</div>
+
+<pre><code class="language-python">model = keras.Sequential()
+model.add(Input(shape=(X_train.shape[1],))) ## INPUT layer 0
+model.add(Dense(100, activation = 'relu'))  ## Hidden layer 1
+model.add(Dropout(0.2))                     ## Hidden layer 2
+model.add(Dense(200, activation = 'relu'))  ## Hidden layer 3
+model.add(Dense(1))                         ## OUTPUT layer
+
+</code></pre>
+<pre><code class="language-python">X_train.shape[1]
+</code></pre>
+<pre><code>8
+</code></pre>
+<pre><code class="language-python">model.summary()
+</code></pre>
+<pre><code>Model: "sequential_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_5 (Dense)             (None, 100)               900
+
+ dropout (Dropout)           (None, 100)               0
+
+ dense_6 (Dense)             (None, 200)               20200
+
+ dense_7 (Dense)             (None, 1)                 201
+
+=================================================================
+Total params: 21301 (83.21 KB)
+Trainable params: 21301 (83.21 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</code></pre>
+<pre><code class="language-python">model.compile(loss= &quot;mean_squared_error&quot; , 
+              optimizer=&quot;adam&quot;, 
+              metrics=[&quot;mean_squared_error&quot;])
+</code></pre>
+<pre><code class="language-python">callback = tf.keras.callbacks.EarlyStopping(monitor='val_mean_squared_error', patience=4)
+history = model.fit(X_train, y_train, epochs=100, batch_size=128, validation_split = 0.1, callbacks=[callback])
+print('Done')
+</code></pre>
+<pre><code>Epoch 1/100
+111/111 [==============================] - 1s 3ms/step - loss: 0.8616 - mean_squared_error: 0.8616 - val_loss: 0.4140 - val_mean_squared_error: 0.4140
+Epoch 2/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.4173 - mean_squared_error: 0.4173 - val_loss: 0.3466 - val_mean_squared_error: 0.3466
+Epoch 3/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3650 - mean_squared_error: 0.3650 - val_loss: 0.3306 - val_mean_squared_error: 0.3306
+Epoch 4/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3327 - mean_squared_error: 0.3327 - val_loss: 0.3113 - val_mean_squared_error: 0.3113
+Epoch 5/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3244 - mean_squared_error: 0.3244 - val_loss: 0.3214 - val_mean_squared_error: 0.3214
+Epoch 6/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3583 - mean_squared_error: 0.3583 - val_loss: 0.3136 - val_mean_squared_error: 0.3136
+Epoch 7/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3115 - mean_squared_error: 0.3115 - val_loss: 0.3035 - val_mean_squared_error: 0.3035
+Epoch 8/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3084 - mean_squared_error: 0.3084 - val_loss: 0.2995 - val_mean_squared_error: 0.2995
+Epoch 9/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.3039 - mean_squared_error: 0.3039 - val_loss: 0.2998 - val_mean_squared_error: 0.2998
+Epoch 10/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2893 - mean_squared_error: 0.2893 - val_loss: 0.2898 - val_mean_squared_error: 0.2898
+Epoch 11/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2906 - mean_squared_error: 0.2906 - val_loss: 0.2893 - val_mean_squared_error: 0.2893
+Epoch 12/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2838 - mean_squared_error: 0.2838 - val_loss: 0.2837 - val_mean_squared_error: 0.2837
+Epoch 13/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2838 - mean_squared_error: 0.2838 - val_loss: 0.2882 - val_mean_squared_error: 0.2882
+Epoch 14/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2748 - mean_squared_error: 0.2748 - val_loss: 0.2906 - val_mean_squared_error: 0.2906
+Epoch 15/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2686 - mean_squared_error: 0.2686 - val_loss: 0.2779 - val_mean_squared_error: 0.2779
+Epoch 16/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2899 - mean_squared_error: 0.2899 - val_loss: 0.2749 - val_mean_squared_error: 0.2749
+Epoch 17/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2641 - mean_squared_error: 0.2641 - val_loss: 0.2742 - val_mean_squared_error: 0.2742
+Epoch 18/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2642 - mean_squared_error: 0.2642 - val_loss: 0.2711 - val_mean_squared_error: 0.2711
+Epoch 19/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2600 - mean_squared_error: 0.2600 - val_loss: 0.2696 - val_mean_squared_error: 0.2696
+Epoch 20/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2546 - mean_squared_error: 0.2546 - val_loss: 0.2728 - val_mean_squared_error: 0.2728
+Epoch 21/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2507 - mean_squared_error: 0.2507 - val_loss: 0.2722 - val_mean_squared_error: 0.2722
+Epoch 22/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2475 - mean_squared_error: 0.2475 - val_loss: 0.2684 - val_mean_squared_error: 0.2684
+Epoch 23/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2563 - mean_squared_error: 0.2563 - val_loss: 0.2663 - val_mean_squared_error: 0.2663
+Epoch 24/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2449 - mean_squared_error: 0.2449 - val_loss: 0.2682 - val_mean_squared_error: 0.2682
+Epoch 25/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2439 - mean_squared_error: 0.2439 - val_loss: 0.2696 - val_mean_squared_error: 0.2696
+Epoch 26/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2468 - mean_squared_error: 0.2468 - val_loss: 0.2630 - val_mean_squared_error: 0.2630
+Epoch 27/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2410 - mean_squared_error: 0.2410 - val_loss: 0.2633 - val_mean_squared_error: 0.2633
+Epoch 28/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2407 - mean_squared_error: 0.2407 - val_loss: 0.2615 - val_mean_squared_error: 0.2615
+Epoch 29/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2377 - mean_squared_error: 0.2377 - val_loss: 0.2610 - val_mean_squared_error: 0.2610
+Epoch 30/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2391 - mean_squared_error: 0.2391 - val_loss: 0.2605 - val_mean_squared_error: 0.2605
+Epoch 31/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2334 - mean_squared_error: 0.2334 - val_loss: 0.2612 - val_mean_squared_error: 0.2612
+Epoch 32/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2345 - mean_squared_error: 0.2345 - val_loss: 0.2622 - val_mean_squared_error: 0.2622
+Epoch 33/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2312 - mean_squared_error: 0.2312 - val_loss: 0.2577 - val_mean_squared_error: 0.2577
+Epoch 34/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2319 - mean_squared_error: 0.2319 - val_loss: 0.2610 - val_mean_squared_error: 0.2610
+Epoch 35/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2329 - mean_squared_error: 0.2329 - val_loss: 0.2548 - val_mean_squared_error: 0.2548
+Epoch 36/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2339 - mean_squared_error: 0.2339 - val_loss: 0.2648 - val_mean_squared_error: 0.2648
+Epoch 37/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2401 - mean_squared_error: 0.2401 - val_loss: 0.2620 - val_mean_squared_error: 0.2620
+Epoch 38/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2264 - mean_squared_error: 0.2264 - val_loss: 0.2524 - val_mean_squared_error: 0.2524
+Epoch 39/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2295 - mean_squared_error: 0.2295 - val_loss: 0.2530 - val_mean_squared_error: 0.2530
+Epoch 40/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2325 - mean_squared_error: 0.2325 - val_loss: 0.2554 - val_mean_squared_error: 0.2554
+Epoch 41/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2277 - mean_squared_error: 0.2277 - val_loss: 0.2542 - val_mean_squared_error: 0.2542
+Epoch 42/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2319 - mean_squared_error: 0.2319 - val_loss: 0.2520 - val_mean_squared_error: 0.2520
+Epoch 43/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2253 - mean_squared_error: 0.2253 - val_loss: 0.2557 - val_mean_squared_error: 0.2557
+Epoch 44/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2277 - mean_squared_error: 0.2277 - val_loss: 0.2496 - val_mean_squared_error: 0.2496
+Epoch 45/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2268 - mean_squared_error: 0.2268 - val_loss: 0.2554 - val_mean_squared_error: 0.2554
+Epoch 46/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2245 - mean_squared_error: 0.2245 - val_loss: 0.2567 - val_mean_squared_error: 0.2567
+Epoch 47/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2217 - mean_squared_error: 0.2217 - val_loss: 0.2502 - val_mean_squared_error: 0.2502
+Epoch 48/100
+111/111 [==============================] - 0s 2ms/step - loss: 0.2201 - mean_squared_error: 0.2201 - val_loss: 0.2516 - val_mean_squared_error: 0.2516
+Done
+</code></pre>
+<pre><code class="language-python">plt.plot(history.history['mean_squared_error'], label='Trg MSE')
+plt.plot(history.history['val_mean_squared_error'], label='Val MSE')
+plt.xlabel('Epoch')
+plt.ylabel('Squared Error')
+plt.legend()
+plt.grid(True)
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_61_0.png" /></p>
+<pre><code class="language-python">y_pred = model.predict(X_test)
+</code></pre>
+<pre><code>123/123 [==============================] - 0s 791us/step
+</code></pre>
+<pre><code class="language-python">print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+
+</code></pre>
+<pre><code>MSE =  0.22933335851508532
+RMSE =  0.47888762618706837
+MAE =  0.3322660378818949
+</code></pre>
+<pre><code class="language-python">plt.figure(figsize = (8,8))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.title('Actual vs Predicted \n Closer to red line (identity) means more accurate prediction')
+plt.plot( [y_test.min(),y_test.max()],[y_test.min(),y_test.max()], color='red' )
+plt.xlabel(&quot;Actual&quot;)
+plt.ylabel(&quot;Predicted&quot;)
+</code></pre>
+<pre><code>Text(0, 0.5, 'Predicted')
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_64_1.png" /></p>
+<pre><code class="language-python">## R-squared calculation  
+
+pd.DataFrame({'actual':y_test.iloc[:,0].values, 'predicted':y_pred.ravel()}).corr()**2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>actual</th>
+      <th>predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>actual</th>
+      <td>1.000000</td>
+      <td>0.756613</td>
+    </tr>
+    <tr>
+      <th>predicted</th>
+      <td>0.756613</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="california-housing-xgboost">California Housing - XGBoost</h3>
+<p>Just with a view to comparing the performance of our deep learning network above to XGBoost, we fit an XGBoost model.  </p>
+<pre><code class="language-python">## Fit model
+from xgboost import XGBRegressor
+
+model_xgb_regr = XGBRegressor()
+model_xgb_regr.fit(X_train, y_train)
+model_xgb_regr.predict(X_test)
+</code></pre>
+<pre><code>array([0.8157365, 2.2790809, 1.1525728, ..., 2.6292877, 1.9455711,
+       1.3955337], dtype=float32)
+</code></pre>
+<pre><code class="language-python">## Evaluate model
+y_pred  =  model_xgb_regr.predict(X_test)
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+
+</code></pre>
+<pre><code>MSE =  0.18441491976668073
+RMSE =  0.4294355827905749
+MAE =  0.2915835292178608
+</code></pre>
+<pre><code class="language-python">## Evaluate residuals
+plt.figure(figsize = (8,8))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.title('Actual vs Predicted \n Closer to red line (identity) means more accurate prediction')
+plt.plot(  [y_test.min(),y_test.max()],[y_test.min(),y_test.max()], color='red' )
+plt.xlabel(&quot;Actual&quot;)
+plt.ylabel(&quot;Predicted&quot;);
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_69_0.png" /></p>
+<pre><code class="language-python">## R-squared calculation  
+
+pd.DataFrame({'actual':y_test.iloc[:,0].values, 'predicted':y_pred.ravel()}).corr()**2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>actual</th>
+      <th>predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>actual</th>
+      <td>1.000000</td>
+      <td>0.803717</td>
+    </tr>
+    <tr>
+      <th>predicted</th>
+      <td>0.803717</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="classification-example">Classification Example</h2>
+<pre><code class="language-python">
+
+df = pd.read_csv('diabetes.csv')
+print(df.shape)
+df.head()
+</code></pre>
+<pre><code>(768, 9)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pregnancies</th>
+      <th>Glucose</th>
+      <th>BloodPressure</th>
+      <th>SkinThickness</th>
+      <th>Insulin</th>
+      <th>BMI</th>
+      <th>DiabetesPedigreeFunction</th>
+      <th>Age</th>
+      <th>Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>148</td>
+      <td>72</td>
+      <td>35</td>
+      <td>0</td>
+      <td>33.6</td>
+      <td>0.627</td>
+      <td>50</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>85</td>
+      <td>66</td>
+      <td>29</td>
+      <td>0</td>
+      <td>26.6</td>
+      <td>0.351</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>183</td>
+      <td>64</td>
+      <td>0</td>
+      <td>0</td>
+      <td>23.3</td>
+      <td>0.672</td>
+      <td>32</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>89</td>
+      <td>66</td>
+      <td>23</td>
+      <td>94</td>
+      <td>28.1</td>
+      <td>0.167</td>
+      <td>21</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>137</td>
+      <td>40</td>
+      <td>35</td>
+      <td>168</td>
+      <td>43.1</td>
+      <td>2.288</td>
+      <td>33</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">from sklearn.model_selection import train_test_split
+X = df.iloc[:,:8]
+X = pd.DataFrame(preproc.StandardScaler().fit_transform(X))
+y = df.Outcome
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+</code></pre>
+<pre><code class="language-python">X_train.shape[1]
+</code></pre>
+<pre><code>8
+</code></pre>
+<pre><code class="language-python">model = keras.Sequential()
+model.add(Dense(100, input_dim=X_train.shape[1], activation='relu'))
+## model.add(Dense(100, activation='relu'))
+## model.add(Dense(200, activation='relu'))
+## model.add(Dense(256, activation='relu'))
+model.add(Dense(8, activation='relu'))
+## model.add(Dense(200, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+
+model.compile(loss= &quot;binary_crossentropy&quot; , optimizer=&quot;adam&quot;, metrics=[&quot;accuracy&quot;])
+
+callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=4)
+history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split = 0.2, callbacks=[callback])
+print('\nDone!!')
+</code></pre>
+<pre><code>Epoch 1/100
+15/15 [==============================] - 0s 8ms/step - loss: 0.6887 - accuracy: 0.5674 - val_loss: 0.6003 - val_accuracy: 0.7328
+Epoch 2/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.5745 - accuracy: 0.7522 - val_loss: 0.5376 - val_accuracy: 0.7672
+Epoch 3/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.5270 - accuracy: 0.7717 - val_loss: 0.4996 - val_accuracy: 0.7845
+Epoch 4/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.4931 - accuracy: 0.7848 - val_loss: 0.4788 - val_accuracy: 0.7759
+Epoch 5/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.4717 - accuracy: 0.7891 - val_loss: 0.4639 - val_accuracy: 0.7586
+Epoch 6/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.4551 - accuracy: 0.7891 - val_loss: 0.4618 - val_accuracy: 0.7586
+Epoch 7/100
+15/15 [==============================] - 0s 3ms/step - loss: 0.4434 - accuracy: 0.8065 - val_loss: 0.4620 - val_accuracy: 0.7672
+
+Done!!
+</code></pre>
+<pre><code class="language-python">model.evaluate(X_test, y_test)
+</code></pre>
+<pre><code>6/6 [==============================] - 0s 1ms/step - loss: 0.4920 - accuracy: 0.7344
+
+
+
+
+
+[0.4920426607131958, 0.734375]
+</code></pre>
+<pre><code class="language-python">## evaluate the keras model
+ss, accuracy = model.evaluate(X_test, y_test)
+print('Accuracy:', accuracy*100)
+</code></pre>
+<pre><code>6/6 [==============================] - 0s 1ms/step - loss: 0.4920 - accuracy: 0.7344
+Accuracy: 73.4375
+</code></pre>
+<pre><code class="language-python">## Training Accuracy
+pred_prob = model.predict(X_train)
+threshold = 0.50
+
+## pred = list(map(round, pred_prob))
+pred = (model.predict(X_train)&gt;threshold) * 1
+from sklearn.metrics import (confusion_matrix, accuracy_score)
+
+## confusion matrix
+cm = confusion_matrix(y_train, pred)
+print (&quot;Confusion Matrix : \n&quot;, cm)
+
+## accuracy score of the model
+print('Train accuracy = ', accuracy_score(y_train, pred))
+</code></pre>
+<pre><code>18/18 [==============================] - 0s 885us/step
+18/18 [==============================] - 0s 909us/step
+Confusion Matrix : 
+ [[346  31]
+ [ 83 116]]
+Train accuracy =  0.8020833333333334
+</code></pre>
+<pre><code class="language-python">## Testing Accuracy
+pred_prob = model.predict(X_test)
+threshold = 0.50
+
+
+## pred = list(map(round, pred_prob))
+pred = (model.predict(X_test)&gt;threshold) * 1
+from sklearn.metrics import (confusion_matrix, accuracy_score)
+
+## confusion matrix
+cm = confusion_matrix(y_test, pred)
+print (&quot;Confusion Matrix : \n&quot;, cm)
+
+## accuracy score of the model
+print('Test accuracy = ', accuracy_score(y_test, pred))
+</code></pre>
+<pre><code>6/6 [==============================] - 0s 1ms/step
+6/6 [==============================] - 0s 1ms/step
+Confusion Matrix : 
+ [[108  15]
+ [ 36  33]]
+Test accuracy =  0.734375
+</code></pre>
+<pre><code class="language-python"># Look at the first 10 probability scores
+pred_prob[:10]
+</code></pre>
+<pre><code>array([[0.721288  ],
+       [0.18479884],
+       [0.77215225],
+       [0.1881301 ],
+       [0.1023524 ],
+       [0.32380095],
+       [0.43650356],
+       [0.05792086],
+       [0.05308765],
+       [0.37288687]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">pred = (model.predict(X_test)&gt;threshold) * 1
+</code></pre>
+<pre><code>6/6 [==============================] - 0s 1ms/step
+</code></pre>
+<pre><code class="language-python">pred.shape
+</code></pre>
+<pre><code>(192, 1)
+</code></pre>
+<pre><code class="language-python">from sklearn.metrics import ConfusionMatrixDisplay
+print(classification_report(y_true = y_test, y_pred = pred))
+ConfusionMatrixDisplay(confusion_matrix=cm).plot()
+## ConfusionMatrixDisplay.from_predictions(y_true = y_test, y_pred = pred, cmap='Greys')
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.75      0.88      0.81       123
+           1       0.69      0.48      0.56        69
+
+    accuracy                           0.73       192
+   macro avg       0.72      0.68      0.69       192
+weighted avg       0.73      0.73      0.72       192
+
+
+
+
+
+
+&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x188112d7d10&gt;
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_83_2.png" /></p>
+<pre><code class="language-python">## AUC calculation
+metrics.roc_auc_score(y_test, pred_prob)
+</code></pre>
+<pre><code>0.829386119948156
+</code></pre>
+<pre><code class="language-python"># Source for code below: https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
+fpr, tpr, thresholds = metrics.roc_curve(y_test, pred_prob)
+roc_auc = metrics.auc(fpr, tpr)
+plt.figure(figsize = (9,8))
+plt.title('Receiver Operating Characteristic')
+plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+plt.legend(loc = 'lower right')
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0, 1])
+plt.ylim([0, 1])
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+for i, txt in enumerate(thresholds):
+    if i in np.arange(1, len(thresholds), 10): # print every 10th point to prevent overplotting:
+        plt.annotate(text = round(txt,3), xy = (fpr[i], tpr[i]),  
+                     xytext=(-44, 0), textcoords='offset points',
+                     arrowprops={'arrowstyle':&quot;simple&quot;}, color='green',fontsize=8)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_85_0.png" /></p>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h2 id="multi-class-classification-example">Multi-class Classification Example</h2>
+<pre><code class="language-python">df=sns.load_dataset('iris')
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_length</th>
+      <th>sepal_width</th>
+      <th>petal_length</th>
+      <th>petal_width</th>
+      <th>species</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.1</td>
+      <td>3.5</td>
+      <td>1.4</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.9</td>
+      <td>3.0</td>
+      <td>1.4</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4.7</td>
+      <td>3.2</td>
+      <td>1.3</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.6</td>
+      <td>3.1</td>
+      <td>1.5</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>3.6</td>
+      <td>1.4</td>
+      <td>0.2</td>
+      <td>setosa</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>145</th>
+      <td>6.7</td>
+      <td>3.0</td>
+      <td>5.2</td>
+      <td>2.3</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>146</th>
+      <td>6.3</td>
+      <td>2.5</td>
+      <td>5.0</td>
+      <td>1.9</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>147</th>
+      <td>6.5</td>
+      <td>3.0</td>
+      <td>5.2</td>
+      <td>2.0</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>6.2</td>
+      <td>3.4</td>
+      <td>5.4</td>
+      <td>2.3</td>
+      <td>virginica</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>5.9</td>
+      <td>3.0</td>
+      <td>5.1</td>
+      <td>1.8</td>
+      <td>virginica</td>
+    </tr>
+  </tbody>
+</table>
+<p>150 rows × 5 columns</p>
+</div>
+
+<pre><code class="language-python">from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+encoded_labels = le.fit_transform(df['species'].values.ravel()) ## This needs a 1D arrary
+
+list(enumerate(le.classes_))
+</code></pre>
+<pre><code>[(0, 'setosa'), (1, 'versicolor'), (2, 'virginica')]
+</code></pre>
+<pre><code class="language-python">from tensorflow.keras.utils import to_categorical
+X = df.iloc[:,:4]
+y = to_categorical(encoded_labels)
+
+</code></pre>
+<pre><code class="language-python">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+</code></pre>
+<pre><code class="language-python">model = keras.Sequential()
+model.add(Dense(12, input_dim=X_train.shape[1], activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(3, activation='softmax'))
+
+## compile the keras model
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+## fit the keras model on the dataset
+callback = tf.keras.callbacks.EarlyStopping(monitor='accuracy', patience=4)
+model.fit(X_train, y_train, epochs=150, batch_size=10, callbacks = [callback])
+
+print('\nDone')
+</code></pre>
+<pre><code>Epoch 1/150
+12/12 [==============================] - 0s 1ms/step - loss: 2.8803 - accuracy: 0.0268
+Epoch 2/150
+12/12 [==============================] - 0s 1ms/step - loss: 2.3614 - accuracy: 0.0000e+00
+Epoch 3/150
+12/12 [==============================] - 0s 1ms/step - loss: 1.9783 - accuracy: 0.0000e+00
+Epoch 4/150
+12/12 [==============================] - 0s 1ms/step - loss: 1.6714 - accuracy: 0.0000e+00
+Epoch 5/150
+12/12 [==============================] - 0s 1ms/step - loss: 1.4442 - accuracy: 0.0000e+00
+
+Done
+</code></pre>
+<pre><code class="language-python">model.evaluate(X_test, y_test)
+</code></pre>
+<pre><code>2/2 [==============================] - 0s 2ms/step - loss: 1.3997 - accuracy: 0.0000e+00
+
+
+
+
+
+[1.3997128009796143, 0.0]
+</code></pre>
+<pre><code class="language-python">y_test
+</code></pre>
+<pre><code>array([[1., 0., 0.],
+       [1., 0., 0.],
+       [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 1., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 1., 0.],
+       [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [0., 1., 0.],
+       [1., 0., 0.],
+       [0., 1., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 1., 0.],
+       [1., 0., 0.],
+       [1., 0., 0.]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">pred = model.predict(X_test)
+pred
+</code></pre>
+<pre><code>2/2 [==============================] - 0s 2ms/step
+
+
+
+
+
+array([[0.2822613 , 0.05553382, 0.66220486],
+       [0.2793297 , 0.06595141, 0.6547189 ],
+       [0.29135096, 0.07464809, 0.63400096],
+       [0.28353864, 0.07236306, 0.6440983 ],
+       [0.43382686, 0.34968728, 0.21648583],
+       [0.45698914, 0.31611806, 0.22689272],
+       [0.41666666, 0.32700518, 0.2563282 ],
+       [0.44071954, 0.37179634, 0.18748417],
+       [0.40844283, 0.37726644, 0.21429074],
+       [0.4495495 , 0.35323077, 0.19721965],
+       [0.49933362, 0.31062174, 0.1900446 ],
+       [0.24345762, 0.03898294, 0.7175594 ],
+       [0.28153655, 0.06344951, 0.655014  ],
+       [0.45637476, 0.3687389 , 0.17488642],
+       [0.3104543 , 0.07258127, 0.61696446],
+       [0.4537215 , 0.31842723, 0.22785126],
+       [0.271435  , 0.05542643, 0.67313856],
+       [0.4581745 , 0.3283537 , 0.21347174],
+       [0.25978264, 0.05289331, 0.68732405],
+       [0.4725002 , 0.35439146, 0.17310826],
+       [0.33035162, 0.07470612, 0.59494233],
+       [0.43799627, 0.34311345, 0.21889023],
+       [0.47776258, 0.35668057, 0.1655568 ],
+       [0.45363948, 0.3735682 , 0.17279233],
+       [0.43064523, 0.36924413, 0.20011069],
+       [0.42152312, 0.38463953, 0.19383734],
+       [0.42944792, 0.3875062 , 0.18304592],
+       [0.44620407, 0.37442878, 0.17936715],
+       [0.4499338 , 0.34822026, 0.201846  ],
+       [0.26532286, 0.05515821, 0.67951894],
+       [0.44138023, 0.32050413, 0.23811558],
+       [0.4528861 , 0.34326744, 0.2038465 ],
+       [0.2731558 , 0.06118189, 0.6656623 ],
+       [0.19635768, 0.02701073, 0.77663165],
+       [0.43125   , 0.35458365, 0.21416634],
+       [0.4739512 , 0.31133884, 0.21471   ],
+       [0.33960223, 0.11830997, 0.5420878 ],
+       [0.26582348, 0.05316177, 0.6810147 ]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">pred.shape
+</code></pre>
+<pre><code>(38, 3)
+</code></pre>
+<pre><code class="language-python">np.array(le.classes_)
+</code></pre>
+<pre><code>array(['setosa', 'versicolor', 'virginica'], dtype=object)
+</code></pre>
+<pre><code class="language-python">print(classification_report(y_true = [le.classes_[np.argmax(x)] for x in y_test], y_pred = [le.classes_[np.argmax(x)] for x in pred]))
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+      setosa       0.00      0.00      0.00      15.0
+  versicolor       0.00      0.00      0.00       8.0
+   virginica       0.00      0.00      0.00      15.0
+
+    accuracy                           0.00      38.0
+   macro avg       0.00      0.00      0.00      38.0
+weighted avg       0.00      0.00      0.00      38.0
+
+
+
+C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\metrics\_classification.py:1469: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\metrics\_classification.py:1469: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+C:\Users\user\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\metrics\_classification.py:1469: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+</code></pre>
+<pre><code class="language-python">ConfusionMatrixDisplay.from_predictions([np.argmax(x) for x in y_test], [np.argmax(x) for x in pred], display_labels=le.classes_)
+</code></pre>
+<pre><code>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x18812252a10&gt;
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_102_1.png" /></p>
+<h2 id="image-recognition-with-cnns">Image Recognition with CNNs</h2>
+<p>CNNs are used for image related predictions and analytics.  Uses include image classification, image detection (identify multiple objects in an image), classification with localization (draw a bounding box around an object of interest).  </p>
+<p>CNNs also use weights and biases, but the approach and calculations are different from those done in a dense layer.  A convolutional layer applies to images, which are 3-dimensional arrays – height, width and channel.  Color images have 3 channels (one for each color RGB), while greyscale images have only 1 channel.  </p>
+<p>Consider a 3 x 3 filter applied to a 3-channel 8 x 8 image:  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/08c3103a-e4bd-4ca9-8055-150347653336.png" /> </p>
+<p>We classify the MNIST dataset, which is built-in into keras. This is a set of 60,000 training images, plus 10,000 test images, assembled by the National Institute of Standards and Technology (the NIST in MNIST) in the 1980s.   </p>
+<p>Modeling the MNIST image dataset is akin to the ‘Hello World’ of image based deep learning.
+Every image is a 28 x 28 array, with numbers between 1 and 255 (<script type="math/tex">2^8</script>)  </p>
+<p>Example images:</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/17e94d90-53b3-41fd-b3e1-656f05b0d9f3.png" />  </p>
+<p><strong>Next, we will try to build a network to identify the digits in the MNIST dataset</strong>  </p>
+<pre><code class="language-python">from tensorflow.keras.datasets import mnist
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+</code></pre>
+<pre><code class="language-python">train_images.shape
+
+</code></pre>
+<pre><code>(60000, 28, 28)
+</code></pre>
+<pre><code class="language-python">image_number = 1847 -4
+plt.imshow(train_images[image_number], cmap='gray')
+print('Labeled as:', train_labels[image_number])
+</code></pre>
+<pre><code>Labeled as: 3
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_107_1.png" /></p>
+<pre><code class="language-python">train_labels[image_number]
+</code></pre>
+<pre><code>3
+</code></pre>
+<pre><code class="language-python">## We reshape the image arrays in  a form that can be fed to the CNN
+train_images = train_images.reshape((60000, 28, 28, 1))
+train_images = train_images.astype(&quot;float32&quot;) / 255
+test_images = test_images.reshape((10000, 28, 28, 1))
+test_images = test_images.astype(&quot;float32&quot;) / 255
+</code></pre>
+<pre><code class="language-python">from tensorflow import keras
+from tensorflow.keras.layers import Flatten, MaxPooling2D, Conv2D, Input
+model = keras.Sequential()
+model.add(Input(shape=(28, 28, 1)))
+model.add(Conv2D(filters=32, kernel_size=3, activation=&quot;relu&quot;))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Conv2D(filters=64, kernel_size=3, activation=&quot;relu&quot;))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Conv2D(filters=128, kernel_size=3, activation=&quot;relu&quot;))
+model.add(Flatten())
+model.add(Dense(10, activation='softmax'))
+
+## compile the keras model
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+</code></pre>
+<pre><code class="language-python">model.summary()
+</code></pre>
+<pre><code>Model: "sequential_6"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d_6 (Conv2D)           (None, 26, 26, 32)        320
+
+ max_pooling2d_4 (MaxPoolin  (None, 13, 13, 32)        0         
+ g2D)
+
+ conv2d_7 (Conv2D)           (None, 11, 11, 64)        18496
+
+ max_pooling2d_5 (MaxPoolin  (None, 5, 5, 64)          0         
+ g2D)
+
+ conv2d_8 (Conv2D)           (None, 3, 3, 128)         73856
+
+ flatten_2 (Flatten)         (None, 1152)              0
+
+ dense_16 (Dense)            (None, 10)                11530
+
+=================================================================
+Total params: 104202 (407.04 KB)
+Trainable params: 104202 (407.04 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</code></pre>
+<pre><code class="language-python">model.compile(optimizer=&quot;rmsprop&quot;, loss=&quot;sparse_categorical_crossentropy&quot;, metrics=[&quot;accuracy&quot;])
+model.fit(train_images, train_labels, epochs=5, batch_size=64)
+</code></pre>
+<pre><code>Epoch 1/5
+938/938 [==============================] - 21s 22ms/step - loss: 0.1591 - accuracy: 0.9510
+Epoch 2/5
+938/938 [==============================] - 20s 22ms/step - loss: 0.0434 - accuracy: 0.9865
+Epoch 3/5
+938/938 [==============================] - 21s 23ms/step - loss: 0.0300 - accuracy: 0.9913
+Epoch 4/5
+938/938 [==============================] - 22s 23ms/step - loss: 0.0221 - accuracy: 0.9933
+Epoch 5/5
+938/938 [==============================] - 22s 23ms/step - loss: 0.0175 - accuracy: 0.9947
+
+
+
+
+
+&lt;keras.src.callbacks.History at 0x1881333c350&gt;
+</code></pre>
+<pre><code class="language-python">test_loss, test_acc = model.evaluate(test_images, test_labels)
+print(&quot;Test accuracy:&quot;, test_acc)
+</code></pre>
+<pre><code>313/313 [==============================] - 2s 6ms/step - loss: 0.0268 - accuracy: 0.9910
+Test accuracy: 0.9909999966621399
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">pred = model.predict(test_images)
+pred
+</code></pre>
+<pre><code>313/313 [==============================] - 2s 6ms/step
+
+
+
+
+
+array([[2.26517693e-09, 5.06499775e-09, 5.41575895e-09, ...,
+        9.99999881e-01, 2.45444859e-10, 4.99686914e-09],
+       [1.38298981e-06, 1.13962898e-07, 9.99997616e-01, ...,
+        1.18933270e-12, 5.49632805e-11, 4.08483706e-14],
+       [8.74673223e-09, 9.99998808e-01, 1.18670798e-08, ...,
+        2.46586637e-07, 4.74215556e-09, 2.20593410e-09],
+       ...,
+       [1.74903860e-16, 2.70464449e-11, 2.62210590e-15, ...,
+        1.32708133e-11, 8.26101167e-12, 8.61862394e-14],
+       [8.24222894e-08, 8.11386403e-10, 1.62018628e-11, ...,
+        1.12429285e-11, 1.36881863e-05, 2.13236234e-10],
+       [1.15086030e-08, 4.16140927e-10, 2.80235701e-09, ...,
+        1.33498078e-15, 8.03823452e-10, 2.84819829e-13]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">pred.shape
+</code></pre>
+<pre><code>(10000, 10)
+</code></pre>
+<pre><code class="language-python">test_labels
+</code></pre>
+<pre><code>array([7, 2, 1, ..., 4, 5, 6], dtype=uint8)
+</code></pre>
+<pre><code class="language-python">print(classification_report(y_true = [np.argmax(x) for x in pred], y_pred = test_labels))
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99       990
+           1       1.00      0.99      0.99      1145
+           2       0.99      0.99      0.99      1025
+           3       1.00      1.00      1.00      1009
+           4       1.00      0.98      0.99       999
+           5       0.99      0.99      0.99       890
+           6       0.99      0.99      0.99       954
+           7       0.99      0.99      0.99      1030
+           8       0.99      1.00      0.99       965
+           9       0.98      1.00      0.99       993
+
+    accuracy                           0.99     10000
+   macro avg       0.99      0.99      0.99     10000
+weighted avg       0.99      0.99      0.99     10000
+</code></pre>
+<pre><code class="language-python">ConfusionMatrixDisplay.from_predictions(test_labels, [np.argmax(x) for x in pred])
+</code></pre>
+<pre><code>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x18811de5350&gt;
+</code></pre>
+<p><img alt="png" src="../10_Deep_Learning_files/10_Deep_Learning_119_1.png" /></p>
+<h2 id="recurrent-neural-networks">Recurrent Neural Networks</h2>
+<p>One issue with Dense layers is they have no ‘memory’.  Every input is different, and processed separately, with no knowledge of what was processed before.  </p>
+<p>In such networks, sequenced data is generally arranged back-to-back as a single vector, and fed into the network.  Such networks are called feedforward networks.  </p>
+<p>While this works for structured/tabular data, it does not work too well for sequenced, or temporal data (eg, a time series, or a sentence, where words follow each other in a sequence).  </p>
+<p>Recurrent Neural Networks try to solve for this problem by maintaining a memory, or state, of what it has seen so far.  The memory carries from cell to cell, gradually diminishing over time.  </p>
+<p>A SimpleRNN cell processes batches of sequences.  It takes an input of shape <code>(batch_size, timesteps, input_features)</code>.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/7b6c5f43-a5a3-49b9-93bc-2ee48f380011.png" /></p>
+<p>How the network calculates is:  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/3ff3c90f-20d6-4fbf-9a82-a22bc646b8bc.png" /></p>
+<p>So for each element of the sequence, it calculates an <script type="math/tex">a</script>, and then it also calculates the output <script type="math/tex">\hat{y} </script> as a function of both <script type="math/tex">a</script> and <script type="math/tex">x</script>.  State information from previous steps is carried forward in the form of a.  </p>
+<p>However SimpleRNNs suffer from the problem of exploding or vanishing gradients, and they don’t carry forward information into subsequent cells as well as they should.  </p>
+<p>In practice, we use LSTM and GRU layers, which are also recurrent layers.</p>
+<p><strong>The GRU Layer</strong><br />
+GRU = Gated Recurrent Unit
+The purpose of GRU is to retain memory of older layers, and persist old data in subsequent layers.  In GRU, an additional ‘memory cell’ <script type="math/tex">c^{<t>}</script> is also output that is carried forward.  </p>
+<p>The way it works is: find a ‘candidate value’ for <script type="math/tex">c^{<t>}</script> called <script type="math/tex">\hat{c}^{<t>}</script>. Then find a ‘gate’, which is a 0 or 1 value, to decide whether to carry forward the <script type="math/tex">c^{<t>}</script> value from the prior layer, or update it.</p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/a0b25bd5-2488-4682-9e36-cc6b20c46fa9.png" /></p>
+<p>where 
+ - <script type="math/tex">G_u</script> is the UPDATE GATE,<br />
+ - <script type="math/tex">G_f</script> is the RESET GATE,<br />
+ - <script type="math/tex">W</script> are the various weight vectors, <script type="math/tex">b</script> are the biases<br />
+ - <script type="math/tex">x</script> are the inputs, <script type="math/tex">a</script> are the activations<br />
+ - <script type="math/tex">tanh</script> is the activation function  </p>
+<p>Source/Credit: Andrew Ng</p>
+<p><strong>The LSTM Layer</strong><br />
+LSTM = Long Short Term Memory<br />
+LSTM is a generalization of GRU.  The way it differs from a GRU is that in GRUs, <script type="math/tex">c ^ {<t>}</script> and <script type="math/tex">a^{<t>}</script> are the same, but in an LSTM they are different.  </p>
+<p><img alt="image.png" src="../10_Deep_Learning_files/918a3abc-3d7d-47a1-85e6-efb4bed3021a.png" /> </p>
+<p>where<br />
+  - <script type="math/tex">G_u</script> is the UPDATE GATE,<br />
+  - <script type="math/tex">G_f</script> is the FORGET GATE,<br />
+  - <script type="math/tex">G_o</script> is the OUTPUT GATE<br />
+  - <script type="math/tex">W</script> are the various weight vectors, <script type="math/tex">b</script> are the biases<br />
+  - <script type="math/tex">x</script> are the inputs, <script type="math/tex">a</script> are the activations<br />
+  - <script type="math/tex">tanh</script> is the activation function  </p>
+<p><strong>Finally...</strong><br />
+Deep Learning is a rapidly evolving field, and most state-of-the-art modeling tends to be fairly complex than the simple models explained in this brief class.  </p>
+<p>Network architectures are difficult to optimize, there is no easy answer to the question of the number and types of layers, their size and order in which they are arranged.  </p>
+<p>Data scientists spend a lot of time optimizing architecture and hyperparameters.  </p>
+<p>Network architectures can be made arbitrarily complex.  While we only looked at ‘sequential’ models, models that accept multiple inputs, split processing in the network, and produce multiple outcomes are common.</p>
+<hr />
+<h2 id="end">END</h2>
+<p><strong>STOP HERE</strong></p>
+<hr />
+<h2 id="example-of-the-same-model-built-using-the-keras-functional-api">Example of the same model built using the Keras Functional API</h2>
+<pre><code class="language-Python">from tensorflow import keras
+from tensorflow.keras import layers
+inputs = keras.Input(shape=(28, 28, 1))
+x = layers.Conv2D(filters=32, kernel_size=3, activation=&quot;relu&quot;)(inputs)
+x = layers.MaxPooling2D(pool_size=2)(x)
+x = layers.Conv2D(filters=64, kernel_size=3, activation=&quot;relu&quot;)(x)
+x = layers.MaxPooling2D(pool_size=2)(x)
+x = layers.Conv2D(filters=128, kernel_size=3, activation=&quot;relu&quot;)(x)
+x = layers.Flatten()(x)
+outputs = layers.Dense(10, activation=&quot;softmax&quot;)(x)
+model = keras.Model(inputs=inputs, outputs=outputs)
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../09_Machine_Learning/" class="btn btn-neutral float-left" title="Machine Learning"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../11_Time_Series/" class="btn btn-neutral float-right" title="Time Series">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../09_Machine_Learning/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../11_Time_Series/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
