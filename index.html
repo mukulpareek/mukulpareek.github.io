@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction to Business Analytics";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Introduction to Business Analytics</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#introduction-to-analytics">Introduction to Analytics</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#who-needs-analytics">Who needs analytics?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#defining-analytics">Defining analytics</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-we-will-cover">What we will cover</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-do-analytics-look-like">What do analytics look like?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#the-practical-perspective">The practical perspective</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#terminology-confusion">Terminology confusion</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#what-about-big-data">What about big data?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ai-ml-and-deep-learning">AI, ML and Deep Learning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#does-terminology-matter">Does terminology matter?</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#where-are-analytics-used">Where are analytics used?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#analytics-as-strategic-assets">Analytics as strategic assets</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#our-goal">Our goal</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#descriptive-statistics">Descriptive Statistics</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#measures-of-central-tendency">Measures of Central Tendency</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#measures-of-variability">Measures of Variability</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#measures-of-association">Measures of Association</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#analyzing-distributions">Analyzing Distributions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#a-special-note-on-standard-deviation">A special note on standard deviation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#a-special-note-on-correlation">A special note on correlation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Introduction to Business Analytics</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="business-analytics">Business Analytics</h1>
+<p><strong>Acknowledgments: Sources where any material was referenced from or adapted have been identified in-line with the text.</strong>  </p>
+<p>Datafiles referred to in the text on this site are downloadable from https://drive.google.com/drive/folders/1WRv9AkvXHlzKK4L2xym4PSmb_io0wskf?usp=sharing</p>
+<h2 id="introduction-to-analytics">Introduction to Analytics</h2>
+<p>Analytics are ubiquitous, they are all around us.  They make our daily lives a lot simpler.  </p>
+<p>Google knows to look for not just the words you search for, but can almost guess (fairly accurately) what those words mean, and what you are really searching for.  Netflix and YouTube almost know what you might want to watch next.  Gmail can classify your email into real email, junk, promotions, and social messages.  CVS knows what coupons to offer you.  Your newsfeed shows you the stories you would be interested in.  Your employer probably has a good idea of whether you are a flight risk.  LinkedIn can show you jobs that are suited to your skills.  Companies can react to your reviews, even though they receive thousands of reviews every day.  Your computer can recognize your face.  Zillow can reasonably accurately estimate the value of any home.</p>
+<p>All of this is made possible by data and analytics.  And while it may look like magic, in the end it really mostly linear algebra and calculus at work behind the scenes.  </p>
+<p>In this set of notes, structured almost as as book, we are going to look behind the curtain and see what makes all of this possible.  We will examine the ‘why’, the ‘what’, as well as the ‘how’.  Which means we will try understand why something makes sense, what problems can be solved, and, we will also look at the how with practical examples of solving such problems.  </p>
+<p>Problems that data can solve often don't look like they can be solved by data, they almost always appear to be things that require human intelligence and judgment.  This also means we will always be thinking about restructuring and reformulating problems into forms that make them amenable to be solved by the analytic tools we have at hand.  This makes analytics as much a creative art, as it is about math and algorithms.</p>
+<h2 id="who-needs-analytics">Who needs analytics?</h2>
+<p>So who needs analytics?  Anyone who needs to make a decision needs analytics.  Analytics support humans in making decisions, and can sometimes completely take the task of making decisions off the plates of humans.</p>
+<p>Around us, we see many examples of analytics in action.  The phrases in the parentheses suggest possible analytical tools that can help with the task described.  </p>
+<ul>
+<li>Governments analyze and predict pensions and healthcare bills.  (Time series)  </li>
+<li>Google calculates whether you will or will not click an ad (Classification)  </li>
+<li>Amazon shows you what you will buy next (Association rules)  </li>
+<li>Insurance companies predict who will live, die, or have an accident (Classification)  </li>
+<li>Epidemiologists forecast the outbreak of diseases (Regression, RNNs)  </li>
+<li>Netflix wants to know what you would like to watch next (Recommender systems)  </li>
+</ul>
+<h2 id="defining-analytics">Defining analytics</h2>
+<p>But before we dive deeper, let us pause for a moment to think about what we mean by analytics.  A quick search will reveal several definitions of analytics, and they are probably all accurate.  A key thing though about analytics is that they are data-based, and that they provide us an intuition or an understanding which we did not have before.  Another way of saying this is that analytics provide insights.  Business analytics are actionable insights from data.  Understanding the fundamental concepts underlying business analytics is essential for success at all levels in most organizations today.  </p>
+<p>So here is an attempted definition of analytics: Analytics are data-based actionable insights<br />
+  - They are <strong>data-based</strong> – which means opinions alone are not analytics<br />
+  - They are <strong>actionable</strong> – which means they drive decisions, helping select a course of action among multiple available<br />
+  - They are <strong>insightful</strong> – which means they uncover things that weren’t known before with certainty  </p>
+<p>We will define analytics broadly to mean anything that allows us to profit from data.  Profit includes not only improving the bottomline by increasing revenues or reducing costs, but also things that help us achieve our goals in any way, for example, make our customers happier, improve the dependability of our products, improve patient outcomes in a healthcare setting.  Depending on the business, these may or may not have a directly defined relationship to profits.  </p>
+<p>Analyzing data with a view to profit from it has been called many different things such as data mining, business analytics, data science, decision science, and countless other phrases, and there are people you will find on the internet that know and can eloquently debate the fine differences between all of these.  </p>
+<p>But as mentioned before, we will not delve into the semantics and focus on everything that allows us to profit from data – no matter what it is called by scholars.  In the end, terminology makes no difference, our goal is to use data and improve outcomes – for ourselves, for our families, for our customers, for our shareholders.  To achieve this goal, we will not limit ourselves to one branch or a single narrow interpretation of analytics.  If it is something that can help us, we will include it in our arsenel.  </p>
+<h2 id="what-we-will-cover">What we will cover</h2>
+<p>A lot of the data analytical work today relies on machine learning and artificial intelligence algorithms.  This book will provide a high level understaning of how these algorithms structure the problem, and how they choose to solve for it.</p>
+<h2 id="what-do-analytics-look-like">What do analytics look like?</h2>
+<p>Analytics manifest themselves in multiple forms:<br />
+ 1. Analytical dashboards and reports: providing information to support decisions.  This is the most common use case for consuming analytics.  <br />
+ 2. Embedded analytics: Analytics embedded in an application, for example, providing intelligent responses based on user interactions such as a bot responding to a query, or a workflow routing a transaction to a particular path based on data.  <br />
+ 3. Automated analytics: Analytics embedded in a process where an analytic drives an automated decision or application behavior, for example an instant decision on a credit card.</p>
+<p>The boundary between embedded and automated analytics can be fuzzy</p>
+<h2 id="the-practical-perspective">The practical perspective</h2>
+<p>Analytics vary in sophistication, and data can be presented in different forms.  For example, data may be available as:<br />
+ - Raw, or new-raw data: Counts, observed facts, sensor readings<br />
+ - Summarizations: Subtotals, sorts, filters, pivots, averages, basic descriptive statistics<br />
+ - Time series: Comparison of the same measure over time<br />
+ - Predictive analytics: Classification, prediction, clustering  </p>
+<p>We will address all of the above in greater detail.  One key thing to keep in mind is that greater sophistication and complexity does not mean superior analytics, fitness-for-purpose is more important.  In practice, the use of analytics takes multiple forms, most of which can be bucketed into the following categories:  </p>
+<ul>
+<li>Inform a decision by providing facts and numbers (eg, in a report)  </li>
+<li>Recommend a course of action based on data  </li>
+<li>Automatically take a decision and execute  </li>
+</ul>
+<p>Given we repeatedly emphasize decision making as a key goal for analytics, a slight distinction between the types of decisions is relevant.  Why this matters is because the way we build our solutions thinking about repeatability, performance and scalability depends upon the nature and frequency of decisions to be supported.  Broadly, there are:</p>
+<ul>
+<li>One-time decisions, that require discoveries of useful patterns and relationships as a one time exercise, and  </li>
+<li>Repeated decisions, that often need to be made at scale and require automation.  These can benefit from even small improvements in decision making accuracy  </li>
+</ul>
+<h2 id="terminology-confusion">Terminology confusion</h2>
+<p>Often, we see a distinction being drawn between descriptive and predictive analytics.  </p>
+<ul>
+<li><strong>Descriptive Analytics</strong>: Describe what has happened in the past through reports, dashboards, statistics, traditional data mining etc.    </li>
+<li><strong>Predictive Analytics</strong>: Use modeling techniques based on past data to predict the future or determine correlations between variables.  Includes linear regression, time series analysis, data mining to find patterns for prediction, simulations.  </li>
+<li><strong>Prescriptive Analytics</strong>: Identify the best course of action to take based on a rule, and the rule may be a model based prediction.  </li>
+</ul>
+<p>Other descriptions for analytics include exploratory, inferential, causal, mechanistic etc.  </p>
+<p>Then there are some other phrases one might come across in the context of business analytics.  Here are some more:  </p>
+<ul>
+<li><strong>Data Mining</strong> is the process of discovering meaningful correlations, patterns and trends by sifting through large amounts of data stored in repositories.  Data mining employs pattern recognition technologies, as well as statistical and mathematical techniques.<br />
+<em>Source: Gartner, quoted from Data Mining for Business Intelligence by Shmueli et al</em>  </li>
+<li><strong>Data science</strong> is the field of study that combines domain expertise, programming skills, and knowledge of mathematics and statistics to extract meaningful insights from data.<br />
+<em>Source: DataRobot website</em>  </li>
+<li><strong>Data analysis</strong> is a process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making.<br />
+<em>Source: Wikipedia</em>  </li>
+</ul>
+<h3 id="what-about-big-data">What about big data?</h3>
+<p>Big data essentially means datasets that are too large for traditional data processing systems, and therefore require new processing technologies.  But what was big yesterday is probably only medium sized, or even small by today's standards, so the phrase <em>big data</em> does not have a precise definition.  What is <em>big data</em> today, might just be right sized for your phone of the future.  </p>
+<p>Big data technologies support data processing, data engineering, and also data science activities – for example, Apache Spark, a big data solution, has an entire library of machine learning algorithms built in.  </p>
+<h3 id="ai-ml-and-deep-learning">AI, ML and Deep Learning</h3>
+<p>Yet another cut of the business analytics paradigm is AI, ML and deep learning.</p>
+<ul>
+<li>Artificial Intelligence: the effort to automate intellectual tasks normally performed by humans.  This term has the most expansive scope, and includes Machine Learning and Deep Learning. </li>
+<li>Machine Learning: A machine-learning system is one that is trained rather than explicitly programmed. It’s presented with many examples relevant to a task, and it finds statistical structure in these examples that eventually allows the system to come up with rules for automating the task.  </li>
+<li>Deep Learning: Deep learning is a specific subfield of machine learning: learning from data that puts an emphasis on learning successive layers of increasingly meaningful representations. The deep in deep stands for this idea of successive layers of representations.  Neural networks (NNs) are nearly always the technology that underlies deep learning systems.  </li>
+</ul>
+<p><em>Source: Deep Learning with Python, Francois Chollet</em></p>
+<h3 id="does-terminology-matter">Does terminology matter?</h3>
+<p>This may be repetitive, but necessary to stress - our goal is to profit from data, using any and all computational techniques and resources we can get our hands on.  We will use many of these terms interchangeably.  We will mostly talk about <strong>business analytics</strong> in the context of improving decisions and business outcomes, and refer to the general universe of tools and methods as <strong>data science</strong>.  These tools and methods include Business Intelligence, Data Mining, Forecasting, Modeling, Machine Learning and AI, Big Data, NLP and other techniques that help us profit from data.</p>
+<p>That makes sense because for the businessman, the differences between all of these "types of analytics" is merely semantic.  What we are trying to do is to generate value of some sort using data and numbers, and the creation of something that is useful is more important than what we call it.  We will stick with analytics to mean anything we can do with data that can provide us a profit, or help us achieve our goals.</p>
+<h2 id="where-are-analytics-used">Where are analytics used?</h2>
+<p>The widest applications of data science and analytics have been in marketing for tasks such as:<br />
+ - Targeted marketing<br />
+ - Online advertising<br />
+ - Recommendations for cross-selling  </p>
+<p>Yet just about every other business area has benefited from advances in data science:<br />
+ - Accounting<br />
+ - HR<br />
+ - Compliance<br />
+ - Supply chain<br />
+ - Web analytics<br />
+ - You name it…  </p>
+<h2 id="analytics-as-strategic-assets">Analytics as strategic assets</h2>
+<p>Data and data science capabilities are strategic assets.  What that means is that in the early days of adoption they provide a competitive advantage that allows us to outdo our competition. As they mature and become part of the mainstream, they become essential for survival.  </p>
+<p>Both data, and data science capabilities, are increasingly the deciding factor behind who wins and who loses.  Both the data and the capabilities are needed: having lots of data is an insufficient condition for success – the capability to apply data science on the available data to profitable use cases is key.<br />
+This is becaue the best data science team can yield little value without the right data which has some predictive power.  And the best data cannot yield insights without the right data science talent.  </p>
+<p>Organizations need to invest in both data and data science to benefit from analytics.  </p>
+<p>This is why understanding the fundamental concepts underlying business analytics is essential for success at all levels in most organizations.  This invariably involves knowing at a conceptual level the data science process, capabilities of algorithms such as the ideas behind classification and predictions, AI and ML, and the evaluation of models.  We will cover all of these in due time.</p>
+<h2 id="our-goal">Our goal</h2>
+<p>The goal for these notes is that when you are done going through these notes, you should be able to:<br />
+ - When faced with a business problem, be able to assess whether and how data can be used to arrive at a solution or improve performance<br />
+ - Act competently and with confidence when working with data science teams<br />
+ - Identify opportunities for data science teams to apply technical solutions to, and monitor their implementation progress, and review the business benefits<br />
+ - Oversee analytical teams and direct their work<br />
+ - Identify data driven competitive threats, and be able to formulate a strategic response<br />
+ - Critically evaluate data science proposals (from internal teams, consultants)<br />
+ - Simplify and concisely explain data driven approaches to leadership, management and others  </p>
+<hr />
+<h2 id="descriptive-statistics">Descriptive Statistics</h2>
+<p>With all of the above background around analytics, we are ready to jump right in!  We will start with descriptive statistics, which are key summary attributes of a dataset that help describe or summarize the dataset in a meaningful way.</p>
+<p>Descriptive statistics help us understand the data at the highest level, and are generally what we seek when we perform exploratory analysis on a dataset for the first time.  (We will cover exploratory data analysis next, after a quick review of descriptive statistics.)</p>
+<p>Descriptive statistics include measures that summarize the:  </p>
+<ul>
+<li>central tendency, for example the mean,  </li>
+<li>dispersion or variability, for example the range or the standard deviation, and  </li>
+<li>shape of a dataset’s distribution, for example the quartiles and percentiles  </li>
+</ul>
+<p>Descriptive statistics do not allow us to make conclusions or predictions beyond the data we have analyzed, or reach conclusions regarding any hypotheses we might have made. </p>
+<p>Below is a summary listing of the commonly used descriptive statistics.  We cover them briefly, because rarely will we have to calculate any of these by hand as the software will almost always do it for us.</p>
+<h2 id="measures-of-central-tendency">Measures of Central Tendency</h2>
+<ul>
+<li><strong>Mean</strong>: The mean is the most commonly used measure of central tendency.  It is simply the average of all observations, which is obtained by summing all the values in the dataset and dividing by the total number of observations.    </li>
+<li>
+<p><strong>Geometric Mean</strong>:  The geometric mean is calculated by multiplying all the values in the data, and taking the <em>n-th</em> root, where <em>n</em> is the number of observations.  Geometric mean may be useful when values compound over time, but is otherwise not very commonly used.</p>
+</li>
+<li>
+<p><strong>Median</strong>: The median is the middle value in the dataset.  By definition, half the data will be more than the median value, and the other half lower than the median.  There are rules around how to compute the median when the count of data values is odd or even, but those nuances don't really matter much when one is dealing with thousands or millions of observations.  </p>
+</li>
+<li><strong>Mode</strong>:  Mode is the most commonly occurring value in the data.  </li>
+</ul>
+<h2 id="measures-of-variability">Measures of Variability</h2>
+<ul>
+<li><strong>Range</strong>: Range simply is the maximum value minus the minimum value in our dataset.    </li>
+<li><strong>Variance</strong>:  Variance is the squared differences around the mean - which means that for every observation we calculate its difference from the mean, and square the difference.  We then add up these squared values, and divide this sum by <em>n</em> to obtain the variance.  One problem with variance is that it is a quantity expressed in units-squared, a concept intuitively difficult for humans to understand.    </li>
+<li><strong>Standard Deviation</strong>:  Standard deviation is the square root of the variance, and takes care of the units-squared problem.  </li>
+<li><strong>Coefficient of Variation</strong>:  The coefficient of variation is the ratio of the standard deviation to the mean.  Being a ratio, it makes it easier for humans to comprehend the scale of variation in a distribution compared to its mean.    </li>
+</ul>
+<h2 id="measures-of-association">Measures of Association</h2>
+<ul>
+<li><strong>Covariance</strong>: Covariance measures the linear association between two variables.  To calculate it, first the mean is subtracted from each of the observations, and then the two quantities are multiplied together.  The products are then summed up, and divided by the number of observations.  Covariance is in the units of both of the variables, and is impacted by scale (for example, if distance is a variable, whether you are measuring it in meters or kilometers will impact the computation). You can find detailed examples in any primer on high school statistics, and we will just use software to calculate variance when we need to.  </li>
+<li><strong>Correlation</strong>: Correlation is the covariance between two variables divided by the product of the standard deviation of each of the variables.  Dividing covariance by standard deviations has the effect of removing the impact of the scale of the units of the observations, ie, it takes out the units and you do not have to think about whether one used meters or kilometers in the calculations.  This makes correlation an easy to interpret number, as always lies between -1 and +1.  </li>
+</ul>
+<h2 id="analyzing-distributions">Analyzing Distributions</h2>
+<ul>
+<li><strong>Percentiles</strong>:  Percentiles divide the dataset into a hundred equally sized buckets, and each percentile tells you how many observations lie below or above that value.  Of course, the 50th percentile is the same as the median.  </li>
+<li><strong>Quartiles</strong>:  Similar to percentiles, only that they divide the dataset into four equal buckets.  Again, the 2nd quartile is the same as the median.      </li>
+<li><strong>Z-Score</strong>s: These are used to scale observations by subtracting the mean and dividing by the standard deviation.  We will see these when we get to deep learning, or some of the machine learning algorithms that require inputs to be roughly in the same range.  Standardizing variables by calculating z-scores is a standard practice in many situations when performing data analytics.    </li>
+</ul>
+<h2 id="a-special-note-on-standard-deviation">A special note on standard deviation</h2>
+<p><strong>What is Standard Deviation useful for?</strong><br />
+When you see a number for standard deviation, the question is - how do you interpret it?  A useful way to think about standard deviation is to think of it as setting an upper and lower limit on where data points would lie either side of the mean.  </p>
+<p>If you know your data is normally distributed (or is bell shaped), the empirical rule (below) applies.  However most of the time we have no way of knowing if the distribution is normal or not.  In such cases, we can use Chebyshev's rule, also listed below.  </p>
+<p>I personally find Chebyshev's rule to be very useful - if I know the mean, and someone tells me the standard deviation, then I know that 75% of the data is between the mean and 2x standard deviation on either side of the mean.  </p>
+<blockquote>
+<p><strong>Empirical Rule</strong><br />
+For a normal distribution:<br />
+ - Approximately 68.27% of the data values will be within 1 standard deviation.<br />
+ - Approximately 95.45% of the data values will be within 2 standard deviations.<br />
+ - Almost all the data values will be within 3 standard deviations  </p>
+<p><strong>Chebyshev’s Theorem</strong> <br />
+For any distribution:<br />
+ - At least 3/4th of the data lie within 2 standard deviations of the mean<br />
+ - at least 8/9th of the data lie within three standard deviations of the mean<br />
+ - at least  <script type="math/tex">1 - \frac{1}{1/k^2}</script> of the data lie within  <script type="math/tex">k</script>  standard deviations of the mean  </p>
+</blockquote>
+<h2 id="a-special-note-on-correlation">A special note on correlation</h2>
+<p>While Pearson's correlation coefficient is generally the default, it works only when both the variables are numeric.  Which becomes an issue when the variables are categories, for example, one variable is nationality and the other education.  </p>
+<p>There are multiple ways to calculate correlation.  Below is an extract from the <em>pandas_profiling</em> library, which calculates several types of correlations between variables.  </p>
+<p><em>(Source: https://pandas-profiling.ydata.ai/)</em></p>
+<ol>
+<li>
+<p><strong>Pearson’s r</strong> (generally the default, can calculate using pandas)<br />
+The Pearson's correlation coefficient (r) is a measure of linear correlation between two variables. It's value lies between -1 and +1, -1 indicating total negative linear correlation, 0 indicating no linear correlation and 1 indicating total positive linear correlation. Furthermore, r is invariant under separate changes in location and scale of the two variables, implying that for a linear function the angle to the x-axis does not affect r.  To calculate r for two variables X and Y, one divides the covariance of X and Y by the product of their standard deviations.  </p>
+</li>
+<li>
+<p><strong>Spearman’s <script type="math/tex">\rho</script></strong> (supported by pandas)<br />
+  The Spearman's rank correlation coefficient (<script type="math/tex">\rho</script>) is a measure of monotonic correlation between two variables, and is therefore better in catching nonlinear monotonic correlations than Pearson's r. It's value lies between -1 and +1, -1 indicating total negative monotonic correlation, 0 indicating no monotonic correlation and 1 indicating total positive monotonic correlation.  To calculate <script type="math/tex">\rho</script> for two variables X and Y, one divides the covariance of the rank variables of X and Y by the product of their standard deviations.  </p>
+</li>
+<li>
+<p><strong>Kendall’s <script type="math/tex">\tau</script></strong> (supported by pandas)<br />
+  Similarly to Spearman's rank correlation coefficient, the Kendall rank correlation coefficient (<script type="math/tex">\tau</script>) measures ordinal association between two variables. It's value lies between -1 and +1, -1 indicating total negative correlation, 0 indicating no correlation and 1 indicating total positive correlation.  To calculate <script type="math/tex">\tau</script> for two variables <script type="math/tex">X</script> and <script type="math/tex">Y</script>, one determines the number of concordant and discordant pairs of observations. <script type="math/tex">\tau</script> is given by the number of concordant pairs minus the discordant pairs divided by the total number of pairs.  </p>
+</li>
+<li>
+<p><strong>Phik (<script type="math/tex">\phi k</script>)</strong> (use library <code>phik</code>)<br />
+  Phik (<script type="math/tex">\phi k</script>) is a new and practical correlation coefficient that works consistently between categorical, ordinal and interval variables, captures non-linear dependency and reverts to the Pearson correlation coefficient in case of a bivariate normal input distribution. (Interval variables are a special case of ordinal variables where the ordered points are equidistant.)</p>
+</li>
+<li>
+<p><strong>Cramér's V (<script type="math/tex">\phi c</script>)</strong> (use custom function, or PyCorr library)<br />
+  Cramér's V is an association measure for nominal random variables (nominal random variables are categorical variables with no order, eg, country names). The coefficient ranges from 0 to 1, with 0 indicating independence and 1 indicating perfect association. The empirical estimators used for Cramér's V have been proved to be biased, even for large samples.   </p>
+</li>
+</ol>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="02_Exploratory_Data_Analysis/" class="btn btn-neutral float-right" title="Exploratory Data Analysis">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="02_Exploratory_Data_Analysis/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2023-12-22 22:15:52.628076+00:00
+-->

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Introduction to Modeling - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction to Modeling";
+        var mkdocs_page_input_path = "05_Introduction_to_Modeling.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Introduction to Modeling</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#predictions">Predictions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#predictive-modeling">Predictive Modeling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-is-a-model">What is a model?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#maching-learning">Maching Learning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#supervised-vs-unsupervised-learning">Supervised vs Unsupervised Learning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#training-and-test-data-sets">Training and Test Data Sets</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#objective-functions">Objective Functions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#distance-measures">Distance Measures</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#common-distance-measures">Common distance measures</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cosine-distance">Cosine distance</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#model-evaluation">Model Evaluation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#evaluating-regression-models">Evaluating Regression Models</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#evaluating-classification-models">Evaluating Classification Models</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#understanding-the-confusion-matrix">Understanding the Confusion Matrix</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#other-metrics-based-on-the-confusion-matrix">Other metrics based on the Confusion Matrix</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#even-more-metrics">Even More Metrics!</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#the-classification-report">The Classification Report</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-base-rate-from-a-naive-classifier">The Base Rate from a Naive Classifier</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-f1-score">The F1 Score</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-roc-curve-receiver-operating-characteristics">The ROC Curve (Receiver Operating Characteristics)</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bias-vs-variance">Bias vs Variance</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#the-machine-learning-workflow">The Machine Learning Workflow</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Introduction to Modeling</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction-to-predictive-modeling">Introduction to predictive modeling</h1>
+<h2 id="predictions">Predictions</h2>
+<p>In common parlance, prediction means to forecast a future event.  In data science, prediction means to estimate an unknown value, which could be in the future, but also in the present or the past.  The unknown value could be a number, or a category (eg, sheep, elephant, or cat).</p>
+<p>Predictive modeling is different from descriptive modeling.  The primary purpose of descriptive modeling is not to predict something but instead to gain insight into the underlying phenomenon or process.  </p>
+<p>A descriptive model would be judged on its intelligibility, its ability to explain the causal relationships of the data, etc (eg, why do customers leave?).  Descriptive models would use descriptive statistics such as mean, median, variance, correlations etc that we covered in the first chapter.  </p>
+<p>Predictive models are judged on the basis of their predictive power (eg, which customers will leave?).  </p>
+<h2 id="predictive-modeling">Predictive Modeling</h2>
+<p>Predictive modeling involves predicting a variable of interest relating to an observation, based upon other attributes we know about that observation.  One approach to doing so is to start by specifying the structure of the model with certain numeric parameters left unspecified.  These ‘unspecified parameters’ are then calculated in a way as to fit the available data as closely as possible.  This general approach is called <em>parametric modeling</em>, as we learn the parameters of the model from the training data.  </p>
+<p>There are other approaches as well, for example with decision trees we find ever more ‘pure’ subsets by partitioning data based on the independent variables.  These approaches are called non-parametric modeling.  </p>
+<p><em>Source: Data Science for Business, Provost et al</em></p>
+<h2 id="what-is-a-model">What is a model?</h2>
+<p>A model is a representation or simplified version of a concept, phenomenon, relationship, or system of the real world.</p>
+<p>Models:<br />
+ - help understanding by simplifying complexity<br />
+ - aid in decision making by simulating 'what if' scenarios<br />
+ - explain, control, and predict events on the basis of past observations.  </p>
+<p>For analytics, models are mathematical representations of relationships that allow us to study, predict and profit from those relationships.  A model ultimately represents a formula for estimating the unknown value of interest.  Fitting a model is akin to identifying the relationship, or the pattern of interest.</p>
+<h2 id="maching-learning">Maching Learning</h2>
+<p>Machine Learning: A machine-learning system is trained rather than explicitly programmed. It’s presented with many examples relevant to a task, and it finds statistical structure in these examples that eventually allows the system to come up with rules for automating the task.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/e07ba8d5-ae3d-46e4-bf25-ae6a6e988c6a.png" /></p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/74128d7d-f0c6-4133-901a-8393658fdcad.png" /></p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/d16007b6-41ef-4dd5-b830-130f12af646f.png" /></p>
+<p>In some ways, building a model is akin to finding a function to describe a relationship, except that algorithm driven models allow us tremendous flexibility in the range of functions that can be modeled.  </p>
+<p>Models cannot always be expressed as neat functions though, and can be black-boxy, expressible only as a ‘model object’ that has a <script type="math/tex">\texttt{predict()}</script> method.</p>
+<h2 id="supervised-vs-unsupervised-learning">Supervised vs Unsupervised Learning</h2>
+<p>When we perform predictive analytics, we are trying to solve one of the following three types of problems: regression, classification, or clustering.  The first two fall under the umbrella of <em>supervised learning</em>, because the machine learns from examples we provide it.  The last one, clustering, is called <em>unsupervised learning</em> because the machine figures out groups of mathematically similar items without requiring examples.</p>
+<ol>
+<li>
+<p>Supervised Learning – learn from examples</p>
+<ol>
+<li><strong>Regression</strong>: Estimate a numerical value for a continuous variable
+        - Example: estimate property values</li>
+<li><strong>Classification</strong>: Identify a category to which an observation belongs
+        - Example: predict whether a customer would respond to an offer or not</li>
+</ol>
+</li>
+<li>
+<p>Unsupervised Learning – identify patterns in data without examples  </p>
+<ol>
+<li><strong>Clustering</strong>: Group similar items together<br />
+        - Example: create groups of similar news items  </li>
+</ol>
+</li>
+</ol>
+<h2 id="training-and-test-data-sets">Training and Test Data Sets</h2>
+<p>When given data, we would normally not give our algorithm access to the entire data set to learn from it.  That would be highly unusual.</p>
+<p>In fact, we would ‘hide’ a part of the data, and use this as the ‘test’ data set to check how well our model generalizes.  </p>
+<p>This is because models being greedy in their optimization will memorize the data they see, and fail to work outside the examples they have seen.  </p>
+<p>The data used to train our model is called the <strong>training set</strong>.</p>
+<p>Once trained, we evaluate our model on the <strong>test set</strong>.</p>
+<p>Sometimes, in data rich situations, the test data set is further split into two:  </p>
+<ul>
+<li>
+<p>The validation set: We use this to identify the best performing model, tune hyperparameters for neural nets.  As we do this, information from the validation set is ‘leaking’ to the model as it is being optimized a little for the validation set too.  </p>
+</li>
+<li>
+<p>The test set: This is the final data set which stays completely unseen from the model, and used to calculate accuracy, standard errors etc.         </p>
+</li>
+</ul>
+<p><strong><em>A word from the experts [from the book ‘Elements of Statistical Learning’]</em></strong>:</p>
+<ul>
+<li>If we are in a data-rich situation, the best approach for both problems is to randomly divide the dataset into three parts: a training set, a validation set, and a test set. <ul>
+<li>The training set is used to fit the models; </li>
+<li>the validation set is used to estimate prediction error for model selection; the test set is used for assessment of the generalization error of the final chosen model. </li>
+<li>Ideally, the test set should be kept in a "vault", and be brought out only at the end of the data analysis. </li>
+</ul>
+</li>
+<li>Suppose instead that we use the test-set repeatedly, choosing the model with smallest test-set error. Then the test set error of the final chosen model will underestimate the true test error, sometimes substantially. </li>
+<li>It is difficult to give a general rule on how to choose the number of observations in each of the three parts, as this depends on the signal-to-noise ratio in the data and the training sample size. A typical split might be 50% for training, and 25% each for validation and testing</li>
+</ul>
+<p><em>Source: Elements of Statistical Learning, Tibsharani and others
+Available for free download at https://web.stanford.edu/~hastie/ElemStatLearn/printings/ESLII_print12_toc.pdf</em></p>
+<h2 id="objective-functions">Objective Functions</h2>
+<p>Algorithms optimize parameters by focusing on an objective function, which is often called the ‘loss function’, or the ‘cost function’.  Sometimes, <em>loss function</em> is a term that is applied to a single observation, and <em>cost function</em> is used for the entire dataset (Source: Andrew Ng).  </p>
+<p>In practice, you may hear the terms loss function, cost function and objective functions used interchangeably.  All of these are the mathematical expression of the goal we are trying to optimize for.  </p>
+<p>What we do with any kind of objective function is generally try to minimize it. (Maximizing can be accommodated by putting a minus sign in front of the function and minimizing.)</p>
+<p>Minimization is easier if the function is continuous and differentiable.</p>
+<ul>
+<li>
+<p>For OLS regression, we minimize the <script type="math/tex">Loss Function = (y - \hat{y})^2</script>
+</p>
+</li>
+<li>
+<p>For logistic regression binary classification, a loss function often used is the log-loss function:
+<script type="math/tex"> -(y.log(\hat{y}) + (1-y)log(1-\hat{y}))</script>.  </p>
+</li>
+</ul>
+<p>Remember, <script type="math/tex">log(1) = 0</script>
+</p>
+<p>
+<script type="math/tex">\hat{y}</script> is the prediction, and <script type="math/tex">y</script> is the observed actual value.  </p>
+<h2 id="distance-measures">Distance Measures</h2>
+<p>A very fundamental concept when trying to identify patterns across data points is the ability to measure how similar or dissimilar data points are.  This is done using the concept of <em>distance</em> - the more dissimilar things are, the farther away they are from each other and their distance is greater, and the more similar they are, the closer the distance between them will be.</p>
+<p>The question then is - how do you measure distance?</p>
+<p>Distance calculations come into play in several algorithms, particularly those that leverage the idea of finding ‘nearest neighbors’.  An observation is described by its features X.  If there are two observations, for example consider two diamonds below with their features described as below, what is the distance between the two?</p>
+<pre><code class="language-python">import seaborn as sns
+sns.load_dataset('diamonds').sample(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>31902</th>
+      <td>0.3</td>
+      <td>Premium</td>
+      <td>G</td>
+      <td>VS1</td>
+      <td>62.9</td>
+      <td>58.0</td>
+      <td>776</td>
+      <td>4.32</td>
+      <td>4.27</td>
+      <td>2.7</td>
+    </tr>
+    <tr>
+      <th>601</th>
+      <td>0.7</td>
+      <td>Very Good</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>63.5</td>
+      <td>59.0</td>
+      <td>2838</td>
+      <td>5.53</td>
+      <td>5.49</td>
+      <td>3.5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">sns.load_dataset('diamonds')
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.23</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>61.5</td>
+      <td>55.0</td>
+      <td>326</td>
+      <td>3.95</td>
+      <td>3.98</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.21</td>
+      <td>Premium</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>59.8</td>
+      <td>61.0</td>
+      <td>326</td>
+      <td>3.89</td>
+      <td>3.84</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.23</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>VS1</td>
+      <td>56.9</td>
+      <td>65.0</td>
+      <td>327</td>
+      <td>4.05</td>
+      <td>4.07</td>
+      <td>2.31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.29</td>
+      <td>Premium</td>
+      <td>I</td>
+      <td>VS2</td>
+      <td>62.4</td>
+      <td>58.0</td>
+      <td>334</td>
+      <td>4.20</td>
+      <td>4.23</td>
+      <td>2.63</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.31</td>
+      <td>Good</td>
+      <td>J</td>
+      <td>SI2</td>
+      <td>63.3</td>
+      <td>58.0</td>
+      <td>335</td>
+      <td>4.34</td>
+      <td>4.35</td>
+      <td>2.75</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>53935</th>
+      <td>0.72</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>60.8</td>
+      <td>57.0</td>
+      <td>2757</td>
+      <td>5.75</td>
+      <td>5.76</td>
+      <td>3.50</td>
+    </tr>
+    <tr>
+      <th>53936</th>
+      <td>0.72</td>
+      <td>Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>63.1</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.69</td>
+      <td>5.75</td>
+      <td>3.61</td>
+    </tr>
+    <tr>
+      <th>53937</th>
+      <td>0.70</td>
+      <td>Very Good</td>
+      <td>D</td>
+      <td>SI1</td>
+      <td>62.8</td>
+      <td>60.0</td>
+      <td>2757</td>
+      <td>5.66</td>
+      <td>5.68</td>
+      <td>3.56</td>
+    </tr>
+    <tr>
+      <th>53938</th>
+      <td>0.86</td>
+      <td>Premium</td>
+      <td>H</td>
+      <td>SI2</td>
+      <td>61.0</td>
+      <td>58.0</td>
+      <td>2757</td>
+      <td>6.15</td>
+      <td>6.12</td>
+      <td>3.74</td>
+    </tr>
+    <tr>
+      <th>53939</th>
+      <td>0.75</td>
+      <td>Ideal</td>
+      <td>D</td>
+      <td>SI2</td>
+      <td>62.2</td>
+      <td>55.0</td>
+      <td>2757</td>
+      <td>5.83</td>
+      <td>5.87</td>
+      <td>3.64</td>
+    </tr>
+  </tbody>
+</table>
+<p>53940 rows × 10 columns</p>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import pairwise_distances
+X = sns.load_dataset('diamonds').sample(4).iloc[:, -6:]
+pairwise_distances(X, metric='cosine')
+</code></pre>
+<pre><code>array([[1.11022302e-16, 7.59576349e-06, 4.81626068e-05, 1.63326266e-04],
+       [7.59576349e-06, 0.00000000e+00, 1.79526643e-05, 2.38862114e-04],
+       [4.81626068e-05, 1.79526643e-05, 1.11022302e-16, 3.87665537e-04],
+       [1.63326266e-04, 2.38862114e-04, 3.87665537e-04, 0.00000000e+00]])
+</code></pre>
+<p>Fortunately, <strong>Scikit Learn</strong> provides us multiple ways to calculate distance.  </p>
+<ul>
+<li>
+<p><strong>Euclidean distance</strong> is the most commonly used distance metric.  It is the straight line distance between two points.  </p>
+</li>
+<li>
+<p><strong>Minkowski distance</strong> (default for sklearn) is a more flexible measure where different results can be obtained by varying a parameter <em>p</em>.  Minkowski distance is identical to Euclidean distance when p=2.</p>
+</li>
+</ul>
+<p>The choice of the distance metric depends upon the use case.</p>
+<p>The following distance measures are available from sklearn.</p>
+<h3 id="common-distance-measures">Common distance measures</h3>
+<table>
+<thead>
+<tr>
+<th>identifier</th>
+<th>class name</th>
+<th>args</th>
+<th>distance function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"euclidean"</td>
+<td>EuclideanDistance</td>
+<td></td>
+<td>sqrt(sum((x - y)^2))</td>
+</tr>
+<tr>
+<td>"manhattan"</td>
+<td>ManhattanDistance</td>
+<td></td>
+<td>sum(|x - y|)</td>
+</tr>
+<tr>
+<td>"chebyshev"</td>
+<td>ChebyshevDistance</td>
+<td></td>
+<td>max(|x - y|)</td>
+</tr>
+<tr>
+<td>"minkowski"</td>
+<td>MinkowskiDistance</td>
+<td>p</td>
+<td>sum(|x - y|^p)^(1/p)</td>
+</tr>
+<tr>
+<td>"wminkowski"</td>
+<td>WMinkowskiDistance</td>
+<td>p, w</td>
+<td>sum(|w * (x - y)|^p)^(1/p)</td>
+</tr>
+<tr>
+<td>"seuclidean"</td>
+<td>SEuclideanDistance</td>
+<td>V</td>
+<td>sqrt(sum((x - y)^2 / V))</td>
+</tr>
+<tr>
+<td>"mahalanobis"</td>
+<td>MahalanobisDistance</td>
+<td>V or VI</td>
+<td>sqrt((x - y)' V^-1 (x - y))</td>
+</tr>
+</tbody>
+</table>
+<p><em>Source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.DistanceMetric.html</em></p>
+<h3 id="cosine-distance">Cosine distance</h3>
+<p>In addition, <em>cosine distance</em> is often used for measuring the similarity between pieces of text.</p>
+<p>Cosine similarity is a measure of the angle between two vectors. 
+Cosine similarity is useful in measuring the similarity between pieces of text.</p>
+<p>
+<script type="math/tex">\mbox{Cosine Similarity} = cos\theta = (r.s)/(|r||s|)</script>
+</p>
+<p>where <code>r</code> and <code>s</code> are two vectors, <code>r.s</code> is the dot product of the two vectors, and <code>|r|</code> and <code>|s|</code> are the sizes of the vectors.</p>
+<p><em>Source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html</em></p>
+<p><strong>Interpreting the cosine distance</strong><br />
+If two observations were to be plotted as vectors, the cosine distance is merely the cosine of the angle between the vectors.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/14b11d62-7f1b-4d83-8c69-f8ec47d184f4.png" /></p>
+<p><strong>What it tells us:</strong><br />
+If we know the dot product of two vectors, and their magnitudes, we can calculate the angle between the vectors using the above relationship (and the cosine_similarity function described in the prior slide).  Cosine similarity varies between -1 and +1 (theoretically).  However, for words and text vectors are generally positive which means similarity varies between 0 and 1.  </p>
+<p>Some important relationships to know:</p>
+<ul>
+<li>cos 0<script type="math/tex">^\circ</script> = 1 (means the vectors overlap)</li>
+<li>cos 90<script type="math/tex">^\circ</script> = 0 (means the vectors are perpendicular to each other, or orthogonal)</li>
+<li>cos 180<script type="math/tex">^\circ</script> = -1 (means the vectors point in opposite directions)</li>
+<li>cos (180<script type="math/tex">^\circ</script> + <script type="math/tex">\theta</script>) = - cos<script type="math/tex">\theta</script>
+</li>
+<li>know that 180 degrees = <script type="math/tex">\pi</script> radians</li>
+</ul>
+<p><strong>Cosine distance vs cosine similarity</strong><br />
+Sometimes you might hear of cosine similarity as opposed to cosine distance.  </p>
+<p>Cosine distance = 1 – cosine similarity</p>
+<p>Logic is that when the similarity is 1, distance is 0, or when they are orthogonal (90 degrees), then the distance is 1.</p>
+<h2 id="model-evaluation">Model Evaluation</h2>
+<p>Evaluating a model means assessing its performance.  Model evaluation answers the question whether the model predictions are good.</p>
+<p>Model evaluation helps us establish whether the model is useful at all, and also compare it with other models, or the same model over time.</p>
+<p>Model evaluation is relatively straightforward for regression models where a continuous variable is predicted, as we can compare predicted values to actual values.</p>
+<p>Evaluation is trickier for classification problems as several additional factors come into play.  We will examine the tools available to assess classifiers.</p>
+<h3 id="evaluating-regression-models">Evaluating Regression Models</h3>
+<p>Conceptually, regression models are relatively easy to evaluate.  You already know the actual observed number, and you also know the predicted number.  The model is good if the two are close together, and not good if otherwise.  Metrics for evaluating regression are all a play on this basic idea, some express the difference between the actual and predicted as a percentage (MAPE), others take the average squared difference (MSE and RMSE), and yet others the average absolute difference (MAE).</p>
+<p>The main metrics used to evaluate regression models are MAE, MSE and RMSE, and occasionally MAPE.</p>
+<p><strong>MAE: Mean Absolute Error</strong><br />
+<script type="math/tex">\text{MAE}(y, \hat{y}) = \frac{1}{n_{\text{samples}}} \sum_{i=0}^{n_{\text{samples}}-1} \left| y_i - \hat{y}_i \right|</script>
+</p>
+<p><strong>MSE: Mean Squared Error (MSE)</strong><br />
+<script type="math/tex">\text{MSE}(y, \hat{y}) = \frac{1}{n_\text{samples}} \sum_{i=0}^{n_\text{samples} - 1} (y_i - \hat{y}_i)^2</script>
+</p>
+<p><strong>RMSE: Root Mean Squared Error (RMSE)</strong><br />
+The square root of MSE above </p>
+<p><strong>Mean Absolute Percentage Error (MAPE)</strong><br />
+<script type="math/tex">\text{MAPE}(y, \hat{y}) = \frac{1}{n_{\text{samples}}} \sum_{i=0}^{n_{\text{samples}}-1} \frac{{}\left| y_i - \hat{y}_i \right|}{\max(\epsilon, \left| y_i \right|)}</script>
+</p>
+<p><em>Source: https://scikit-learn.org/stable/modules/model_evaluation.html</em></p>
+<p>The above URL lists many more evaluation metrics.  </p>
+<h3 id="evaluating-classification-models">Evaluating Classification Models</h3>
+<p>Evaluating classification models is much more tricky.  This is because there are likely several categories, and the accuracy of prediction would depend upon how the categories are split in the population.  For example, if a condition, say a disease, occurs in only 1% of the population, then we can naively classify all observations as belonging to the category 'no-disease', and this predicdtion will be true in 99% of the cases.  </p>
+<p>In order to evaluate classification models, we create what is called a <strong><em>Confusion Matrix</em></strong>.  Understanding the Confusion Matrix is key to evaluating classification models.
+Consider the prediction results produced by a spam classifier:</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/830b7d5d-49c1-4c1a-a786-d08dfe17608c.png" /></p>
+<p>The green cells indicate observations that were classified correctly.</p>
+<p>
+<script type="math/tex">Accuracy = (45+38)/100=83%</script>
+</p>
+<p>The algorithm was able to classify 83% of the observations accurately.  This metric is called <strong>‘accuracy’</strong>.</p>
+<p>Now consider a disease prediction algorithm which performs at a 95% accuracy.  How good is that?</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/9dbf59cb-7398-485b-a3c9-095ab74022ec.png" /></p>
+<p>What would be the baseline performance of a naïve algorithm that classifies every case as –ve?</p>
+<h4 id="understanding-the-confusion-matrix">Understanding the Confusion Matrix</h4>
+<p>Generally, we can consider a generic confusion matrix as follows:</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/8427fdd8-a6e1-4c38-aa80-bdea018ee9f2.png" /></p>
+<p>In addition to Accuracy, Precision and Recall are two other important metrics.</p>
+<blockquote>
+<p>Precision = TP/(TP + FP)<br />
+Recall = TP/(TP + FN)  </p>
+</blockquote>
+<p>Recall is also called <em>sensitivity</em>, or <em>true positive rate</em>. <em>Precision</em> is also called <em>Positive Predictive Value</em>.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/1ff9f1f4-d95a-4151-8496-1585ad89f59c.png" /></p>
+<h4 id="other-metrics-based-on-the-confusion-matrix">Other metrics based on the Confusion Matrix</h4>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/1c442fb3-67db-46d9-830a-cc95ad940457.png" /></p>
+<p>The choice of the metric depends upon your use case, and what kind of error (False Positive, or False Negative) are you more comfortable with.</p>
+<p>In some cases, the cost of a False Positive may be quite high, for example, selecting customers for an expensive special offer.<br />
+<strong>- High Precision is important</strong><br />
+In other cases, the situation may be reversed, and you may not want any False Negatives, for example at airport security where you want to identify all positives even if it means flagging several false positives.<br />
+<strong>- High Recall is important</strong>  </p>
+<h4 id="even-more-metrics">Even More Metrics!</h4>
+<p>The Confusion Matrix can be sliced in multiple ways, and various combinations of ratios calculated.  The Wikipedia has an interesting collection of a number of evaluation criteria – see graphic to the right.  </p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/5d23064d-7041-4904-92c6-5d0694dfaf8b.png" /></p>
+<h4 id="the-classification-report">The Classification Report</h4>
+<p>The ‘Classification Report’ is a summary of key metrics.  As part of our model evaluation, we will be examining the classification report often.  Therefore it is important to understand this report.</p>
+<p>Consider the below confusion matrix.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/6d8bd807-3753-448a-9dd6-09b916b4d86d.png" /></p>
+<p>The classification report below is based on the Confusion Matrix above.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/5f014a4b-905c-479e-8f3a-03b924b848f8.png" /></p>
+<p>An explanation of how each element of the report is calculated appears in the graphic below.
+<img alt="image.png" src="../05_Introduction_to_Modeling_files/47485037-3db2-4924-aa1c-17b113a00853.png" /></p>
+<h3 id="the-base-rate-from-a-naive-classifier">The Base Rate from a Naive Classifier</h3>
+<p>To find out whether a classification model we have built has any ‘skill’ or not, we need to compare it to a naïve classifier.</p>
+<p>For example, if a dataset has a 50:50 probability for a certain class, we can achieve 50% accuracy by simply tossing a coin, or drawing a random number.  (What would be the min expected accuracy for a population 99% of which belongs to a single category?)</p>
+<p>The analyst should always do a sanity check by comparing model results to that of a ‘dummy classifier’.</p>
+<p>Fortunately, the scikit learn library provides us just the function to establish such a base rate to allow us to do sanity checks.</p>
+<p><code>sklearn.dummy.DummyClassifier</code> implements several such simple strategies for classification:  </p>
+<blockquote>
+<p><code>stratified</code> generates random predictions by respecting the training set class distribution.<br />
+<code>most_frequent</code> always predicts the most frequent label in the training set.<br />
+<code>prior</code> always predicts the class that maximizes the class prior (like most_frequent) and predict_proba returns the class prior.  (class prior is the probability that a random observation selected from the data belongs to a particular class)<br />
+<code>uniform</code> generates predictions uniformly at random.<br />
+<code>constant</code> always predicts a constant label that is provided by the user.  </p>
+</blockquote>
+<p><em>Source: https://scikit-learn.org/stable/modules/model_evaluation.html#dummy-estimators</em></p>
+<h3 id="the-f1-score">The F1 Score</h3>
+<p>The F1 score brings together both precision and recall by combining them using the harmonic mean.</p>
+<p>The harmonic mean is the <strong><em>inverse of the average of inverses</em></strong>.</p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/a9d13915-1160-46ff-9ddd-6020c722c0e6.png" /></p>
+<p>
+<script type="math/tex">F1 score = 2/(1/Precision + 1/Recall)</script>
+<br />
+or,  </p>
+<p>
+<script type="math/tex">F1 = 2 * (precision * recall) / (precision + recall)</script>
+</p>
+<p>The F1 score can vary from 0 to 1, and a higher value is better.</p>
+<h3 id="the-roc-curve-receiver-operating-characteristics">The ROC Curve (Receiver Operating Characteristics)</h3>
+<p>The ROC curve is a plot between the true positive rate (TP/P), and the false positive rate (FP/N). </p>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/d2ae9955-d4f4-406b-a4e3-c50a971aaa59.png" /></p>
+<p>It is also often explained as the plot between sensitivity (=TP Rate) and 1 – specificity (= 1 – TN Rate =FP rate), but for these discussions we will ignore this nomenclature.  </p>
+<blockquote>
+<p>Sensitivity = TP/(TP + FN) = TP/P.  Of those +ve, how many were correctly predicted +ve
+Specificity = TN/(TN + FP) = TN/N.  Of those –ve, how many were correctly predicted –ve</p>
+</blockquote>
+<p><strong>The intuition behind ROC curves</strong>  </p>
+<ul>
+<li>For class predictions, predictive models will often (but not always) output probabilities of belonging to a particular class.  </li>
+<li>For example, logistic regression will provide the probabilities of belonging to a particular class, but not a firm decision.  Consider the output from a logistic regression model, you can see the probabilities of belong to a class.  </li>
+<li>In such situations, the analyst has to decide what cut-off to use for deciding class membership.  </li>
+<li>Generally the default is set at 50%, ie if the prob is greater than 50%, the observation belongs to a class, otherwise not.  </li>
+<li>In multi-category classification problems, the default rule is to assign to the class with the highest probability.  </li>
+<li>As we discussed earlier, the costs of FPs and FNs may be asymmetrical, and we may wish to adjust the threshold manually to obtain the right mix between FPs and FNs.  </li>
+<li>For example, we may want to increase TP rate (thereby reducing false negatives), even if it means increasing the FP rate.  </li>
+<li>The ROC curve is a visualization of the FP rate and the TP rate at different thresholds.  Essentially, it is a plot of the table below.  </li>
+</ul>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/de7a2cfb-fa2e-4c0e-bea3-de971fa7b91d.png" /></p>
+<ul>
+<li>Below is an ROC curve for a two class classification problem.</li>
+</ul>
+<p><img alt="image.png" src="../05_Introduction_to_Modeling_files/a2db8b11-377b-48a8-9c1b-a403312fc572.png" /></p>
+<ul>
+<li>The blue line represents the trade-off between TP and FP rates.  </li>
+<li>The red line represents the results of a random classifier.  The higher the blue line is compared to the red line, the better our classifier is.  </li>
+<li>The top left of the graph (where FP rate = 0, and TP rate = 1) is the most desirable point.  </li>
+<li>The area under the blue line is the AUC metric, and in a perfect situation would be equal to 1.  </li>
+</ul>
+<h2 id="bias-vs-variance">Bias vs Variance</h2>
+<p>Bias means poor performance on the training data.  Variance means good performance on the training data but poor performance on the validation or test data</p>
+<blockquote>
+<p>Bias = Underfitting<br />
+Variance = Overfitting  </p>
+</blockquote>
+<ul>
+<li>Bias – treat with changing the model, relax restrictions on model (eg tree depth, or network size)  </li>
+<li>Variance – treat with more data, regularization, or a different model type  </li>
+</ul>
+<h2 id="the-machine-learning-workflow">The Machine Learning Workflow</h2>
+<p>As we get to building models, below is the workflow we will follow.  And we will see this in operation so many times, that it will become almost second nature.<br />
+1. Prepare your data – cleanse, convert to numbers, etc<br />
+2. Split the data into training and test sets<br />
+        a. Training sets are what algorithms learn from<br />
+        b. Test sets are the ‘hold-out’ data on which model effectiveness is measured<br />
+        c. No set rules, often a 80:20 split between train and test data suffices.  If there is a lot of training data, you may keep a smaller number as the test set.<br />
+3. Fit a model. <br />
+4. Check model accuracy based on the test set. <br />
+5. Use for predictions.  </p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../04_Data_Preparation/" class="btn btn-neutral float-left" title="Data Preparation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../06_Recommender_Systems/" class="btn btn-neutral float-right" title="Recommender Systems">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../04_Data_Preparation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../06_Recommender_Systems/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Recommender Systems - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Recommender Systems";
+        var mkdocs_page_input_path = "06_Recommender_Systems.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Recommender Systems</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#metrics">Metrics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#support">Support</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#confidence">Confidence</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#lift">Lift</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#leverage">Leverage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#conviction">Conviction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#toy-example">Toy Example</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#create-toy-dataframe">Create toy dataframe</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#list-itemsets">List itemsets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#generate-rules">Generate rules</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-with-larger-dataset">Example with larger dataset</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#load-data">Load data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#change-dataframe-to-boolean">Change dataframe to boolean</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#list-itemsets_1">List itemsets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#generate-rulesets">Generate rulesets</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Recommender Systems</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p><strong>In this notebook, we will look at Association Rules and Collaborative Filtering</strong>  </p>
+<h1 id="association-rules">Association Rules</h1>
+<p><strong>Also called Market Basket Analysis, or Affinity Analysis</strong></p>
+<blockquote>
+<p><em>References:<br />
+ - http://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/<br />
+ - https://pyshark.com/market-basket-analysis-using-association-rule-mining-in-python/<br />
+ - Data adapted from https://www.kaggle.com/heeraldedhia/groceries-dataset</em>  </p>
+</blockquote>
+<p>Association rules help us identify what goes with what.  For example in a retail sales context, you may want to know that if a person buys bread, they are also likely to buy jam.  In such a case, you can recommend jam to a person who is buying bread, but hasn't brought jam yet.  Association rules are the basis for recommender systems, so if a person has watched Star Wars, they may be likely to watch Dune.  </p>
+<p>The end game for Association Rules is a set of rules where for an <code>antecedent</code> we are able to predict the <code>consequent</code> with some level of confidence.  An association rule takes the form A → C, which is a way of saying that given A, what is the likelihood of C co-occurring.   </p>
+<p>Note that this is not correlation, but expressed as a probability called 'confidence'.  A and B are called 'itemsets', which means that they represent one or a combination of multiple items in our data.  For example, if we are trying to determine the association rules for purchases of milk, bread and butter, then {milk} would be an 'itemset', and so would be {milk, bread}.  So a rule may look like {milk, bread} → {butter} with a confidence of 66%.  Or it may be simpler, {bread} → {butter} with a confidence of 50%.</p>
+<h2 id="metrics">Metrics</h2>
+<h3 id="support">Support</h3>
+<p>Support is calculated at the itemset level.  It is the ratio of how often an itemset appears in the dataset, divided by the total number of observations in the dataset.  </p>
+<p>
+<script type="math/tex">support(itemset) = {\text{# of transactions in which }itemset \text{ appears} \over \text{Total # of transactions}}</script>
+</p>
+<p>Support is used to measure the abundance or frequency (often interpreted as significance or importance) of an itemset in a database. We refer to an itemset as a "frequent itemset" if support is larger than a specified minimum-support threshold. All subsets of a frequent itemset are also frequent.</p>
+<p>The support for a rule is calculated as <script type="math/tex">\text{support}(A\rightarrow C) = \text{support}(A \cup C), \;\;\; \text{range: } [0, 1]</script>
+</p>
+<h3 id="confidence">Confidence</h3>
+<p>
+<script type="math/tex">\text{confidence}(A\rightarrow C) = \frac{\text{support}(A\rightarrow C)}{\text{support}(A)}, \;\;\; \text{range: } [0, 1]</script>
+</p>
+<h3 id="lift">Lift</h3>
+<p>Lift tells us how good is the rule at calculating the outcome while taking into account the popularity of itemset Y.</p>
+<p>
+<script type="math/tex">\text{lift}(A\rightarrow C) = \frac{\text{confidence}(A\rightarrow C)}{\text{support}(C)}, \;\;\; \text{range: } [0, \infty]</script>
+</p>
+<h3 id="leverage">Leverage</h3>
+<p>
+<script type="math/tex">\text{levarage}(A\rightarrow C) = \text{support}(A\rightarrow C) - \text{support}(A) \times \text{support}(C), \;\;\; \text{range: } [-1, 1]</script>
+</p>
+<p>Leverage computes the difference between the observed frequency of A and C appearing together and the frequency that would be expected if A and C were independent. A leverage value of 0 indicates independence.</p>
+<h3 id="conviction">Conviction</h3>
+<p>
+<script type="math/tex">\text{conviction}(A\rightarrow C) = \frac{1 - \text{support}(C)}{1 - \text{confidence}(A\rightarrow C)}, \;\;\; \text{range: } [0, \infty]</script>
+</p>
+<p>A high conviction value means that the consequent is highly depending on the antecedent. For instance, in the case of a perfect confidence score, the denominator becomes 0 (due to 1 - 1) for which the conviction score is defined as 'inf'. Similar to lift, if items are independent, the conviction is 1.  </p>
+<p><em>Source: http://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/</em>  </p>
+<p>While the above is great to obtain a high level understanding, let us scale up our example and look at larger examples, and have the machine do these calculations for us.  </p>
+<h2 id="toy-example">Toy Example</h2>
+<p>Let us calculate these metrics for {milk} → {butter}  </p>
+<p><img alt="image.png" src="../06_Recommender_Systems_files/9520f97d-ca17-4143-aee0-e2fb92d22a93.png" />  </p>
+<p><strong>Support</strong><br />
+support(milk) = 3/5 = 60%<br />
+support(butter) = 3/5 = 60%<br />
+support(milk AND butter) = 2/5 = 40%  </p>
+<p><strong>Confidence</strong><br />
+confidence(milk → butter) = 2/3 = 67%<br />
+<em>or</em>, support(milk AND butter)/support(milk) = 40%/60% = 67%  </p>
+<p><strong>Lift</strong><br />
+lift(milk → butter) = 67% / 60% = 67% = 1.11</p>
+<p><strong>Leverage</strong><br />
+leverage(milk → butter) = 40% - (60% * 60%) = 0.04</p>
+<p><strong>Conviction</strong><br />
+conviction(milk → butter) = (1-60%)/(1-67%) = 1.21</p>
+<p><strong>Next</strong>, we create and test the above out using a Python library to do these calculations.  </p>
+<pre><code class="language-python"># Usual library imports
+import numpy as np
+import pandas as pd
+
+</code></pre>
+<h3 id="create-toy-dataframe">Create toy dataframe</h3>
+<pre><code class="language-python">df = pd.DataFrame(
+    {'Milk': {'Customer_1': True,
+  'Customer_2': True,
+  'Customer_3': False,
+  'Customer_4': False,
+  'Customer_5': True},
+ 'Bread': {'Customer_1': False,
+  'Customer_2': True,
+  'Customer_3': True,
+  'Customer_4': True,
+  'Customer_5': False},
+ 'Butter': {'Customer_1': True,
+  'Customer_2': True,
+  'Customer_3': False,
+  'Customer_4': True,
+  'Customer_5': False}})
+df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Milk</th>
+      <th>Bread</th>
+      <th>Butter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Customer_1</th>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>Customer_2</th>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>Customer_3</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>Customer_4</th>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>Customer_5</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="list-itemsets">List itemsets</h3>
+<pre><code class="language-python">from mlxtend.frequent_patterns import apriori
+
+frequent_itemsets_ap = apriori(df, min_support=0.01, use_colnames=True)
+frequent_itemsets_ap['length'] = frequent_itemsets_ap['itemsets'].apply(lambda x: len(x))
+
+frequent_itemsets_ap
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>support</th>
+      <th>itemsets</th>
+      <th>length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.6</td>
+      <td>(Milk)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.6</td>
+      <td>(Bread)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.6</td>
+      <td>(Butter)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.2</td>
+      <td>(Milk, Bread)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.4</td>
+      <td>(Milk, Butter)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.4</td>
+      <td>(Butter, Bread)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.2</td>
+      <td>(Milk, Butter, Bread)</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="generate-rules">Generate rules</h3>
+<pre><code class="language-python">from mlxtend.frequent_patterns import association_rules
+
+rules_ap = association_rules(frequent_itemsets_ap, metric=&quot;confidence&quot;, min_threshold=0.1)
+
+rules_ap.sort_values(by='lift', ascending=False)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antecedents</th>
+      <th>consequents</th>
+      <th>antecedent support</th>
+      <th>consequent support</th>
+      <th>support</th>
+      <th>confidence</th>
+      <th>lift</th>
+      <th>leverage</th>
+      <th>conviction</th>
+      <th>zhangs_metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>(Milk, Bread)</td>
+      <td>(Butter)</td>
+      <td>0.2</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>1.000000</td>
+      <td>1.666667</td>
+      <td>0.08</td>
+      <td>inf</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>(Butter)</td>
+      <td>(Milk, Bread)</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>0.2</td>
+      <td>0.333333</td>
+      <td>1.666667</td>
+      <td>0.08</td>
+      <td>1.2</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(Milk)</td>
+      <td>(Butter)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.666667</td>
+      <td>1.111111</td>
+      <td>0.04</td>
+      <td>1.2</td>
+      <td>0.250000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(Butter)</td>
+      <td>(Milk)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.666667</td>
+      <td>1.111111</td>
+      <td>0.04</td>
+      <td>1.2</td>
+      <td>0.250000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>(Butter)</td>
+      <td>(Bread)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.666667</td>
+      <td>1.111111</td>
+      <td>0.04</td>
+      <td>1.2</td>
+      <td>0.250000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>(Bread)</td>
+      <td>(Butter)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.666667</td>
+      <td>1.111111</td>
+      <td>0.04</td>
+      <td>1.2</td>
+      <td>0.250000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>(Milk, Butter)</td>
+      <td>(Bread)</td>
+      <td>0.4</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>0.500000</td>
+      <td>0.833333</td>
+      <td>-0.04</td>
+      <td>0.8</td>
+      <td>-0.250000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>(Butter, Bread)</td>
+      <td>(Milk)</td>
+      <td>0.4</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>0.500000</td>
+      <td>0.833333</td>
+      <td>-0.04</td>
+      <td>0.8</td>
+      <td>-0.250000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>(Milk)</td>
+      <td>(Butter, Bread)</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.2</td>
+      <td>0.333333</td>
+      <td>0.833333</td>
+      <td>-0.04</td>
+      <td>0.9</td>
+      <td>-0.333333</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>(Bread)</td>
+      <td>(Milk, Butter)</td>
+      <td>0.6</td>
+      <td>0.4</td>
+      <td>0.2</td>
+      <td>0.333333</td>
+      <td>0.833333</td>
+      <td>-0.04</td>
+      <td>0.9</td>
+      <td>-0.333333</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>(Milk)</td>
+      <td>(Bread)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>0.333333</td>
+      <td>0.555556</td>
+      <td>-0.16</td>
+      <td>0.6</td>
+      <td>-0.666667</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(Bread)</td>
+      <td>(Milk)</td>
+      <td>0.6</td>
+      <td>0.6</td>
+      <td>0.2</td>
+      <td>0.333333</td>
+      <td>0.555556</td>
+      <td>-0.16</td>
+      <td>0.6</td>
+      <td>-0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">
+</code></pre>
+<h2 id="example-with-larger-dataset">Example with larger dataset</h2>
+<h3 id="load-data">Load data</h3>
+<pre><code class="language-python">df = pd.read_csv('groceries.csv', index_col=0)
+df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>abrasive_cleaner</th>
+      <th>artif_sweetener</th>
+      <th>baby_cosmetics</th>
+      <th>bags</th>
+      <th>baking_powder</th>
+      <th>bathroom_cleaner</th>
+      <th>beef</th>
+      <th>berries</th>
+      <th>beverages</th>
+      <th>bottled_beer</th>
+      <th>...</th>
+      <th>UHT-milk</th>
+      <th>vinegar</th>
+      <th>waffles</th>
+      <th>whipped_sour_cream</th>
+      <th>whisky</th>
+      <th>white_bread</th>
+      <th>white_wine</th>
+      <th>whole_milk</th>
+      <th>yogurt</th>
+      <th>zwieback</th>
+    </tr>
+    <tr>
+      <th>Customer</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1000</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1001</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1002</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1003</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1004</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4996</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4997</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4998</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4999</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5000</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>3898 rows × 167 columns</p>
+</div>
+
+<h3 id="change-dataframe-to-boolean">Change dataframe to boolean</h3>
+<pre><code class="language-python">df = df&gt;0
+print(df.shape)
+df
+</code></pre>
+<pre><code>(3898, 167)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>abrasive_cleaner</th>
+      <th>artif_sweetener</th>
+      <th>baby_cosmetics</th>
+      <th>bags</th>
+      <th>baking_powder</th>
+      <th>bathroom_cleaner</th>
+      <th>beef</th>
+      <th>berries</th>
+      <th>beverages</th>
+      <th>bottled_beer</th>
+      <th>...</th>
+      <th>UHT-milk</th>
+      <th>vinegar</th>
+      <th>waffles</th>
+      <th>whipped_sour_cream</th>
+      <th>whisky</th>
+      <th>white_bread</th>
+      <th>white_wine</th>
+      <th>whole_milk</th>
+      <th>yogurt</th>
+      <th>zwieback</th>
+    </tr>
+    <tr>
+      <th>Customer</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1000</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1001</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1002</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1003</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1004</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4996</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4997</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4998</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4999</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5000</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>3898 rows × 167 columns</p>
+</div>
+
+<h3 id="list-itemsets_1">List itemsets</h3>
+<pre><code class="language-python">from mlxtend.frequent_patterns import apriori
+
+frequent_itemsets_ap = apriori(df, min_support=0.01, use_colnames=True)
+frequent_itemsets_ap['length'] = frequent_itemsets_ap['itemsets'].apply(lambda x: len(x))
+
+frequent_itemsets_ap.sort_values(by='support', ascending=False)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>support</th>
+      <th>itemsets</th>
+      <th>length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>113</th>
+      <td>0.458184</td>
+      <td>(whole_milk)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>0.376603</td>
+      <td>(other_vegetables)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>0.349666</td>
+      <td>(rolls_buns)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>0.313494</td>
+      <td>(soda)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>0.282966</td>
+      <td>(yogurt)</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2419</th>
+      <td>0.010005</td>
+      <td>(red_blush_wine, rolls_buns, other_vegetables)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1136</th>
+      <td>0.010005</td>
+      <td>(root_vegetables, semi-finished_bread)</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1878</th>
+      <td>0.010005</td>
+      <td>(citrus_fruit, margarine, other_vegetables)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2380</th>
+      <td>0.010005</td>
+      <td>(rolls_buns, root_vegetables, onions)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2334</th>
+      <td>0.010005</td>
+      <td>(newspapers, rolls_buns, pastry)</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+<p>3016 rows × 3 columns</p>
+</div>
+
+<h3 id="generate-rulesets">Generate rulesets</h3>
+<p><strong>Rulesets, sorted by <code>lift</code></strong></p>
+<pre><code class="language-python">from mlxtend.frequent_patterns import association_rules
+
+rules_ap = association_rules(frequent_itemsets_ap, metric=&quot;confidence&quot;, min_threshold=0.1)
+
+rules_ap.sort_values(by='lift', ascending=False)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antecedents</th>
+      <th>consequents</th>
+      <th>antecedent support</th>
+      <th>consequent support</th>
+      <th>support</th>
+      <th>confidence</th>
+      <th>lift</th>
+      <th>leverage</th>
+      <th>conviction</th>
+      <th>zhangs_metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9679</th>
+      <td>(whole_milk, other_vegetables, sausage)</td>
+      <td>(yogurt, rolls_buns)</td>
+      <td>0.050282</td>
+      <td>0.111339</td>
+      <td>0.013597</td>
+      <td>0.270408</td>
+      <td>2.428689</td>
+      <td>0.007998</td>
+      <td>1.218025</td>
+      <td>0.619400</td>
+    </tr>
+    <tr>
+      <th>9685</th>
+      <td>(yogurt, rolls_buns)</td>
+      <td>(whole_milk, other_vegetables, sausage)</td>
+      <td>0.111339</td>
+      <td>0.050282</td>
+      <td>0.013597</td>
+      <td>0.122120</td>
+      <td>2.428689</td>
+      <td>0.007998</td>
+      <td>1.081831</td>
+      <td>0.661957</td>
+    </tr>
+    <tr>
+      <th>9680</th>
+      <td>(yogurt, rolls_buns, other_vegetables)</td>
+      <td>(whole_milk, sausage)</td>
+      <td>0.052335</td>
+      <td>0.106978</td>
+      <td>0.013597</td>
+      <td>0.259804</td>
+      <td>2.428575</td>
+      <td>0.007998</td>
+      <td>1.206467</td>
+      <td>0.620721</td>
+    </tr>
+    <tr>
+      <th>9684</th>
+      <td>(whole_milk, sausage)</td>
+      <td>(yogurt, rolls_buns, other_vegetables)</td>
+      <td>0.106978</td>
+      <td>0.052335</td>
+      <td>0.013597</td>
+      <td>0.127098</td>
+      <td>2.428575</td>
+      <td>0.007998</td>
+      <td>1.085650</td>
+      <td>0.658702</td>
+    </tr>
+    <tr>
+      <th>8186</th>
+      <td>(curd, yogurt)</td>
+      <td>(whole_milk, sausage)</td>
+      <td>0.040277</td>
+      <td>0.106978</td>
+      <td>0.010005</td>
+      <td>0.248408</td>
+      <td>2.322046</td>
+      <td>0.005696</td>
+      <td>1.188173</td>
+      <td>0.593239</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>840</th>
+      <td>(dessert)</td>
+      <td>(domestic_eggs)</td>
+      <td>0.086455</td>
+      <td>0.133145</td>
+      <td>0.010262</td>
+      <td>0.118694</td>
+      <td>0.891466</td>
+      <td>-0.001249</td>
+      <td>0.983603</td>
+      <td>-0.117598</td>
+    </tr>
+    <tr>
+      <th>5545</th>
+      <td>(newspapers, tropical_fruit)</td>
+      <td>(other_vegetables)</td>
+      <td>0.036942</td>
+      <td>0.376603</td>
+      <td>0.012314</td>
+      <td>0.333333</td>
+      <td>0.885104</td>
+      <td>-0.001598</td>
+      <td>0.935095</td>
+      <td>-0.118779</td>
+    </tr>
+    <tr>
+      <th>5296</th>
+      <td>(long_life_bakery_product)</td>
+      <td>(whole_milk, other_vegetables)</td>
+      <td>0.065418</td>
+      <td>0.191380</td>
+      <td>0.011031</td>
+      <td>0.168627</td>
+      <td>0.881112</td>
+      <td>-0.001488</td>
+      <td>0.972632</td>
+      <td>-0.126160</td>
+    </tr>
+    <tr>
+      <th>5536</th>
+      <td>(other_vegetables, sausage)</td>
+      <td>(newspapers)</td>
+      <td>0.092868</td>
+      <td>0.139815</td>
+      <td>0.011288</td>
+      <td>0.121547</td>
+      <td>0.869340</td>
+      <td>-0.001697</td>
+      <td>0.979204</td>
+      <td>-0.142136</td>
+    </tr>
+    <tr>
+      <th>635</th>
+      <td>(cream_cheese_)</td>
+      <td>(citrus_fruit)</td>
+      <td>0.088507</td>
+      <td>0.185480</td>
+      <td>0.014110</td>
+      <td>0.159420</td>
+      <td>0.859502</td>
+      <td>-0.002306</td>
+      <td>0.968998</td>
+      <td>-0.152065</td>
+    </tr>
+  </tbody>
+</table>
+<p>9729 rows × 10 columns</p>
+</div>
+
+<p><strong>Sorted by <code>confidence</code></strong></p>
+<pre><code class="language-python">rules_ap.sort_values(by='confidence', ascending=False)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antecedents</th>
+      <th>consequents</th>
+      <th>antecedent support</th>
+      <th>consequent support</th>
+      <th>support</th>
+      <th>confidence</th>
+      <th>lift</th>
+      <th>leverage</th>
+      <th>conviction</th>
+      <th>zhangs_metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4563</th>
+      <td>(meat, domestic_eggs)</td>
+      <td>(whole_milk)</td>
+      <td>0.013084</td>
+      <td>0.458184</td>
+      <td>0.010262</td>
+      <td>0.784314</td>
+      <td>1.711789</td>
+      <td>0.004267</td>
+      <td>2.512057</td>
+      <td>0.421328</td>
+    </tr>
+    <tr>
+      <th>3744</th>
+      <td>(chocolate, fruit_vegetable_juice)</td>
+      <td>(whole_milk)</td>
+      <td>0.014366</td>
+      <td>0.458184</td>
+      <td>0.010775</td>
+      <td>0.750000</td>
+      <td>1.636898</td>
+      <td>0.004192</td>
+      <td>2.167265</td>
+      <td>0.394760</td>
+    </tr>
+    <tr>
+      <th>9655</th>
+      <td>(bottled_water, rolls_buns, yogurt, other_vege...</td>
+      <td>(whole_milk)</td>
+      <td>0.014110</td>
+      <td>0.458184</td>
+      <td>0.010518</td>
+      <td>0.745455</td>
+      <td>1.626978</td>
+      <td>0.004053</td>
+      <td>2.128564</td>
+      <td>0.390879</td>
+    </tr>
+    <tr>
+      <th>7485</th>
+      <td>(bottled_water, yogurt, pip_fruit)</td>
+      <td>(whole_milk)</td>
+      <td>0.013853</td>
+      <td>0.458184</td>
+      <td>0.010262</td>
+      <td>0.740741</td>
+      <td>1.616689</td>
+      <td>0.003914</td>
+      <td>2.089863</td>
+      <td>0.386811</td>
+    </tr>
+    <tr>
+      <th>7705</th>
+      <td>(brown_bread, yogurt, rolls_buns)</td>
+      <td>(whole_milk)</td>
+      <td>0.017445</td>
+      <td>0.458184</td>
+      <td>0.012827</td>
+      <td>0.735294</td>
+      <td>1.604802</td>
+      <td>0.004834</td>
+      <td>2.046862</td>
+      <td>0.383561</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1999</th>
+      <td>(bottled_beer)</td>
+      <td>(whole_milk, domestic_eggs)</td>
+      <td>0.158799</td>
+      <td>0.070292</td>
+      <td>0.015906</td>
+      <td>0.100162</td>
+      <td>1.424926</td>
+      <td>0.004743</td>
+      <td>1.033194</td>
+      <td>0.354504</td>
+    </tr>
+    <tr>
+      <th>2238</th>
+      <td>(bottled_beer)</td>
+      <td>(yogurt, tropical_fruit)</td>
+      <td>0.158799</td>
+      <td>0.075680</td>
+      <td>0.015906</td>
+      <td>0.100162</td>
+      <td>1.323491</td>
+      <td>0.003888</td>
+      <td>1.027207</td>
+      <td>0.290564</td>
+    </tr>
+    <tr>
+      <th>7704</th>
+      <td>(brown_bread)</td>
+      <td>(rolls_buns, whole_milk, soda)</td>
+      <td>0.135967</td>
+      <td>0.065162</td>
+      <td>0.013597</td>
+      <td>0.100000</td>
+      <td>1.534646</td>
+      <td>0.004737</td>
+      <td>1.038709</td>
+      <td>0.403207</td>
+    </tr>
+    <tr>
+      <th>295</th>
+      <td>(brown_bread)</td>
+      <td>(chocolate)</td>
+      <td>0.135967</td>
+      <td>0.086455</td>
+      <td>0.013597</td>
+      <td>0.100000</td>
+      <td>1.156677</td>
+      <td>0.001842</td>
+      <td>1.015050</td>
+      <td>0.156770</td>
+    </tr>
+    <tr>
+      <th>2876</th>
+      <td>(brown_bread)</td>
+      <td>(curd, whole_milk)</td>
+      <td>0.135967</td>
+      <td>0.063622</td>
+      <td>0.013597</td>
+      <td>0.100000</td>
+      <td>1.571774</td>
+      <td>0.004946</td>
+      <td>1.040420</td>
+      <td>0.421021</td>
+    </tr>
+  </tbody>
+</table>
+<p>9729 rows × 10 columns</p>
+</div>
+
+<p><strong>Sorted by <code>support</code></strong></p>
+<pre><code class="language-python">rules_ap.sort_values(by='support', ascending=False)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>antecedents</th>
+      <th>consequents</th>
+      <th>antecedent support</th>
+      <th>consequent support</th>
+      <th>support</th>
+      <th>confidence</th>
+      <th>lift</th>
+      <th>leverage</th>
+      <th>conviction</th>
+      <th>zhangs_metric</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1343</th>
+      <td>(other_vegetables)</td>
+      <td>(whole_milk)</td>
+      <td>0.376603</td>
+      <td>0.458184</td>
+      <td>0.191380</td>
+      <td>0.508174</td>
+      <td>1.109106</td>
+      <td>0.018827</td>
+      <td>1.101643</td>
+      <td>0.157802</td>
+    </tr>
+    <tr>
+      <th>1342</th>
+      <td>(whole_milk)</td>
+      <td>(other_vegetables)</td>
+      <td>0.458184</td>
+      <td>0.376603</td>
+      <td>0.191380</td>
+      <td>0.417693</td>
+      <td>1.109106</td>
+      <td>0.018827</td>
+      <td>1.070564</td>
+      <td>0.181562</td>
+    </tr>
+    <tr>
+      <th>1476</th>
+      <td>(rolls_buns)</td>
+      <td>(whole_milk)</td>
+      <td>0.349666</td>
+      <td>0.458184</td>
+      <td>0.178553</td>
+      <td>0.510638</td>
+      <td>1.114484</td>
+      <td>0.018342</td>
+      <td>1.107190</td>
+      <td>0.157955</td>
+    </tr>
+    <tr>
+      <th>1477</th>
+      <td>(whole_milk)</td>
+      <td>(rolls_buns)</td>
+      <td>0.458184</td>
+      <td>0.349666</td>
+      <td>0.178553</td>
+      <td>0.389698</td>
+      <td>1.114484</td>
+      <td>0.018342</td>
+      <td>1.065592</td>
+      <td>0.189591</td>
+    </tr>
+    <tr>
+      <th>1574</th>
+      <td>(whole_milk)</td>
+      <td>(soda)</td>
+      <td>0.458184</td>
+      <td>0.313494</td>
+      <td>0.151103</td>
+      <td>0.329787</td>
+      <td>1.051973</td>
+      <td>0.007465</td>
+      <td>1.024310</td>
+      <td>0.091184</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5903</th>
+      <td>(soft_cheese)</td>
+      <td>(rolls_buns, other_vegetables)</td>
+      <td>0.037712</td>
+      <td>0.146742</td>
+      <td>0.010005</td>
+      <td>0.265306</td>
+      <td>1.807978</td>
+      <td>0.004471</td>
+      <td>1.161379</td>
+      <td>0.464409</td>
+    </tr>
+    <tr>
+      <th>7235</th>
+      <td>(bottled_water, yogurt)</td>
+      <td>(citrus_fruit, whole_milk)</td>
+      <td>0.066444</td>
+      <td>0.092355</td>
+      <td>0.010005</td>
+      <td>0.150579</td>
+      <td>1.630438</td>
+      <td>0.003869</td>
+      <td>1.068546</td>
+      <td>0.414188</td>
+    </tr>
+    <tr>
+      <th>7234</th>
+      <td>(citrus_fruit, yogurt)</td>
+      <td>(bottled_water, whole_milk)</td>
+      <td>0.058235</td>
+      <td>0.112365</td>
+      <td>0.010005</td>
+      <td>0.171806</td>
+      <td>1.528996</td>
+      <td>0.003462</td>
+      <td>1.071772</td>
+      <td>0.367370</td>
+    </tr>
+    <tr>
+      <th>7233</th>
+      <td>(citrus_fruit, whole_milk)</td>
+      <td>(bottled_water, yogurt)</td>
+      <td>0.092355</td>
+      <td>0.066444</td>
+      <td>0.010005</td>
+      <td>0.108333</td>
+      <td>1.630438</td>
+      <td>0.003869</td>
+      <td>1.046978</td>
+      <td>0.426012</td>
+    </tr>
+    <tr>
+      <th>4128</th>
+      <td>(citrus_fruit, white_bread)</td>
+      <td>(whole_milk)</td>
+      <td>0.018984</td>
+      <td>0.458184</td>
+      <td>0.010005</td>
+      <td>0.527027</td>
+      <td>1.150253</td>
+      <td>0.001307</td>
+      <td>1.145554</td>
+      <td>0.133154</td>
+    </tr>
+  </tbody>
+</table>
+<p>9729 rows × 10 columns</p>
+</div>
+
+<hr />
+<hr />
+<h1 id="collaborative-filtering">Collaborative Filtering</h1>
+<p>Collaborative filtering aims to predict the ratings a given user will give to an item that this user has not yet purchased/watched/consumed.  </p>
+<p>It does so by identifying other users similar to this user, and looking at the ratings they have provided to the item in question.  If the predicted rating is high, then it would make sense to recommend that item to the user.</p>
+<p>Consider the table below:<br />
+<img alt="image.png" src="../06_Recommender_Systems_files/4c20f6b9-d9f2-4164-bfb5-fba0fba64bbc.png" /></p>
+<p>There are 5 users, who have rated 12 movies using a rating scale of 1 to 5.  Many of the cells are blank, which is because not every user has rated every movie.</p>
+<p>Our task is to decide what movie to recommend to a user to watch next.  To do this, we use the following approach:</p>
+<ol>
+<li>
+<p>Find users similar to a given user.  Similarity between users is determined solely based on the ratings they have provided, and not on features outside the ratings matrix (eg, age, location etc).  There are many ways to determine which users are similar.  </p>
+</li>
+<li>
+<p>Estimate the rating for unwatched movies based on such ‘similar’ users.  Again, there are many ways to determine the rating estimate, eg average, median, max, etc.</p>
+</li>
+</ol>
+<p>The accuracy of predicted ratings can be determined using MSE/RMSE, or MAE and such metrics.  Once the predictions are known, we can use these to determine the movies to recommend next.</p>
+<hr />
+<p>The surprise library (<code>pip install scikit-surprise</code>) provides several algorithms to perform collaborative filtering, and predict ratings.</p>
+<p>To use the surprise library, data needs to be in a certain format.  We need to know the UserID, the ItemID and the Rating, and supply it to the library in exactly that order to create a surprise 'dataset'!  No other order will work.</p>
+<p><strong>First, the usual library imports</strong></p>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+</code></pre>
+<h2 id="creating-a-toy-dataset">Creating a toy dataset</h2>
+<p>We create a random dataframe.  There are 5 users, who have rated some movies out of 12 movies.</p>
+<pre><code class="language-python">df = pd.DataFrame({'Movie 1': {'User 1': 2.0,   'User 2': 4.0,   'User 3': 3.0,   'User 4': np.nan,   'User 5': np.nan},
+ 'Movie 2': {'User 1': 3.0,   'User 2': np.nan,   'User 3': np.nan,   'User 4': np.nan,   'User 5': 3.0},
+ 'Movie 3': {'User 1': 2.0,   'User 2': np.nan,   'User 3': np.nan,   'User 4': np.nan,   'User 5': np.nan},
+ 'Movie 4': {'User 1': np.nan,   'User 2': 5.0,   'User 3': 3.0,   'User 4': np.nan,   'User 5': 3.0},
+ 'Movie 5': {'User 1': 2.0,   'User 2': np.nan,   'User 3': np.nan,   'User 4': 3.0,   'User 5': 1.0},
+ 'Movie 6': {'User 1': np.nan,   'User 2': 4.0,   'User 3': np.nan,   'User 4': 2.0,   'User 5': np.nan},
+ 'Movie 7': {'User 1': 1.0,   'User 2': np.nan,   'User 3': 5.0,   'User 4': 3.0,   'User 5': 1.0},
+ 'Movie 8': {'User 1': np.nan,   'User 2': 4.0,   'User 3': np.nan,   'User 4': 4.0,   'User 5': np.nan},
+ 'Movie 9': {'User 1': 2.0,   'User 2': np.nan,   'User 3': 4.0,   'User 4': 1.0,   'User 5': np.nan},
+ 'Movie 10': {'User 1': np.nan,   'User 2': 4.0,   'User 3': np.nan,   'User 4': 3.0,   'User 5': np.nan},
+ 'Movie 11': {'User 1': np.nan,   'User 2': 3.0,   'User 3': 2.0,   'User 4': 4.0,   'User 5': np.nan},
+ 'Movie 12': {'User 1': 5.0,   'User 2': np.nan,   'User 3': np.nan,   'User 4': 1.0,   'User 5': 5.0}})
+</code></pre>
+<pre><code class="language-python">df.reset_index()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Movie 1</th>
+      <th>Movie 2</th>
+      <th>Movie 3</th>
+      <th>Movie 4</th>
+      <th>Movie 5</th>
+      <th>Movie 6</th>
+      <th>Movie 7</th>
+      <th>Movie 8</th>
+      <th>Movie 9</th>
+      <th>Movie 10</th>
+      <th>Movie 11</th>
+      <th>Movie 12</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>User 1</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>User 2</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>User 3</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>User 4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>User 5</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Now we need to get the ratings matrix in a format that the <code>surprise</code> library can consume.  We need to split out the <strong>user, item, rating</strong> in exactly that order in a dataframe, which we can do by using <code>melt</code>, and then we drop the NaNs.</p>
+<pre><code class="language-python">redesigned_df = pd.melt(df.reset_index(), id_vars='index', value_vars=[col for col in df if col.startswith('M')])
+redesigned_df.dropna(inplace=True)
+redesigned_df.reset_index(drop=True, inplace=True)
+redesigned_df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>variable</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>User 1</td>
+      <td>Movie 1</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>User 2</td>
+      <td>Movie 1</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>User 3</td>
+      <td>Movie 1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>User 1</td>
+      <td>Movie 2</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>User 5</td>
+      <td>Movie 2</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>User 1</td>
+      <td>Movie 3</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>User 2</td>
+      <td>Movie 4</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>User 3</td>
+      <td>Movie 4</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>User 5</td>
+      <td>Movie 4</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>User 1</td>
+      <td>Movie 5</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>User 4</td>
+      <td>Movie 5</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>User 5</td>
+      <td>Movie 5</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>User 2</td>
+      <td>Movie 6</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>User 4</td>
+      <td>Movie 6</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>User 1</td>
+      <td>Movie 7</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>User 3</td>
+      <td>Movie 7</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>User 4</td>
+      <td>Movie 7</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>User 5</td>
+      <td>Movie 7</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>User 2</td>
+      <td>Movie 8</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>User 4</td>
+      <td>Movie 8</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>User 1</td>
+      <td>Movie 9</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>User 3</td>
+      <td>Movie 9</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>User 4</td>
+      <td>Movie 9</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>User 2</td>
+      <td>Movie 10</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>User 4</td>
+      <td>Movie 10</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>User 2</td>
+      <td>Movie 11</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>User 3</td>
+      <td>Movie 11</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>User 4</td>
+      <td>Movie 11</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>User 1</td>
+      <td>Movie 12</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>User 4</td>
+      <td>Movie 12</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>User 5</td>
+      <td>Movie 12</td>
+      <td>5.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="the-surprise-library">The <code>surprise</code> library</h2>
+<p>Next, we import the surprise library and convert our dataframe to a <code>Dataset</code> that the <em>surprise</em> library can consume.  More information on the library is available at https://surprise.readthedocs.io/</p>
+<pre><code class="language-python">from surprise import Dataset
+from surprise import Reader
+reader = Reader(rating_scale=(1, 5))
+# each line needs to respect the following structure: user ; item ; rating ; [timestamp]
+data = Dataset.load_from_df(redesigned_df[['index', 'variable', 'value']], reader)
+</code></pre>
+<pre><code class="language-python"># let us look at the data
+data.raw_ratings
+</code></pre>
+<pre><code>[('User 1', 'Movie 1', 2.0, None),
+ ('User 2', 'Movie 1', 4.0, None),
+ ('User 3', 'Movie 1', 3.0, None),
+ ('User 1', 'Movie 2', 3.0, None),
+ ('User 5', 'Movie 2', 3.0, None),
+ ('User 1', 'Movie 3', 2.0, None),
+ ('User 2', 'Movie 4', 5.0, None),
+ ('User 3', 'Movie 4', 3.0, None),
+ ('User 5', 'Movie 4', 3.0, None),
+ ('User 1', 'Movie 5', 2.0, None),
+ ('User 4', 'Movie 5', 3.0, None),
+ ('User 5', 'Movie 5', 1.0, None),
+ ('User 2', 'Movie 6', 4.0, None),
+ ('User 4', 'Movie 6', 2.0, None),
+ ('User 1', 'Movie 7', 1.0, None),
+ ('User 3', 'Movie 7', 5.0, None),
+ ('User 4', 'Movie 7', 3.0, None),
+ ('User 5', 'Movie 7', 1.0, None),
+ ('User 2', 'Movie 8', 4.0, None),
+ ('User 4', 'Movie 8', 4.0, None),
+ ('User 1', 'Movie 9', 2.0, None),
+ ('User 3', 'Movie 9', 4.0, None),
+ ('User 4', 'Movie 9', 1.0, None),
+ ('User 2', 'Movie 10', 4.0, None),
+ ('User 4', 'Movie 10', 3.0, None),
+ ('User 2', 'Movie 11', 3.0, None),
+ ('User 3', 'Movie 11', 2.0, None),
+ ('User 4', 'Movie 11', 4.0, None),
+ ('User 1', 'Movie 12', 5.0, None),
+ ('User 4', 'Movie 12', 1.0, None),
+ ('User 5', 'Movie 12', 5.0, None)]
+</code></pre>
+<h2 id="building-the-model">Building the model</h2>
+<h3 id="with-traintest-split">With train/test split</h3>
+<p>Next, we do a train/test split, and train the model.  Note the model is contained in an object called <code>algo</code>.</p>
+<pre><code class="language-python">from surprise import SVD, KNNBasic, SlopeOne
+from surprise import Dataset
+from surprise import accuracy
+from surprise.model_selection import train_test_split
+
+# We use the test dataset above
+data = data
+
+# sample random trainset and testset
+# test set is made of 25% of the ratings.
+trainset, testset = train_test_split(data, test_size=.25)
+
+# You can try different algorithms, looking to reduced your RMSE
+# algo = SVD()
+algo = KNNBasic()
+# algo = SlopeOne()
+
+# Train the algorithm on the trainset, and predict ratings for the testset
+
+
+algo.fit(trainset)
+predictions = algo.test(testset)
+
+# Then compute RMSE
+accuracy.rmse(predictions)
+</code></pre>
+<pre><code>Computing the msd similarity matrix...
+Done computing similarity matrix.
+RMSE: 1.2547
+
+
+
+
+
+1.2546656662081634
+</code></pre>
+<pre><code class="language-python"># We can now look at the predictions
+predictions
+</code></pre>
+<pre><code>[Prediction(uid='User 4', iid='Movie 7', r_ui=3.0, est=1, details={'actual_k': 2, 'was_impossible': False}),
+ Prediction(uid='User 3', iid='Movie 1', r_ui=3.0, est=3.6923076923076916, details={'actual_k': 2, 'was_impossible': False}),
+ Prediction(uid='User 2', iid='Movie 8', r_ui=4.0, est=4.0, details={'actual_k': 1, 'was_impossible': False}),
+ Prediction(uid='User 4', iid='Movie 9', r_ui=1.0, est=2.0, details={'actual_k': 1, 'was_impossible': False}),
+ Prediction(uid='User 2', iid='Movie 4', r_ui=5.0, est=3.0, details={'actual_k': 1, 'was_impossible': False}),
+ Prediction(uid='User 4', iid='Movie 11', r_ui=4.0, est=3.0000000000000004, details={'actual_k': 1, 'was_impossible': False}),
+ Prediction(uid='User 2', iid='Movie 10', r_ui=4.0, est=3.0000000000000004, details={'actual_k': 1, 'was_impossible': False}),
+ Prediction(uid='User 5', iid='Movie 5', r_ui=1.0, est=2.0555555555555554, details={'actual_k': 2, 'was_impossible': False})]
+</code></pre>
+<h3 id="using-the-entire-dataset">Using the entire dataset</h3>
+<p>Above, we did a train test split, but we can also use the entire dataset and train a model based on that.  We do that next.</p>
+<pre><code class="language-python"># You can also use the entire dataset without doing a train-test split
+trainset = data.build_full_trainset()
+
+# Build an algorithm, and train it.
+algo = KNNBasic()
+algo.fit(trainset)
+algo.predict(uid='User 4', iid='Movie 6')
+</code></pre>
+<pre><code>Computing the msd similarity matrix...
+Done computing similarity matrix.
+
+
+
+
+
+Prediction(uid='User 4', iid='Movie 6', r_ui=None, est=2.5714285714285716, details={'actual_k': 2, 'was_impossible': False})
+</code></pre>
+<hr />
+<h2 id="tying-it-all-up">Tying it all up</h2>
+<p>The above is interesting, but in fact what we need is a prediction of what to recommend to each user.  The code below brings everything together.</p>
+<p>Below is a full implementation that uses the ratings data to predict ratings for the missing ratings, and then provides what movies to recommend to each user.  </p>
+<p>We fit our algorithm on the entire dataset, then get predictions on the empty rating cells using a method <code>build_anti_testset()</code>.  A function iterates through everything, sorts and brings out the movies to recommend.</p>
+<pre><code class="language-python"># Source: https://surprise.readthedocs.io/en/stable/FAQ.html#how-to-get-the-top-n-recommendations-for-each-user
+
+from collections import defaultdict
+
+from surprise import SVD
+from surprise import Dataset
+
+
+def get_top_n(predictions, n=10):
+    &quot;&quot;&quot;Return the top-N recommendation for each user from a set of predictions.
+
+    Args:
+        predictions(list of Prediction objects): The list of predictions, as
+            returned by the test method of an algorithm.
+        n(int): The number of recommendation to output for each user. Default
+            is 10.
+
+    Returns:
+    A dict where keys are user (raw) ids and values are lists of tuples:
+        [(raw item id, rating estimation), ...] of size n.
+    &quot;&quot;&quot;
+
+    # First map the predictions to each user.
+    top_n = defaultdict(list)
+    for uid, iid, true_r, est, _ in predictions:
+        top_n[uid].append((iid, est))
+
+    # Then sort the predictions for each user and retrieve the k highest ones.
+    for uid, user_ratings in top_n.items():
+        user_ratings.sort(key=lambda x: x[1], reverse=True)
+        top_n[uid] = user_ratings[:n]
+
+    return top_n
+
+
+# First train an SVD algorithm on the movielens dataset.
+# data = Dataset.load_builtin('ml-100k')
+trainset = data.build_full_trainset()
+algo = SVD()
+algo.fit(trainset)
+
+# Than predict ratings for all pairs (u, i) that are NOT in the training set.
+testset = trainset.build_anti_testset()
+predictions = algo.test(testset)
+
+top_n = get_top_n(predictions, n=10)
+
+# Print the recommended items for each user
+for uid, user_ratings in top_n.items():
+    print(uid, [iid for (iid, _) in user_ratings])
+</code></pre>
+<pre><code>User 1 ['Movie 10', 'Movie 8', 'Movie 4', 'Movie 11', 'Movie 6']
+User 2 ['Movie 12', 'Movie 2', 'Movie 3', 'Movie 7', 'Movie 9', 'Movie 5']
+User 3 ['Movie 8', 'Movie 2', 'Movie 10', 'Movie 6', 'Movie 12', 'Movie 3', 'Movie 5']
+User 5 ['Movie 10', 'Movie 6', 'Movie 8', 'Movie 11', 'Movie 9', 'Movie 3', 'Movie 1']
+User 4 ['Movie 2', 'Movie 1', 'Movie 4', 'Movie 3']
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../05_Introduction_to_Modeling/" class="btn btn-neutral float-left" title="Introduction to Modeling"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../07_Regression/" class="btn btn-neutral float-right" title="Regression">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../05_Introduction_to_Modeling/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../07_Regression/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

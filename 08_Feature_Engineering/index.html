@@ -1,0 +1,4261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Feature Engineering - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Feature Engineering";
+        var mkdocs_page_input_path = "08_Feature_Engineering.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Feature Engineering</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-are-features">What are features?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#feature-engineering-for-numeric-data">Feature engineering for numeric data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-we-will-cover">What we will cover</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#binning">Binning</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#fixed-width-binning">Fixed width binning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#custom-bins">Custom bins</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quantile-binning">Quantile binning</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#log-transformation">Log transformation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#box-cox-transform">Box Cox Transform</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#feature-scaling">Feature Scaling</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#minmax-standardization">Minmax &amp; standardization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#l2-normalization">L2 Normalization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inversing-a-transform">Inversing a transform</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#categorical-to-numeric">Categorical to Numeric</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#one-hot-encoding">One hot encoding</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#label-encoding">Label encoding</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#imbalanced-classes">Imbalanced classes</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#approach-1-reduce-observations-for-majority-class">Approach 1: Reduce Observations for Majority Class</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#random-under-sampler">Random Under Sampler</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#centroid-based-under-sampler">Centroid Based Under Sampler</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#approach-2-add-observations-to-the-minority-classes">Approach 2: Add Observations to the Minority Classes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#random-over-sampler">Random Over Sampler</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#smote-over-sampler">SMOTE Over Sampler</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#principal-component-analysis">Principal Component Analysis</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#principal-components">Principal Components</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#eigenvectors">Eigenvectors</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#t-sne">t-SNE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#umap">UMAP</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Feature Engineering</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="feature-engineering">Feature Engineering</h1>
+<h2 id="what-are-features">What are features?</h2>
+<p>Data comes to us in multiple forms – as audio files, images, logs, time series, categories, GPS coordinates, numbers, tweets, text and so on.  Most raw data has to be transformed into something usable by algorithms.  This ‘something’ represents features.</p>
+<p>A feature is a numeric representation of data.  </p>
+<p>Features are derived from data, and are expressed as numbers.  </p>
+<p>Feature engineering involves creating the right feature set from available data that is fit-for-purpose for our modeling task (which is to get to the target variable, using other independent variables or attributes).</p>
+<p><img alt="image.png" src="../08_Feature_Engineering_files/e65bb516-d9e9-4d1b-822a-a6c21c523f28.png" />  </p>
+<h2 id="feature-engineering-for-numeric-data">Feature engineering for numeric data</h2>
+<p>When raw data is already numeric, it sometimes can be used directly as an input to our models.  </p>
+<p>However often additional transformations are required to extract useful information from the data.  Feature engineering is the process of using domain knowledge to extract features (characteristics, properties, attributes) from raw data. (Source: Wikipedia)</p>
+<p>Next, we will discuss common tools available for engineering features from numeric raw data.  These are transformations applied to data to convert them into a form that better fits our needs.</p>
+<h2 id="what-we-will-cover">What we will cover</h2>
+<ul>
+<li>Binning </li>
+<li>Log Transformations</li>
+<li>Box-Cox</li>
+<li>Standardization and Normalization</li>
+<li>Categorical to Numeric</li>
+<li>Imbalanced Data</li>
+<li>Principal Component Analysis</li>
+</ul>
+<p>Next, let us launch straight into each of these.  We will cover the conceptual ground first, and then demonstrate the idea through code.</p>
+<p><strong>Usual library imports first...</strong></p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+</code></pre>
+<h2 id="binning">Binning</h2>
+<p>In binning, we split our data into multiple bins, or buckets, and assign each observation to a limited number of bins.  These bin assignments are then used as the feature set.</p>
+<p>Consider our diamonds dataset, and the distribution of diamond prices.</p>
+<h3 id="fixed-width-binning">Fixed width binning</h3>
+<p>In fixed width binning, the entire range of observations is divided across a set number of bins.</p>
+<p>For example, we could split each diamond into one of 4 equally sized bins.</p>
+<p>We can replace the interval notation with labels we assign ourselves.</p>
+<p>You can cut the data into a number of fixed bins using <code>pd.qcut</code>.  You can specify your own cut-offs for the bins as a list.  <br />
+Note the interval notation.  <code>(</code> means not-inclusive, and <code>]</code> means inclusive.  </p>
+<p>For example:<br />
+Assuming integers:  </p>
+<pre><code>(0, 3) = 1, 2
+(0, 3] = 1, 2, 3, 4, 5
+[0, 3) = 0, 1, 2
+[0, 3] = 0, 1, 2, 3
+</code></pre>
+<p><strong>Load the diamonds dataset</strong>  </p>
+<pre><code class="language-python">diamonds = sns.load_dataset('diamonds')
+</code></pre>
+<pre><code class="language-python">print('Shape:',diamonds.shape)
+diamonds.sample(4)
+</code></pre>
+<pre><code>Shape: (53940, 10)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>carat</th>
+      <th>cut</th>
+      <th>color</th>
+      <th>clarity</th>
+      <th>depth</th>
+      <th>table</th>
+      <th>price</th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>49506</th>
+      <td>0.71</td>
+      <td>Good</td>
+      <td>E</td>
+      <td>SI2</td>
+      <td>58.8</td>
+      <td>63.0</td>
+      <td>2120</td>
+      <td>5.75</td>
+      <td>5.88</td>
+      <td>3.42</td>
+    </tr>
+    <tr>
+      <th>38251</th>
+      <td>0.31</td>
+      <td>Very Good</td>
+      <td>J</td>
+      <td>VS2</td>
+      <td>62.3</td>
+      <td>60.0</td>
+      <td>380</td>
+      <td>4.29</td>
+      <td>4.34</td>
+      <td>2.69</td>
+    </tr>
+    <tr>
+      <th>31157</th>
+      <td>0.41</td>
+      <td>Ideal</td>
+      <td>E</td>
+      <td>SI1</td>
+      <td>62.6</td>
+      <td>57.0</td>
+      <td>755</td>
+      <td>4.72</td>
+      <td>4.73</td>
+      <td>2.96</td>
+    </tr>
+    <tr>
+      <th>4720</th>
+      <td>0.37</td>
+      <td>Ideal</td>
+      <td>F</td>
+      <td>SI2</td>
+      <td>60.9</td>
+      <td>56.0</td>
+      <td>572</td>
+      <td>4.65</td>
+      <td>4.68</td>
+      <td>2.84</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">diamonds.price.describe()
+</code></pre>
+<pre><code>count    53940.000000
+mean      3932.799722
+std       3989.439738
+min        326.000000
+25%        950.000000
+50%       2401.000000
+75%       5324.250000
+max      18823.000000
+Name: price, dtype: float64
+</code></pre>
+<pre><code class="language-python">diamonds.price.plot(kind='hist', bins = 100, figsize = (10,4), edgecolor='black', title='Diamond Price');
+plt.show()
+# diamonds.price.plot(kind='hist', bins = 100, figsize = (10,4), logx = True, logy=True, edgecolor='black', title='Log Price');
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_8_0.png" /></p>
+<pre><code class="language-python">pd.cut(diamonds.price, bins = 5)
+</code></pre>
+<pre><code>0        (307.503, 4025.4]
+1        (307.503, 4025.4]
+2        (307.503, 4025.4]
+3        (307.503, 4025.4]
+4        (307.503, 4025.4]
+               ...        
+53935    (307.503, 4025.4]
+53936    (307.503, 4025.4]
+53937    (307.503, 4025.4]
+53938    (307.503, 4025.4]
+53939    (307.503, 4025.4]
+Name: price, Length: 53940, dtype: category
+Categories (5, interval[float64, right]): [(307.503, 4025.4] &lt; (4025.4, 7724.8] &lt; (7724.8, 11424.2] &lt; (11424.2, 15123.6] &lt; (15123.6, 18823.0]]
+</code></pre>
+<h3 id="custom-bins">Custom bins</h3>
+<p>Alternatively, we can use custom bins.</p>
+<p>Assume from our domain knowledge we know that diamonds up to \$2,500 are purchased by a certain category of customers, and those that are priced over \$2,500 are targeted at a different category.</p>
+<p>We can set up two bins – 0-2500, and 2500-max.</p>
+<pre><code class="language-python">pd.cut(diamonds.price, bins = [0, 2500, 100000])
+</code></pre>
+<pre><code>0             (0, 2500]
+1             (0, 2500]
+2             (0, 2500]
+3             (0, 2500]
+4             (0, 2500]
+              ...      
+53935    (2500, 100000]
+53936    (2500, 100000]
+53937    (2500, 100000]
+53938    (2500, 100000]
+53939    (2500, 100000]
+Name: price, Length: 53940, dtype: category
+Categories (2, interval[int64, right]): [(0, 2500] &lt; (2500, 100000]]
+</code></pre>
+<pre><code class="language-python">diamonds['pricebin'] = pd.cut(diamonds.price, bins = [0, 2500, 100000])
+diamonds[['price', 'pricebin']].sample(6)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>pricebin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>14258</th>
+      <td>5775</td>
+      <td>(2500, 100000]</td>
+    </tr>
+    <tr>
+      <th>32100</th>
+      <td>781</td>
+      <td>(0, 2500]</td>
+    </tr>
+    <tr>
+      <th>51512</th>
+      <td>2384</td>
+      <td>(0, 2500]</td>
+    </tr>
+    <tr>
+      <th>43692</th>
+      <td>1436</td>
+      <td>(0, 2500]</td>
+    </tr>
+    <tr>
+      <th>36141</th>
+      <td>928</td>
+      <td>(0, 2500]</td>
+    </tr>
+    <tr>
+      <th>16990</th>
+      <td>6787</td>
+      <td>(2500, 100000]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># With custom labels
+diamonds['pricebin'] = pd.cut(diamonds.price, bins = [0, 2500, 100000], labels=['Low Price', 'High Price'])
+diamonds[['price', 'pricebin']].sample(6)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>pricebin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>27698</th>
+      <td>648</td>
+      <td>Low Price</td>
+    </tr>
+    <tr>
+      <th>52122</th>
+      <td>2464</td>
+      <td>Low Price</td>
+    </tr>
+    <tr>
+      <th>44639</th>
+      <td>1609</td>
+      <td>Low Price</td>
+    </tr>
+    <tr>
+      <th>15978</th>
+      <td>6397</td>
+      <td>High Price</td>
+    </tr>
+    <tr>
+      <th>25472</th>
+      <td>14240</td>
+      <td>High Price</td>
+    </tr>
+    <tr>
+      <th>36430</th>
+      <td>942</td>
+      <td>Low Price</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">diamonds.pricebin.value_counts()
+</code></pre>
+<pre><code>pricebin
+Low Price     27542
+High Price    26398
+Name: count, dtype: int64
+</code></pre>
+<h3 id="quantile-binning">Quantile binning</h3>
+<p>Similar to custom bins – except that we use quantiles to bin the data.</p>
+<p>This is useful if the data is skewed and not evenly distributed across its range.</p>
+<pre><code class="language-python">
+
+pd.qcut(diamonds.price, 4)
+</code></pre>
+<pre><code>0         (325.999, 950.0]
+1         (325.999, 950.0]
+2         (325.999, 950.0]
+3         (325.999, 950.0]
+4         (325.999, 950.0]
+               ...        
+53935    (2401.0, 5324.25]
+53936    (2401.0, 5324.25]
+53937    (2401.0, 5324.25]
+53938    (2401.0, 5324.25]
+53939    (2401.0, 5324.25]
+Name: price, Length: 53940, dtype: category
+Categories (4, interval[float64, right]): [(325.999, 950.0] &lt; (950.0, 2401.0] &lt; (2401.0, 5324.25] &lt; (5324.25, 18823.0]]
+</code></pre>
+<pre><code class="language-python"># You can provide label instead of using the default interval notation, and you can 
+# cut by quartiles using `qcut`
+
+diamonds['pricequantiles'] = pd.qcut(diamonds.price, 4, labels=['Affordale', 'Premium', 'Pricey', 'Expensive'])
+diamonds[['price', 'pricequantiles']].sample(6)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>price</th>
+      <th>pricequantiles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>31315</th>
+      <td>758</td>
+      <td>Affordale</td>
+    </tr>
+    <tr>
+      <th>6043</th>
+      <td>576</td>
+      <td>Affordale</td>
+    </tr>
+    <tr>
+      <th>14862</th>
+      <td>5987</td>
+      <td>Expensive</td>
+    </tr>
+    <tr>
+      <th>12234</th>
+      <td>5198</td>
+      <td>Pricey</td>
+    </tr>
+    <tr>
+      <th>44865</th>
+      <td>1628</td>
+      <td>Premium</td>
+    </tr>
+    <tr>
+      <th>41990</th>
+      <td>1264</td>
+      <td>Premium</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="log-transformation">Log transformation</h2>
+<p>Log transformations are really just the application of the log function to the data.  This has the effect of squeezing the big numbers into smaller ones, and the smaller ones into slightly larger ones.  The transformation is purely a mathematical trick in the sense we do not lose any information, because we can get back to exactly where we started from by using the anti-log function, more commonly called the exponential.</p>
+<blockquote>
+<p><strong>A primer on logarithms</strong><br />
+Log functions are defined such that <script type="math/tex">log_a(a^x) = x</script>, where a is a positive constant.  </p>
+<p>We know that <script type="math/tex">a^0=1</script>, which means <script type="math/tex">log_a(1) = 0</script>.  </p>
+<p>Taking a log of everything between 0 and 1 yields a negative number, and taking a log of anything greater than 1 yields a positive number.  </p>
+</blockquote>
+<p>However, as the number to which the log function is applied, the result increases slowly.  The effect of applying the log function is to compress the large numbers, and expand the range of the smaller numbers.  The long tail becomes a shorter tail, and the short head becomes a longer head.  </p>
+<p>Note that this is a mathematical transformation, and we are not losing any information.</p>
+<p>We can graph the log function to see this effect.  </p>
+<p>Note that the <code>exp</code> function is the reverse of the <code>log</code> function.</p>
+<pre><code class="language-python"># graph of the log function - 0 to 10,000.
+# log
+
+plt.ylabel('Natural Log of Number')
+plt.xlabel('Number')
+my_range = np.arange(1e-8,10000, 1)
+pd.Series(np.log(my_range), index = my_range).plot.line(figsize = (15,6));
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_19_0.png" /></p>
+<pre><code class="language-python"># graph of the log function - 0 to 3
+# log
+
+plt.ylabel('Natural Log of Number')
+plt.xlabel('Number')
+my_range = np.arange(1e-8, 3, .01)
+pd.Series(np.log(my_range), index = my_range).plot.line(figsize = (15,6))
+plt.hlines(0, 0, 1,linestyles='dashed', colors='red')
+plt.vlines(1, -18, 0,linestyles='dashed', colors='red')
+plt.yticks(np.arange(-18,3,1))
+plt.hlines(1, 0, np.exp(1),linestyles='dotted', colors='green')
+plt.vlines(np.exp(1), -18, 1,linestyles='dotted', colors='green')
+plt.xticks([0,.5,1,1.5,2,2.5, 2.7182,3]);
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_20_0.png" /></p>
+<pre><code class="language-python">print(np.exp(1))
+</code></pre>
+<pre><code>2.718281828459045
+</code></pre>
+<p>One limitation of log transforms is that they can only be applied to positive numbers as logs are not defined for negative numbers.</p>
+<p>Log of zero is not defined. If you could end up with log(0), you should add a very tiny number, eg 1e-8 so that you don't end up with a <em>nan</em>.</p>
+<pre><code class="language-python"># Logs of negative numbers, or 0, yield an error
+print('Log of 0 is', np.log(0))
+print('Log of -1 is', np.log(-1))
+print('Log of +1 is', np.log(1))
+print('Log of +2.72 is', np.log(2.72))
+</code></pre>
+<pre><code>Log of 0 is -inf
+Log of -1 is nan
+Log of +1 is 0.0
+Log of +2.72 is 1.000631880307906
+
+
+C:\Users\user\AppData\Local\Temp\ipykernel_2980\4097127657.py:2: RuntimeWarning: divide by zero encountered in log
+  print('Log of 0 is', np.log(0))
+C:\Users\user\AppData\Local\Temp\ipykernel_2980\4097127657.py:3: RuntimeWarning: invalid value encountered in log
+  print('Log of -1 is', np.log(-1))
+</code></pre>
+<p><strong>Applying Log Transformation to Price in our Diamonds Dataset</strong><br />
+Both graphs below represent the same data.  </p>
+<p>The second graph represents a ‘feature’ we have extracted from the original data.  </p>
+<p>In some cases, such transformed data may allow us to build models that perform better.  </p>
+<pre><code class="language-python">diamonds.price.plot(kind='hist', bins = 50, figsize = (18,4), \
+                    edgecolor='black', title='Price on x-axis');
+plt.show()
+diamonds['log_transform'] = np.log10(diamonds.price)
+diamonds['log_transform'].plot(kind='hist', bins = 50, figsize = (18,4), \
+                              edgecolor='black', title='Log(10)(price) on x-axis');
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_25_0.png" /></p>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_25_1.png" /></p>
+<h2 id="box-cox-transform">Box Cox Transform</h2>
+<p>The log transform is an example of a family of transformations known as power transforms.  In statistical terms, these are variance-stabilizing transformations.  </p>
+<p>Another similar transform is taking the square root of the data series.  </p>
+<p>A generalization of the square root transform and the log transform is known as the Box-Cox transform.  </p>
+<p>The Box-Cox transform takes a parameter, <script type="math/tex">\lambda</script>, and its formula is as follows:  </p>
+<blockquote>
+<p>If <script type="math/tex">\lambda\neq0</script>, then: <script type="math/tex">\tilde{x}</script> = <script type="math/tex">\frac{x^\lambda -1}{\lambda}</script>
+<br />
+If <script type="math/tex">\lambda=0</script>, then: <script type="math/tex">\tilde{x}</script> = <script type="math/tex">ln(x)</script>
+</p>
+</blockquote>
+<p>When <script type="math/tex">\lambda=0</script> , the Box-Cox transform is nothing but the log transform.  </p>
+<p>In Python, Box-Cox is available as a function through Scipy.  The Scipy implementation optimizes the value of <script type="math/tex">\lambda</script> so that the resulting distribution is as close as possible to a normal distribution.</p>
+<pre><code class="language-python">from scipy.stats import boxcox
+</code></pre>
+<pre><code class="language-python">bc_data, bc_lambda = boxcox(diamonds.price)
+print('Lambda is:', bc_lambda)
+
+diamonds['boxcox_transform'] = bc_data
+
+</code></pre>
+<pre><code>Lambda is: -0.06699030544539092
+</code></pre>
+<pre><code class="language-python">print('Lambda for Box-Cox is:', bc_lambda)
+diamonds.price.plot(kind='hist', bins = 50, figsize = (22,3), edgecolor='black', title='Raw Price data, no transformation');
+plt.show()
+diamonds['log_transform'].plot(kind='hist', bins = 50, figsize = (22,3), edgecolor='black', title='Log Transform');
+plt.show()
+diamonds['boxcox_transform'].plot(kind='hist', bins = 50, figsize = (22,3), edgecolor='black', title='Box-Cox Transform');
+
+</code></pre>
+<pre><code>Lambda for Box-Cox is: -0.06699030544539092
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_29_1.png" /></p>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_29_2.png" /></p>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_29_3.png" /></p>
+<p>Review the graphics above.  The top graph is the untranformed data, the next one is the same data after a log transform, and the final one is the same data after a box-cox transform.  Note that it is the x-axis that is being transformed, ie the prices.  </p>
+<p>The optimal Box-Cox transform deflates the tail more than the log transform.  Since the box-cox transform tries to take the distribution as close as possible to a normal distribution, we can use Q-Q plots, or probability plots to compare observed to theoretical quantiles under the normal distribution.  For our purposes though, we do not need to do that, so we will skip this.</p>
+<p>One limitation of box cox transforms is that they can only be applied to positive numbers.  To get over this limitation add a constant equal to the smallest negative value in your data to your entire array.  </p>
+<h2 id="feature-scaling">Feature Scaling</h2>
+<h3 id="minmax-standardization">Minmax &amp; standardization</h3>
+<p><strong>Minmax and standardization of feature columns</strong>  </p>
+<p>The Box-Cox transform handled skew.  Sometimes we may need to ‘scale’ the features, which means we make them fit to a nice scale by using simple arithmetic operations.</p>
+<p>Min-Max Scaling:<br />
+<script type="math/tex">\widetilde{x}=\frac{x\ -\min{\left(x\right)}}{\max{\left(x\right)}-\min(x)}</script>
+</p>
+<p>Standardization:<br />
+<script type="math/tex">\widetilde{x}=\frac{x\ -mean\left(x\right)}{StdDev\left(x\right)}</script>
+</p>
+<pre><code class="language-python">import sklearn.preprocessing as preproc
+diamonds['minmax'] = preproc.minmax_scale(diamonds[['price']])
+diamonds['standardized'] = preproc.StandardScaler().fit_transform(diamonds[['price']]) # At the column level
+diamonds['l2_normalized'] = preproc.normalize(diamonds[['price']], axis=0)
+</code></pre>
+<p>As we can see below, feature scaling did not impact the shape of distribution – only the scaling of the x-axis changed.  </p>
+<p>Feature scaling is useful when features vary significantly in scale, eg, count of hits of a webpage (large) vs number of orders of the item on that page (very small)</p>
+<pre><code class="language-python">diamonds.price.plot(kind='hist', bins = 50, figsize = (22,2), edgecolor='black', title='Raw Price data, no transformation');
+plt.show()
+diamonds['minmax'].plot(kind='hist', bins = 50, figsize = (22,2), edgecolor='black', title='Min-Max Scaling');
+plt.show()
+diamonds['standardized'].plot(kind='hist', bins = 50, figsize = (22,2), edgecolor='black', title='Standardization');
+plt.show()
+# diamonds['l2_normalized'].plot(kind='hist', bins = 50, figsize = (22,2), edgecolor='black', title='L2 Normalized');
+# plt.show()
+
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_35_0.png" /></p>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_35_1.png" /></p>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_35_2.png" /></p>
+<p><strong>Using <code>scipy.stats.zscore</code> for a single data series</strong><br />
+Standardization of a single data series, or vector can be done using the function <code>zscore</code>.<br />
+This may be necessary as <code>StandardScaler</code> expects an m x n array as input (to standardize an entire feature set, as opposed to a single column)</p>
+<pre><code class="language-python">from scipy.stats import zscore
+zscore(diamonds.price)
+</code></pre>
+<pre><code>0       -0.904095
+1       -0.904095
+2       -0.903844
+3       -0.902090
+4       -0.901839
+           ...   
+53935   -0.294731
+53936   -0.294731
+53937   -0.294731
+53938   -0.294731
+53939   -0.294731
+Name: price, Length: 53940, dtype: float64
+</code></pre>
+<h3 id="l2-normalization">L2 Normalization</h3>
+<p>Normalization is the process of scaling individual samples to have unit norm. This process can be useful if you plan to use a quadratic form such as the dot-product or any other kernel to quantify the similarity of any pair of samples.
+L2 Normalization:  </p>
+<p><img alt="image.png" src="../08_Feature_Engineering_files/1235b834-32a5-4622-8beb-f687c629425c.png" /></p>
+<p>
+<script type="math/tex">||x||_2</script> is a constant, equal to the Euclidean length of the vector.
+<script type="math/tex">x</script> is the feature vector itself. </p>
+<p>This is useful when observations vary a lot between themselves.</p>
+<p><em>Source: https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing-normalization</em></p>
+<p><strong>Use normalization where observations vary a lot between themselves.</strong>  </p>
+<p>Let us look at an example.</p>
+<pre><code class="language-python"># let us create the dataframe first
+# Data source: https://data.worldbank.org/?locations=AU-CN-CH-IN-VN
+
+df = pd.DataFrame({'NI-USDTrillion': {'Australia': 1034.18,
+  'China': 10198.9,
+  'India': 2322.05,
+  'Switzerland': 519.097,
+  'Vietnam': 176.367},
+ 'AgriLand-sqkm-mm': {'Australia': 3.71837,
+  'China': 5.285311,
+  'India': 1.79674,
+  'Switzerland': 0.01512999,
+  'Vietnam': 0.121688},
+ 'Freight-mm-ton-km': {'Australia': 1982.586171,
+  'China': 23323.6147,
+  'India': 2407.098107,
+  'Switzerland': 1581.35236,
+  'Vietnam': 453.34954},
+ 'AirPassengers(m)': {'Australia': 74.257326,
+  'China': 551.234509,
+  'India': 139.752424,
+  'Switzerland': 26.73257,
+  'Vietnam': 42.592762},
+ 'ArableLandPct': {'Australia': 3.997909522,
+  'China': 12.67850328,
+  'India': 52.6088141,
+  'Switzerland': 10.07651831,
+  'Vietnam': 22.53781404},
+ 'ArableLandHect': {'Australia': 30.752,
+  'China': 119.4911,
+  'India': 156.416,
+  'Switzerland': 0.398184,
+  'Vietnam': 6.9883},
+ 'ArmedForces': {'Australia': 58000.0,
+  'China': 2695000.0,
+  'India': 3031000.0,
+  'Switzerland': 21000.0,
+  'Vietnam': 522000.0}})
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NI-USDTrillion</th>
+      <th>AgriLand-sqkm-mm</th>
+      <th>Freight-mm-ton-km</th>
+      <th>AirPassengers(m)</th>
+      <th>ArableLandPct</th>
+      <th>ArableLandHect</th>
+      <th>ArmedForces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Australia</th>
+      <td>1034.180</td>
+      <td>3.718370</td>
+      <td>1982.586171</td>
+      <td>74.257326</td>
+      <td>3.997910</td>
+      <td>30.752000</td>
+      <td>58000.0</td>
+    </tr>
+    <tr>
+      <th>China</th>
+      <td>10198.900</td>
+      <td>5.285311</td>
+      <td>23323.614700</td>
+      <td>551.234509</td>
+      <td>12.678503</td>
+      <td>119.491100</td>
+      <td>2695000.0</td>
+    </tr>
+    <tr>
+      <th>India</th>
+      <td>2322.050</td>
+      <td>1.796740</td>
+      <td>2407.098107</td>
+      <td>139.752424</td>
+      <td>52.608814</td>
+      <td>156.416000</td>
+      <td>3031000.0</td>
+    </tr>
+    <tr>
+      <th>Switzerland</th>
+      <td>519.097</td>
+      <td>0.015130</td>
+      <td>1581.352360</td>
+      <td>26.732570</td>
+      <td>10.076518</td>
+      <td>0.398184</td>
+      <td>21000.0</td>
+    </tr>
+    <tr>
+      <th>Vietnam</th>
+      <td>176.367</td>
+      <td>0.121688</td>
+      <td>453.349540</td>
+      <td>42.592762</td>
+      <td>22.537814</td>
+      <td>6.988300</td>
+      <td>522000.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Consider the dataset above.  Some countries have very large numbers compared to the others.  Such observations can upset distance and other calculations in our models.</p>
+<pre><code class="language-python">import sklearn.preprocessing as preproc
+df2 = pd.DataFrame(preproc.normalize(df), columns = df.columns, index= df.index) # At the row level
+df2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NI-USDTrillion</th>
+      <th>AgriLand-sqkm-mm</th>
+      <th>Freight-mm-ton-km</th>
+      <th>AirPassengers(m)</th>
+      <th>ArableLandPct</th>
+      <th>ArableLandHect</th>
+      <th>ArmedForces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Australia</th>
+      <td>0.017817</td>
+      <td>6.406217e-05</td>
+      <td>0.034157</td>
+      <td>0.001279</td>
+      <td>0.000069</td>
+      <td>0.000530</td>
+      <td>0.999257</td>
+    </tr>
+    <tr>
+      <th>China</th>
+      <td>0.003784</td>
+      <td>1.961067e-06</td>
+      <td>0.008654</td>
+      <td>0.000205</td>
+      <td>0.000005</td>
+      <td>0.000044</td>
+      <td>0.999955</td>
+    </tr>
+    <tr>
+      <th>India</th>
+      <td>0.000766</td>
+      <td>5.927875e-07</td>
+      <td>0.000794</td>
+      <td>0.000046</td>
+      <td>0.000017</td>
+      <td>0.000052</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>Switzerland</th>
+      <td>0.024642</td>
+      <td>7.182228e-07</td>
+      <td>0.075067</td>
+      <td>0.001269</td>
+      <td>0.000478</td>
+      <td>0.000019</td>
+      <td>0.996873</td>
+    </tr>
+    <tr>
+      <th>Vietnam</th>
+      <td>0.000338</td>
+      <td>2.331187e-07</td>
+      <td>0.000868</td>
+      <td>0.000082</td>
+      <td>0.000043</td>
+      <td>0.000013</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">(df2**2).sum(axis=1)
+</code></pre>
+<pre><code>Australia      1.0
+China          1.0
+India          1.0
+Switzerland    1.0
+Vietnam        1.0
+dtype: float64
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h3 id="inversing-a-transform">Inversing a transform</h3>
+<p>The opposite of fit_transform is <code>inverse_transform</code>.  </p>
+<p>Example:  We standardize prices, and reverse the process to get back the original prices.  </p>
+<p>Normally you will not need to do this as long as the target variable has not been transformed.  </p>
+<pre><code class="language-python">diamonds = sns.load_dataset('diamonds')
+print('Original diamond prices (first 4 only)')
+print(diamonds['price'][:4])
+scaler = preproc.StandardScaler()
+diamonds['standardized'] = scaler.fit_transform(diamonds[['price']])
+print('\n\nStandardized prices')
+print(diamonds['standardized'][:4])
+print('\n\nReconstructed prices by un-scaling the standardized prices:')
+print(scaler.inverse_transform(diamonds['standardized'][:4].values.reshape(-1, 1)))
+</code></pre>
+<pre><code>Original diamond prices (first 4 only)
+0    326
+1    326
+2    327
+3    334
+Name: price, dtype: int64
+
+
+Standardized prices
+0   -0.904095
+1   -0.904095
+2   -0.903844
+3   -0.902090
+Name: standardized, dtype: float64
+
+
+Reconstructed prices by un-scaling the standardized prices:
+[[326.]
+ [326.]
+ [327.]
+ [334.]]
+</code></pre>
+<h2 id="categorical-to-numeric">Categorical to Numeric</h2>
+<p>A lot of data we will encounter as inputs to our modeling process will be categorical, for example, country names, species, gender, county etc.  While we humans can make sense of this, algorithms can only consume numerical data.  We will next look at a few ways of converting categorical data to numerical information.  Conceptually, all of these methods rely on one of two ideas:</p>
+<ol>
+<li>One-hot: Create a separate column for every single category, and populate it with either a 0 or a 1, or</li>
+<li>Label encoding: Call the category values as numbers, eg, High=3, Medium=2, Low=1 etc.  </li>
+</ol>
+<h3 id="one-hot-encoding">One hot encoding</h3>
+<ul>
+<li>Categorical variables represent categories, or labels.</li>
+<li>Cardinal/Nonordinal categories: For example, names of species, countries, industry, gender etc.  No natural order, and &lt; or &gt; relationships do not apply</li>
+<li>Ordinal categories: For example, High, Medium, Low (where High &gt; Medium &gt; Low), or XL, L, M, S</li>
+<li>Most ML/AI algorithms cannot deal with categorical variables on their own, and require categories to be converted to numerical arrays.</li>
+<li>One-hot encoding is often used to convert categories to numbers.</li>
+<li>Variations include dropping the first category, and effect encoding.</li>
+</ul>
+<p>One hot encoding creates a column with a 1 or 0 for each category label.  </p>
+<pre><code class="language-python">df = pd.DataFrame({'fruit': 
+                   ['apple', 'banana', 'pear', 
+                    'pear', 'apple', 'apple'],
+                  'weight_gm':[120,100,104,60,98,119],
+                  'price':[0.25, 0.18, 0.87, 0.09, 1.02,.63]})
+df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fruit</th>
+      <th>weight_gm</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>apple</td>
+      <td>120</td>
+      <td>0.25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>banana</td>
+      <td>100</td>
+      <td>0.18</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pear</td>
+      <td>104</td>
+      <td>0.87</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pear</td>
+      <td>60</td>
+      <td>0.09</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>apple</td>
+      <td>98</td>
+      <td>1.02</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>apple</td>
+      <td>119</td>
+      <td>0.63</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">pd.get_dummies(df)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>weight_gm</th>
+      <th>price</th>
+      <th>fruit_apple</th>
+      <th>fruit_banana</th>
+      <th>fruit_pear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>120</td>
+      <td>0.25</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>100</td>
+      <td>0.18</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>104</td>
+      <td>0.87</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>0.09</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98</td>
+      <td>1.02</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>119</td>
+      <td>0.63</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>You only really need <script type="math/tex">k-1</script> columns to encode <script type="math/tex">k</script> categories.
+The all-zeros vector represents the first category, called in this case the ‘reference category’.</p>
+<p>One hot encoding can be challenging to use if there are more than a handful of categories.  We can do this in pandas using the parameter <code>drop_first=True</code>.</p>
+<pre><code class="language-python">pd.get_dummies(df, drop_first=True)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>weight_gm</th>
+      <th>price</th>
+      <th>fruit_banana</th>
+      <th>fruit_pear</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>120</td>
+      <td>0.25</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>100</td>
+      <td>0.18</td>
+      <td>True</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>104</td>
+      <td>0.87</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>0.09</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98</td>
+      <td>1.02</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>119</td>
+      <td>0.63</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="label-encoding">Label encoding</h3>
+<p>What we saw with get_dummies would work for input variables (as most models will accommodate more columns), but how do we deal with target variables that are categorical?  </p>
+<p>This can become an issue as most ML algorithms expect a single column target variable.  </p>
+<p>In such situations, we can assign numbers to different categories, eg,<br />
+0 = apple,<br />
+1 = banana,<br />
+2 = pear etc.!  </p>
+<p>Original data is transformed into labels that are classes named as 0, 1</p>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fruit</th>
+      <th>weight_gm</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>apple</td>
+      <td>120</td>
+      <td>0.25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>banana</td>
+      <td>100</td>
+      <td>0.18</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pear</td>
+      <td>104</td>
+      <td>0.87</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pear</td>
+      <td>60</td>
+      <td>0.09</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>apple</td>
+      <td>98</td>
+      <td>1.02</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>apple</td>
+      <td>119</td>
+      <td>0.63</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>For multiclass classification problems for neural nets, a slightly different label encoding scheme is desired.  </p>
+<p>We use tensorflow’s <code>to_categorical</code> function on the encoded labels (not on the raw labels!). The function converts a class vector (integers) to binary class matrix.  </p>
+<p>This is similar to <code>get_dummies()</code> from pandas.  </p>
+<pre><code class="language-python">from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+encoded_labels = le.fit_transform(df['fruit'].values.ravel()) # This needs a 1D array
+df['encoded_labels'] = encoded_labels
+df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fruit</th>
+      <th>weight_gm</th>
+      <th>price</th>
+      <th>encoded_labels</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>apple</td>
+      <td>120</td>
+      <td>0.25</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>banana</td>
+      <td>100</td>
+      <td>0.18</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pear</td>
+      <td>104</td>
+      <td>0.87</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pear</td>
+      <td>60</td>
+      <td>0.09</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>apple</td>
+      <td>98</td>
+      <td>1.02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>apple</td>
+      <td>119</td>
+      <td>0.63</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Enumerate Encoded Classes
+dict(list(enumerate(le.classes_)))
+</code></pre>
+<pre><code>{0: 'apple', 1: 'banana', 2: 'pear'}
+</code></pre>
+<pre><code class="language-python">from tensorflow.keras.utils import to_categorical
+to_categorical(encoded_labels)
+</code></pre>
+<pre><code>array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<hr />
+<p>Next, we look at some of the commonly used functions used for converting categories to numbers.  </p>
+<p><strong>OneHotEncoder</strong><br />
+Used for X variables.  Can convert multiple columns to one hot format directly from categorical text. Directly takes an array as an input. </p>
+<pre><code class="language-python">from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import MultiLabelBinarizer
+</code></pre>
+<pre><code class="language-python">values = df[['fruit']]
+values
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fruit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>banana</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>pear</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>pear</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>apple</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">oh = OneHotEncoder(sparse_output=False)
+myonehot = oh.fit_transform(values)
+myonehot
+
+</code></pre>
+<pre><code>array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.],
+       [0., 0., 1.],
+       [1., 0., 0.],
+       [1., 0., 0.]])
+</code></pre>
+<hr />
+<p><strong>LabelEncoder</strong><br />
+Used for Y variables - this doesn't give you one-hot encoding, but gives you integer encoding.</p>
+<pre><code class="language-python">le = LabelEncoder()
+int = le.fit_transform(values.fruit.ravel()) # This needs a 1D arrary
+print(&quot;Now int has integers, type is &quot;, type(int))
+print('int shape: ', int.shape)
+int
+</code></pre>
+<pre><code>Now int has integers, type is  &lt;class 'numpy.ndarray'&gt;
+int shape:  (6,)
+
+
+
+
+
+array([0, 1, 2, 2, 0, 0])
+</code></pre>
+<hr />
+<p><strong>LabelBinarizer</strong><br />
+Used for Y variables - produces one-hot encoding for Y variables.  Each observation belongs to one and only one class.</p>
+<pre><code class="language-python">lb = LabelBinarizer()
+myonehot = lb.fit_transform(values) 
+my1hot_df = pd.DataFrame(lb.fit_transform(values), columns=lb.classes_)
+print(my1hot_df)
+print('\n \n')
+print(myonehot)
+</code></pre>
+<pre><code>   apple  banana  pear
+0      1       0     0
+1      0       1     0
+2      0       0     1
+3      0       0     1
+4      1       0     0
+5      1       0     0
+
+
+
+[[1 0 0]
+ [0 1 0]
+ [0 0 1]
+ [0 0 1]
+ [1 0 0]
+ [1 0 0]]
+</code></pre>
+<hr />
+<p><strong>MultiLabelBinarizer</strong>: This is used when an observation can belong to multiple labels</p>
+<pre><code class="language-python">df = pd.DataFrame({&quot;genre&quot;: [[&quot;action&quot;, &quot;drama&quot;,&quot;fantasy&quot;], \
+                             [&quot;fantasy&quot;,&quot;action&quot;], [&quot;drama&quot;], 
+                             [&quot;sci-fi&quot;, &quot;drama&quot;]]})
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>[action, drama, fantasy]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>[fantasy, action]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>[drama]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>[sci-fi, drama]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">mlb = MultiLabelBinarizer()
+myonehot = mlb.fit_transform(df['genre'])
+my1hot_df = pd.DataFrame(mlb.fit_transform(df['genre']), columns=mlb.classes_)
+print('mlb.classes \n',mlb.classes_, '\n\n')
+print('my1hot_df \n', my1hot_df, '\n\n')
+print('myonehot \n', myonehot, '\n\n')
+</code></pre>
+<pre><code>mlb.classes 
+ ['action' 'drama' 'fantasy' 'sci-fi']
+
+
+my1hot_df 
+    action  drama  fantasy  sci-fi
+0       1      1        1       0
+1       1      0        1       0
+2       0      1        0       0
+3       0      1        0       1
+
+
+myonehot 
+ [[1 1 1 0]
+ [1 0 1 0]
+ [0 1 0 0]
+ [0 1 0 1]]
+</code></pre>
+<h2 id="imbalanced-classes">Imbalanced classes</h2>
+<p>Imbalanced data is data for classification problems where the observations are not equally distributed (or roughly so) across the different classes.  An imbalanced data set is one with skewed class proportions.  </p>
+<p>As a result, many algorithms underperform as they do not get to learn the underrepresented class, which is often the one of interest.  </p>
+<p>Example: a dataset for disease prediction has &lt;1% of the observations which are positive for the disease.  </p>
+<p>There is no precise definition of when a dataset should be considered imbalanced, but as a rule of thumb it is something to be concerned about if less than 20% of the observations belong to one class in a binary classification problem.  </p>
+<p>Approaches to addressing the problem of imbalanced data focus on doing something that improves the ratio of the underrepresented category in the dataset.  </p>
+<p>This can be done in two ways:<br />
+ - Reduce observations in the majority class<br />
+ - Increase observations for the minority class  </p>
+<p>Let us see next how this can be done.  </p>
+<p><strong>Old Faithful Dataset</strong>  </p>
+<p>We look at the dataset from the Old Faithful geyser's eruptions at the Yellowstone National Park.  </p>
+<p>Data Description: 
+     - Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
+<pre><code> - A data frame with 272 observations on 2 variables.
+</code></pre>
+<p>Columns:<br />
+- duration - numeric - Eruption time in mins<br />
+- waiting - numeric - Waiting time to next eruption<br />
+- kind - categorical - Kind of eruption (long/short)  </p>
+<pre><code class="language-python">df = sns.load_dataset('geyser')
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>duration</th>
+      <th>waiting</th>
+      <th>kind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.600</td>
+      <td>79</td>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.800</td>
+      <td>54</td>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.333</td>
+      <td>74</td>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.283</td>
+      <td>62</td>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.533</td>
+      <td>85</td>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>4.117</td>
+      <td>81</td>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>2.150</td>
+      <td>46</td>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>4.417</td>
+      <td>90</td>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>1.817</td>
+      <td>46</td>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>4.467</td>
+      <td>74</td>
+      <td>long</td>
+    </tr>
+  </tbody>
+</table>
+<p>272 rows × 3 columns</p>
+</div>
+
+<pre><code class="language-python">print(df.kind.value_counts())
+print('\n---\n')
+print(df.kind.value_counts(normalize=True))
+</code></pre>
+<pre><code>kind
+long     172
+short    100
+Name: count, dtype: int64
+
+---
+
+kind
+long     0.632353
+short    0.367647
+Name: proportion, dtype: float64
+</code></pre>
+<pre><code class="language-python"># Split the dataframe between X and y
+X = df[['duration', 'waiting']]
+y = df[['kind']]
+</code></pre>
+<pre><code class="language-python">y.value_counts()
+</code></pre>
+<pre><code>kind 
+long     172
+short    100
+Name: count, dtype: int64
+</code></pre>
+<h3 id="approach-1-reduce-observations-for-majority-class">Approach 1: Reduce Observations for Majority Class</h3>
+<p>Several approaches available, for example:
+- Random Under Sampling: Randomly remove majority class observations to match the number of observations in the minority class.<br />
+- Cluster Centroids Method: Remove majority class observations and replace them with synthetic data representing the centroids of k-means clusters.</p>
+<p>Observations are removed till all classes have a count of observation equal to the class with the lowest count of observations.</p>
+<p>Generally, 1 above (random undersampling) should suffice for most general cases.  Other approaches available as well, listed at https://imbalanced-learn.org/</p>
+<h4 id="random-under-sampler">Random Under Sampler</h4>
+<p>Several approaches available, for example:</p>
+<ul>
+<li>Random Under Sampling: Randomly remove majority class observations to match the number of observations in the minority class.  </li>
+<li>Cluster Centroids Method: Remove majority class observations and replace them with synthetic data representing the centroids of k-means clusters.</li>
+</ul>
+<p>Observations are removed till all classes have a count of observation equal to the class with the lowest count of observations.</p>
+<p>Generally, 1 above (random undersampling) should suffice for most general cases. </p>
+<p>Other approaches available as well, listed at https://imbalanced-learn.org/</p>
+<pre><code class="language-python">from imblearn.under_sampling import RandomUnderSampler
+</code></pre>
+<pre><code class="language-python">undersampler = RandomUnderSampler()
+X_res, y_res = undersampler.fit_resample(X, y)
+</code></pre>
+<pre><code class="language-python">y_res.value_counts()
+</code></pre>
+<pre><code>kind 
+long     100
+short    100
+Name: count, dtype: int64
+</code></pre>
+<pre><code class="language-python">X
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>duration</th>
+      <th>waiting</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.600</td>
+      <td>79</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.800</td>
+      <td>54</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.333</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.283</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.533</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>4.117</td>
+      <td>81</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>2.150</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>4.417</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>1.817</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>4.467</td>
+      <td>74</td>
+    </tr>
+  </tbody>
+</table>
+<p>272 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python">y
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>kind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>long</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>short</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>long</td>
+    </tr>
+  </tbody>
+</table>
+<p>272 rows × 1 columns</p>
+</div>
+
+<h3 id="centroid-based-under-sampler">Centroid Based Under Sampler</h3>
+<pre><code class="language-python">from imblearn.under_sampling import ClusterCentroids
+clustercentroids = ClusterCentroids()
+X_res, y_res = clustercentroids.fit_resample(X, y)
+</code></pre>
+<pre><code>C:\Users\user\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\cluster\_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to 'auto' in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</code></pre>
+<pre><code class="language-python">y_res.value_counts()
+</code></pre>
+<pre><code>kind 
+long     100
+short    100
+Name: count, dtype: int64
+</code></pre>
+<p>Notice how the majority class has been undersampled to match the count of 100 short eruptions (the minority class).</p>
+<h3 id="approach-2-add-observations-to-the-minority-classes">Approach 2: Add Observations to the Minority Classes</h3>
+<p>Several approaches available, for example:<br />
+- Random Over Sampling: Randomly duplicate observations in the minority class till the count of the modal class is reached<br />
+- SMOTE: Synthetic Minority Oversampling Technique  </p>
+<p>You may have to try both approaches to see which one gives you better results.</p>
+<p>All classes that have observations fewer than the class with the maximum count will have their counts increased to match that of the class with the highest count.</p>
+<h4 id="random-over-sampler">Random Over Sampler</h4>
+<pre><code class="language-python">from imblearn.over_sampling import RandomOverSampler
+randomoversampler = RandomOverSampler()
+X_res, y_res = randomoversampler.fit_resample(X, y)
+</code></pre>
+<pre><code class="language-python">y_res.value_counts()
+</code></pre>
+<pre><code>kind 
+long     172
+short    172
+Name: count, dtype: int64
+</code></pre>
+<h4 id="smote-over-sampler">SMOTE Over Sampler</h4>
+<p>SMOTE = Synthetic Minority Oversampling Technique</p>
+<p>SMOTE works as follows:<br />
+1. Take a random sample from the minority class<br />
+2. Find k nearest neighbors for this sample observation<br />
+3. Randomly select one of the neighbors<br />
+4. Draw a line between this random neighbor and the sample observation<br />
+5. Identify a point on the line between the two to get another minority data point.  </p>
+<p>Fortunately, this complicated series of motions is implemented for us in Python by the library imbalanced-learn  </p>
+<p>Often, under-sampling and SMOTE are combined to build a larger data set with greater representation for the minority class.</p>
+<pre><code class="language-python">from imblearn.over_sampling import SMOTE 
+smote = SMOTE()
+X_res, y_res = smote.fit_resample(X, y)
+</code></pre>
+<pre><code class="language-python">y_res.value_counts()
+</code></pre>
+<pre><code>kind 
+long     172
+short    172
+Name: count, dtype: int64
+</code></pre>
+<p>Notice how the count of observations in the minority class have gone up to match the count of the majority class.</p>
+<h2 id="principal-component-analysis">Principal Component Analysis</h2>
+<p><strong>Overview</strong><br />
+The problem we are trying to solve with PCA is that when we are trying to look for relationships in data, there may sometimes be too many variables in the feature set that are all somewhat related to each other.  </p>
+<p>Consider the mtcars dataset.  Though the columns represent different things, we can imagine that horsepower, number of cylinders, engine size (displacement) etc are all related to each other.  </p>
+<p>What PCA allows us to do is to replace a large number of variables with much fewer ‘artificial’ variables that effectively represent the same data. These artificial variables are called principal components.  </p>
+<p>So you might have a hundred variables in the original data set, and you may be able to replace them with just two or three mathematically constructed ‘artificial variables’ that explain the data just about as well as the original data set.  </p>
+<p>These ‘artificial variables’ are built mathematically as linear combinations of the underlying original variables. These new ‘artificial variables’, called principal components, may or may not be capable of any intuitive human interpretation.  </p>
+<p>The number of principal components that can be identified for any dataset is equal to the number of the variables in the dataset. But if one had to use all the principal components, it would not be very helpful because the complexity of the data is not reduced at all, and we are replacing natural variables with artificial ones that may not have a logical interpretation.  </p>
+<p>We can decide which principal components to use and which to discard. But how do we do that?  </p>
+<p>Each principal component accounts for a part of the total variation that the original dataset had. We pick the top 2 or 3 (or n) principal components so we have a satisfactory proportion of the variation in the original dataset.  </p>
+<p>What does ‘variation’ mean, you might ask.  </p>
+<p>Think of the data set as a scatterplot. If we had two variables, think about how they would look when plotted on a scatter plot. If we had three variables, try to visualize a three dimensional plane and how the data points would look – like a cloud kind of clustering together a little bit (or not) depending upon how correlated the system is.   </p>
+<p>The ‘spread’ of this cloud is really the ‘variation’ contained in the data set. This can be measured in the form of variance, with each of the n columns having a variance.   </p>
+<p>Once the principal components for the feature data have been calculated, we can also calculate the variance for each of the principal components.  </p>
+<p>Fortunately, the simple summation of the variance of the individual original variables is equal to the summation of the variances of the principal components.  But it is distributed differently.   </p>
+<p>We arrange the principal components in descending order of the variance each of them explains, take the top few principal components, add up their variance, and compare it to the total variance to determine how much of the variance is accounted for. If we have enough to meet our needs, we stop there.  </p>
+<p>For example, if the top 3 or 4 principal components explain 90% of the variance (not unusual), we might just take those as our new features to replace our old cumbersome 100-column feature set, greatly simplifying our modeling problem.  </p>
+<p><strong>PCA in Practice - Steps</strong><br />
+1. PCA begins with standardizing the feature set.
+2. Then we calculate the covariance matrix (which after standardization is the same as the correlation matrix).
+3. For this covariance matrix, we now calculate the eigenvectors and eigenvalues. 
+4. Every eigenvector would have as many elements as the number of features in the original dataset. These elements represent the ‘weights’ for the linear combination of the different features.
+5. The eigenvalues for each of the eigenvectors represent the amount of variance that the given eigenvector accounts for. We arrange the eigenvectors in decreasing order of the eigenvalues, and pick the top 2, 3 (or as many eigenvalues) that we are interested in depending upon how much variance we want to capture in our model. 
+6. If we include all the eigenvectors, then we would have captured all the variance but this would not give us any advantage over our initial data.
+7. In a simplistic way, that is about all that there is to PCA. Fortunately for us, all of this is already implemented in statistical libraries, and as practitioners we need to know only the intuition before we apply it.</p>
+<pre><code class="language-python"># Load the mtcars data
+import statsmodels.api as sm
+df = sm.datasets.get_rdataset('mtcars').data
+print('Dataframe shape: ',df.shape)
+df.head()
+</code></pre>
+<pre><code>Dataframe shape:  (32, 11)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>22.8</td>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>21.4</td>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>18.7</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>We run principal component analysis on the mtcars dataset.  We target capturing 80% of the variation in the dataset.  We see that just two principal components capture 84% of the variation observed in the original 10 feature dataset.</p>
+<pre><code class="language-python"># Separate out the features (assuming mpg is the target variable)
+feat = df.iloc[:,1:]
+
+# Next, standard scale the feature set
+import sklearn.preprocessing as preproc
+feat = pd.DataFrame(data=preproc.StandardScaler().fit_transform(feat), columns=feat.columns, index = feat.index)
+print(feat.shape)
+feat.head()
+</code></pre>
+<pre><code>(32, 10)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>-0.106668</td>
+      <td>-0.579750</td>
+      <td>-0.543655</td>
+      <td>0.576594</td>
+      <td>-0.620167</td>
+      <td>-0.789601</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>-0.106668</td>
+      <td>-0.579750</td>
+      <td>-0.543655</td>
+      <td>0.576594</td>
+      <td>-0.355382</td>
+      <td>-0.471202</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>-1.244457</td>
+      <td>-1.006026</td>
+      <td>-0.795570</td>
+      <td>0.481584</td>
+      <td>-0.931678</td>
+      <td>0.432823</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>-0.106668</td>
+      <td>0.223615</td>
+      <td>-0.543655</td>
+      <td>-0.981576</td>
+      <td>-0.002336</td>
+      <td>0.904736</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>1.031121</td>
+      <td>1.059772</td>
+      <td>0.419550</td>
+      <td>-0.848562</td>
+      <td>0.231297</td>
+      <td>-0.471202</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-0.511083</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Check out the correlation
+sns.heatmap(feat.corr(numeric_only=True), annot=True);
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_97_0.png" /></p>
+<p>Consider the mtcars dataset above.  Though the columns represent different things, we can imagine that horsepower, number of cylinders, engine size (displacement) etc are all related to each other. </p>
+<p>We run principal component analysis on the mtcars dataset.  We target capturing 80% of the variation in the dataset.  We see below that just two principal components capture 84% of the variation observed in the original 10 feature dataset.</p>
+<h3 id="principal-components">Principal Components</h3>
+<pre><code class="language-python">from sklearn.decomposition import PCA
+pca = PCA(n_components=.8) #0.8 means keep 80% of the variance
+</code></pre>
+<pre><code class="language-python"># Get the new features and hold them in variable new
+pc_mtcars = pca.fit_transform(feat)
+</code></pre>
+<pre><code class="language-python">pc_mtcars.shape
+</code></pre>
+<pre><code>(32, 10)
+</code></pre>
+<pre><code class="language-python">pc_mtcars = pd.DataFrame(pc_mtcars)
+pc_mtcars
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.632134</td>
+      <td>1.739877</td>
+      <td>-0.665110</td>
+      <td>0.100862</td>
+      <td>-0.927621</td>
+      <td>0.051528</td>
+      <td>-0.400939</td>
+      <td>-0.177965</td>
+      <td>-0.067495</td>
+      <td>-0.163161</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.605027</td>
+      <td>1.554343</td>
+      <td>-0.434619</td>
+      <td>0.190621</td>
+      <td>-1.033729</td>
+      <td>-0.156044</td>
+      <td>-0.421950</td>
+      <td>-0.085054</td>
+      <td>-0.125251</td>
+      <td>-0.071543</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.801549</td>
+      <td>-0.122632</td>
+      <td>-0.414510</td>
+      <td>-0.263449</td>
+      <td>0.446730</td>
+      <td>-0.507376</td>
+      <td>-0.291290</td>
+      <td>-0.084116</td>
+      <td>0.162350</td>
+      <td>0.181756</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.259204</td>
+      <td>-2.364265</td>
+      <td>-0.095090</td>
+      <td>-0.505929</td>
+      <td>0.552199</td>
+      <td>-0.035541</td>
+      <td>-0.058233</td>
+      <td>-0.188187</td>
+      <td>-0.101924</td>
+      <td>-0.166531</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-2.032508</td>
+      <td>-0.774822</td>
+      <td>-1.016381</td>
+      <td>0.081071</td>
+      <td>0.200412</td>
+      <td>0.163234</td>
+      <td>0.285340</td>
+      <td>0.116682</td>
+      <td>-0.108244</td>
+      <td>-0.181168</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.204867</td>
+      <td>-2.778790</td>
+      <td>0.093328</td>
+      <td>-0.995552</td>
+      <td>0.227545</td>
+      <td>-0.323183</td>
+      <td>-0.150440</td>
+      <td>-0.045932</td>
+      <td>-0.154474</td>
+      <td>0.033869</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>-2.846324</td>
+      <td>0.318210</td>
+      <td>-0.324108</td>
+      <td>-0.053138</td>
+      <td>0.423729</td>
+      <td>0.686200</td>
+      <td>-0.201259</td>
+      <td>0.179319</td>
+      <td>0.362386</td>
+      <td>-0.195036</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1.938647</td>
+      <td>-1.454239</td>
+      <td>0.955656</td>
+      <td>-0.138849</td>
+      <td>-0.349183</td>
+      <td>0.073207</td>
+      <td>0.641096</td>
+      <td>-0.374506</td>
+      <td>0.239646</td>
+      <td>-0.031233</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2.300271</td>
+      <td>-1.963602</td>
+      <td>1.751220</td>
+      <td>0.299541</td>
+      <td>-0.408112</td>
+      <td>-0.255902</td>
+      <td>0.542837</td>
+      <td>0.935339</td>
+      <td>-0.061213</td>
+      <td>-0.130912</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.636986</td>
+      <td>-0.150858</td>
+      <td>1.434045</td>
+      <td>0.066155</td>
+      <td>0.010042</td>
+      <td>0.845973</td>
+      <td>0.168722</td>
+      <td>-0.543588</td>
+      <td>-0.260493</td>
+      <td>0.124549</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.712003</td>
+      <td>-0.308009</td>
+      <td>1.571549</td>
+      <td>0.090629</td>
+      <td>-0.062764</td>
+      <td>0.746137</td>
+      <td>0.155767</td>
+      <td>-0.340193</td>
+      <td>-0.343927</td>
+      <td>0.071815</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>-2.168500</td>
+      <td>-0.698349</td>
+      <td>-0.318649</td>
+      <td>-0.132449</td>
+      <td>-0.380210</td>
+      <td>0.193121</td>
+      <td>-0.104051</td>
+      <td>0.091823</td>
+      <td>-0.060831</td>
+      <td>0.389843</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>-2.013998</td>
+      <td>-0.698920</td>
+      <td>-0.409019</td>
+      <td>-0.213513</td>
+      <td>-0.353604</td>
+      <td>0.312365</td>
+      <td>-0.096477</td>
+      <td>0.288854</td>
+      <td>-0.115464</td>
+      <td>0.184484</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>-1.983030</td>
+      <td>-0.811307</td>
+      <td>-0.297320</td>
+      <td>-0.184076</td>
+      <td>-0.409623</td>
+      <td>0.223378</td>
+      <td>-0.106863</td>
+      <td>0.405446</td>
+      <td>-0.167143</td>
+      <td>0.176943</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>-3.540037</td>
+      <td>-0.841191</td>
+      <td>0.646830</td>
+      <td>0.299781</td>
+      <td>-0.144468</td>
+      <td>-0.895457</td>
+      <td>-0.091503</td>
+      <td>-0.234988</td>
+      <td>0.052358</td>
+      <td>-0.258041</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>-3.597893</td>
+      <td>-0.747153</td>
+      <td>0.725851</td>
+      <td>0.417433</td>
+      <td>-0.092404</td>
+      <td>-0.875780</td>
+      <td>-0.121889</td>
+      <td>-0.248904</td>
+      <td>0.121949</td>
+      <td>-0.036876</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>-3.493731</td>
+      <td>-0.445347</td>
+      <td>0.702793</td>
+      <td>0.696399</td>
+      <td>0.074896</td>
+      <td>-0.605711</td>
+      <td>-0.147697</td>
+      <td>-0.182902</td>
+      <td>0.201483</td>
+      <td>0.145296</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>3.329571</td>
+      <td>-0.292943</td>
+      <td>-0.277423</td>
+      <td>0.073323</td>
+      <td>0.112670</td>
+      <td>-0.421673</td>
+      <td>-0.305017</td>
+      <td>0.070160</td>
+      <td>-0.116413</td>
+      <td>0.129409</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>3.883988</td>
+      <td>0.704290</td>
+      <td>-0.202656</td>
+      <td>1.186911</td>
+      <td>0.133843</td>
+      <td>0.540753</td>
+      <td>-0.410649</td>
+      <td>-0.133756</td>
+      <td>-0.228625</td>
+      <td>-0.282043</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>3.636227</td>
+      <td>-0.276133</td>
+      <td>-0.292044</td>
+      <td>0.206366</td>
+      <td>0.113590</td>
+      <td>-0.245487</td>
+      <td>-0.304007</td>
+      <td>0.365579</td>
+      <td>-0.231154</td>
+      <td>-0.056534</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1.962264</td>
+      <td>-2.101797</td>
+      <td>0.030140</td>
+      <td>0.037593</td>
+      <td>0.162210</td>
+      <td>0.672144</td>
+      <td>-0.164937</td>
+      <td>0.306503</td>
+      <td>0.606158</td>
+      <td>-0.031204</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>-2.048033</td>
+      <td>-1.026281</td>
+      <td>-1.177374</td>
+      <td>-0.604969</td>
+      <td>-0.181947</td>
+      <td>0.089924</td>
+      <td>0.225311</td>
+      <td>-0.162343</td>
+      <td>-0.117839</td>
+      <td>-0.019935</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>-1.682576</td>
+      <td>-0.913388</td>
+      <td>-1.014237</td>
+      <td>-0.008073</td>
+      <td>-0.183926</td>
+      <td>0.270837</td>
+      <td>0.220226</td>
+      <td>0.061937</td>
+      <td>-0.246339</td>
+      <td>0.014154</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>-2.658623</td>
+      <td>0.669277</td>
+      <td>-0.184127</td>
+      <td>0.821191</td>
+      <td>0.509528</td>
+      <td>0.897013</td>
+      <td>-0.185740</td>
+      <td>-0.017670</td>
+      <td>0.359389</td>
+      <td>0.101728</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>-2.354816</td>
+      <td>-0.899123</td>
+      <td>-0.869987</td>
+      <td>0.161906</td>
+      <td>0.233469</td>
+      <td>-0.171734</td>
+      <td>0.331052</td>
+      <td>-0.079515</td>
+      <td>-0.075497</td>
+      <td>-0.191597</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>3.358263</td>
+      <td>-0.103399</td>
+      <td>-0.514251</td>
+      <td>-0.018818</td>
+      <td>0.222321</td>
+      <td>-0.208830</td>
+      <td>-0.282955</td>
+      <td>-0.022693</td>
+      <td>-0.058105</td>
+      <td>0.031465</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2.440051</td>
+      <td>2.057439</td>
+      <td>-0.881101</td>
+      <td>0.568156</td>
+      <td>-0.621810</td>
+      <td>-0.300175</td>
+      <td>1.030298</td>
+      <td>0.014321</td>
+      <td>0.403521</td>
+      <td>0.121686</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2.946328</td>
+      <td>1.383718</td>
+      <td>-0.355847</td>
+      <td>-1.159294</td>
+      <td>0.678108</td>
+      <td>-0.024936</td>
+      <td>0.467431</td>
+      <td>-0.239450</td>
+      <td>0.166930</td>
+      <td>-0.100088</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>-1.212566</td>
+      <td>3.498277</td>
+      <td>-0.197467</td>
+      <td>0.600021</td>
+      <td>1.124186</td>
+      <td>-0.342886</td>
+      <td>0.664866</td>
+      <td>0.153216</td>
+      <td>-0.426021</td>
+      <td>0.129397</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0.014182</td>
+      <td>3.221361</td>
+      <td>0.374340</td>
+      <td>-0.959536</td>
+      <td>-0.853213</td>
+      <td>0.081124</td>
+      <td>0.024243</td>
+      <td>-0.114836</td>
+      <td>0.137882</td>
+      <td>-0.052590</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>-2.541137</td>
+      <td>4.366990</td>
+      <td>1.428770</td>
+      <td>-0.874904</td>
+      <td>0.415883</td>
+      <td>-0.011549</td>
+      <td>-0.409474</td>
+      <td>0.456812</td>
+      <td>0.026336</td>
+      <td>-0.091492</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>2.512210</td>
+      <td>0.258768</td>
+      <td>0.226798</td>
+      <td>0.214592</td>
+      <td>0.361254</td>
+      <td>-0.464676</td>
+      <td>-0.501820</td>
+      <td>-0.169392</td>
+      <td>0.226064</td>
+      <td>0.223587</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># proportion variance explained by each of the principal components
+pca.explained_variance_ratio_
+</code></pre>
+<pre><code>array([0.57602174, 0.26496432, 0.05972149, 0.02695067, 0.02222501,
+       0.02101174, 0.01329201, 0.00806816, 0.00536523, 0.00237963])
+</code></pre>
+<pre><code class="language-python"># proportion variance explained by including each PC
+(pca.explained_variance_ratio_).cumsum()
+</code></pre>
+<pre><code>array([0.57602174, 0.84098606])
+</code></pre>
+<pre><code class="language-python"># proportion variance explained by both
+(pca.explained_variance_ratio_).cumsum()[-1]
+</code></pre>
+<pre><code>0.8409860622774867
+</code></pre>
+<pre><code class="language-python"># Absolute variance explained
+pca.explained_variance_
+</code></pre>
+<pre><code>array([5.9460309 , 2.73511555])
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python"># Check if the principal components are orthogonal (dot product should be zero)
+np.dot(pc_mtcars[0], pc_mtcars[1])
+</code></pre>
+<pre><code>4.440892098500626e-15
+</code></pre>
+<pre><code class="language-python">pc_mtcars.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.632134</td>
+      <td>1.739877</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.605027</td>
+      <td>1.554343</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.801549</td>
+      <td>-0.122632</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.259204</td>
+      <td>-2.364265</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-2.032508</td>
+      <td>-0.774822</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">pc_mtcars.index = df.index
+pc_mtcars.columns = ['PC-0', 'PC-1']
+pc_mtcars
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PC-0</th>
+      <th>PC-1</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>0.632134</td>
+      <td>1.739877</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>0.605027</td>
+      <td>1.554343</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>2.801549</td>
+      <td>-0.122632</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>0.259204</td>
+      <td>-2.364265</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>-2.032508</td>
+      <td>-0.774822</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>0.204867</td>
+      <td>-2.778790</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>-2.846324</td>
+      <td>0.318210</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>1.938647</td>
+      <td>-1.454239</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>2.300271</td>
+      <td>-1.963602</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>0.636986</td>
+      <td>-0.150858</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>0.712003</td>
+      <td>-0.308009</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>-2.168500</td>
+      <td>-0.698349</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>-2.013998</td>
+      <td>-0.698920</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>-1.983030</td>
+      <td>-0.811307</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>-3.540037</td>
+      <td>-0.841191</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>-3.597893</td>
+      <td>-0.747153</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>-3.493731</td>
+      <td>-0.445347</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>3.329571</td>
+      <td>-0.292943</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>3.883988</td>
+      <td>0.704290</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>3.636227</td>
+      <td>-0.276133</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>1.962264</td>
+      <td>-2.101797</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>-2.048033</td>
+      <td>-1.026281</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>-1.682576</td>
+      <td>-0.913388</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>-2.658623</td>
+      <td>0.669277</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>-2.354816</td>
+      <td>-0.899123</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>3.358263</td>
+      <td>-0.103399</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>2.440051</td>
+      <td>2.057439</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>2.946328</td>
+      <td>1.383718</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>-1.212566</td>
+      <td>3.498277</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>0.014182</td>
+      <td>3.221361</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>-2.541137</td>
+      <td>4.366990</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>2.512210</td>
+      <td>0.258768</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">plt.figure(figsize = (8,8))
+x, y = pc_mtcars['PC-0'].values, pc_mtcars['PC-1'].values
+ax = plt.scatter(x,y)
+for i, txt in enumerate(pc_mtcars.index):
+    plt.annotate(txt, (x[i], y[i]), fontsize=10)
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_111_0.png" /></p>
+<h3 id="eigenvectors">Eigenvectors</h3>
+<p>Check if eigenvectors multiplied by original feature set data equals the principal components (Optional)</p>
+<pre><code class="language-python"># Eigenvectors.  These are multiplied by the actual features and summed up to get the new features
+ev = pca.components_
+ev
+</code></pre>
+<pre><code>array([[-0.40297112, -0.39592428, -0.35432552,  0.3155948 , -0.36680043,
+         0.21989818,  0.33335709,  0.24749911,  0.22143747, -0.22670801],
+       [ 0.03901479, -0.05393117,  0.24496137,  0.27847781, -0.14675805,
+        -0.46066271, -0.22751987,  0.43201042,  0.46516217,  0.411693  ]])
+</code></pre>
+<pre><code class="language-python"># For the first observation, these are the new feature values
+pc_mtcars.iloc[0:2]
+
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PC-0</th>
+      <th>PC-1</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>0.632134</td>
+      <td>1.739877</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>0.605027</td>
+      <td>1.554343</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Original standardized features for the first observation
+feat.iloc[0]
+</code></pre>
+<pre><code>cyl    -0.106668
+disp   -0.579750
+hp     -0.543655
+drat    0.576594
+wt     -0.620167
+qsec   -0.789601
+vs     -0.881917
+am      1.208941
+gear    0.430331
+carb    0.746967
+Name: Mazda RX4, dtype: float64
+</code></pre>
+<pre><code class="language-python"># Multiplying the first observation with the eignevectors
+(ev[0] * feat.iloc[0])
+</code></pre>
+<pre><code>cyl     0.042984
+disp    0.229537
+hp      0.192631
+drat    0.181970
+wt      0.227477
+qsec   -0.173632
+vs     -0.293993
+am      0.299212
+gear    0.095292
+carb   -0.169343
+Name: Mazda RX4, dtype: float64
+</code></pre>
+<pre><code class="language-python"># Next we sum up the above to get the first PC for the first observation
+(ev[0] * feat.iloc[0]).sum()
+</code></pre>
+<pre><code>0.6321344928989641
+</code></pre>
+<pre><code class="language-python"># We can get the first PC for all the observations together as well
+(ev[0] * feat).sum(axis=1)
+</code></pre>
+<pre><code>rownames
+Mazda RX4              0.632134
+Mazda RX4 Wag          0.605027
+Datsun 710             2.801549
+Hornet 4 Drive         0.259204
+Hornet Sportabout     -2.032508
+Valiant                0.204867
+Duster 360            -2.846324
+Merc 240D              1.938647
+Merc 230               2.300271
+Merc 280               0.636986
+Merc 280C              0.712003
+Merc 450SE            -2.168500
+Merc 450SL            -2.013998
+Merc 450SLC           -1.983030
+Cadillac Fleetwood    -3.540037
+Lincoln Continental   -3.597893
+Chrysler Imperial     -3.493731
+Fiat 128               3.329571
+Honda Civic            3.883988
+Toyota Corolla         3.636227
+Toyota Corona          1.962264
+Dodge Challenger      -2.048033
+AMC Javelin           -1.682576
+Camaro Z28            -2.658623
+Pontiac Firebird      -2.354816
+Fiat X1-9              3.358263
+Porsche 914-2          2.440051
+Lotus Europa           2.946328
+Ford Pantera L        -1.212566
+Ferrari Dino           0.014182
+Maserati Bora         -2.541137
+Volvo 142E             2.512210
+dtype: float64
+</code></pre>
+<pre><code class="language-python"># Next we get the second principal component
+(ev[1] * feat).sum(axis=1)
+</code></pre>
+<pre><code>rownames
+Mazda RX4              1.739877
+Mazda RX4 Wag          1.554343
+Datsun 710            -0.122632
+Hornet 4 Drive        -2.364265
+Hornet Sportabout     -0.774822
+Valiant               -2.778790
+Duster 360             0.318210
+Merc 240D             -1.454239
+Merc 230              -1.963602
+Merc 280              -0.150858
+Merc 280C             -0.308009
+Merc 450SE            -0.698349
+Merc 450SL            -0.698920
+Merc 450SLC           -0.811307
+Cadillac Fleetwood    -0.841191
+Lincoln Continental   -0.747153
+Chrysler Imperial     -0.445347
+Fiat 128              -0.292943
+Honda Civic            0.704290
+Toyota Corolla        -0.276133
+Toyota Corona         -2.101797
+Dodge Challenger      -1.026281
+AMC Javelin           -0.913388
+Camaro Z28             0.669277
+Pontiac Firebird      -0.899123
+Fiat X1-9             -0.103399
+Porsche 914-2          2.057439
+Lotus Europa           1.383718
+Ford Pantera L         3.498277
+Ferrari Dino           3.221361
+Maserati Bora          4.366990
+Volvo 142E             0.258768
+dtype: float64
+</code></pre>
+<p>These manually obtained PCs are identical to the ones we got earlier using <code>pca.fit_transform(feat)</code></p>
+<hr />
+<p><strong>END</strong></p>
+<pre><code class="language-python">#PCA
+from sklearn.decomposition import PCA
+#TSNE
+from sklearn.manifold import TSNE
+#UMAP
+import umap
+</code></pre>
+<pre><code class="language-python">feat
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>-0.106668</td>
+      <td>-0.579750</td>
+      <td>-0.543655</td>
+      <td>0.576594</td>
+      <td>-0.620167</td>
+      <td>-0.789601</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>-0.106668</td>
+      <td>-0.579750</td>
+      <td>-0.543655</td>
+      <td>0.576594</td>
+      <td>-0.355382</td>
+      <td>-0.471202</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>-1.244457</td>
+      <td>-1.006026</td>
+      <td>-0.795570</td>
+      <td>0.481584</td>
+      <td>-0.931678</td>
+      <td>0.432823</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>-0.106668</td>
+      <td>0.223615</td>
+      <td>-0.543655</td>
+      <td>-0.981576</td>
+      <td>-0.002336</td>
+      <td>0.904736</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>1.031121</td>
+      <td>1.059772</td>
+      <td>0.419550</td>
+      <td>-0.848562</td>
+      <td>0.231297</td>
+      <td>-0.471202</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>-0.106668</td>
+      <td>-0.046906</td>
+      <td>-0.617748</td>
+      <td>-1.589643</td>
+      <td>0.252064</td>
+      <td>1.348220</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>1.031121</td>
+      <td>1.059772</td>
+      <td>1.456847</td>
+      <td>-0.734549</td>
+      <td>0.366285</td>
+      <td>-1.142114</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>-1.244457</td>
+      <td>-0.688779</td>
+      <td>-1.254944</td>
+      <td>0.177551</td>
+      <td>-0.028296</td>
+      <td>1.223135</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>0.430331</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>-1.244457</td>
+      <td>-0.737144</td>
+      <td>-0.765933</td>
+      <td>0.614599</td>
+      <td>-0.069830</td>
+      <td>2.871986</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>0.430331</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>-0.106668</td>
+      <td>-0.517448</td>
+      <td>-0.351014</td>
+      <td>0.614599</td>
+      <td>0.231297</td>
+      <td>0.256567</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>-0.106668</td>
+      <td>-0.517448</td>
+      <td>-0.351014</td>
+      <td>0.614599</td>
+      <td>0.231297</td>
+      <td>0.597708</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>0.430331</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>1.031121</td>
+      <td>0.369533</td>
+      <td>0.493642</td>
+      <td>-1.000578</td>
+      <td>0.885470</td>
+      <td>-0.255145</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.117942</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>1.031121</td>
+      <td>0.369533</td>
+      <td>0.493642</td>
+      <td>-1.000578</td>
+      <td>0.532424</td>
+      <td>-0.141432</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.117942</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>1.031121</td>
+      <td>0.369533</td>
+      <td>0.493642</td>
+      <td>-1.000578</td>
+      <td>0.584343</td>
+      <td>0.085996</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.117942</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>1.031121</td>
+      <td>1.977904</td>
+      <td>0.864106</td>
+      <td>-1.266608</td>
+      <td>2.110747</td>
+      <td>0.074625</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>1.031121</td>
+      <td>1.879533</td>
+      <td>1.012291</td>
+      <td>-1.133593</td>
+      <td>2.291423</td>
+      <td>-0.016346</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>1.031121</td>
+      <td>1.715580</td>
+      <td>1.234569</td>
+      <td>-0.696545</td>
+      <td>2.209392</td>
+      <td>-0.243774</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>-1.244457</td>
+      <td>-1.246216</td>
+      <td>-1.195670</td>
+      <td>0.918632</td>
+      <td>-1.056282</td>
+      <td>0.921793</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>-1.244457</td>
+      <td>-1.270809</td>
+      <td>-1.403130</td>
+      <td>2.533809</td>
+      <td>-1.663729</td>
+      <td>0.381652</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>-1.244457</td>
+      <td>-1.308518</td>
+      <td>-1.210489</td>
+      <td>1.184661</td>
+      <td>-1.435287</td>
+      <td>1.166278</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>-1.244457</td>
+      <td>-0.906835</td>
+      <td>-0.736296</td>
+      <td>0.196553</td>
+      <td>-0.781114</td>
+      <td>1.228820</td>
+      <td>1.133893</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>1.031121</td>
+      <td>0.715472</td>
+      <td>0.049086</td>
+      <td>-1.589643</td>
+      <td>0.314367</td>
+      <td>-0.556487</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>1.031121</td>
+      <td>0.600705</td>
+      <td>0.049086</td>
+      <td>-0.848562</td>
+      <td>0.226105</td>
+      <td>-0.312002</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>1.031121</td>
+      <td>0.977795</td>
+      <td>1.456847</td>
+      <td>0.253559</td>
+      <td>0.646645</td>
+      <td>-1.386598</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>1.031121</td>
+      <td>1.387676</td>
+      <td>0.419550</td>
+      <td>-0.981576</td>
+      <td>0.651837</td>
+      <td>-0.454145</td>
+      <td>-0.881917</td>
+      <td>-0.827170</td>
+      <td>-0.946729</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>-1.244457</td>
+      <td>-1.243757</td>
+      <td>-1.195670</td>
+      <td>0.918632</td>
+      <td>-1.331450</td>
+      <td>0.597708</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-1.140108</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>-1.244457</td>
+      <td>-0.905195</td>
+      <td>-0.825207</td>
+      <td>1.583705</td>
+      <td>-1.118584</td>
+      <td>-0.653144</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>1.807392</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>-1.244457</td>
+      <td>-1.111775</td>
+      <td>-0.499199</td>
+      <td>0.329567</td>
+      <td>-1.769642</td>
+      <td>-0.539430</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>1.807392</td>
+      <td>-0.511083</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>1.031121</td>
+      <td>0.985993</td>
+      <td>1.738399</td>
+      <td>1.184661</td>
+      <td>-0.049063</td>
+      <td>-1.903996</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>1.807392</td>
+      <td>0.746967</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>-0.106668</td>
+      <td>-0.702714</td>
+      <td>0.419550</td>
+      <td>0.044536</td>
+      <td>-0.464411</td>
+      <td>-1.335427</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>1.807392</td>
+      <td>2.005017</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>1.031121</td>
+      <td>0.576113</td>
+      <td>2.790515</td>
+      <td>-0.107481</td>
+      <td>0.366285</td>
+      <td>-1.847139</td>
+      <td>-0.881917</td>
+      <td>1.208941</td>
+      <td>1.807392</td>
+      <td>3.263067</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>-1.244457</td>
+      <td>-0.899457</td>
+      <td>-0.558473</td>
+      <td>0.975638</td>
+      <td>-0.454027</td>
+      <td>0.427138</td>
+      <td>1.133893</td>
+      <td>1.208941</td>
+      <td>0.430331</td>
+      <td>-0.511083</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="t-sne">t-SNE</h3>
+<p>t–Stochastic Neighbourhood Embedding</p>
+<pre><code class="language-python">from sklearn.manifold import TSNE
+tsne = TSNE(n_components=2,perplexity=4, n_iter=4000).fit_transform(feat)
+</code></pre>
+<pre><code class="language-python">tsne
+</code></pre>
+<pre><code>array([[ -67.28988  ,   -7.461225 ],
+       [ -70.462395 ,   -1.230129 ],
+       [-109.79255  ,  -26.001574 ],
+       [ -14.49516  ,  -98.97109  ],
+       [  88.77131  ,  -10.752994 ],
+       [  -7.538271 ,  -98.85341  ],
+       [  96.28523  ,   32.15872  ],
+       [ -39.203053 ,  -97.86199  ],
+       [ -45.55487  , -103.012344 ],
+       [ -45.803345 ,  -73.82526  ],
+       [ -48.023323 ,  -80.474434 ],
+       [  76.36449  ,   14.991346 ],
+       [  82.82964  ,    8.64965  ],
+       [  74.56219  ,    5.692307 ],
+       [  61.549232 ,   66.105705 ],
+       [  59.30757  ,   58.038372 ],
+       [  67.97727  ,   59.218933 ],
+       [-121.32329  ,  -28.11285  ],
+       [-123.71266  ,  -47.980957 ],
+       [-125.013916 ,  -36.53466  ],
+       [ -31.122364 , -100.07239  ],
+       [ 101.20207  ,  -10.095666 ],
+       [  93.759026 ,   -3.7495155],
+       [  94.439705 ,   38.97752  ],
+       [  87.12706  ,  -18.712942 ],
+       [-114.96241  ,  -35.049763 ],
+       [ -80.8475   ,  -13.373581 ],
+       [ -97.24929  ,  -22.367165 ],
+       [ -50.115887 ,   10.128343 ],
+       [ -57.95673  ,    0.8419222],
+       [ -43.0364   ,    5.2282023],
+       [-114.76846  ,  -17.610258 ]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">tsne = pd.DataFrame(tsne, index = feat.index, columns= [['tsne1', 'tsne2']])
+tsne
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>tsne1</th>
+      <th>tsne2</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>-67.289879</td>
+      <td>-7.461225</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>-70.462395</td>
+      <td>-1.230129</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>-109.792549</td>
+      <td>-26.001574</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>-14.495160</td>
+      <td>-98.971092</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>88.771309</td>
+      <td>-10.752994</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>-7.538271</td>
+      <td>-98.853409</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>96.285233</td>
+      <td>32.158718</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>-39.203053</td>
+      <td>-97.861992</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>-45.554871</td>
+      <td>-103.012344</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>-45.803345</td>
+      <td>-73.825256</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>-48.023323</td>
+      <td>-80.474434</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>76.364487</td>
+      <td>14.991346</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>82.829643</td>
+      <td>8.649650</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>74.562187</td>
+      <td>5.692307</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>61.549232</td>
+      <td>66.105705</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>59.307571</td>
+      <td>58.038372</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>67.977272</td>
+      <td>59.218933</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>-121.323288</td>
+      <td>-28.112850</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>-123.712662</td>
+      <td>-47.980957</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>-125.013916</td>
+      <td>-36.534660</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>-31.122364</td>
+      <td>-100.072388</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>101.202072</td>
+      <td>-10.095666</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>93.759026</td>
+      <td>-3.749516</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>94.439705</td>
+      <td>38.977520</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>87.127060</td>
+      <td>-18.712942</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>-114.962410</td>
+      <td>-35.049763</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>-80.847504</td>
+      <td>-13.373581</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>-97.249290</td>
+      <td>-22.367165</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>-50.115887</td>
+      <td>10.128343</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>-57.956730</td>
+      <td>0.841922</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>-43.036400</td>
+      <td>5.228202</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>-114.768463</td>
+      <td>-17.610258</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">plt.figure(figsize = (8,8))
+x, y = tsne['tsne1'].values, tsne['tsne2'].values
+ax = plt.scatter(x,y)
+for i, txt in enumerate(tsne.index):
+    plt.annotate(txt, (x[i], y[i]), fontsize=10)
+</code></pre>
+<pre><code>---------------------------------------------------------------------------
+
+NameError                                 Traceback (most recent call last)
+
+Cell In[2], line 1
+----&gt; 1 plt.figure(figsize = (8,8))
+      2 x, y = tsne['tsne1'].values, tsne['tsne2'].values
+      3 ax = plt.scatter(x,y)
+
+
+NameError: name 'plt' is not defined
+</code></pre>
+<pre><code class="language-python">tsne['tsne1'].values[3]
+</code></pre>
+<pre><code>array([-14.49516], dtype=float32)
+</code></pre>
+<h3 id="umap">UMAP</h3>
+<p>Uniform Manifold Approximation and Projection </p>
+<pre><code class="language-python">import umap
+reducer = umap.UMAP()
+umap_df = reducer.fit_transform(feat)
+umap_df
+</code></pre>
+<pre><code>array([[7.9486165, 3.0713704],
+       [7.402318 , 2.874345 ],
+       [8.8131485, 1.4380807],
+       [5.5473623, 2.5566773],
+       [3.2108188, 3.3392804],
+       [5.3461323, 2.1200655],
+       [3.8067963, 4.5210752],
+       [6.58078  , 1.3951299],
+       [7.0341005, 1.5319571],
+       [6.3814726, 2.4643123],
+       [6.7775025, 2.2689457],
+       [3.0018737, 3.7647781],
+       [3.3977818, 3.8941634],
+       [4.2033854, 3.0790732],
+       [4.6369843, 3.9497583],
+       [4.3610024, 3.686902 ],
+       [4.0866485, 4.0934315],
+       [7.8208694, 1.4948332],
+       [8.084658 , 1.0412157],
+       [8.464826 , 1.220919 ],
+       [6.5309978, 1.658703 ],
+       [3.4445682, 2.9147172],
+       [3.6826684, 3.5611525],
+       [4.290335 , 4.5866804],
+       [3.7983255, 3.1954393],
+       [8.380528 , 1.812527 ],
+       [8.013013 , 2.5654325],
+       [8.112276 , 2.0220134],
+       [7.3071904, 3.8790686],
+       [7.4343815, 3.428951 ],
+       [6.941151 , 3.950713 ],
+       [8.1997385, 1.3561321]], dtype=float32)
+</code></pre>
+<pre><code class="language-python">umap_df = pd.DataFrame(umap_df, index = feat.index, columns= [['umap1', 'umap2']])
+umap_df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>umap1</th>
+      <th>umap2</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>7.948617</td>
+      <td>3.071370</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>7.402318</td>
+      <td>2.874345</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>8.813148</td>
+      <td>1.438081</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>5.547362</td>
+      <td>2.556677</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>3.210819</td>
+      <td>3.339280</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>5.346132</td>
+      <td>2.120065</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>3.806796</td>
+      <td>4.521075</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>6.580780</td>
+      <td>1.395130</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>7.034101</td>
+      <td>1.531957</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>6.381473</td>
+      <td>2.464312</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>6.777503</td>
+      <td>2.268946</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>3.001874</td>
+      <td>3.764778</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>3.397782</td>
+      <td>3.894163</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>4.203385</td>
+      <td>3.079073</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>4.636984</td>
+      <td>3.949758</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>4.361002</td>
+      <td>3.686902</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>4.086648</td>
+      <td>4.093431</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>7.820869</td>
+      <td>1.494833</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>8.084658</td>
+      <td>1.041216</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>8.464826</td>
+      <td>1.220919</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>6.530998</td>
+      <td>1.658703</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>3.444568</td>
+      <td>2.914717</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>3.682668</td>
+      <td>3.561152</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>4.290335</td>
+      <td>4.586680</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>3.798326</td>
+      <td>3.195439</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>8.380528</td>
+      <td>1.812527</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>8.013013</td>
+      <td>2.565433</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>8.112276</td>
+      <td>2.022013</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>7.307190</td>
+      <td>3.879069</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>7.434381</td>
+      <td>3.428951</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>6.941151</td>
+      <td>3.950713</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>8.199739</td>
+      <td>1.356132</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">plt.figure(figsize = (8,8))
+x, y = umap_df['umap1'].values, umap_df['umap2'].values
+ax = plt.scatter(x,y)
+for i, txt in enumerate(tsne.index):
+    plt.annotate(txt, (x[i], y[i]), fontsize=10)
+</code></pre>
+<p><img alt="png" src="../08_Feature_Engineering_files/08_Feature_Engineering_133_0.png" /></p>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../07_Regression/" class="btn btn-neutral float-left" title="Regression"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../09_Machine_Learning/" class="btn btn-neutral float-right" title="Machine Learning">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../07_Regression/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../09_Machine_Learning/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
