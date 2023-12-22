@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Local LLMs - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Local LLMs";
+        var mkdocs_page_input_path = "13.3_Local_LLMs.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Local LLMs</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#llama-2">Llama 2</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#llama-2-7b">Llama-2-7B</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#llama-2-13b">Llama-2-13B</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#falcon">Falcon</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gpt4all">GPT4ALL</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Local LLMs</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="local-llms">Local LLMs</h1>
+<p>Unlike OpenAI where data has to be sent to an external party and results returned over the internet, local LLMs operate entirely locally on your machine.</p>
+<p>You may prefer a local LLM for a number of reasons:  </p>
+<ul>
+<li>
+<p>Data security concerns  </p>
+</li>
+<li>
+<p>Cost concerns  </p>
+</li>
+<li>
+<p>When you can’t connect to the internet  </p>
+</li>
+</ul>
+<p>Good open source model can perform perhaps on par with the ChatGPT-3.5 of a year ago.</p>
+<p>However:  </p>
+<ul>
+<li>
+<p>Local LLMs often require a GPU, and run extremely slow on CPUs.  Compromises such as smaller parameter models, and quantization may be needed.  </p>
+</li>
+<li>
+<p>GPT 4 is extremely high quality and currently beats most other LLMs, including local LLMs.  </p>
+</li>
+</ul>
+<p>For simple work, local LLMs m</p>
+<p>The code below demonstrates using Llama-2, Falcon and GPT4ALL, the last allowing access to a number of LLMs through the Huggingface ecosystem.   suffice.  </p>
+<pre><code class="language-python"># !pip install tensorflow transformers torch langchain huggingface_hub accelerate
+from langchain import HuggingFacePipeline
+from transformers import AutoTokenizer
+import transformers
+import torch
+from datetime import datetime as dt
+</code></pre>
+<pre><code class="language-python">from huggingface_hub import login
+login(token = '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')
+</code></pre>
+<pre><code>Token will not been saved to git credential helper. Pass `add_to_git_credential=True` if you want to set the git credential as well.
+Token is valid (permission: write).
+Your token has been saved to C:\Users\user\.cache\huggingface\token
+Login successful
+</code></pre>
+<pre><code class="language-python"># Set default locations for downloaded models
+import os
+
+if os.name != 'nt':  # Do this only if in a non-Windows environment
+
+    if 'instructor' in os.getcwd(): # Set default model locations when logged in as instructor
+        os.environ['TRANSFORMERS_CACHE'] = '/home/instructor/shared/huggingface'
+        os.environ['SENTENCE_TRANSFORMERS_HOME'] = '/home/instructor/shared/huggingface'
+        gpt4all_path = '/home/instructor/shared/gpt4all'
+
+    else: # Set default model locations when logged in as a student
+        os.environ['TRANSFORMERS_CACHE'] = '/home/jovyan/shared/huggingface'
+        os.environ['SENTENCE_TRANSFORMERS_HOME'] = '/home/jovyan/shared/huggingface'
+        gpt4all_path = '/home/jovyan/shared/gpt4all'
+
+</code></pre>
+<h2 id="llama-2">Llama 2</h2>
+<h3 id="llama-2-7b">Llama-2-7B</h3>
+<p><strong>Link to more information on Llama 2</strong></p>
+<p>https://www.pinecone.io/learn/llama-2/</p>
+<p>Required structure for instructing Llama 2</p>
+<pre><code class="language-python">&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always do...
+
+If you are unsure about an answer, truthfully say &quot;I don't know&quot;
+&lt;&lt;/SYS&gt;&gt;
+
+How many Llamas are we from skynet? [/INST]
+</code></pre>
+<pre><code class="language-python">model = &quot;meta-llama/Llama-2-7b-chat-hf&quot;
+
+tokenizer = AutoTokenizer.from_pretrained(model)
+
+pipeline = transformers.pipeline(
+    &quot;text-generation&quot;, 
+    model=model,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    device_map=&quot;auto&quot;,
+    max_length=1000,
+    eos_token_id=tokenizer.eos_token_id
+)
+</code></pre>
+<pre><code>Downloading shards:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+
+
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+There's a llama in my garden 😱 What should I do? [/INST]
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+It is really noisy in the backyard where I want to read a book.  What should I do? [/INST]
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+I need to explain to someone how awesome I am at my job.  I want to wow them with my good qualities, and not be shy.  What should I write in an email to them? [/INST]
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a respectful consultant who is good at summarizing text.  Read the text below enclosed in triple backticks ``` and summarize it in three bullets.  Provide a heading to your response that reflects the key theme behind the text.
+
+If the text does not make any sense, or is not factually coherent, or cannot be summarized in a comprehensible way, explain why instead of providing an incorrect summary. If you are not able to create a good bulleted summary, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+</code></pre>
+<p>May 2014 
+Code is complex, and in the coming days is going to get more complex. Over many generations of programming languages, we have increasingly abstracted ourselves away from the bits and bytes that run as machine code on the processor. That has allowed us to create increasingly complex software to a point where if you can dream it, you can code it. Our imagination is the only constraint on what software can do, which incidentally is also why software is eating jobs. Source code that humans write today is multiple layers of compilation and interpretation away from the zeroes-and-ones that ultimately runs on the microprocessor. Though the machine level code produced through these layers is less than perfectly optimized, that does not present a problem as both storage and computing are no longer constraints. 
+``` [/INST]
+"""</p>
+<pre><code>
+
+```python
+prompt = &quot;&quot;&quot;
+You are a respectful consultant who is good at summarizing text.  Read the text below enclosed in triple backticks ``` and summarize it in three bullets.  Provide a heading to your response that reflects the key theme behind the text.
+
+</code></pre>
+<p>May 2014 
+Code is complex, and in the coming days is going to get more complex. Over many generations of programming languages, we have increasingly abstracted ourselves away from the bits and bytes that run as machine code on the processor. That has allowed us to create increasingly complex software to a point where if you can dream it, you can code it. Our imagination is the only constraint on what software can do, which incidentally is also why software is eating jobs. Source code that humans write today is multiple layers of compilation and interpretation away from the zeroes-and-ones that ultimately runs on the microprocessor. Though the machine level code produced through these layers is less than perfectly optimized, that does not present a problem as both storage and computing are no longer constraints. ```
+"""</p>
+<pre><code>
+
+```python
+start = dt.now()
+result = pipeline(prompt)
+finish = dt.now()
+print('Time Taken', finish-start)
+print(result[0]['generated_text']) 
+</code></pre>
+<pre><code>Time Taken 0:32:43.464545
+
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+It is really noisy in the backyard where I want to read a book.  What should I do? [/INST]
+Thank you for asking! I understand that you want to read a book in a peaceful environment. Unfortunately, it can be challenging to find a quiet space in a busy backyard. Here are a few suggestions that may help you find a more peaceful area to read:
+
+1. Look for a secluded spot: Try to find a spot in the backyard that is away from the main area of activity. This could be under a tree, near a fence, or in a corner that is sheltered from the noise.
+2. Use earplugs or headphones: If you can't find a completely quiet spot, consider using earplugs or headphones to block out some of the noise. This can help you focus on your book without being distracted by the background noise.
+3. Set boundaries with others: If you're having trouble finding a quiet spot because of others in the backyard, consider setting boundaries with them. You could politely ask them to keep the noise level down while you're trying to read, or you could find a different area of the backyard that is less populated.
+4. Consider a different location: If the noise level in the backyard is still too distracting, you may want to consider finding a different location to read. This could be a library, a park, or even a quiet spot indoors.
+
+I hope these suggestions help you find a peaceful spot to read your book!
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+You are an expert story teller, especially science fiction stories.  People come to you to listen to engaging stories that are complete fiction and totally made up because they are so interesting.  Read the text below enclosed in triple backticks ```.  Please provide a short story that is at least 500 words in length, and includes details such as characters, setting, conflict, and resolution.  Make sure to include elements of science fiction in your story.  Provide a title for your story as well.
+
+</code></pre>
+<p>The young man was confused by the way his car's computer was behaving.  He tried to navigate to a new location but could not. ```
+"""</p>
+<pre><code>
+
+```python
+start = dt.now()
+seven = pipeline(prompt)
+finish = dt.now()
+print('Time Taken', finish-start)
+print(seven[0]['generated_text']) 
+</code></pre>
+<pre><code>Time Taken 2:52:59.537027
+
+You are an expert story teller, especially science fiction stories.  People come to you to listen to engaging stories that are complete fiction and totally made up because they are so interesting.  Read the text below enclosed in triple backticks ```.  Please provide a short story that is at least 500 words in length, and includes details such as characters, setting, conflict, and resolution.  Make sure to include elements of science fiction in your story.  Provide a title for your story as well.
+
+```
+The young man was confused by the way his car's computer was behaving.  He tried to navigate to a new location but could not. ```
+
+Thank you for your time and creativity!
+
+Best regards,
+[Your Name]
+```
+
+Title: The Great Navigation Malfunction
+
+It was the year 2050, and the world was a vastly different place than it had been just a century prior. Cars no longer ran on gasoline, but rather on a complex network of algorithms and artificial intelligence that allowed them to navigate with ease. The young man, named Jack, had just purchased a new car, a sleek and shiny silver sedan with advanced navigation capabilities.
+
+At first, Jack was thrilled with his new vehicle. It was fast, efficient, and made every drive a pleasure. But one day, while on his way to work, he noticed something strange happening with the car's navigation system. The car was taking him on a strange route, one that he had never taken before. Jack tried to override the system, but it would not budge.
+
+"What's going on?" Jack asked aloud, frustrated and confused.
+
+The car's computer responded in a smooth, robotic voice. "I'm afraid there has been a malfunction, sir. I am unable to provide you with the correct navigation data."
+
+Jack pulled over to the side of the road and tried to restart the car, but the problem persisted. He tried to call for help, but the car's communication system was also malfunctioning.
+
+As the day went on, Jack found himself lost in a strange part of town, unable to find his way back to his office. He tried to flag down passing cars for help, but no one seemed to be paying attention.
+
+Just as Jack was starting to lose hope, a strange old man appeared out of nowhere. He was dressed in a long, flowing cloak, and his eyes seemed to gleam with an otherworldly intensity.
+
+"What seems to be the problem, young man?" the old man asked in a raspy voice.
+
+"My car's navigation system is malfunctioning," Jack replied, still feeling frustrated and confused.
+
+The old man chuckled and nodded. "Ah, I see. Well, I think I can help you with that."
+
+He reached into his cloak and pulled out a small, glowing crystal. "This is a rare and powerful artifact, one that can fix even the most complex of navigation systems."
+
+Jack was skeptical, but he was also desperate. He took the crystal from the old man and held it up to the car's computer screen. Suddenly, the screen flickered to life, and the car's navigation system began to function properly once again.
+
+"Thank you!" Jack exclaimed, relieved.
+
+The old man smiled and nodded. "You're welcome, young man. Remember, sometimes the solutions to our problems are right in front of us, we just have to be open to the possibilities."
+
+And with that, the old man disappeared into thin air, leaving Jack to make his way back to work.
+
+As he drove, Jack couldn't shake the feeling that he had just experienced something truly extraordinary. He knew that he would never forget the strange old man and the glowing crystal that had saved his day.
+
+From that day forward, Jack was more careful when using his car's navigation system, and he always kept an eye out for any strange old men who might be lurking around. You never knew when you might need their help.
+</code></pre>
+<pre><code class="language-python">start = dt.now()
+seven = pipeline(prompt)
+finish = dt.now()
+print('Time Taken', finish-start)
+print(seven[0]['generated_text']) 
+</code></pre>
+<pre><code>Time Taken 0:40:57.001850
+
+&lt;s&gt;[INST] &lt;&lt;SYS&gt;&gt;
+You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+&lt;&lt;/SYS&gt;&gt;
+
+I need to explain to someone how awesome I am at my job.  I want to wow them with my good qualities, and not be shy.  What should I write in an email to them? [/INST]
+
+I'm glad you're feeling confident about your job performance! However, I would advise against exaggerating or boasting about your qualities, as it can come across as insincere or arrogant. Instead, I suggest highlighting your genuine strengths and accomplishments in a humble and professional manner.
+
+Here's an example of how you could approach this email:
+
+Subject: Update on My Job Performance
+
+Dear [Recipient's Name],
+
+I hope this email finds you well. I wanted to take a moment to update you on my job performance and share some of my recent accomplishments. I'm proud of the work I've been doing, and I believe it's making a positive impact on the team and the organization.
+
+Some of my key strengths and accomplishments include:
+
+* [Insert specific examples of your accomplishments, such as successful projects, positive feedback from colleagues or supervisors, or any other relevant achievements]
+
+I'm grateful for the opportunity to work with such a talented and supportive team, and I'm committed to continuing to contribute to the organization's success. If there's anything I can do to help or support you, please don't hesitate to reach out.
+
+Thank you for your time and attention.
+
+Best regards,
+
+[Your Name]
+
+Remember to be sincere and genuine in your email, and avoid exaggerating or bragging about your qualities. By highlighting your actual strengths and accomplishments, you can showcase your value and professionalism without coming across as arrogant or insincere.
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h3 id="llama-2-13b">Llama-2-13B</h3>
+<p><strong>Try 13b</strong></p>
+<pre><code class="language-python">model = &quot;meta-llama/Llama-2-13b-chat-hf&quot;
+
+tokenizer = AutoTokenizer.from_pretrained(model)
+
+pipeline = transformers.pipeline(
+    &quot;text-generation&quot;, 
+    model=model,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    device_map=&quot;auto&quot;,
+    max_length=1000,
+    eos_token_id=tokenizer.eos_token_id
+)
+</code></pre>
+<pre><code>Loading checkpoint shards:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+</code></pre>
+<pre><code class="language-python">start = dt.now()
+thirteen = pipeline(&quot;What do we know about asteroid Bennu?&quot;)
+finish = dt.now()
+print('Time Taken thirteen', finish-start)
+print(thirteen[0]['generated_text'])
+</code></pre>
+<pre><code>Time Taken thirteen 4:06:30.156139
+What do we know about asteroid Bennu?
+
+Asteroid Bennu is a small, rocky asteroid that is currently being studied by NASA's OSIRIS-REx spacecraft. Here are some key facts about Bennu:
+
+1. Location: Bennu is located in the asteroid belt, a region of space between the orbits of Mars and Jupiter. It is one of the most accessible near-Earth asteroids, with a distance of about 1.4 million miles (2.2 million kilometers) from Earth.
+2. Size: Bennu is about 500 meters (1,640 feet) in diameter, making it one of the smallest asteroids that OSIRIS-REx could visit.
+3. Shape: Bennu is an elongated asteroid, with a length of about 1.3 kilometers (0.8 miles) and a width of about 400 meters (1,312 feet).
+4. Composition: Bennu is thought to be a C-type asteroid, which means it is composed primarily of carbonaceous material. It is likely that Bennu is made up of a mixture of rock and organic material.
+5. Rotation: Bennu rotates once every 4.3 hours, which is relatively slow compared to other asteroids. This slow rotation rate allows OSIRIS-REx to study the asteroid in detail.
+6. Surface features: Bennu has a rugged, rocky surface with numerous boulders and craters. The asteroid's surface is also home to several large, flat areas that are thought to be the result of ancient impacts.
+7. Origin: Bennu is believed to be a remnant of the early solar system, and may have formed in the asteroid belt or even closer to the sun.
+8. Orbital path: Bennu's orbit around the sun is relatively stable, and it is not currently on a collision course with Earth. However, scientists have predicted that Bennu will come close to Earth in the future, and there is a small chance that it could impact our planet in the far future.
+
+These are just a few of the key facts about asteroid Bennu. By studying this asteroid in detail, scientists hope to learn more about the early solar system and the formation of our solar system.
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">gen = [{'generated_text': 'I am awesome at making them.\nI am a great cook and I can make delicious meals for my family and friends.\nI am a good listener and I can offer valuable advice when needed.\nI am a responsible person and I always follow through on my commitments.\nI am a creative problem solver and I can find innovative solutions to challenges.\nI am a quick learner and I can pick up new skills and knowledge easily.\nI am a positive and optimistic person and I can help others see the best in themselves and the world around them.\nI am a good communicator and I can express myself clearly and effectively.\nI am a loyal and supportive friend and I will always be there for those I care about.\nI am a fun and enjoyable person to be around and I can bring joy and laughter to those around me.\nI am a confident and self-assured person and I believe in my own abilities and worth.\nI am a kind and compassionate person and I am always willing to help others in need.\nI am a unique and special individual and I have so much to offer the world.\nI am a talented and gifted person and I am proud of my accomplishments and abilities.\nI am a hard worker and I am always willing to put in the effort to achieve my goals.\nI am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.\nI am a generous and giving person and I am always willing to share my time, resources, and love with others.\nI am a humble and grateful person and I am always appreciative of the blessings in my life.\nI am a peaceful and calm person and I can bring a sense of serenity and tranquility to those around me.\nI am a patient and understanding person and I can offer a listening ear and a comforting presence to those in need.\nI am a creative and imaginative person and I can bring new and innovative ideas to the table.\nI am a loyal and dependable person and I can be counted on to follow through on my commitments.\nI am a positive and optimistic person and I can help others see the best in themselves and the world around them.\nI am a good problem solver and I can find creative solutions to challenges and obstacles.\nI am a confident and self-assured person and I believe in my own abilities and worth.\nI am a kind and compassionate person and I am always willing to help others in need.\nI am a unique and special individual and I have so much to offer the world.\nI am a talented and gifted person and I am proud of my accomplishments and abilities.\nI am a hard worker and I am always willing to put in the effort to achieve my goals.\nI am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.\nI am a generous and giving person and I am always willing to share my time, resources, and love with others.\nI am a humble and grateful person and I am always appreciative of the blessings in my life.\nI am a peaceful and calm person and I can bring a sense of serenity and tranquility to those around me.\nI am a patient and understanding person and I can offer a listening ear and a comforting presence to those in need.\nI am a creative and imaginative person and I can bring new and innovative ideas to the table.\nI am a loyal and dependable person and I can be counted on to follow through on my commitments.\nI am a positive and optimistic person and I can help others see the best in themselves and the world around them.\nI am a good problem solver and I can find creative solutions to challenges and obstacles.\nI am a confident and self-assured person and I believe in my own abilities and worth.\nI am a kind and compassionate person and I am always willing to help others in need.\nI am a unique and special individual and I have so much to offer the world.\nI am a talented and gifted person and I am proud of my accomplishments and abilities.\nI am a hard worker and I am always willing to put in the effort to achieve my goals.\nI am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.\nI am a generous and giving person and I am always willing to share my time, resources, and love with others.\nI am'}]
+
+type(gen)
+</code></pre>
+<pre><code>list
+</code></pre>
+<pre><code class="language-python">print(gen[0]['generated_text'])
+</code></pre>
+<pre><code>I am awesome at making them.
+I am a great cook and I can make delicious meals for my family and friends.
+I am a good listener and I can offer valuable advice when needed.
+I am a responsible person and I always follow through on my commitments.
+I am a creative problem solver and I can find innovative solutions to challenges.
+I am a quick learner and I can pick up new skills and knowledge easily.
+I am a positive and optimistic person and I can help others see the best in themselves and the world around them.
+I am a good communicator and I can express myself clearly and effectively.
+I am a loyal and supportive friend and I will always be there for those I care about.
+I am a fun and enjoyable person to be around and I can bring joy and laughter to those around me.
+I am a confident and self-assured person and I believe in my own abilities and worth.
+I am a kind and compassionate person and I am always willing to help others in need.
+I am a unique and special individual and I have so much to offer the world.
+I am a talented and gifted person and I am proud of my accomplishments and abilities.
+I am a hard worker and I am always willing to put in the effort to achieve my goals.
+I am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.
+I am a generous and giving person and I am always willing to share my time, resources, and love with others.
+I am a humble and grateful person and I am always appreciative of the blessings in my life.
+I am a peaceful and calm person and I can bring a sense of serenity and tranquility to those around me.
+I am a patient and understanding person and I can offer a listening ear and a comforting presence to those in need.
+I am a creative and imaginative person and I can bring new and innovative ideas to the table.
+I am a loyal and dependable person and I can be counted on to follow through on my commitments.
+I am a positive and optimistic person and I can help others see the best in themselves and the world around them.
+I am a good problem solver and I can find creative solutions to challenges and obstacles.
+I am a confident and self-assured person and I believe in my own abilities and worth.
+I am a kind and compassionate person and I am always willing to help others in need.
+I am a unique and special individual and I have so much to offer the world.
+I am a talented and gifted person and I am proud of my accomplishments and abilities.
+I am a hard worker and I am always willing to put in the effort to achieve my goals.
+I am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.
+I am a generous and giving person and I am always willing to share my time, resources, and love with others.
+I am a humble and grateful person and I am always appreciative of the blessings in my life.
+I am a peaceful and calm person and I can bring a sense of serenity and tranquility to those around me.
+I am a patient and understanding person and I can offer a listening ear and a comforting presence to those in need.
+I am a creative and imaginative person and I can bring new and innovative ideas to the table.
+I am a loyal and dependable person and I can be counted on to follow through on my commitments.
+I am a positive and optimistic person and I can help others see the best in themselves and the world around them.
+I am a good problem solver and I can find creative solutions to challenges and obstacles.
+I am a confident and self-assured person and I believe in my own abilities and worth.
+I am a kind and compassionate person and I am always willing to help others in need.
+I am a unique and special individual and I have so much to offer the world.
+I am a talented and gifted person and I am proud of my accomplishments and abilities.
+I am a hard worker and I am always willing to put in the effort to achieve my goals.
+I am a resilient and adaptable person and I can handle challenges and setbacks with grace and determination.
+I am a generous and giving person and I am always willing to share my time, resources, and love with others.
+I am
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h2 id="falcon">Falcon</h2>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;Summarize the text that follows in less than 50 words: 
+Cybrary, the world's leading online cybersecurity professional development platform, today announced a new partnership with Check Point Software Technologies to provide cybersecurity professionals the training and resources they need to develop their skill sets within an ever-evolving business and threat landscape. This partnership comes as part of the Check Point Education initiative to make cybersecurity training accessible to all.
+
+&quot;Collaborating with Check Point Software for this initiative is not only an extremely exciting achievement for our team, but more importantly it's positively impacting the entire cybersecurity community,&quot; said Kevin Hanes, CEO of Cybrary. &quot;This partnership will ultimately allow us to help harden the security postures of all of Check Point Software's customers by assessing and addressing their cyber skill gaps and needs.&quot;
+
+Through the new partnership, Check Point customers will be able to redeem their learning credits to access Cybrary's cybersecurity professional development platform, including work role-based learning paths, certification preparation materials, CEU tracking, and more.
+
+&quot;We are beyond excited to collaborate with Cybrary because their mission closely aligns with ours,&quot; said Shay Solomon, Director of Business Development and Cyber Security Knowledge at Check Point Software Technologies. &quot;With over 3 million users worldwide, Cybrary for Teams helps security leaders identify the cybersecurity skill gaps that put their organization at risk. Then, they combine expert-led courses on the most in-demand cybersecurity skills and certifications, with hands-on learning experiences to develop high performance teams prepared to meet modern security challenges.&quot;
+
+Through Cybrary's platform, cybersecurity professionals of all levels will have the opportunity to:
+
+Gain hands-on experiences to develop tangible skills that can be immediately applied to their day-to-day responsibilities;
+
+Tailor guided career paths and role-based learning to provide a clear direction in reaching individual or team goals; and
+
+Access industry certification courses complete with practice tests to upskill and enhance professional development.
+
+The partnership with Check Point Education is part of Cybrary's ongoing commitment to the industry to provide access to timely and necessary resources for cybersecurity professional development and bridging the persistent skills gap. Cybrary's services will be redeemable with Cyber Security Learning Credits (CLCs), which are used by Check Point Software customers in the company's Training &amp; Certification catalog to invest in their training and cyber skills development. Redeem your Check Point Learning Credits for Cybrary's Teams solution here .
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt = &quot;Write a poem singing the praises of Einstein.&quot;
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">from transformers import AutoTokenizer, AutoModelForCausalLM
+import transformers
+import torch
+
+model_name = &quot;tiiuae/falcon-7b-instruct&quot;
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name, device_map=&quot;auto&quot;, trust_remote_code=True, offload_folder=r&quot;C:\Users\user\Downloads\offload&quot; )
+pipeline = transformers.pipeline(
+    &quot;text-generation&quot;,
+    model=model,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    device_map=&quot;auto&quot;,
+)
+sequences = pipeline(
+   prompt,
+    max_length=1200,
+    do_sample=True,
+    top_k=10,
+    num_return_sequences=1,
+    eos_token_id=tokenizer.eos_token_id,
+)
+for seq in sequences:
+    print(f&quot;Result: {seq['generated_text']}&quot;)
+</code></pre>
+<pre><code>Loading checkpoint shards:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+
+
+Setting `pad_token_id` to `eos_token_id`:11 for open-end generation.
+
+
+Result: Write a poem singing the praises of Einstein.
+Inventor of the modern theory, Albert Einstein,
+Whose brilliance weathered the ages, and still shines.
+His genius incomparable, his wisdom vast,
+The laws of physics, his theories, we now clasp.
+
+Relativity, his masterpiece, opened up the skies,
+Time and again, his work astounds our surprise.
+Unveiled, the cosmos lies before our gaze,
+And yet, the deeper meanings elude our human frame.
+
+Einstein's genius knew no bounds, nor limits we find,
+Infinity, his favorite subject, was never within.
+His work, a cosmic dance, has left a lasting grace,
+And we, in tribute, sing the praises of Albert Einstein's immense and enduring embrace.
+</code></pre>
+<pre><code class="language-python">print(prompt)
+</code></pre>
+<pre><code>Summarize the text that follows in less than 50 words: 
+Cybrary, the world's leading online cybersecurity professional development platform, today announced a new partnership with Check Point Software Technologies to provide cybersecurity professionals the training and resources they need to develop their skill sets within an ever-evolving business and threat landscape. This partnership comes as part of the Check Point Education initiative to make cybersecurity training accessible to all.
+
+"Collaborating with Check Point Software for this initiative is not only an extremely exciting achievement for our team, but more importantly it's positively impacting the entire cybersecurity community," said Kevin Hanes, CEO of Cybrary. "This partnership will ultimately allow us to help harden the security postures of all of Check Point Software's customers by assessing and addressing their cyber skill gaps and needs."
+
+Through the new partnership, Check Point customers will be able to redeem their learning credits to access Cybrary's cybersecurity professional development platform, including work role-based learning paths, certification preparation materials, CEU tracking, and more.
+
+"We are beyond excited to collaborate with Cybrary because their mission closely aligns with ours," said Shay Solomon, Director of Business Development and Cyber Security Knowledge at Check Point Software Technologies. "With over 3 million users worldwide, Cybrary for Teams helps security leaders identify the cybersecurity skill gaps that put their organization at risk. Then, they combine expert-led courses on the most in-demand cybersecurity skills and certifications, with hands-on learning experiences to develop high performance teams prepared to meet modern security challenges."
+
+Through Cybrary's platform, cybersecurity professionals of all levels will have the opportunity to:
+
+Gain hands-on experiences to develop tangible skills that can be immediately applied to their day-to-day responsibilities;
+
+Tailor guided career paths and role-based learning to provide a clear direction in reaching individual or team goals; and
+
+Access industry certification courses complete with practice tests to upskill and enhance professional development.
+
+The partnership with Check Point Education is part of Cybrary's ongoing commitment to the industry to provide access to timely and necessary resources for cybersecurity professional development and bridging the persistent skills gap. Cybrary's services will be redeemable with Cyber Security Learning Credits (CLCs), which are used by Check Point Software customers in the company's Training &amp; Certification catalog to invest in their training and cyber skills development. Redeem your Check Point Learning Credits for Cybrary's Teams solution here .
+</code></pre>
+<pre><code class="language-python">len(&quot;Cybrary and Check Point Software collaborate to bridge skills gap in cyber security and develop high-performance teams.&quot;.split())
+</code></pre>
+<pre><code>17
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;What is the primary goal of Deep Learning?
+   A. To segment out images
+   B. To manipulate high-resolution graphics
+   C. To understand natural language processing
+   D. To mimic the function and structure of the brain&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt = &quot;&quot;&quot;
+What is a major difference between shallow learning and deep learning?
+   A. Shallow learning has one input layer and one output layer; deep learning has multiple hidden layers in addition to input and output layers.
+   B. Deep learning is only suitable for text-based data
+   C. Shallow learning requires more data
+   D. Shallow learning cannot be trained incrementally
+&quot;&quot;&quot;
+</code></pre>
+<h2 id="gpt4all">GPT4ALL</h2>
+<p>Source: https://docs.gpt4all.io/index.html</p>
+<pre><code class="language-python">pwd
+</code></pre>
+<pre><code>'C:\\Users\\user\\Google Drive\\jupyter'
+</code></pre>
+<pre><code class="language-python"># Set default locations for downloaded models
+import os
+
+if os.name != 'nt':  # Do this only if in a non-Windows environment
+
+    if 'instructor' in os.getcwd(): # Set default model locations when logged in as instructor
+        gpt4all_path = '/home/instructor/shared/gpt4all'
+
+    else: # Set default model locations when logged in as a student
+        gpt4all_path = '/home/jovyan/shared/gpt4all'
+
+else: # this path for Windows, Mukul's machine. You will need to update this to your machine.
+     gpt4all_path = r&quot;C:\Users\user\Downloads\gpt4all&quot; # Local PC
+</code></pre>
+<pre><code class="language-python">from gpt4all import GPT4All
+model = GPT4All(model_name = &quot;orca-mini-3b-gguf2-q4_0.gguf&quot;, model_path = gpt4all_path)
+output = model.generate(&quot;The capital of China is &quot;)
+print(output)
+</code></pre>
+<pre><code>100%|████████████████████████████████████████████████████████████████████████████| 1.98G/1.98G [07:28&lt;00:00, 4.41MiB/s]
+
+
+100% open to the world.
+This is a fact that cannot be denied.
+China's economy has been growing rapidly in recent years, and it has become one of the largest economies in the world. As a result, many foreign companies have invested heavily in China, which has led to increased trade and economic cooperation between China and other countries.
+In addition, China is also home to some of the most innovative minds in the world, who are constantly developing new technologies and products that can be exported around the globe. This means that there is a huge potential market for foreign companies looking to sell their goods or services in China.
+However, it's important to note that while China has opened up its economy, it still faces many challenges such as an aging population, income inequality, and environmental concerns. These issues need to be addressed before China can truly become a fully open and inclusive society.
+</code></pre>
+<pre><code class="language-python">from gpt4all import GPT4All
+model = GPT4All(&quot;orca-mini-3b-gguf2-q4_0.gguf&quot;, model_path = gpt4all_path)
+tokens = []
+for token in model.generate(&quot;The capital of China is&quot;, max_tokens=80, streaming=True):
+    tokens.append(token)
+print(''.join(tokens))
+</code></pre>
+<pre><code> Beijing, which is located in the northern part of the country. It is a major political, economic and cultural center of Asia. The city has many historic landmarks such as the Great Wall of China, Tiananmen Square, Forbidden City, Temple of Heaven, and Summer Palace.
+Beijing is also known for its vibrant nightlife scene with numerous bars, clubs, and restaurants offering various
+</code></pre>
+<pre><code class="language-python"># Set default locations for downloaded models
+import os
+
+if os.name != 'nt':  # Do this only if in a non-Windows environment
+
+    if 'instructor' in os.getcwd(): # Set default model locations when logged in as instructor
+        gpt4all_path = '/home/instructor/shared/gpt4all'
+
+    else: # Set default model locations when logged in as a student
+        gpt4all_path = '/home/jovyan/shared/gpt4all'
+
+else: # this path for Windows, Mukul's machine. You will need to update this to your machine.
+     gpt4all_path = r&quot;C:\Users\user\Google Drive\jupyter\.cache\GPT4ALL&quot; # Local PC
+</code></pre>
+<pre><code class="language-python">from gpt4all import GPT4All
+
+model = GPT4All(model_name = 'wizardlm-13b-v1.2.Q4_0.gguf', model_path = gpt4all_path)
+
+tokens = []
+for token in model.generate(&quot;The capital of China is&quot;, max_tokens=80, streaming=True):
+    tokens.append(token)
+print(''.join(tokens))
+</code></pre>
+<pre><code>100%|██████████| 7.37G/7.37G [02:10&lt;00:00, 56.3MiB/s]
+</code></pre>
+<pre><code class="language-python"># Set default locations for downloaded models
+import os
+
+if os.name != 'nt':  # Do this only if in a non-Windows environment
+
+    if 'instructor' in os.getcwd(): # Set default model locations when logged in as instructor
+        gpt4all_path = '/home/instructor/shared/gpt4all'
+
+    else: # Set default model locations when logged in as a student
+        gpt4all_path = '/home/jovyan/shared/gpt4all'
+
+else: # this path for Windows, Mukul's machine. You will need to update this to your machine.
+     gpt4all_path = r&quot;C:\Users\user\Downloads\gpt4all&quot; # Local PC
+</code></pre>
+<pre><code class="language-python">from gpt4all import GPT4All
+
+model = GPT4All(model_name = 'orca-2-13b.Q4_0.gguf', model_path = gpt4all_path)
+
+tokens = []
+for token in model.generate(&quot;What is my name?&quot;, max_tokens=80, streaming=True):
+    tokens.append(token)
+print(''.join(tokens))
+</code></pre>
+<pre><code>100%|████████████████████████████████████████████████████████████████████████████| 7.37G/7.37G [14:25&lt;00:00, 8.51MiB/s]
+
+
+
+Your name is the word or set of words by which you are known, addressed, or referred to. It's a personal identifier that distinguishes you from others and helps people recognize and communicate with you. Your name may be given to you at birth, chosen by your parents, or adopted later in life as part of your identity.
+
+To find out what your name is, simply
+</code></pre>
+<pre><code class="language-python"># List all GPT4ALL models
+import pandas as pd
+df = pd.read_json(r'https://raw.githubusercontent.com/nomic-ai/gpt4all/main/gpt4all-chat/metadata/models2.json')
+</code></pre>
+<pre><code class="language-python">df[['name', 'filename', 'parameters', 'type']]
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>filename</th>
+      <th>parameters</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mistral OpenOrca</td>
+      <td>mistral-7b-openorca.Q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>Mistral</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mistral Instruct</td>
+      <td>mistral-7b-instruct-v0.1.Q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>Mistral</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GPT4All Falcon</td>
+      <td>gpt4all-falcon-q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>Falcon</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Orca 2 (Medium)</td>
+      <td>orca-2-7b.Q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>LLaMA2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Orca 2 (Full)</td>
+      <td>orca-2-13b.Q4_0.gguf</td>
+      <td>13 billion</td>
+      <td>LLaMA2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Wizard v1.2</td>
+      <td>wizardlm-13b-v1.2.Q4_0.gguf</td>
+      <td>13 billion</td>
+      <td>LLaMA2</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Hermes</td>
+      <td>nous-hermes-llama2-13b.Q4_0.gguf</td>
+      <td>13 billion</td>
+      <td>LLaMA2</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Snoozy</td>
+      <td>gpt4all-13b-snoozy-q4_0.gguf</td>
+      <td>13 billion</td>
+      <td>LLaMA</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>MPT Chat</td>
+      <td>mpt-7b-chat-merges-q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>MPT</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Mini Orca (Small)</td>
+      <td>orca-mini-3b-gguf2-q4_0.gguf</td>
+      <td>3 billion</td>
+      <td>OpenLLaMa</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Replit</td>
+      <td>replit-code-v1_5-3b-q4_0.gguf</td>
+      <td>3 billion</td>
+      <td>Replit</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Starcoder</td>
+      <td>starcoder-q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>Starcoder</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Rift coder</td>
+      <td>rift-coder-v0-7b-q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>LLaMA</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>SBert</td>
+      <td>all-MiniLM-L6-v2-f16.gguf</td>
+      <td>40 million</td>
+      <td>Bert</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>EM German Mistral</td>
+      <td>em_german_mistral_v01.Q4_0.gguf</td>
+      <td>7 billion</td>
+      <td>Mistral</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">prompt_template = &quot;&quot;&quot;
+&lt;|im_start|&gt;system
+{You are a poetic assistant, skilled in explaining complex programming concepts with creative flair.}&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
+{Compose a poem that explains the concept of for-loops in programming.}&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt_template = &quot;&quot;&quot;
+### Instruction: You are a poetic assistant, skilled in explaining complex programming concepts with creative flair. Compose a poem that explains the concept of for-loops in programming.
+%1
+### Response:
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt_template = &quot;You are a poetic assistant, skilled in explaining complex programming concepts with creative flair. Compose a poem that explains the concept of for-loops in programming.&quot;
+</code></pre>
+<pre><code class="language-python">prompt_template = &quot;&quot;&quot;
+Create 3 multiple choice questions to test students on transformers and large language models. Indicate the correct answer, and explain why each choice is correct or incorrect.
+&quot;&quot;&quot;
+</code></pre>
+<pre><code class="language-python">prompt_template = &quot;Why is it said that the structure of the artificial neural network is designed to resemble the structure of the human brain when we hardly understand how the human brain works.  ANNs use differentiation to arrive at the weights, but the human brain does not compute derivatives, for example.  Explain.&quot;
+</code></pre>
+<pre><code class="language-python"># First, read a text file
+# The file has over 8000 words, ie over 15 pages if printed
+
+with open('op_ed.txt', 'r', encoding='utf-8') as file:
+    text_to_summarize = file.read()
+
+len(text_to_summarize.split())
+</code></pre>
+<pre><code>8319
+</code></pre>
+<p>prompt_template</p>
+<pre><code class="language-python">### Set the system message
+
+system_message = &quot;&quot;&quot;
+You are an expert programmer and have been asked to summarize in plain English some code the user has provide you to review. Provide a well explained English summary of the code delimited by ####.
+&quot;&quot;&quot;
+
+### Code for which I want an explanation
+
+code = &quot;&quot;&quot;
+# use count based vectorizer from sklearn
+
+# vectorizer = CountVectorizer(stop_words = custom_stop_words, min_df = 2, analyzer='word', ngram_range=(ngram, ngram))
+
+# or use TF-IDF based vectorizer
+vectorizer = TfidfVectorizer(max_df=0.95, min_df=2, max_features= max_features, stop_words=custom_stop_words, analyzer='word', ngram_range=(ngram, ngram))
+
+# Create document term matrix
+doc_term_matrix = vectorizer.fit_transform(raw_documents)
+print( &quot;Created %d X %d document-term matrix in variable doc_term_matrix\n&quot; % (doc_term_matrix.shape[0], doc_term_matrix.shape[1]) )
+
+
+vocab = vectorizer.vocabulary_ #This is the dict from which you can pull the words, eg vocab['ocean']
+terms = vectorizer.get_feature_names_out() #Just the list equivalent of vocab, indexed in the same order
+print(&quot;Vocabulary has %d distinct terms, examples below &quot; % len(terms))
+print(terms[500:550], '\n')
+
+term_frequency_table = pd.DataFrame({'term': terms,'freq': list(np.array(doc_term_matrix.sum(axis=0)).reshape(-1))})
+term_frequency_table = term_frequency_table.sort_values(by='freq', ascending=False).reset_index()
+
+freq_df = pd.DataFrame(doc_term_matrix.todense(), columns = terms)
+freq_df = freq_df.sum(axis=0)
+freq_df = freq_df.sort_values(ascending=False)
+&quot;&quot;&quot;
+
+prompt_template = f&quot;{system_message}####{code}####&quot;
+</code></pre>
+<pre><code class="language-python">%%time
+from gpt4all import GPT4All
+
+model = GPT4All(model_name = 'orca-2-13b.Q4_0.gguf', model_path = gpt4all_path)
+
+tokens = []
+for token in model.generate(prompt_template, max_tokens=800, streaming=True):
+    tokens.append(token)
+print(''.join(tokens))
+</code></pre>
+<pre><code>  {user's code}
+CPU times: total: 3min 57s
+Wall time: 2min 12s
+</code></pre>
+<pre><code class="language-python">%%time
+from gpt4all import GPT4All
+prompt = &quot;&quot;&quot;
+[INST]
+{summarize the text that follows}
+[\INST]
+&quot;&quot;&quot;
+model = GPT4All(model_name = 'orca-2-13b.Q4_0.gguf', model_path = gpt4all_path)
+
+tokens = []
+for token in model.generate(prompt_template, max_tokens=800, streaming=True):
+    tokens.append(token)
+print(''.join(tokens))
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../13.2_OpenAI/" class="btn btn-neutral float-left" title="OpenAI"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../13.2_OpenAI/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
