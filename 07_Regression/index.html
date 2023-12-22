@@ -1,0 +1,3812 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Regression - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Regression";
+        var mkdocs_page_input_path = "07_Regression.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Regression</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#ols-regression">OLS Regression</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#load-mtcars-dataset">Load mtcars dataset</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#split-dataset-between-x-features-or-predictors-and-y-target">Split dataset between X (features, or predictors) and y (target)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#build-model-and-obtain-summary">Build model and obtain summary</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#use-model-to-perform-predictions">Use Model to Perform Predictions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#assessing-the-regression-model">Assessing the regression model</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#standard-error-of-regression">Standard Error of Regression</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#goodness-of-fit-r-squared">Goodness of fit, R-squared</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#root-mean-squared-error">Root mean squared error</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mean-absolute-error">Mean Absolute Error</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-the-f-statistic-and-its-p-value">Understanding the F-statistic, and its p-value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-the-model-summary">Understanding the model summary</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#plot-the-residuals">Plot the Residuals</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#test-for-heteroscedasticity-breusch-pagan-test">Test for Heteroscedasticity - Breusch-Pagan test</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#summarizing">Summarizing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-sums-of-squares">Understanding Sums of Squares</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#lasso-and-ridge-regression">Lasso and Ridge Regression</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#lasso-and-ridge-regression-statsmodels">Lasso and Ridge regression Statsmodels</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#polynomial-regression">Polynomial Regression</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#a-laymans-take-on-power-series-approximations">A Layman’s take on 'Power Series Approximations'</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#polynomial-features-example">Polynomial Features Example</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#calculating-polynomial-features-for-mtcars">Calculating polynomial features for mtcars</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#perform-predictions">Perform predictions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#summary-polynomial-regression">Summary - Polynomial Regression</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#loess-regression">LOESS Regression</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#logistic-regression">Logistic Regression</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#load-the-data">Load the data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#our-workflow">Our workflow</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#review-the-data">Review the data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prepare-the-data-and-perform-a-train-test-split">Prepare the data, and perform a train-test split</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#create-a-model-using-the-statsmodels-library">Create a model using the Statsmodels library</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#run-the-model-on-the-test-set-and-build-a-confusion-matrix">Run the model on the test set, and build a confusion matrix</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#predict-a-new-case">Predict a new case</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#auc-and-roc-calculation">AUC and ROC calculation</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#format-the-confusion-matrix-for-readability">Format the confusion matrix for readability</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#extra-create-model-using-the-sklearn-library">EXTRA - Create model using the sklearn library</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#end-here">End here</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#visualizing-logistic-regression">Visualizing Logistic Regression</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#generating-correlated-variables">Generating correlated variables</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../11_Time_Series/">Time Series</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Regression</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="regression-analysis">Regression Analysis</h1>
+<p>Predictive modeling involves predicting a variable of interest relating to an observation, based upon other attributes we know about that observation.  </p>
+<p>One approach to doing so is to start by specifying the structure of the model with certain numeric parameters left unspecified.  These ‘unspecified parameters’ are then calculated in a way as to fit the available data as closely as possible.  This general approach is called parametric modeling.  </p>
+<p>There are other approaches as well, for example with decision trees we find ever more ‘pure’ subsets by partitioning data based on the independent variables.  </p>
+<p>Linear regression belongs to the former category, ie, we specify a general model (<script type="math/tex">y = \alpha + \beta_1 x_1 + \beta_2 x_2 + ... + \epsilon</script>) and calculate the parameters (the coefficients).  </p>
+<p>The linear model assumes that the relations between variables can be summarized by a straight line.  </p>
+<p>Linear regression is used extensively in industry, finance and practically all forms of research.  A huge advantage of regression models is their explainability as we can see the equations used to predict the target variable.  </p>
+<p><strong>Univariate Regression</strong><br />
+Regression with a single dependent variable y whose value is dependent upon the independent variable x is expressed as <script type="math/tex">y = \alpha + \beta x + \epsilon</script> where <script type="math/tex">\alpha</script> is a constant, so is <script type="math/tex">\beta</script>. <script type="math/tex">x</script> is the independent variable and <script type="math/tex">\epsilon</script> is the error term (more on the error term later).   </p>
+<p>Given a set of data points, it is fairly easy to calculate alpha and beta – and while it can be done manually, it can be also be done using Excel using the SLOPE (for calculating β) and the INTERCEPT (α) functions.  </p>
+<p>If done manually, beta is calculated as:  </p>
+<blockquote>
+<p>
+<script type="math/tex">\beta</script> = covariance of the two variables / variance of the independent variable  </p>
+</blockquote>
+<p>Once beta is known, alpha can be calculated as  </p>
+<blockquote>
+<p>
+<script type="math/tex">\alpha</script> = mean of the dependent variable (ie <script type="math/tex">y</script>) - <script type="math/tex">\beta</script> * mean of the independent variable (ie <script type="math/tex">x</script>)  </p>
+</blockquote>
+<p><strong>Predictions</strong><br />
+Once <script type="math/tex">\alpha</script> and <script type="math/tex">\beta</script> are known, it is probably possible to say that we can ‘predict’ <script type="math/tex">y</script> if we know the value of <script type="math/tex">x</script>.  </p>
+<p>The ‘predicted’ value of <script type="math/tex">y</script> is provided to us by the regression equation. This is unlikely to be exactly equal to the actual observed value of <script type="math/tex">y</script>.  </p>
+<p>The difference between the two is explained by the error term - <script type="math/tex">\epsilon</script>. This is a random ‘error’ – error not in the sense of being a mistake – but in the sense that the value predicted by the regression equation is not equal to the actual observed value.   </p>
+<p><strong>An Example</strong><br />
+Instead of spending more time on the theory behind regression, let us jump right into an example.  We have the <em>mpg</em> datset where we know the miles-per-gallon for a set of cars, and also other attributes related to the car such as the number of cylinders, engine size (displacement) etc.</p>
+<p>We can try to set up a regression  model where we attempt to predict the miles-per-gallon (mpg) from the rest of the columns in the dataset. </p>
+<p><strong>Usual library imports first</strong></p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import statsmodels.api as sm
+import seaborn as sns
+from scipy import stats
+from sklearn import datasets
+from sklearn import metrics
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error
+import sklearn.preprocessing as preproc
+import statsmodels.formula.api as smf
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, ConfusionMatrixDisplay
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.model_selection import train_test_split
+</code></pre>
+<h2 id="ols-regression">OLS Regression</h2>
+<h3 id="load-mtcars-dataset">Load mtcars dataset</h3>
+<p>Consider the mtcars dataset.  It has data for 32 cars, 11 variables for each.  </p>
+<table>
+<thead>
+<tr>
+<th>mpg</th>
+<th>Miles/(US) gallon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cyl</td>
+<td>Number of cylinders</td>
+</tr>
+<tr>
+<td>disp</td>
+<td>Displacement (cu.in.)</td>
+</tr>
+<tr>
+<td>hp</td>
+<td>Gross horsepower</td>
+</tr>
+<tr>
+<td>drat</td>
+<td>Rear axle ratio</td>
+</tr>
+<tr>
+<td>wt</td>
+<td>Weight (1000 lbs)</td>
+</tr>
+<tr>
+<td>qsec</td>
+<td>1/4 mile time</td>
+</tr>
+<tr>
+<td>vs</td>
+<td>Engine (0 = V-shaped, 1 = straight)</td>
+</tr>
+<tr>
+<td>am</td>
+<td>Transmission (0 = auto, 1 = manual)</td>
+</tr>
+<tr>
+<td>gear</td>
+<td>Number of forward gears</td>
+</tr>
+</tbody>
+</table>
+<p>Can we calculate miles-per-gallon (mpg) for a car based on the other variables?  </p>
+<pre><code class="language-python"># Let us load the data and look at some sample columns
+
+mtcars = sm.datasets.get_rdataset('mtcars').data
+mtcars.sample(4)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>19.7</td>
+      <td>6</td>
+      <td>145.0</td>
+      <td>175</td>
+      <td>3.62</td>
+      <td>2.770</td>
+      <td>15.50</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>14.7</td>
+      <td>8</td>
+      <td>440.0</td>
+      <td>230</td>
+      <td>3.23</td>
+      <td>5.345</td>
+      <td>17.42</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>18.7</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>30.4</td>
+      <td>4</td>
+      <td>75.7</td>
+      <td>52</td>
+      <td>4.93</td>
+      <td>1.615</td>
+      <td>18.52</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">mtcars.shape
+</code></pre>
+<pre><code>(32, 11)
+</code></pre>
+<pre><code class="language-python"># List the column names
+
+mtcars.columns
+</code></pre>
+<pre><code>Index(['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear',
+       'carb'],
+      dtype='object')
+</code></pre>
+<h3 id="split-dataset-between-x-features-or-predictors-and-y-target">Split dataset between X (features, or predictors) and y (target)</h3>
+<p>The <code>mpg</code> column contains the target, or the y variable.  This is the first column in our dataset.  The rest of the variables will be used as predictors, or the X variables.  </p>
+<p>We want to create a model with an intercept.  In Statsmodels, that requires us to use the function <code>add_constant</code> as shown below.  </p>
+<pre><code class="language-python">y = mtcars.mpg.values
+
+# sm.add_constant adds a column to the dataframe with 1.0 as a constant
+features = mtcars.iloc[:,1:]
+X = sm.add_constant(features)
+</code></pre>
+<p>Now let us look at our <code>X</code> and <code>y</code> data.</p>
+<pre><code class="language-python"># miles per gallon, the y variable
+
+y
+</code></pre>
+<pre><code>array([21. , 21. , 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,
+       16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5,
+       15.2, 13.3, 19.2, 27.3, 26. , 30.4, 15.8, 19.7, 15. , 21.4])
+</code></pre>
+<pre><code class="language-python"># Predictors, the X array
+
+X.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>1.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>1.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>1.0</td>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>1.0</td>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>1.0</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Let us check if the shape of the different dataframes is what we would expect them to be
+
+print('Shape of the original mtcars dataset (rows x columns):', mtcars.shape)
+print('Shape of the X dataframe, has a new col for constant (rows x columns):', X.shape)
+print('Shape of the features dataframe (rows x columns):', features.shape)
+</code></pre>
+<pre><code>Shape of the original mtcars dataset (rows x columns): (32, 11)
+Shape of the X dataframe, has a new col for constant (rows x columns): (32, 11)
+Shape of the features dataframe (rows x columns): (32, 10)
+</code></pre>
+<h3 id="build-model-and-obtain-summary">Build model and obtain summary</h3>
+<pre><code class="language-python"># Now that we have defined X and y, we can easily fit a regression model to this data
+
+model = sm.OLS(y, X).fit()
+model.summary()
+</code></pre>
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.869</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.807</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   13.93</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 09 Oct 2023</td> <th>  Prob (F-statistic):</th> <td>3.79e-07</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>11:10:14</td>     <th>  Log-Likelihood:    </th> <td> -69.855</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    32</td>      <th>  AIC:               </th> <td>   161.7</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    21</td>      <th>  BIC:               </th> <td>   177.8</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    10</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+    <td></td>       <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th> <td>   12.3034</td> <td>   18.718</td> <td>    0.657</td> <td> 0.518</td> <td>  -26.623</td> <td>   51.229</td>
+</tr>
+<tr>
+  <th>cyl</th>   <td>   -0.1114</td> <td>    1.045</td> <td>   -0.107</td> <td> 0.916</td> <td>   -2.285</td> <td>    2.062</td>
+</tr>
+<tr>
+  <th>disp</th>  <td>    0.0133</td> <td>    0.018</td> <td>    0.747</td> <td> 0.463</td> <td>   -0.024</td> <td>    0.050</td>
+</tr>
+<tr>
+  <th>hp</th>    <td>   -0.0215</td> <td>    0.022</td> <td>   -0.987</td> <td> 0.335</td> <td>   -0.067</td> <td>    0.024</td>
+</tr>
+<tr>
+  <th>drat</th>  <td>    0.7871</td> <td>    1.635</td> <td>    0.481</td> <td> 0.635</td> <td>   -2.614</td> <td>    4.188</td>
+</tr>
+<tr>
+  <th>wt</th>    <td>   -3.7153</td> <td>    1.894</td> <td>   -1.961</td> <td> 0.063</td> <td>   -7.655</td> <td>    0.224</td>
+</tr>
+<tr>
+  <th>qsec</th>  <td>    0.8210</td> <td>    0.731</td> <td>    1.123</td> <td> 0.274</td> <td>   -0.699</td> <td>    2.341</td>
+</tr>
+<tr>
+  <th>vs</th>    <td>    0.3178</td> <td>    2.105</td> <td>    0.151</td> <td> 0.881</td> <td>   -4.059</td> <td>    4.694</td>
+</tr>
+<tr>
+  <th>am</th>    <td>    2.5202</td> <td>    2.057</td> <td>    1.225</td> <td> 0.234</td> <td>   -1.757</td> <td>    6.797</td>
+</tr>
+<tr>
+  <th>gear</th>  <td>    0.6554</td> <td>    1.493</td> <td>    0.439</td> <td> 0.665</td> <td>   -2.450</td> <td>    3.761</td>
+</tr>
+<tr>
+  <th>carb</th>  <td>   -0.1994</td> <td>    0.829</td> <td>   -0.241</td> <td> 0.812</td> <td>   -1.923</td> <td>    1.524</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 1.907</td> <th>  Durbin-Watson:     </th> <td>   1.861</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.385</td> <th>  Jarque-Bera (JB):  </th> <td>   1.747</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.521</td> <th>  Prob(JB):          </th> <td>   0.418</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.526</td> <th>  Cond. No.          </th> <td>1.22e+04</td>
+</tr>
+</table>
+<p>Notes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.[2] The condition number is large, 1.22e+04. This might indicate that there arestrong multicollinearity or other numerical problems.</p>
+<p>At this point, the model itself is contained in an object called <code>model</code>.</p>
+<p>What this model is saying is as follows: </p>
+<p>
+<script type="math/tex">mpg = 12.3034 - (0.1114 \times cyl) + (0.0133 \times disp) - (0.0215 \times hp) + ...</script>
+</p>
+<p><strong>How do you calculate P&gt;|t| in the table above?</strong></p>
+<p>A useful function for the t-distribution is the t function available from scipy.
+t.cdf gives us the area under the curve from -∞ to the value of x provided, ie
+it gives area under the curve (-∞, x].</p>
+<p>The distance from 0 in terms of multiples of standard deviation tells you how far the coefficient is from zero.  The farther it is, the likelier that its value is not a fluke, and it is indeed different from zero. </p>
+<p>So the right tail is the area under the curve, but you have to multiply that by two as you need to see the area under the curve on both sides of zero.</p>
+<pre><code class="language-python"># for the 'cyl' coefficient above, the t value is (or distance from zero in terms of SD) is -0.107
+
+from scipy.stats import t 
+t.cdf(x = -0.107, df = 21) * 2
+</code></pre>
+<pre><code>0.9158046158959711
+</code></pre>
+<h3 id="use-model-to-perform-predictions">Use Model to Perform Predictions</h3>
+<p>Once the model is created, creating predictions is easy.  We do so with the <code>predict</code> method on the <code>model</code> object we just created.  In fact, this is the way we will be doing predictions for all models, not just regression.  </p>
+<pre><code class="language-python">model.predict(X)
+</code></pre>
+<pre><code>rownames
+Mazda RX4              22.599506
+Mazda RX4 Wag          22.111886
+Datsun 710             26.250644
+Hornet 4 Drive         21.237405
+Hornet Sportabout      17.693434
+Valiant                20.383039
+Duster 360             14.386256
+Merc 240D              22.496012
+Merc 230               24.419090
+Merc 280               18.699030
+Merc 280C              19.191654
+Merc 450SE             14.172162
+Merc 450SL             15.599574
+Merc 450SLC            15.742225
+Cadillac Fleetwood     12.034013
+Lincoln Continental    10.936438
+Chrysler Imperial      10.493629
+Fiat 128               27.772906
+Honda Civic            29.896739
+Toyota Corolla         29.512369
+Toyota Corona          23.643103
+Dodge Challenger       16.943053
+AMC Javelin            17.732181
+Camaro Z28             13.306022
+Pontiac Firebird       16.691679
+Fiat X1-9              28.293469
+Porsche 914-2          26.152954
+Lotus Europa           27.636273
+Ford Pantera L         18.870041
+Ferrari Dino           19.693828
+Maserati Bora          13.941118
+Volvo 142E             24.368268
+dtype: float64
+</code></pre>
+<pre><code class="language-python"># Let us look at what the model object prints as.
+# It is really a black box
+
+model
+</code></pre>
+<pre><code>&lt;statsmodels.regression.linear_model.RegressionResultsWrapper at 0x1ed8e32fd30&gt;
+</code></pre>
+<p><strong>But how do we know this model is any good?</strong><br />
+Intuition tells us that the model will be good if its predictions are close to what the actual observations are.  So we can calculate the predicted values of mpg, and compare them to the actual values.   </p>
+<p>Let us do that next - we compare the actual mpg to predicted mpg.  </p>
+<pre><code class="language-python">preds = pd.DataFrame(model.predict(X), index = list(mtcars.index), columns = ['pred'])
+
+compare = pd.DataFrame(mtcars['mpg'])
+compare['pred'] = preds.pred
+compare['difference'] = compare.mpg - compare.pred
+
+compare
+
+</code></pre>
+<p><br/><br/><br/><br/><br/><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>pred</th>
+      <th>difference</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>21.0</td>
+      <td>22.599506</td>
+      <td>-1.599506</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>21.0</td>
+      <td>22.111886</td>
+      <td>-1.111886</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>22.8</td>
+      <td>26.250644</td>
+      <td>-3.450644</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>21.4</td>
+      <td>21.237405</td>
+      <td>0.162595</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>18.7</td>
+      <td>17.693434</td>
+      <td>1.006566</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>18.1</td>
+      <td>20.383039</td>
+      <td>-2.283039</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>14.3</td>
+      <td>14.386256</td>
+      <td>-0.086256</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>24.4</td>
+      <td>22.496012</td>
+      <td>1.903988</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>22.8</td>
+      <td>24.419090</td>
+      <td>-1.619090</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>19.2</td>
+      <td>18.699030</td>
+      <td>0.500970</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>17.8</td>
+      <td>19.191654</td>
+      <td>-1.391654</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>16.4</td>
+      <td>14.172162</td>
+      <td>2.227838</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>17.3</td>
+      <td>15.599574</td>
+      <td>1.700426</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>15.2</td>
+      <td>15.742225</td>
+      <td>-0.542225</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>10.4</td>
+      <td>12.034013</td>
+      <td>-1.634013</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>10.4</td>
+      <td>10.936438</td>
+      <td>-0.536438</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>14.7</td>
+      <td>10.493629</td>
+      <td>4.206371</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>32.4</td>
+      <td>27.772906</td>
+      <td>4.627094</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>30.4</td>
+      <td>29.896739</td>
+      <td>0.503261</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>33.9</td>
+      <td>29.512369</td>
+      <td>4.387631</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>21.5</td>
+      <td>23.643103</td>
+      <td>-2.143103</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>15.5</td>
+      <td>16.943053</td>
+      <td>-1.443053</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>15.2</td>
+      <td>17.732181</td>
+      <td>-2.532181</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>13.3</td>
+      <td>13.306022</td>
+      <td>-0.006022</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>19.2</td>
+      <td>16.691679</td>
+      <td>2.508321</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>27.3</td>
+      <td>28.293469</td>
+      <td>-0.993469</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>26.0</td>
+      <td>26.152954</td>
+      <td>-0.152954</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>30.4</td>
+      <td>27.636273</td>
+      <td>2.763727</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>15.8</td>
+      <td>18.870041</td>
+      <td>-3.070041</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>19.7</td>
+      <td>19.693828</td>
+      <td>0.006172</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>15.0</td>
+      <td>13.941118</td>
+      <td>1.058882</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>21.4</td>
+      <td>24.368268</td>
+      <td>-2.968268</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</p>
+<pre><code class="language-python">round(compare.difference.describe(),3)
+</code></pre>
+<pre><code>count    32.000
+mean      0.000
+std       2.181
+min      -3.451
+25%      -1.604
+50%      -0.120
+75%       1.219
+max       4.627
+Name: difference, dtype: float64
+</code></pre>
+<hr />
+<h2 id="assessing-the-regression-model">Assessing the regression model</h2>
+<p>Next let us look at some formal methods of assessing regression</p>
+<h3 id="standard-error-of-regression">Standard Error of Regression</h3>
+<p>Conceptually, the standard error of regression is the same as the standard deviation we calculated above from the differences between actual and predicted values.  However, it is not mathematically pure and we have to consider the degrees of freedom to get the actual value, which we call the standard error of regression.  </p>
+<p>The standard error of regression takes into account the degrees of freedom lost due to the number of regressors in the model, and the number of observations the model is based on.  It it considered a more accurate representation of the standard error of regression than the crude standard deviation calculation we did earlier.</p>
+<pre><code class="language-python"># Calculated as:
+model.mse_resid**.5
+</code></pre>
+<pre><code>2.650197027865509
+</code></pre>
+<pre><code class="language-python"># Also as:
+np.sqrt(np.sum(model.resid**2)/model.df_resid)
+</code></pre>
+<pre><code>2.650197027865509
+</code></pre>
+<pre><code class="language-python"># Also calculated directly from the model as
+model.scale**.5
+</code></pre>
+<pre><code>2.650197027865509
+</code></pre>
+<p><code>model.resid</code> is the residuals, and <code>model.df_resid</code> is the degrees of freedom for the model residuals</p>
+<pre><code class="language-python">print(model.resid)
+print('\nCount of items above = ', len(model.resid))
+</code></pre>
+<pre><code>rownames
+Mazda RX4             -1.599506
+Mazda RX4 Wag         -1.111886
+Datsun 710            -3.450644
+Hornet 4 Drive         0.162595
+Hornet Sportabout      1.006566
+Valiant               -2.283039
+Duster 360            -0.086256
+Merc 240D              1.903988
+Merc 230              -1.619090
+Merc 280               0.500970
+Merc 280C             -1.391654
+Merc 450SE             2.227838
+Merc 450SL             1.700426
+Merc 450SLC           -0.542225
+Cadillac Fleetwood    -1.634013
+Lincoln Continental   -0.536438
+Chrysler Imperial      4.206371
+Fiat 128               4.627094
+Honda Civic            0.503261
+Toyota Corolla         4.387631
+Toyota Corona         -2.143103
+Dodge Challenger      -1.443053
+AMC Javelin           -2.532181
+Camaro Z28            -0.006022
+Pontiac Firebird       2.508321
+Fiat X1-9             -0.993469
+Porsche 914-2         -0.152954
+Lotus Europa           2.763727
+Ford Pantera L        -3.070041
+Ferrari Dino           0.006172
+Maserati Bora          1.058882
+Volvo 142E            -2.968268
+dtype: float64
+
+Count of items above =  32
+</code></pre>
+<pre><code class="language-python">model.df_resid
+</code></pre>
+<pre><code>21.0
+</code></pre>
+<h3 id="goodness-of-fit-r-squared">Goodness of fit, R-squared</h3>
+<p><strong>R-squared is the square of the correlation betweeen actual and predicted values</strong>    </p>
+<p>Intuitively, we would also like to see a high correlation between predictions and observed values.
+We have the predicted and observed values, so calculating the R-squared is easy.  (R-squared is also called coefficient of determination.)</p>
+<pre><code class="language-python"># Calculate the correlations between actual and predicted
+
+round(compare.corr(), 6)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>pred</th>
+      <th>difference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mpg</th>
+      <td>1.000000</td>
+      <td>0.93221</td>
+      <td>0.361917</td>
+    </tr>
+    <tr>
+      <th>pred</th>
+      <td>0.932210</td>
+      <td>1.00000</td>
+      <td>-0.000000</td>
+    </tr>
+    <tr>
+      <th>difference</th>
+      <td>0.361917</td>
+      <td>-0.00000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Squaring the correlations gives us the R-squared 
+
+round(compare.corr()**2, 6)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>pred</th>
+      <th>difference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mpg</th>
+      <td>1.000000</td>
+      <td>0.869016</td>
+      <td>0.130984</td>
+    </tr>
+    <tr>
+      <th>pred</th>
+      <td>0.869016</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>difference</th>
+      <td>0.130984</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Why did we use the function `round` above?
+# To avoid the scientific notation and make the 
+# results easier to read.  For example, without
+# using the rounding we get the below result.
+
+compare.corr()**2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>pred</th>
+      <th>difference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mpg</th>
+      <td>1.000000</td>
+      <td>8.690158e-01</td>
+      <td>1.309842e-01</td>
+    </tr>
+    <tr>
+      <th>pred</th>
+      <td>0.869016</td>
+      <td>1.000000e+00</td>
+      <td>2.538254e-27</td>
+    </tr>
+    <tr>
+      <th>difference</th>
+      <td>0.130984</td>
+      <td>2.538254e-27</td>
+      <td>1.000000e+00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="root-mean-squared-error">Root mean squared error</h3>
+<p>The RMSE is just the square root of the average squared errors.  It is the same as if we had calculated the population standard deviation based on the residuals.</p>
+<p>RMSE is normally calculated for the test set, because for the training data we have the standard error of regression.  </p>
+<p>Let us calculate it here for the entire dataset as we did not do a train-test split for this example.</p>
+<pre><code class="language-python">mean_squared_error(compare.pred, compare.mpg) **.5
+</code></pre>
+<pre><code>2.1469049671609444
+</code></pre>
+<h3 id="mean-absolute-error">Mean Absolute Error</h3>
+<p>This is the average difference between the actual and the predicted values, ignoring the sign of the difference.  </p>
+<pre><code class="language-python">mean_absolute_error(compare.pred, compare.mpg)
+</code></pre>
+<pre><code>1.7227401628911079
+</code></pre>
+<h3 id="understanding-the-f-statistic-and-its-p-value">Understanding the F-statistic, and its p-value</h3>
+<p>The R-squared is a key statistic for evaluating regression.  But it is also a statistical quantity, which means it is an estimate around which exists a confidence interval.    </p>
+<p>Estimates follow distributions, and often we see statements such as a particular variable follows the normal or lognormal distribution.  The value of R2 follows what is called an F-distribution. </p>
+<p>The F-distribution has two parameters – the degrees of freedom for each of the two variables ESS and TSS that have gone into calculating R2. The F-distribution has a minimum of zero, and approaches zero to the right of the distribution. In order to test the significance of R2, one needs to calculate the F statistic.
+Then we need to find out how likely is that value of the F-stat to have been obtained by chance – lower this likelihood, the better it is.</p>
+<p>The question arises as to how ‘significant’ is any given value of R2? Could this have been zero, and we just happened randomly to get a value of 0.86?  </p>
+<p>The F-test of overall significance is the hypothesis test for this relationship. If the overall F-test is significant, you can conclude that R-squared does not equal zero, and the correlation between the model and dependent variable is statistically significant.</p>
+<p>To do this test, we calculate the F statistic, and its p-value.  If the p-value is less than our desired level of significance (say, 5%, or 95% confidence level), then we believe the value was not arrived at by chance.  This is the standard hypothesis testing piece.  </p>
+<p>
+<script type="math/tex">\mbox{F-stat} = \frac{\frac{\mbox{Explained sum of squares}}{\mbox{Degrees of Freedom of the model}}}{\frac{\mbox{Residual sum of squares}}{\mbox{Degrees of Freedom fo the Residuals}}}</script>
+</p>
+<p>Fortunately, the F-stat, and its p-value can be easily obtained in Python, and we do not need to worry about calculations.</p>
+<pre><code class="language-python"># F stat=  (explained variance) / (unexplained variance)
+# F stat = (ESS/DFM) / (RSS/DFE)
+
+(model.ess/model.df_model) / (np.sum(model.resid**2)/model.df_resid)
+
+</code></pre>
+<pre><code>13.932463690208827
+</code></pre>
+<pre><code class="language-python"># p value for F stat
+import scipy
+1-(scipy.stats.f.cdf(model.fvalue, model.df_model, model.df_resid))
+</code></pre>
+<pre><code>3.7931521057466e-07
+</code></pre>
+<pre><code class="language-python"># Getting f value directly from statsmodels
+model.fvalue
+</code></pre>
+<pre><code>13.932463690208827
+</code></pre>
+<pre><code class="language-python"># Getting the p value of the f statistic directly from statsmodels
+model.f_pvalue
+</code></pre>
+<pre><code>3.7931521053058665e-07
+</code></pre>
+<pre><code class="language-python"># Source: http://facweb.cs.depaul.edu/sjost/csc423/documents/f-test-reg.htm
+# Degrees of Freedom for Model, p-1, where p is number of regressors  
+
+dfm = model.df_model
+dfm
+</code></pre>
+<pre><code>10.0
+</code></pre>
+<pre><code class="language-python"># n-p, Deg Fdm for Errors, where n is number of observations, and p is number of regressors
+model.df_resid
+</code></pre>
+<pre><code>21.0
+</code></pre>
+<h3 id="understanding-the-model-summary">Understanding the model summary</h3>
+<p>With what we now know about R-squared, the F-statistic, and the coefficients, we can revisit our model summary that statsmodels produced for us.  The below graphic explains how to read the model summary.  </p>
+<p><img alt="image.png" src="../07_Regression_files/b14bde77-bd99-4579-a810-b51ab45bf7bd.png" /></p>
+<p><strong>Significance of the Model vs Significance of the Coefficients</strong></p>
+<ul>
+<li>The model’s overall significance is judged by the value of the F-statistic.</li>
+<li>Each individual coefficient also has a p-value, meaning individual coefficients may be statistically insignificant.</li>
+<li>It is possible that the overall regression is significant, but none of the coefficients are.  These cases can be caused by multi-collinearity, but it does not prevent us from using the predictions from the model.  However it does limit our ability to definitively say which variables are the most important for our model.<ul>
+<li>If the reverse situation is true, ie the model isn’t significant but some of the variables have statistically significant coefficients, we can’t use the model.</li>
+</ul>
+</li>
+<li>If multi-collinearity needs to be addressed, we can do so by combining the independent variables that are correlated, eg using PCA.</li>
+<li>For our goals of prediction in business, we are often more interested in being roughly right (and get a ‘lift’) than statistical elegance.</li>
+</ul>
+<h3 id="plot-the-residuals">Plot the Residuals</h3>
+<p>We mentioned that the residuals, or our <script type="math/tex">\epsilon</script> term, are unexplained by the data.  Which means they should not show any pattern, and should appear to be completely random.  This is because any pattern should have been captured by our regression model and not show up in the residuals.  </p>
+<p>Sometimes we do see a pattern because of the way our data is, and we want to make sure that is not the case.  </p>
+<p>To check, the first thing we do is to plot the residuals.  We should not be able to discern any obvious pattern in the plot.  Which does not appear to be the case here. </p>
+<p>Often when we notice a non-random pattern, this is due to heteroscedasticity (which means that the variance of the feature set is not constant).  If we do notice heteroscedasticity, we may have to transform the inputs to get constant variance (eg, a logarithmic transform, or a Box-Cox transform).</p>
+<p>Let us plot the residuals!</p>
+<pre><code class="language-python">plt.figure(figsize = (10,6))
+plt.scatter(compare.pred,model.resid)
+plt.axhline(0, color='black')
+plt.xlabel('Fitted Value/ Prediction')
+plt.ylabel('Residual')
+plt.title('RESIDUAL PLOT');
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_52_0.png" /></p>
+<p>The residual plot is a scatterplot of the residuals vs the fitted value (prediction).  See the graphic above plotting the residuals for our miles-per-gallon model.
+Do you think the residuals are randomly distributed? </p>
+<h3 id="test-for-heteroscedasticity-breusch-pagan-test">Test for Heteroscedasticity - Breusch-Pagan test</h3>
+<p>OLS regression assumes that the data comes from a population with constant variance, or homoscedasticity.  </p>
+<p>However, often that is not the case.  This situation is called heteroscedasticity.  This reflects itself in a pattern visible on the residual plot.  </p>
+<p>The problem with heteroscedasticity is that the confidence intervals for the regression coefficients may be understated.  Which means we may consider something to be significant, when it is not.  </p>
+<p>We can address heteroscedasticity by transforming the variables (eg using the Box-Cox transformation, which is covered later in feature engineering).  As a practical matter, heteroscedasticity may be difficult to identify visually from a residual plot, so we use a test for that.  </p>
+<p>The <strong>Breusch-Pagan test for heteroscedasticity</strong> is a test of hypothesis that compares two hypothesis:  </p>
+<ul>
+<li>H-0: Homoscedasticity is present.  </li>
+<li>H-alt: Homoscedasticity is not present.  </li>
+</ul>
+<p>Fortunately for us, we do not need to think too hard about the math as this is implemented for us in a function in statsmodels.  The function requires two variables as inputs: model residuals, and model inputs.  Once you have already created a model, these two are easy to get using model attributes.</p>
+<p>If the p-value from the function is greater than our desired confidence, we conclude that the data has homoscedasticity.</p>
+<p><strong>Interpreting the test</strong></p>
+<p><img alt="image.png" src="../07_Regression_files/d120b6f9-b8e7-445a-83be-c7452d48566c.png" /></p>
+<pre><code class="language-python">names = ['Lagrange multiplier statistic', 'p-value',
+        'f-value', 'f p-value']
+test = sm.stats.het_breuschpagan(model.resid, model.model.exog)
+print(list(zip(names, test)),'\n')
+if test[3]&gt;.05:
+    print('p-value is', round(test[3], 4), 'which is greater than 0.05.  Hence we fail to reject \
+                                            the null hypothesis (H0): Homoscedasticity is present, \
+                                            and conclude that the data has homoscedasticity.')
+else:
+    print('p-value is', round(test[3], 4), 'which is less than 0.05.  Hence we accept the alternate \
+                                            hypothesis, alternative hypothesis: (Ha): Homoscedasticity \
+                                            is not present (i.e. heteroscedasticity exists)')
+</code></pre>
+<pre><code>[('Lagrange multiplier statistic', 14.913588960622171), ('p-value', 0.13524415065665535), ('f-value', 1.8329499825989772), ('f p-value', 0.1163458435391346)]
+
+p-value is 0.1163 which is greater than 0.05.  Hence we fail to reject                                             the null hypothesis (H0): Homoscedasticity is present,                                             and conclude that the data has homoscedasticity.
+</code></pre>
+<h3 id="summarizing">Summarizing</h3>
+<p>To assess the quality of a regression model, look for the following:
+1. The estimate of the standard error of the regression.  Check how large the number is compared to the mean of the observed variable.<br />
+2. The R-squared.  The closer the value of R-square is to 1, the better it is. (R-square will be a number between 0 and 1).  It tells you how much of the total variance in the target variable is explained by the regression model.<br />
+3. Check for the significance of the R-squared by looking at the p-value for the F-statistic.  This is a probability-like number that estimates how likely is it to have obtained the R-square value by random chance.  The lower this is, the better.<br />
+4. Examine the coefficients for each of the predictor variables.  Also look at the p-values for the predictors to see if they are significant.<br />
+5. Finally, have a look at a plot of the residuals.  </p>
+<h3 id="understanding-sums-of-squares">Understanding Sums of Squares</h3>
+<p><strong>ESS, TSS and RSS calculations</strong></p>
+<p>
+<script type="math/tex">y_i</script> is the actual observed value of the dependent variable, <script type="math/tex">\hat{y}</script> is the value of the dependent variable according to the regression line, as predicted by our regression model. What we want to get is a feel for is the variability of actual <script type="math/tex">y</script> around the regression line, ie, the volatility of <script type="math/tex">\epsilon</script>. This is given by the distance <script type="math/tex">y_i</script> minus <script type="math/tex">\hat{y}</script>. Represented in the figure as RSS.</p>
+<p><img alt="image.png" src="../07_Regression_files/c3675164-aa16-4261-92d6-a89ef5a71ac1.png" /></p>
+<p>Now <script type="math/tex">\epsilon</script> = observed – expected value of <script type="math/tex">y</script>
+</p>
+<p>Thus, <script type="math/tex">\epsilon = y_i - \hat{y}</script>. The sum of <script type="math/tex">\epsilon</script> is expected to be zero. So we look at the sum of squares:</p>
+<p>The value of interest to us is <script type="math/tex">= \sum {(y_i - \hat{y})^2}</script>. Since this value will change as the number of observations change, we divide by 'n' to get a 'per observation' number. (Since this is a square, we take the root to get a more intuitive number, ie the RMS error explained a little while earlier. Effectively, RMS gives us the standard deviation of the variation of the actual values of y when compared to the observed values.)</p>
+<p>If <script type="math/tex">s</script> is the standard error of the regression, then
+    <script type="math/tex">s = \sqrt{RSS/(n – 2)}</script>
+</p>
+<p>(where <script type="math/tex">n</script> is the number of observations, and we subtract 2 from this to take away 2 degrees of freedom.)</p>
+<pre><code class="language-python">y=mtcars.mpg.values
+RSS = np.sum(model.resid**2)
+TSS = np.sum((y - np.mean(y))**2)
+ESS= model.ess
+R_sq = 1 - RSS / TSS
+print(R_sq)
+print('RSS', RSS,'\nESS', model.ess, '\nTSS',  TSS)
+print('ESS+RSS=',RSS+model.ess)
+print('F value', ESS/(RSS/(30)))
+print('ESS/TSS=', ESS/TSS)
+</code></pre>
+<pre><code>0.8690157644777646
+RSS 147.4944300166507 
+ESS 978.5527574833491 
+TSS 1126.0471874999998
+ESS+RSS= 1126.0471874999998
+F value 199.03519557441183
+ESS/TSS= 0.8690157644777646
+</code></pre>
+<hr />
+<h2 id="lasso-and-ridge-regression">Lasso and Ridge Regression</h2>
+<p><strong>Introduction</strong><br />
+The setup:<br />
+We saw multinomial regression expressed as:
+<script type="math/tex">y =  \beta_0 + \beta_1 + \beta_2 + ... + \epsilon</script>
+</p>
+<p>We can combine all the <script type="math/tex">x_n</script> variables into a single array, and call it <script type="math/tex">X</script>.  Similarly, we can combine the <script type="math/tex">\beta_n</script> coefficients into another vector called <script type="math/tex">\beta</script>.  </p>
+<p>Then the regression equation can be expressed as<br />
+<script type="math/tex">y = X\beta + \epsilon</script>, which is a more succinct form.  </p>
+<p><strong>Regularization</strong><br />
+Regularization means adding a penalty to our objective function with a view to reducing complexity.  Complexity may appear in the form of:<br />
+ - the number of variables in a model, and/or<br />
+ - the value of the coefficients.  </p>
+<p><strong>Why is complexity bad in models?</strong><br />
+One reason: overfitting.  Complex models tend to fit well to training data, and do not generalize well.  </p>
+<p>Another challenge with complexity in OLS regression is that the value of <script type="math/tex">\beta</script> is very sensitive to changes in X.  What that means is adding a few new observations, or taking out a few can dramatically change the value of the coefficients in our vector <script type="math/tex">\beta</script>.  </p>
+<p>This is because OLS will often determine coefficient values to be large numerical quantities that can fluctuate by large margins if the inputs change.  So:  </p>
+<ul>
+<li>You have a less stable model, and</li>
+<li>Your model likely suffers from overfitting</li>
+</ul>
+<p>We address this problem by adding a penalty for coefficient values.  </p>
+<p><strong>Modifying the objective function</strong><br />
+In an OLS model, our objective function aims to minimize the sum of squares of the residuals.  It doesn’t care about how many variables it includes in the model (a variable is considered included in a model if it has a non-zero coefficient), or what the values of the coefficients are.  </p>
+<p>But we can change our objective function to force it to consider our goals of reducing the weights.  We do this by adding to our objective function a cost that is related to the values of the weights.  Problem solved!  </p>
+<p><em>Current Objective Function: Minimize Least Squares of the Residuals</em>  </p>
+<p><strong>Types of regularization</strong><br />
+Two types of regularization:<br />
+ - L1 regularization—The cost added is dependent on the absolute value of the weight coefficients (the L1 norm of the weights).<br />
+   - L1 norm for a vector = sum of all elements  </p>
+<p><em>New Objective Function = Minimize (Least Squares of the Residuals + </em><em>L1_wt</em><em> * L1 norm for the coefficients vector)</em><br />
+<em><strong>When L1 regularization is applied, we call it <em>Lasso Regression</em></strong></em>  </p>
+<ul>
+<li>L2 regularization—The cost added is dependent on the square of the value of the weight coefficients (the L2 norm of the weights).  <ul>
+<li>L2 norm for a vector = sqrt of the sum of squares of all elements  </li>
+</ul>
+</li>
+</ul>
+<p><em>New Objective Function = Minimize (Least Squares of the Residuals + <script type="math/tex">\alpha \cdot</script> L2 norm for the coefficients vector)</em>  </p>
+<p><strong>When L2 regularization is applied, we call it <em>Ridge Regression</em></strong>  </p>
+<p>L1 and L2 norms are easily calculated using the <code>norm</code> function in <code>numpy.linalg</code>.</p>
+<p><strong>How to calculate L1 norm manually</strong></p>
+<pre><code class="language-python">np.linalg.norm([2,3], 1)
+</code></pre>
+<pre><code>5.0
+</code></pre>
+<pre><code class="language-python">np.linalg.norm([-2,3], 1)
+</code></pre>
+<pre><code>5.0
+</code></pre>
+<pre><code class="language-python"># same as sum of all elements
+2 + 3
+</code></pre>
+<pre><code>5
+</code></pre>
+<p><strong>How to calculate L2 norm manually</strong></p>
+<pre><code class="language-python">np.linalg.norm([2,3], 2)
+</code></pre>
+<pre><code>3.605551275463989
+</code></pre>
+<pre><code class="language-python"># same as the root of the sum of squares of the elements
+np.sqrt(2**2 + 3**2)
+</code></pre>
+<pre><code>3.605551275463989
+</code></pre>
+<h3 id="lasso-and-ridge-regression-statsmodels">Lasso and Ridge regression Statsmodels</h3>
+<p>Fortunately, when doing lasso or ridge regression, we only need to specify the values of <script type="math/tex">\alpha</script> and L1_wt, and the system does the rest for us.  </p>
+<p>In the statsmodels implementation of Lasso and Ridge regression, the below function is minimized.</p>
+<p>
+<script type="math/tex">0.5*RSS/n + alpha*((1-L1\_wt)*|params|_2^2/2 + L1\_wt*|params|_1)</script>
+</p>
+<p>where RSS is the usual regression sum of squares, n is the sample size, and <script type="math/tex">|∗|_1</script> and <script type="math/tex">|∗|_2</script> are the L1 and L2 norms.</p>
+<p>Alpha is the overall penalty weight.  It can be any number (ie, not just between 0 and 1).</p>
+<p>The L1_wt parameter decides between L1 and L2 regularization.  Must be between 0 and 1 (inclusive). If 0, the fit is a ridge fit, if 1 it is a lasso fit. (Because 0 often causes a divide by 0 error, use something small like <script type="math/tex">1e-8</script>.)</p>
+<p><strong>Example</strong><br />
+Next, we look at an example.  Here is a summary of how to use statsmodels for regularized (ridge/lasso) regression:</p>
+<ul>
+<li>In statsmodels, you have to specify at least two parameters to run Lasso/Ridge regression:<ul>
+<li>alpha</li>
+<li>L1_wt</li>
+<li>Remember that the function minimized is <script type="math/tex">0.5*RSS/n + alpha*((1-L1\_wt)*|params|_2^2/2 + L1\_wt*|params|_1)</script>
+</li>
+</ul>
+</li>
+<li>Alpha needs to be a value different from zero</li>
+<li>L1_wt should be a number between 0 and 1.  <ul>
+<li>If L1_wt = 1, then you are doing Lasso/L1 regularization</li>
+<li>If L1_wt = 0, then you are doing Ridge/L2 regularization (Note: in statsmodels, you can’t use L1_wt = 0, have to use a tiny    non-zero number, eg 1e-8 instead)</li>
+<li>Values between 0 and 1 weight the regularization between L1 and L2 penalties</li>
+</ul>
+</li>
+<li>You can run a grid-search to find the values of alpha and L1_wt that give you the best results. (Grid search means a brute force search through many parameter values.)</li>
+<li>See an example of Ridge regression next.</li>
+</ul>
+<p>We use the same mpg dataset as before.</p>
+<pre><code class="language-python">model_reg = sm.regression.linear_model.OLS(y,X).fit_regularized(alpha = 1, L1_wt = .1, refit=True)
+</code></pre>
+<pre><code class="language-python">model_reg.summary()
+</code></pre>
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.834</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.795</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   18.00</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 09 Oct 2023</td> <th>  Prob (F-statistic):</th> <td>2.62e-08</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>11:10:15</td>     <th>  Log-Likelihood:    </th> <td> -73.602</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    32</td>      <th>  AIC:               </th> <td>   163.2</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    25</td>      <th>  BIC:               </th> <td>   174.9</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+    <td></td>       <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th> <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
+</tr>
+<tr>
+  <th>cyl</th>   <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
+</tr>
+<tr>
+  <th>disp</th>  <td>   -0.0093</td> <td>    0.010</td> <td>   -0.979</td> <td> 0.337</td> <td>   -0.029</td> <td>    0.010</td>
+</tr>
+<tr>
+  <th>hp</th>    <td>   -0.0025</td> <td>    0.020</td> <td>   -0.125</td> <td> 0.901</td> <td>   -0.043</td> <td>    0.038</td>
+</tr>
+<tr>
+  <th>drat</th>  <td>    2.0389</td> <td>    1.482</td> <td>    1.376</td> <td> 0.181</td> <td>   -1.014</td> <td>    5.091</td>
+</tr>
+<tr>
+  <th>wt</th>    <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
+</tr>
+<tr>
+  <th>qsec</th>  <td>    0.6674</td> <td>    0.272</td> <td>    2.456</td> <td> 0.021</td> <td>    0.108</td> <td>    1.227</td>
+</tr>
+<tr>
+  <th>vs</th>    <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
+</tr>
+<tr>
+  <th>am</th>    <td>    3.1923</td> <td>    1.992</td> <td>    1.603</td> <td> 0.122</td> <td>   -0.910</td> <td>    7.294</td>
+</tr>
+<tr>
+  <th>gear</th>  <td>    1.6071</td> <td>    1.359</td> <td>    1.183</td> <td> 0.248</td> <td>   -1.192</td> <td>    4.406</td>
+</tr>
+<tr>
+  <th>carb</th>  <td>   -1.3805</td> <td>    0.573</td> <td>   -2.410</td> <td> 0.024</td> <td>   -2.560</td> <td>   -0.201</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.280</td> <th>  Durbin-Watson:     </th> <td>   2.167</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.869</td> <th>  Jarque-Bera (JB):  </th> <td>   0.467</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-0.070</td> <th>  Prob(JB):          </th> <td>   0.792</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.425</td> <th>  Cond. No.          </th> <td>1.22e+04</td>
+</tr>
+</table>
+<p>Notes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.[2] The condition number is large, 1.22e+04. This might indicate that there arestrong multicollinearity or other numerical problems.</p>
+<pre><code class="language-python"># Comparing coefficients between normal OLS and Regularized Regression
+
+pd.DataFrame({'model': model.params, 
+              'model_reg': model_reg.params})
+</code></pre>
+<p><br/><br/><br/><br/><br/><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>model_reg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>const</th>
+      <td>12.303374</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>cyl</th>
+      <td>-0.111440</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>disp</th>
+      <td>0.013335</td>
+      <td>-0.009334</td>
+    </tr>
+    <tr>
+      <th>hp</th>
+      <td>-0.021482</td>
+      <td>-0.002483</td>
+    </tr>
+    <tr>
+      <th>drat</th>
+      <td>0.787111</td>
+      <td>2.038859</td>
+    </tr>
+    <tr>
+      <th>wt</th>
+      <td>-3.715304</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>qsec</th>
+      <td>0.821041</td>
+      <td>0.667390</td>
+    </tr>
+    <tr>
+      <th>vs</th>
+      <td>0.317763</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>am</th>
+      <td>2.520227</td>
+      <td>3.192283</td>
+    </tr>
+    <tr>
+      <th>gear</th>
+      <td>0.655413</td>
+      <td>1.607129</td>
+    </tr>
+    <tr>
+      <th>carb</th>
+      <td>-0.199419</td>
+      <td>-1.380473</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</p>
+<pre><code class="language-python">mean_squared_error(model_reg.predict(X), y)
+</code></pre>
+<pre><code>5.825422019252036
+</code></pre>
+<pre><code class="language-python">model_reg.params
+</code></pre>
+<pre><code>array([ 0.00000000e+00,  0.00000000e+00, -9.33429540e-03, -2.48251056e-03,
+        2.03885853e+00,  0.00000000e+00,  6.67389918e-01,  0.00000000e+00,
+        3.19228288e+00,  1.60712882e+00, -1.38047254e+00])
+</code></pre>
+<hr />
+<h2 id="polynomial-regression">Polynomial Regression</h2>
+<p>Consider the data below.  The red line is the regression line with the following attributes:  </p>
+<blockquote>
+<p>slope=-0.004549361971974567,<br />
+intercept=0.6205433516646912,<br />
+rvalue=-0.009903930817224469,<br />
+pvalue=0.9455773121019574  </p>
+</blockquote>
+<p>Clearly, not a very good fit.  </p>
+<p>But it is pretty obvious that if the line could ‘curve’ a little bit, we would get a great fit.  </p>
+<pre><code class="language-python"># Why Polynomial Regression?
+
+df, labels = datasets.make_moons(noise=.1)
+df = pd.DataFrame(df, columns = ['x', 'y'])
+df['label'] = labels
+df = df[df.label == 0]
+# sns.scatterplot(data=df, x = df.iloc[:,0], y=df.iloc[:,1])
+sns.lmplot(data=df, x = &quot;x&quot;, y=&quot;y&quot;, line_kws={&quot;lw&quot;:4,&quot;alpha&quot;: .5, &quot;color&quot;:&quot;red&quot;},ci=1)
+print('\n', stats.linregress(x = df['x'], y = df['y']),'\n\n')
+</code></pre>
+<pre><code> LinregressResult(slope=-0.01664535648653696, intercept=0.6504247252274402, rvalue=-0.0357856416107069, pvalue=0.8051237652768873, stderr=0.06709426724362424, intercept_stderr=0.04918020345126021)
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_73_1.png" /></p>
+<h3 id="a-laymans-take-on-power-series-approximations">A Layman’s take on 'Power Series Approximations'</h3>
+<p>Power series approximation allows you to express any function of <script type="math/tex">x</script> as a summation of terms with increasing powers of <script type="math/tex">x</script>.  Therefore any function can be approximated as:</p>
+<ul>
+<li>Zero-th order estimation: <script type="math/tex">g_0 (x) = a</script>
+</li>
+<li>First order estimation: <script type="math/tex">g_1 (x) = a+bx</script>
+</li>
+<li>Second order estimation: <script type="math/tex">g_2 (x) = a+bx+c x^2</script>
+</li>
+<li>Third order estimation: <script type="math/tex">g_3 (x) = a+bx+c x^2+dx^3</script>
+</li>
+</ul>
+<p>And so on.  Whatever is the maximum power of x in a function, it is that 'order' of approximation.
+All you have to do is to find the values of the constants <script type="math/tex">a</script>, <script type="math/tex">b</script>, <script type="math/tex">c</script> and <script type="math/tex">d</script> in order to get the function.</p>
+<p><img alt="image.png" src="../07_Regression_files/6a3899af-cdf2-4285-9584-cc4cc9ee60fa.png" /></p>
+<p>The number of 'U-turns' in a function’s graph plus 1 tell us the power of <script type="math/tex">x</script> in the function.</p>
+<p>So the function above can be approximated by a 4 + 1 = 5th order function.</p>
+<h3 id="polynomial-features-example">Polynomial Features Example</h3>
+<p>Polynomial regression is just OLS regression, but with polynomial features added to our <script type="math/tex">X</script> predictors.  And we do that manually!!  Let us see how.</p>
+<p>We first need to 'fit' polynomial features to data which in our case is <script type="math/tex">X</script>, and store this 'fit' in a variable we call, say <script type="math/tex">p_X</script>.  We can then transform any input to the polynomial feature set using <code>transform()</code>.  </p>
+<p>Throughout our modeling journey, we will often see a difference between the fit and the transform methods.  <code>fit</code> creates the mechanism, <code>transform</code> implements it.  Sometimes these operations are combined in a single step using <code>fit_transform()</code>.  What we do depends upon our use case.  </p>
+<p>The <code>PolynomialFeatures</code> function automatically inserts a constant, so if we use our <script type="math/tex">X</script> as an input, we will get the constant term twice (as we had added a constant earlier using <code>add_constant</code>).  So we will use <code>features</code> instead of <script type="math/tex">X</script>.</p>
+<blockquote>
+<p><strong>Polynomial features</strong> are powers of input features, eg for a feature vector <script type="math/tex">x</script>, these could be <script type="math/tex">x^2</script>,<script type="math/tex">x^3</script> etc.</p>
+<p><strong>Interaction features</strong> are products of independent features.  For example, if <script type="math/tex">x_1</script>,<script type="math/tex">x_2</script> are features, then <script type="math/tex">x_1 \cdot x_2</script> would be an example of an interaction feature.</p>
+</blockquote>
+<p>Interaction features are useful in the case of linear models – and often used in regression. Let us move to the example.</p>
+<p>We create a random dataframe, and try to see what the polynomial and interaction features would be.</p>
+<pre><code class="language-python"># Explaining polynomial features with a random example
+
+from sklearn.preprocessing import PolynomialFeatures
+import pandas as pd
+import numpy as np
+
+data = pd.DataFrame.from_dict({
+    'x1': np.random.randint(low=1, high=10, size=5),
+    'x2': np.random.randint(low=1, high=10, size=5),
+    'y': np.random.randint(low=1, high=10, size=5)
+})
+print('Dataset is:\n', data)
+feat = data.iloc[:,:2].copy()
+p = PolynomialFeatures(degree=2, interaction_only=False).fit(feat)
+print('\nPolynomial and Interaction Feature names are:\n', 
+      p.get_feature_names_out(feat.columns))
+
+</code></pre>
+<pre><code>Dataset is:
+    x1  x2  y
+0   4   2  7
+1   7   3  6
+2   6   1  5
+3   2   2  4
+4   9   6  5
+
+Polynomial and Interaction Feature names are:
+ ['1' 'x1' 'x2' 'x1^2' 'x1 x2' 'x2^2']
+</code></pre>
+<pre><code class="language-python">features = pd.DataFrame(p.transform(feat), 
+                        columns=p.get_feature_names_out(feat.columns))
+print(features)
+</code></pre>
+<pre><code>     1   x1   x2  x1^2  x1 x2  x2^2
+0  1.0  4.0  2.0  16.0    8.0   4.0
+1  1.0  7.0  3.0  49.0   21.0   9.0
+2  1.0  6.0  1.0  36.0    6.0   1.0
+3  1.0  2.0  2.0   4.0    4.0   4.0
+4  1.0  9.0  6.0  81.0   54.0  36.0
+</code></pre>
+<p>This is how to read the above output:</p>
+<p><img alt="image.png" src="../07_Regression_files/0f10da64-ad90-4ca0-995d-94815007355a.png" /></p>
+<h3 id="calculating-polynomial-features-for-mtcars">Calculating polynomial features for mtcars</h3>
+<p>As mentioned earlier, polynomial regression is a form of regression analysis in which the relationship between the predictors (<script type="math/tex">X</script>) and the target variable (<script type="math/tex">y</script>) is modelled as an n-th degree polynomial in <script type="math/tex">x</script>. </p>
+<p>Polynomial regression allows us to fit a nonlinear relationship between <script type="math/tex">X</script> and <script type="math/tex">y</script>.</p>
+<p>So if we have <script type="math/tex">x_1</script> and <script type="math/tex">x_2</script> are the two predictors for <script type="math/tex">y</script>, the 2nd order polynomial regression equation would look as follows:</p>
+<p>
+<script type="math/tex">y = a + b_1*x_1+b_2*x_2+ b_3*x_12+ b_4*x_22+ b_5*x_1*x_2+ \epsilon</script>
+</p>
+<p>The product terms towards the end are called the ‘interaction terms’.</p>
+<pre><code class="language-python">mtcars = sm.datasets.get_rdataset('mtcars').data
+y = mtcars.mpg.values
+features = mtcars.iloc[:,1:]
+</code></pre>
+<pre><code class="language-python">poly = PolynomialFeatures(degree=2, interaction_only=False).fit(features)
+</code></pre>
+<pre><code class="language-python">p_X = pd.DataFrame(poly.transform(features), columns=poly.get_feature_names_out(features.columns))
+p_X.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>...</th>
+      <th>vs^2</th>
+      <th>vs am</th>
+      <th>vs gear</th>
+      <th>vs carb</th>
+      <th>am^2</th>
+      <th>am gear</th>
+      <th>am carb</th>
+      <th>gear^2</th>
+      <th>gear carb</th>
+      <th>carb^2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>160.0</td>
+      <td>110.0</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>16.0</td>
+      <td>16.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>160.0</td>
+      <td>110.0</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>16.0</td>
+      <td>16.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>108.0</td>
+      <td>93.0</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>16.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>258.0</td>
+      <td>110.0</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>8.0</td>
+      <td>360.0</td>
+      <td>175.0</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.0</td>
+      <td>6.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 66 columns</p>
+</div>
+
+<pre><code class="language-python">print(poly.get_feature_names_out(features.columns))
+</code></pre>
+<pre><code>['1' 'cyl' 'disp' 'hp' 'drat' 'wt' 'qsec' 'vs' 'am' 'gear' 'carb' 'cyl^2'
+ 'cyl disp' 'cyl hp' 'cyl drat' 'cyl wt' 'cyl qsec' 'cyl vs' 'cyl am'
+ 'cyl gear' 'cyl carb' 'disp^2' 'disp hp' 'disp drat' 'disp wt'
+ 'disp qsec' 'disp vs' 'disp am' 'disp gear' 'disp carb' 'hp^2' 'hp drat'
+ 'hp wt' 'hp qsec' 'hp vs' 'hp am' 'hp gear' 'hp carb' 'drat^2' 'drat wt'
+ 'drat qsec' 'drat vs' 'drat am' 'drat gear' 'drat carb' 'wt^2' 'wt qsec'
+ 'wt vs' 'wt am' 'wt gear' 'wt carb' 'qsec^2' 'qsec vs' 'qsec am'
+ 'qsec gear' 'qsec carb' 'vs^2' 'vs am' 'vs gear' 'vs carb' 'am^2'
+ 'am gear' 'am carb' 'gear^2' 'gear carb' 'carb^2']
+</code></pre>
+<p>From the above, you can see:</p>
+<pre><code>Original features: ['cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb']
+
+Final Feature list:
+['1', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb', 'cyl^2', 'cyl disp', 'cyl hp', 'cyl drat', 'cyl wt', 'cyl qsec', 'cyl vs', 'cyl am', 'cyl gear', 'cyl carb', 'disp^2', 'disp hp', 'disp drat', 'disp wt', 'disp qsec', 'disp vs', 'disp am', 'disp gear', 'disp carb', 'hp^2', 'hp drat', 'hp wt', 'hp qsec', 'hp vs', 'hp am', 'hp gear', 'hp carb', 'drat^2', 'drat wt', 'drat qsec', 'drat vs', 'drat am', 'drat gear', 'drat carb', 'wt^2', 'wt qsec', 'wt vs', 'wt am', 'wt gear', 'wt carb', 'qsec^2', 'qsec vs', 'qsec am', 'qsec gear', 'qsec carb', 'vs^2', 'vs am', 'vs gear', 'vs carb', 'am^2', 'am gear', 'am carb', 'gear^2', 'gear carb', 'carb^2']
+</code></pre>
+<p>Now <script type="math/tex">p_X</script> contains our data frame with the polynomial features.  From this point, we do our regression the normal way.</p>
+<pre><code class="language-python">model_poly = sm.OLS(y, p_X).fit()
+print('R-squared is:')
+model_poly.rsquared
+</code></pre>
+<pre><code>R-squared is:
+
+
+
+
+
+1.0
+</code></pre>
+<h3 id="perform-predictions">Perform predictions</h3>
+<pre><code class="language-python">preds = pd.DataFrame({'PolynomialPred': model_poly.predict(p_X)}, columns = ['PolynomialPred'])
+</code></pre>
+<pre><code class="language-python">preds.index = mtcars.index
+compare2 = pd.DataFrame(mtcars['mpg'])
+compare2['PolynomialPred'] = preds.PolynomialPred
+compare2['difference'] = compare2.mpg - compare2.PolynomialPred
+
+compare2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>PolynomialPred</th>
+      <th>difference</th>
+    </tr>
+    <tr>
+      <th>rownames</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>21.0</td>
+      <td>21.0</td>
+      <td>1.620037e-12</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>21.0</td>
+      <td>21.0</td>
+      <td>1.676881e-12</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>22.8</td>
+      <td>22.8</td>
+      <td>3.961276e-12</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>21.4</td>
+      <td>21.4</td>
+      <td>2.611955e-11</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>18.7</td>
+      <td>18.7</td>
+      <td>2.584599e-11</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>18.1</td>
+      <td>18.1</td>
+      <td>1.300293e-11</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>14.3</td>
+      <td>14.3</td>
+      <td>3.925749e-12</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>24.4</td>
+      <td>24.4</td>
+      <td>8.100187e-12</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>22.8</td>
+      <td>22.8</td>
+      <td>1.303846e-12</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>19.2</td>
+      <td>19.2</td>
+      <td>-5.861978e-13</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>17.8</td>
+      <td>17.8</td>
+      <td>-3.232969e-13</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>16.4</td>
+      <td>16.4</td>
+      <td>3.957723e-12</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>17.3</td>
+      <td>17.3</td>
+      <td>1.936229e-12</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>15.2</td>
+      <td>15.2</td>
+      <td>6.787459e-12</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>10.4</td>
+      <td>10.4</td>
+      <td>7.711698e-11</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>10.4</td>
+      <td>10.4</td>
+      <td>4.380674e-11</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>14.7</td>
+      <td>14.7</td>
+      <td>3.361933e-11</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>32.4</td>
+      <td>32.4</td>
+      <td>-5.258016e-13</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>30.4</td>
+      <td>30.4</td>
+      <td>1.051603e-12</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>33.9</td>
+      <td>33.9</td>
+      <td>-1.520561e-12</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>21.5</td>
+      <td>21.5</td>
+      <td>-2.891909e-12</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>15.5</td>
+      <td>15.5</td>
+      <td>9.634959e-12</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>15.2</td>
+      <td>15.2</td>
+      <td>9.929835e-12</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>13.3</td>
+      <td>13.3</td>
+      <td>2.561507e-12</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>19.2</td>
+      <td>19.2</td>
+      <td>4.937917e-11</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>27.3</td>
+      <td>27.3</td>
+      <td>-3.019807e-13</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>26.0</td>
+      <td>26.0</td>
+      <td>-1.278977e-13</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>30.4</td>
+      <td>30.4</td>
+      <td>-5.563550e-12</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>15.8</td>
+      <td>15.8</td>
+      <td>2.476241e-12</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>19.7</td>
+      <td>19.7</td>
+      <td>-2.426148e-11</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>15.0</td>
+      <td>15.0</td>
+      <td>-5.135803e-11</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>21.4</td>
+      <td>21.4</td>
+      <td>-5.258016e-12</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="summary-polynomial-regression">Summary - Polynomial Regression</h3>
+<p>Here is how to approach polynomial regression:<br />
+1. Decide the ‘order’ of the regression.<br />
+2. Generate the polynomial features (unfortunately Python will not do it for us, though R has a feature to just specify the polynomial order).<br />
+3. Perform a regression in a regular way, and evaluate the model.<br />
+4. Perform predictions.  </p>
+<hr />
+<h2 id="loess-regression">LOESS Regression</h2>
+<p>LOESS stands for Locally Weighted Linear Regression. The idea behind LOESS is very similar to the idea behind k-nearest neighbors.  LOESS is a non-parametric regression method that focuses on data points closest to the one being predicted.  </p>
+<p>A key decision then is how many points closest to the target to include in the regression.  Another decision is if any weighting be used to give greater weight to the points closest to the target.  Yet another decision is to whether use simple linear regression, or quadratic, etc.</p>
+<p><img alt="image.png" src="../07_Regression_files/196cf54d-7224-4c0a-9890-20ce1d9fe41e.png" /></p>
+<p>That The statsmodels implementation of LOESS does not allow the predict method.  If you need to implement predictions using LOESS, you may need to use R or another tool.  Besides, the LOESS model is very similar to the k-nearest neighbors algorithm which we will cover later.is all we will cover on LOESS.  </p>
+<hr />
+<h2 id="logistic-regression">Logistic Regression</h2>
+<p>Logistic Regression is about class membership probability estimation.  What that means is that it is a categorization tool, and returns probabilities.  You do not use logistic regression for predicting continuous variables.</p>
+<p>Classes are categories, and logistic regression helps us get estimates of an observation belonging to a particular class (spam/not-spam, will-respond/will-not-respond, etc).  We use the same framework as for linear models, but change the objective function as to get estimates of class probabilities. </p>
+<p>One might ask: why can’t we use normal linear regression for estimating class probabilities?  </p>
+<p>The reason for that is that normal regression gives us results that are unbounded, whereas we need to bound probabilities to be between 0 and 1.  In other words, because <script type="math/tex">f(x) = \beta_0 + \beta_0 x_1 +  \beta_0 x_2 + ... + \epsilon</script>, <script type="math/tex">f(x)</script> is unbounded and can go from <script type="math/tex">-\infty</script> to <script type="math/tex">+\infty</script>, while we need probability estimates to be between 0 and 1.  </p>
+<p><strong>How logistic regression solves this problem?</strong><br />
+In order to address this problem (that normal regression gives us results that are not compatible with probabilities), we apply some mathematical transformations as follows:  </p>
+<ol>
+<li>Instead of trying to predict probabilities, we can try to predict 'odds' instead, and work out the probability from the odds.  </li>
+<li>Odds are the ratio of the probabilities of an event happening vs not happening. For example, a probability of 0.5 equates to the odds of 1, a probability of 0.25 equates to odds of 0.33 etc. <script type="math/tex">Odds = p/(1-p)</script>
+</li>
+<li>But odds vary from 0 to <script type="math/tex">\infty</script>, which doesn’t help us.  </li>
+<li>However, if we take the log of the odds (log-odds), we get numbers that are between <script type="math/tex">-\infty</script> to <script type="math/tex">+\infty</script>.  We can now build a regression model to predict these log-odds.  </li>
+<li>These are the log-odds we get <script type="math/tex">f(x)</script> in our regression model to represent.  </li>
+<li>Then we can work backwards to calculate the probability.  </li>
+</ol>
+<p>
+<script type="math/tex">log(p(x)/(1 - p(x))) = f(x) =  \beta_0 + \beta_0 x_1 +  \beta_0 x_2 + ... + \epsilon</script>
+</p>
+<p>
+<script type="math/tex">p(x) = \frac{1}{1 + e^{-f(x)}}</script>
+</p>
+<p>Read the above again if it doesn't register in one go!</p>
+<p><strong>Interpreting logistic regression results</strong><br />
+What do probability estimates mean, when training data is always either 0 or 1?</p>
+<p>If a probability of say, 0.2, is identified by the model, it means that if you take 100 items that have their class membership probability estimated to be 0.2 then about 20 will actually belong to the class.</p>
+<h3 id="load-the-data">Load the data</h3>
+<p>We use a public domain dataset where we need to classify individuals as being with or without diabetes.  (<em>Source: https://www.kaggle.com/uciml/pima-indians-diabetes-database</em>)  </p>
+<p>This dataset is originally from the National Institute of Diabetes and Digestive and Kidney Diseases.  The objective of the dataset is to diagnostically predict whether or not a patient has diabetes, based on certain diagnostic measurements included in the dataset.  The target variable is a category, tagged as 1 or 0 in the dataset.</p>
+<pre><code class="language-python"># https://www.kaggle.com/uciml/pima-indians-diabetes-database
+df = pd.read_csv('diabetes.csv')
+</code></pre>
+<h3 id="our-workflow">Our workflow</h3>
+<p>To approach this problem in a structured way, we will perform the following steps:  </p>
+<ul>
+<li>Step 1: Load the data, do some EDA  </li>
+<li>Step 2: Prepare the data, and split into train-test sets  </li>
+<li>Step 3: Fit the model  </li>
+<li>Step 4: Evaluate the model  </li>
+<li>Step 5: Use for predictions  </li>
+</ul>
+<h3 id="review-the-data">Review the data</h3>
+<p>Lete us load the data, and do some initial exploration.  The last column <code>Outcome</code> is our target variable, and the rest are features.  </p>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pregnancies</th>
+      <th>Glucose</th>
+      <th>BloodPressure</th>
+      <th>SkinThickness</th>
+      <th>Insulin</th>
+      <th>BMI</th>
+      <th>DiabetesPedigreeFunction</th>
+      <th>Age</th>
+      <th>Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6</td>
+      <td>148</td>
+      <td>72</td>
+      <td>35</td>
+      <td>0</td>
+      <td>33.6</td>
+      <td>0.627</td>
+      <td>50</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>85</td>
+      <td>66</td>
+      <td>29</td>
+      <td>0</td>
+      <td>26.6</td>
+      <td>0.351</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8</td>
+      <td>183</td>
+      <td>64</td>
+      <td>0</td>
+      <td>0</td>
+      <td>23.3</td>
+      <td>0.672</td>
+      <td>32</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>89</td>
+      <td>66</td>
+      <td>23</td>
+      <td>94</td>
+      <td>28.1</td>
+      <td>0.167</td>
+      <td>21</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>137</td>
+      <td>40</td>
+      <td>35</td>
+      <td>168</td>
+      <td>43.1</td>
+      <td>2.288</td>
+      <td>33</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>763</th>
+      <td>10</td>
+      <td>101</td>
+      <td>76</td>
+      <td>48</td>
+      <td>180</td>
+      <td>32.9</td>
+      <td>0.171</td>
+      <td>63</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>764</th>
+      <td>2</td>
+      <td>122</td>
+      <td>70</td>
+      <td>27</td>
+      <td>0</td>
+      <td>36.8</td>
+      <td>0.340</td>
+      <td>27</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>765</th>
+      <td>5</td>
+      <td>121</td>
+      <td>72</td>
+      <td>23</td>
+      <td>112</td>
+      <td>26.2</td>
+      <td>0.245</td>
+      <td>30</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>766</th>
+      <td>1</td>
+      <td>126</td>
+      <td>60</td>
+      <td>0</td>
+      <td>0</td>
+      <td>30.1</td>
+      <td>0.349</td>
+      <td>47</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>767</th>
+      <td>1</td>
+      <td>93</td>
+      <td>70</td>
+      <td>31</td>
+      <td>0</td>
+      <td>30.4</td>
+      <td>0.315</td>
+      <td>23</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>768 rows × 9 columns</p>
+</div>
+
+<pre><code class="language-python">df.Outcome.value_counts()
+</code></pre>
+<pre><code>Outcome
+0    500
+1    268
+Name: count, dtype: int64
+</code></pre>
+<pre><code class="language-python">df.describe()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pregnancies</th>
+      <th>Glucose</th>
+      <th>BloodPressure</th>
+      <th>SkinThickness</th>
+      <th>Insulin</th>
+      <th>BMI</th>
+      <th>DiabetesPedigreeFunction</th>
+      <th>Age</th>
+      <th>Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+      <td>768.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>3.845052</td>
+      <td>120.894531</td>
+      <td>69.105469</td>
+      <td>20.536458</td>
+      <td>79.799479</td>
+      <td>31.992578</td>
+      <td>0.471876</td>
+      <td>33.240885</td>
+      <td>0.348958</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>3.369578</td>
+      <td>31.972618</td>
+      <td>19.355807</td>
+      <td>15.952218</td>
+      <td>115.244002</td>
+      <td>7.884160</td>
+      <td>0.331329</td>
+      <td>11.760232</td>
+      <td>0.476951</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.078000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.000000</td>
+      <td>99.000000</td>
+      <td>62.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>27.300000</td>
+      <td>0.243750</td>
+      <td>24.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>117.000000</td>
+      <td>72.000000</td>
+      <td>23.000000</td>
+      <td>30.500000</td>
+      <td>32.000000</td>
+      <td>0.372500</td>
+      <td>29.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>6.000000</td>
+      <td>140.250000</td>
+      <td>80.000000</td>
+      <td>32.000000</td>
+      <td>127.250000</td>
+      <td>36.600000</td>
+      <td>0.626250</td>
+      <td>41.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>17.000000</td>
+      <td>199.000000</td>
+      <td>122.000000</td>
+      <td>99.000000</td>
+      <td>846.000000</td>
+      <td>67.100000</td>
+      <td>2.420000</td>
+      <td>81.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>What we see</strong>: We notice that the mean of the different features appear to be on different scales.  We also see that correlations are generally not high, which is a good thing.  </p>
+<pre><code class="language-python">sns.heatmap(df.corr(numeric_only=True), cmap=&quot;PiYG&quot;);
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_100_0.png" /></p>
+<h3 id="prepare-the-data-and-perform-a-train-test-split">Prepare the data, and perform a train-test split</h3>
+<p>We standardize the data (because we saw the features to have different scales, or magnitudes).  Then we split it 75:25 into train and test sets.  </p>
+<pre><code class="language-python"># Columns 0 to 8 are our predictors, or features
+X = df.iloc[:,:8]
+
+# Standard scale the features
+scaler = preproc.StandardScaler()
+scaler.fit(X)
+X = pd.DataFrame(scaler.transform(X))
+
+
+# Add the intercept term/constant
+X = sm.add_constant(X)
+
+# The last column is our y variable, the target
+y = df.Outcome
+
+# Now we are ready to do the train-test split 75-25, with random_state=1
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+</code></pre>
+<pre><code class="language-python">X.columns
+</code></pre>
+<pre><code>Index(['const', 0, 1, 2, 3, 4, 5, 6, 7], dtype='object')
+</code></pre>
+<pre><code class="language-python">X_train
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>118</th>
+      <td>1.0</td>
+      <td>0.046014</td>
+      <td>-0.747831</td>
+      <td>-0.470732</td>
+      <td>0.154533</td>
+      <td>-0.692891</td>
+      <td>-0.481351</td>
+      <td>-0.087210</td>
+      <td>-0.956462</td>
+    </tr>
+    <tr>
+      <th>205</th>
+      <td>1.0</td>
+      <td>0.342981</td>
+      <td>-0.309671</td>
+      <td>0.149641</td>
+      <td>0.468173</td>
+      <td>-0.692891</td>
+      <td>-1.027104</td>
+      <td>-0.195934</td>
+      <td>-0.531023</td>
+    </tr>
+    <tr>
+      <th>506</th>
+      <td>1.0</td>
+      <td>-1.141852</td>
+      <td>1.849832</td>
+      <td>1.080200</td>
+      <td>0.342717</td>
+      <td>0.088570</td>
+      <td>0.572079</td>
+      <td>-0.476805</td>
+      <td>0.149679</td>
+    </tr>
+    <tr>
+      <th>587</th>
+      <td>1.0</td>
+      <td>0.639947</td>
+      <td>-0.560048</td>
+      <td>-0.160546</td>
+      <td>-1.288212</td>
+      <td>-0.692891</td>
+      <td>-0.976336</td>
+      <td>-0.673113</td>
+      <td>-0.360847</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>1.0</td>
+      <td>1.827813</td>
+      <td>0.034598</td>
+      <td>0.459827</td>
+      <td>0.656358</td>
+      <td>-0.692891</td>
+      <td>-0.557503</td>
+      <td>0.121178</td>
+      <td>1.000557</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>645</th>
+      <td>1.0</td>
+      <td>-0.547919</td>
+      <td>1.129998</td>
+      <td>0.253036</td>
+      <td>0.907270</td>
+      <td>3.127584</td>
+      <td>0.940144</td>
+      <td>-1.020427</td>
+      <td>-0.275760</td>
+    </tr>
+    <tr>
+      <th>715</th>
+      <td>1.0</td>
+      <td>0.936914</td>
+      <td>2.068912</td>
+      <td>-0.987710</td>
+      <td>0.781814</td>
+      <td>2.710805</td>
+      <td>0.242089</td>
+      <td>1.069496</td>
+      <td>0.064591</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>1.0</td>
+      <td>2.718712</td>
+      <td>0.159787</td>
+      <td>1.080200</td>
+      <td>-1.288212</td>
+      <td>-0.692891</td>
+      <td>1.447821</td>
+      <td>0.335607</td>
+      <td>0.745293</td>
+    </tr>
+    <tr>
+      <th>235</th>
+      <td>1.0</td>
+      <td>0.046014</td>
+      <td>1.568158</td>
+      <td>0.149641</td>
+      <td>-1.288212</td>
+      <td>-0.692891</td>
+      <td>1.473205</td>
+      <td>0.021514</td>
+      <td>-0.616111</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>1.0</td>
+      <td>1.530847</td>
+      <td>-0.591345</td>
+      <td>0.356432</td>
+      <td>1.032726</td>
+      <td>-0.692891</td>
+      <td>0.115169</td>
+      <td>0.583256</td>
+      <td>1.085644</td>
+    </tr>
+  </tbody>
+</table>
+<p>576 rows × 9 columns</p>
+</div>
+
+<pre><code class="language-python">y_train
+</code></pre>
+<pre><code>118    0
+205    0
+506    1
+587    0
+34     0
+      ..
+645    0
+715    1
+72     1
+235    1
+37     1
+Name: Outcome, Length: 576, dtype: int64
+</code></pre>
+<h3 id="create-a-model-using-the-statsmodels-library">Create a model using the Statsmodels library</h3>
+<p>Fitting the model is a one line task with Statsmodels, with a call to the function.</p>
+<pre><code class="language-python">model = sm.Logit(y_train, X_train).fit()
+model.summary()
+</code></pre>
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.474074
+         Iterations 6
+</code></pre>
+<table class="simpletable">
+<caption>Logit Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>Outcome</td>     <th>  No. Observations:  </th>  <td>   576</td>  
+</tr>
+<tr>
+  <th>Model:</th>                 <td>Logit</td>      <th>  Df Residuals:      </th>  <td>   567</td>  
+</tr>
+<tr>
+  <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     8</td>  
+</tr>
+<tr>
+  <th>Date:</th>            <td>Mon, 09 Oct 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.2646</td>  
+</tr>
+<tr>
+  <th>Time:</th>                <td>11:10:17</td>     <th>  Log-Likelihood:    </th> <td> -273.07</td> 
+</tr>
+<tr>
+  <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -371.29</td> 
+</tr>
+<tr>
+  <th>Covariance Type:</th>     <td>nonrobust</td>    <th>  LLR p-value:       </th> <td>3.567e-38</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+    <td></td>       <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th> <td>   -0.8721</td> <td>    0.111</td> <td>   -7.853</td> <td> 0.000</td> <td>   -1.090</td> <td>   -0.654</td>
+</tr>
+<tr>
+  <th>0</th>     <td>    0.3975</td> <td>    0.123</td> <td>    3.230</td> <td> 0.001</td> <td>    0.156</td> <td>    0.639</td>
+</tr>
+<tr>
+  <th>1</th>     <td>    1.1319</td> <td>    0.138</td> <td>    8.191</td> <td> 0.000</td> <td>    0.861</td> <td>    1.403</td>
+</tr>
+<tr>
+  <th>2</th>     <td>   -0.2824</td> <td>    0.111</td> <td>   -2.543</td> <td> 0.011</td> <td>   -0.500</td> <td>   -0.065</td>
+</tr>
+<tr>
+  <th>3</th>     <td>   -0.0432</td> <td>    0.129</td> <td>   -0.336</td> <td> 0.737</td> <td>   -0.295</td> <td>    0.209</td>
+</tr>
+<tr>
+  <th>4</th>     <td>   -0.0835</td> <td>    0.127</td> <td>   -0.658</td> <td> 0.510</td> <td>   -0.332</td> <td>    0.165</td>
+</tr>
+<tr>
+  <th>5</th>     <td>    0.7206</td> <td>    0.138</td> <td>    5.214</td> <td> 0.000</td> <td>    0.450</td> <td>    0.991</td>
+</tr>
+<tr>
+  <th>6</th>     <td>    0.1972</td> <td>    0.111</td> <td>    1.781</td> <td> 0.075</td> <td>   -0.020</td> <td>    0.414</td>
+</tr>
+<tr>
+  <th>7</th>     <td>    0.1623</td> <td>    0.126</td> <td>    1.286</td> <td> 0.198</td> <td>   -0.085</td> <td>    0.410</td>
+</tr>
+</table>
+
+<h3 id="run-the-model-on-the-test-set-and-build-a-confusion-matrix">Run the model on the test set, and build a confusion matrix</h3>
+<p>Review the model summary above. How is it different from the regression summary we examined earlier?  How do we know the model is doing its job?  </p>
+<p>Next, we evaluate the model by studying the confusion matrix and the classification report.  Below, we use a threshold of 0.50 to classify disease as 1 or 0. By moving this threshold around, you can control the instance of false positives and false negatives.</p>
+<pre><code class="language-python"># Create predictions.  Note that predictions give us probabilities, not classes!
+pred_prob = model.predict(X_test)
+
+# Set threshold for identifying class 1
+threshold = 0.50
+
+# Convert probabilities to 1s and 0s based on threshold
+pred = (pred_prob&gt;threshold).astype(int)
+
+# confusion matrix
+cm = confusion_matrix(y_test, pred)
+print (&quot;Confusion Matrix : \n&quot;, cm)
+
+# accuracy score of the model
+print('Test accuracy = ', accuracy_score(y_test, pred))
+</code></pre>
+<pre><code>Confusion Matrix : 
+ [[109  14]
+ [ 29  40]]
+Test accuracy =  0.7760416666666666
+</code></pre>
+<pre><code class="language-python">cm = confusion_matrix(y_test, pred)
+pd.DataFrame(cm, columns=['Predicted 0', 'Predicted 1'], index = ['Actual 0', 'Actual 1'])
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Predicted 0</th>
+      <th>Predicted 1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Actual 0</th>
+      <td>109</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>Actual 1</th>
+      <td>29</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">ConfusionMatrixDisplay.from_predictions(y_test, pred)
+</code></pre>
+<pre><code>&lt;sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x1ed8e46ca90&gt;
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_111_1.png" /></p>
+<pre><code class="language-python">print(classification_report(y_true = y_test, y_pred = pred))
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.79      0.89      0.84       123
+           1       0.74      0.58      0.65        69
+
+    accuracy                           0.78       192
+   macro avg       0.77      0.73      0.74       192
+weighted avg       0.77      0.78      0.77       192
+</code></pre>
+<pre><code class="language-python"># See what predicted probabilities look like
+pred_prob
+</code></pre>
+<pre><code>285    0.428174
+101    0.317866
+581    0.148071
+352    0.048148
+726    0.209056
+         ...   
+247    0.759754
+189    0.362025
+139    0.205588
+518    0.244546
+629    0.061712
+Length: 192, dtype: float64
+</code></pre>
+<pre><code class="language-python"># A histogram of probabilities.  Why not?
+pred_prob.hist(bins=40)
+</code></pre>
+<pre><code>&lt;Axes: &gt;
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_114_1.png" /></p>
+<h3 id="predict-a-new-case">Predict a new case</h3>
+<p>Next time when a new patient comes in, you can predict with 77.6% accuracy the incidence of disease based on other things you know about them.</p>
+<p>Use <code>model.predict(X)</code>, where <script type="math/tex">X</script> is the vector of the attributes of the new patient.</p>
+<p>Remember to scale <script type="math/tex">X</script> first using the preprocessing step of standardization by using the same scaler we had set up earlier (as to use the same <script type="math/tex">\mu</script> and <script type="math/tex">\sigma</script>)!  </p>
+<p>We get a probability estimate of about 5.6%, which we can evaluate based on our threshold.  </p>
+<pre><code class="language-python"># let us see what our original data looks like
+df.sample(1)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pregnancies</th>
+      <th>Glucose</th>
+      <th>BloodPressure</th>
+      <th>SkinThickness</th>
+      <th>Insulin</th>
+      <th>BMI</th>
+      <th>DiabetesPedigreeFunction</th>
+      <th>Age</th>
+      <th>Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>57</th>
+      <td>0</td>
+      <td>100</td>
+      <td>88</td>
+      <td>60</td>
+      <td>110</td>
+      <td>46.8</td>
+      <td>0.962</td>
+      <td>31</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Also let us see what our model consumes
+X_test.sample(1)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>527</th>
+      <td>1.0</td>
+      <td>-0.250952</td>
+      <td>-0.153185</td>
+      <td>0.253036</td>
+      <td>-0.347291</td>
+      <td>0.218813</td>
+      <td>-0.722498</td>
+      <td>-1.10197</td>
+      <td>-0.786286</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Let us now create a dataframe with a new case with imaginary values
+
+new_case = pd.DataFrame({'Pregnancies': [1],
+                        'Glucose':[100],
+                        'BloodPressure': [110],
+                        'SkinThickness': [40],
+                        'Insulin': [145],
+                        'BMI': [25],
+                        'DiabetesPedigreeFunction': [0.8],
+                        'Age': [52]})
+new_case
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pregnancies</th>
+      <th>Glucose</th>
+      <th>BloodPressure</th>
+      <th>SkinThickness</th>
+      <th>Insulin</th>
+      <th>BMI</th>
+      <th>DiabetesPedigreeFunction</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>100</td>
+      <td>110</td>
+      <td>40</td>
+      <td>145</td>
+      <td>25</td>
+      <td>0.8</td>
+      <td>52</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Remember to scale the data using the scaler defined earlier
+
+X_new = scaler.transform(new_case)
+
+# Next, insert a first column for constant=1
+X_new = np.insert(X_new,0, 1)
+</code></pre>
+<pre><code class="language-python"># Our new data on which to predict looks like this: 
+
+X_new
+</code></pre>
+<pre><code>array([ 1.        , -0.84488505, -0.65393918,  2.11415525,  1.22091023,
+        0.56612934, -0.88749274,  0.99097251,  1.59617091])
+</code></pre>
+<pre><code class="language-python"># We can now predict to see the probability of disease in this new case
+
+model.predict(X_new)
+</code></pre>
+<pre><code>array([0.05570774])
+</code></pre>
+<h3 id="auc-and-roc-calculation">AUC and ROC calculation</h3>
+<pre><code class="language-python"># AUC calculation
+metrics.roc_auc_score(y_test, pred_prob)
+</code></pre>
+<pre><code>0.8502415458937198
+</code></pre>
+<pre><code class="language-python"># Source for code below: https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
+fpr, tpr, thresholds = metrics.roc_curve(y_test, pred_prob)
+roc_auc = metrics.auc(fpr, tpr)
+plt.figure(figsize = (9,8))
+plt.title('Receiver Operating Characteristic')
+plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+plt.legend(loc = 'lower right')
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0, 1])
+plt.ylim([0, 1])
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+plt.show()
+
+
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_124_0.png" /></p>
+<pre><code class="language-python"># Source for code below: https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python
+fpr, tpr, thresholds = metrics.roc_curve(y_test, pred_prob)
+roc_auc = metrics.auc(fpr, tpr)
+plt.figure(figsize = (9,8))
+plt.title('Receiver Operating Characteristic')
+plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
+plt.legend(loc = 'lower right')
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0, 1])
+plt.ylim([0, 1])
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+for i, txt in enumerate(thresholds):
+    plt.annotate(text = round(txt,3), xy = (fpr[i], tpr[i]),  
+                 xytext=(-45, 0), textcoords='offset points',
+                 arrowprops=dict(arrowstyle=&quot;-&gt;&quot;), color='green',fontsize=8)
+plt.show()
+
+
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_125_0.png" /></p>
+<pre><code class="language-python">pd.DataFrame({'TPR': tpr, 'FPR': fpr, 'Threshold': thresholds}).sort_values(by = ['Threshold']).reset_index(drop=True)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TPR</th>
+      <th>FPR</th>
+      <th>Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.007175</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.000000</td>
+      <td>0.983740</td>
+      <td>0.012744</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.985507</td>
+      <td>0.983740</td>
+      <td>0.013068</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.985507</td>
+      <td>0.967480</td>
+      <td>0.018312</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.971014</td>
+      <td>0.967480</td>
+      <td>0.021612</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.971014</td>
+      <td>0.609756</td>
+      <td>0.133697</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.927536</td>
+      <td>0.609756</td>
+      <td>0.142601</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.927536</td>
+      <td>0.528455</td>
+      <td>0.161013</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.913043</td>
+      <td>0.528455</td>
+      <td>0.178360</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.913043</td>
+      <td>0.471545</td>
+      <td>0.201957</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.898551</td>
+      <td>0.471545</td>
+      <td>0.204355</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.898551</td>
+      <td>0.414634</td>
+      <td>0.229368</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.884058</td>
+      <td>0.414634</td>
+      <td>0.233658</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.884058</td>
+      <td>0.325203</td>
+      <td>0.272242</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.869565</td>
+      <td>0.325203</td>
+      <td>0.275499</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.869565</td>
+      <td>0.284553</td>
+      <td>0.283386</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.826087</td>
+      <td>0.284553</td>
+      <td>0.298225</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.826087</td>
+      <td>0.235772</td>
+      <td>0.315672</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.811594</td>
+      <td>0.235772</td>
+      <td>0.316882</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.811594</td>
+      <td>0.186992</td>
+      <td>0.331539</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.797101</td>
+      <td>0.186992</td>
+      <td>0.335884</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.797101</td>
+      <td>0.178862</td>
+      <td>0.341980</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.782609</td>
+      <td>0.178862</td>
+      <td>0.346000</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0.782609</td>
+      <td>0.170732</td>
+      <td>0.362025</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0.753623</td>
+      <td>0.170732</td>
+      <td>0.373144</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0.753623</td>
+      <td>0.154472</td>
+      <td>0.379556</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0.637681</td>
+      <td>0.154472</td>
+      <td>0.419714</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0.637681</td>
+      <td>0.138211</td>
+      <td>0.431014</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0.608696</td>
+      <td>0.138211</td>
+      <td>0.450222</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0.608696</td>
+      <td>0.113821</td>
+      <td>0.482765</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>0.565217</td>
+      <td>0.113821</td>
+      <td>0.551113</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>0.565217</td>
+      <td>0.105691</td>
+      <td>0.596950</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>0.536232</td>
+      <td>0.105691</td>
+      <td>0.609567</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>0.536232</td>
+      <td>0.089431</td>
+      <td>0.623075</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>0.507246</td>
+      <td>0.089431</td>
+      <td>0.637728</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>0.507246</td>
+      <td>0.056911</td>
+      <td>0.660482</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>0.478261</td>
+      <td>0.056911</td>
+      <td>0.681649</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>0.478261</td>
+      <td>0.048780</td>
+      <td>0.686627</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>0.420290</td>
+      <td>0.048780</td>
+      <td>0.700065</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>0.420290</td>
+      <td>0.040650</td>
+      <td>0.704860</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>0.333333</td>
+      <td>0.040650</td>
+      <td>0.736029</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>0.333333</td>
+      <td>0.032520</td>
+      <td>0.742282</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>0.246377</td>
+      <td>0.032520</td>
+      <td>0.759754</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>0.246377</td>
+      <td>0.008130</td>
+      <td>0.764586</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>0.202899</td>
+      <td>0.008130</td>
+      <td>0.792743</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>0.202899</td>
+      <td>0.000000</td>
+      <td>0.833885</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>0.014493</td>
+      <td>0.000000</td>
+      <td>0.984072</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>inf</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h4 id="format-the-confusion-matrix-for-readability">Format the confusion matrix for readability</h4>
+<pre><code class="language-python">cm_clean = pd.DataFrame(cm, index = np.unique(y_test), columns = np.unique(pred))
+cm_clean.index = pd.MultiIndex.from_arrays([['Actual'] * len(cm_clean.index), cm_clean.index], names=(None,None))
+cm_clean.columns = pd.MultiIndex.from_arrays([['Predicted'] * len(cm_clean.columns), cm_clean.columns], names=(None,None))
+cm_clean
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">Predicted</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Actual</th>
+      <th>0</th>
+      <td>109</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>29</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="extra-create-model-using-the-sklearn-library">EXTRA - Create model using the sklearn library</h3>
+<pre><code class="language-python"># For running this, you need to convert all column names to be strings first
+X_train.columns = [str(p) for p in X_train.columns]
+X_test.columns = [str(p) for p in X_test.columns]
+</code></pre>
+<pre><code class="language-python">from sklearn.linear_model import LogisticRegression
+logisticRegr = LogisticRegression()
+logisticRegr.fit(X_train, y_train)
+predictions = logisticRegr.predict(X_test)
+# Use score method to get accuracy of model
+score = logisticRegr.score(X_test, y_test)
+print(score)
+</code></pre>
+<pre><code>0.7760416666666666
+</code></pre>
+<pre><code class="language-python">predictions
+</code></pre>
+<pre><code>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0,
+       1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+       0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,
+       0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0,
+       0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+       1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0,
+       1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0], dtype=int64)
+</code></pre>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn import metrics
+
+cm = metrics.confusion_matrix(y_test, predictions)
+plt.figure(figsize=(9,9))
+sns.heatmap(cm, annot=True, fmt=&quot;.3f&quot;, linewidths=.5, square = True, cmap = 'Blues_r');
+plt.ylabel('Actual label');
+plt.xlabel('Predicted label');
+all_sample_title = 'Accuracy Score: {0}'.format(score)
+plt.title(all_sample_title, size = 15);
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_133_0.png" /></p>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<hr />
+<h3 id="end-here">End here</h3>
+<hr />
+<pre><code class="language-python">
+</code></pre>
+<hr />
+<h2 id="visualizing-logistic-regression">Visualizing Logistic Regression</h2>
+<pre><code class="language-python"># Plotting Probability vs Odds
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.DataFrame({'Probability': np.arange(0,1, 0.01), \
+                   'Odds':np.arange(0,1., 0.01) / \
+                   (1-np.arange(0,1., 0.01)) })
+sns.lineplot(data = df, x = 'Odds', y = 'Probability');
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_146_0.png" /></p>
+<pre><code class="language-python"># Plotting log-odds
+# We add a very tiny number, 1e-15 (10 to the power -15) to avoid the divide by zero error for the log function
+plt.xlim(-5,5)
+sns.lineplot(data = df, x = np.log(df['Odds'] + 1e-15), 
+             y = 'Probability',)
+plt.xlabel(&quot;Log-Odds&quot;);
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_147_0.png" /></p>
+<hr />
+<p><strong>Regression Discussion Ends here</strong>  </p>
+<hr />
+<h2 id="generating-correlated-variables">Generating correlated variables</h2>
+<pre><code class="language-python">### Generating correlated variables
+### Specify the mean of the two variables (mean),
+### Then the correlation between them (corr),
+### and finally, the standard deviation of each of them (stdev).
+### Also specify the number of observations needed (size).
+
+### Update the below three lines
+mean = np.array([2,4])
+corr = np.array([.75])
+stdev = np.array([1, 1.5])
+size = 100
+
+### Generate the nu,bers
+cov = np.prod(stdev)*corr
+cov_matrix = np.array([[stdev[0]**2, cov[0]],
+                      [cov[0], stdev[1]**2]], dtype = 'float')
+
+df = np.random.multivariate_normal(mean= mean, cov=cov_matrix, size=size)
+df = pd.DataFrame(df, columns = ['x', 'y'])
+# sns.scatterplot(data=df, x = df.iloc[:,0], y=df.iloc[:,1])
+sns.lmplot(data=df, x = &quot;x&quot;, y=&quot;y&quot;, line_kws={&quot;lw&quot;:1,&quot;alpha&quot;: .5, &quot;color&quot;:&quot;black&quot;}, ci=1)
+print('Correlation matrix\n',df.corr())
+print(df.describe())
+print('\n', stats.linregress(x = df['x'], y = df['y']))
+</code></pre>
+<pre><code>Correlation matrix
+           x         y
+x  1.000000  0.674776
+y  0.674776  1.000000
+                x           y
+count  100.000000  100.000000
+mean     1.951571    4.113860
+std      0.889982    1.307528
+min     -0.248931    1.448414
+25%      1.414760    3.027437
+50%      1.948933    4.007710
+75%      2.448277    4.990499
+max      3.776177    7.698143
+
+ LinregressResult(slope=0.9913551037238383, intercept=2.179160237385691, rvalue=0.674776046612476, pvalue=1.3862196337186816e-14, stderr=0.10952825894875075, intercept_stderr=0.23472739741968757)
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_149_1.png" /></p>
+<pre><code class="language-python">### Update the below three lines
+mean = np.array([2,4])
+corr = np.array([.95])
+stdev = np.array([1, 1.5])
+size = 100
+
+### Generate the numbers
+cov = np.prod(stdev)*corr
+cov_matrix = np.array([[stdev[0]**2, cov[0]],
+                      [cov[0], stdev[1]**2]], dtype = 'float')
+
+df = np.random.multivariate_normal(mean= mean, cov=cov_matrix, size=size)
+df = pd.DataFrame(df, columns = ['x', 'y'])
+# sns.scatterplot(data=df, x = df.iloc[:,0], y=df.iloc[:,1])
+sns.lmplot(data=df, x = &quot;x&quot;, y=&quot;y&quot;, line_kws={&quot;lw&quot;:1,&quot;alpha&quot;: .5, &quot;color&quot;:&quot;black&quot;},ci=1)
+print('Correlation matrix\n',df.corr())
+print(df.describe())
+print('\n', stats.linregress(x = df['x'], y = df['y']))
+</code></pre>
+<pre><code>Correlation matrix
+           x         y
+x  1.000000  0.938708
+y  0.938708  1.000000
+                x           y
+count  100.000000  100.000000
+mean     1.941827    3.909270
+std      0.891419    1.264443
+min     -0.538156    1.071548
+25%      1.280355    3.076545
+50%      1.951114    3.949149
+75%      2.577518    4.662989
+max      4.048922    7.232895
+
+ LinregressResult(slope=1.3315207519102974, intercept=1.3236862821400872, rvalue=0.9387084455256821, pvalue=4.007268726355597e-47, stderr=0.04939247007849392, intercept_stderr=0.10544308813782269)
+</code></pre>
+<p><img alt="png" src="../07_Regression_files/07_Regression_150_1.png" /></p>
+<pre><code class="language-python">model2 = sm.OLS(endog = df.y, exog = sm.add_constant(df.x), hasconst=True).fit()
+model2.mse_resid**.5
+model2.summary()
+</code></pre>
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.881</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.880</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   726.7</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 09 Oct 2023</td> <th>  Prob (F-statistic):</th> <td>4.01e-47</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>11:10:22</td>     <th>  Log-Likelihood:    </th> <td> -58.350</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>   100</td>      <th>  AIC:               </th> <td>   120.7</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    98</td>      <th>  BIC:               </th> <td>   125.9</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+    <td></td>       <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th> <td>    1.3237</td> <td>    0.105</td> <td>   12.554</td> <td> 0.000</td> <td>    1.114</td> <td>    1.533</td>
+</tr>
+<tr>
+  <th>x</th>     <td>    1.3315</td> <td>    0.049</td> <td>   26.958</td> <td> 0.000</td> <td>    1.234</td> <td>    1.430</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 1.095</td> <th>  Durbin-Watson:     </th> <td>   2.127</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.578</td> <th>  Jarque-Bera (JB):  </th> <td>   1.171</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td>-0.186</td> <th>  Prob(JB):          </th> <td>   0.557</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.623</td> <th>  Cond. No.          </th> <td>    6.10</td>
+</tr>
+</table>
+<p>Notes:[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</p>
+<pre><code class="language-python">
+</code></pre>
+<p><br/><br/><br/></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../06_Recommender_Systems/" class="btn btn-neutral float-left" title="Recommender Systems"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../08_Feature_Engineering/" class="btn btn-neutral float-right" title="Feature Engineering">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../06_Recommender_Systems/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../08_Feature_Engineering/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
