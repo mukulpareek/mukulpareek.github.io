@@ -1,0 +1,6523 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Time Series - Business Analytics, Mukul Pareek</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Time Series";
+        var mkdocs_page_input_path = "11_Time_Series.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Business Analytics, Mukul Pareek
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction to Business Analytics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../02_Exploratory_Data_Analysis/">Exploratory Data Analysis</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../03_Visualization_Basics/">Visualization Basics</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../04_Data_Preparation/">Data Preparation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../05_Introduction_to_Modeling/">Introduction to Modeling</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../06_Recommender_Systems/">Recommender Systems</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../07_Regression/">Regression</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../08_Feature_Engineering/">Feature Engineering</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../09_Machine_Learning/">Machine Learning</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../10_Deep_Learning/">Deep Learning</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Time Series</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#data-exploration">Data Exploration</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#resampling">Resampling</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filtering-time-series">Filtering time series</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#plot-by-month-and-quarter">Plot by month and quarter</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ets-decomposition">ETS Decomposition</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#multiplicative">Multiplicative</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additive">Additive</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#moving-average-and-exponentially-weighted-moving-average">Moving Average and Exponentially Weighted Moving Average</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#stationarity">Stationarity</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dickey-fuller-test-for-stationarity">Dickey Fuller Test for Stationarity</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#auto-correlation-and-partial-auto-correlation-acf-and-pacf-plots">Auto-Correlation and Partial Auto-Correlation (ACF and PACF plots)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#granger-causality-tests">Granger Causality Tests</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#forecasting-with-simple-exponential-smoothing-holt-and-holt-winters-method">Forecasting with Simple Exponential Smoothing, Holt and Holt-Winters Method</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#simple-exponential-smoothing-same-as-ewma">Simple Exponential Smoothing (same as EWMA)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#double-exponential-smoothing">Double Exponential Smoothing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#triple-exponential-smoothing">Triple Exponential Smoothing</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arima-auto-regressive-integrated-moving-average">ARIMA - Auto Regressive Integrated Moving Average</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#use-auto-arima-to-find-out-order">Use Auto ARIMA to find out order</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#seasonal-arima-sarima">Seasonal ARIMA - SARIMA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sarimax">SARIMAX</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#data-exploration_1">Data exploration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#train-test-split">Train-test split</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#first-let-us-try-sarima-ignoring-temperature">First, let us try SARIMA, ignoring temperature</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#let-us-use-sarimax-seasonal-arima-with-exogenous-variable">Let us use SARIMAX - Seasonal ARIMA with eXogenous Variable</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fb-prophet">FB Prophet</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#modeling-daily-data-with-prophet">Modeling Daily Data with Prophet</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#deep-learning-timeseries-prediction-using-rnns">Deep Learning - Timeseries prediction using RNNs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#create-sequences">Create Sequences</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#create-the-model">Create the Model</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#evaluate-on-test-data">Evaluate on Test Data</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#which-method-performed-best">Which method performed best?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#experiment-can-we-predict-the-sp500">Experiment - Can we predict the S&amp;P500</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../12_Text_Data/">Text as Data</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.1_Transformers_and_LLMs/">Transformers and LLMs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.2_OpenAI/">OpenAI</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../13.3_Local_LLMs/">Local LLMs</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Business Analytics, Mukul Pareek</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Time Series</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="time-series-analysis">Time Series Analysis</h1>
+<p><strong>Introduction</strong><br />
+The objective of time series analysis is to uncover a pattern in a time series and then extrapolate the pattern into the future.  Being able to forecast the future is the essence of time series analysis.  </p>
+<p>The forecast is based solely on past values of the variable and/or on past forecast errors.  </p>
+<p><strong>Why forecast?</strong><br />
+Forecasting applies to many business situations: forecasting demand with a view to make capacity build-out decision, staff scheduling in a call center, understanding the demand for credit, determining the inventory to order in anticipation of demand, etc.  Forecast timescales may differ based on needs: some situations require forecasting years ahead, while others may require forecasts for the next day, or the even the next minute.  </p>
+<p><strong>What is a time series?</strong><br />
+A time series is a sequence of observations on a variable measured at successive points in time or over successive periods of time.  </p>
+<p>The measurements may be taken every hour, day, week, month, year, or any other regular interval. The pattern of the data is important in understanding the series’ past behavior.  </p>
+<p>If the behavior of the times series data of the past is expected to continue in the future, it can be used as a guide in selecting an appropriate forecasting method.  </p>
+<p>Let us look at an example.</p>
+<p><em><strong>As usual, some library imports first</strong></em></p>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams['figure.figsize'] = (20, 9)
+</code></pre>
+<p><strong>Loading the data</strong></p>
+<p>Let us load some data: https://data.seattle.gov/Transportation/Fremont-Bridge-Bicycle-Counter/65db-xm6k.  </p>
+<p><img alt="image.png" src="../11_Time_Series_files/e8405c1a-ff62-46fb-9007-5a631812fe5a.png" />  </p>
+<p>This is a picture of the bridge.  The second picture shows the bicycle counter.  </p>
+<p><img alt="image.png" src="../11_Time_Series_files/dd21adcb-383e-44cc-b89c-dd13befd8f9a.png" />
+(Photo retrieved from a Google search, credit: Jason H, 2020))  </p>
+<p><img alt="image.png" src="../11_Time_Series_files/0d82d8bd-bc36-4da1-9df2-10c763a1a443.png" /><br />
+(Photo retrieved from: http://www.sheridestoday.com/blog/2015/12/21/fremont-bridge-bike-counter)</p>
+<pre><code class="language-python"># Load the data
+# You can get more information on this dataset at 
+# https://data.seattle.gov/Transportation/Fremont-Bridge-Bicycle-Counter/65db-xm6k
+
+df = pd.read_csv('https://data.seattle.gov/api/views/65db-xm6k/rows.csv')
+</code></pre>
+<pre><code class="language-python"># Review the column names
+df.columns
+</code></pre>
+<pre><code>Index(['Date', 'Fremont Bridge Sidewalks, south of N 34th St',
+       'Fremont Bridge Sidewalks, south of N 34th St Cyclist East Sidewalk',
+       'Fremont Bridge Sidewalks, south of N 34th St Cyclist West Sidewalk'],
+      dtype='object')
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist East Sidewalk</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist West Sidewalk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>08/01/2022 12:00:00 AM</td>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>08/01/2022 01:00:00 AM</td>
+      <td>12.0</td>
+      <td>5.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>08/01/2022 02:00:00 AM</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>08/01/2022 03:00:00 AM</td>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>08/01/2022 04:00:00 AM</td>
+      <td>10.0</td>
+      <td>2.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95635</th>
+      <td>08/31/2023 07:00:00 PM</td>
+      <td>224.0</td>
+      <td>72.0</td>
+      <td>152.0</td>
+    </tr>
+    <tr>
+      <th>95636</th>
+      <td>08/31/2023 08:00:00 PM</td>
+      <td>142.0</td>
+      <td>59.0</td>
+      <td>83.0</td>
+    </tr>
+    <tr>
+      <th>95637</th>
+      <td>08/31/2023 09:00:00 PM</td>
+      <td>67.0</td>
+      <td>35.0</td>
+      <td>32.0</td>
+    </tr>
+    <tr>
+      <th>95638</th>
+      <td>08/31/2023 10:00:00 PM</td>
+      <td>43.0</td>
+      <td>18.0</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>95639</th>
+      <td>08/31/2023 11:00:00 PM</td>
+      <td>12.0</td>
+      <td>8.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>95640 rows × 4 columns</p>
+</div>
+
+<pre><code class="language-python"># df.to_excel('Bridge_crossing_data_07Nov2023.xlsx')
+</code></pre>
+<p>We have hourly data on bicycle crossings with three columns, Total = East + West sidewalks.  Our data is from 2012 all the way to July 2021, totaling 143k+ rows.  </p>
+<p>For doing time series analysis with Pandas, the data frame's index should be equal to the datetime for the row.</p>
+<p>For convenience, we also rename the column names to be ['Total', 'East', 'West'].  </p>
+<pre><code class="language-python"># Set the index of the time series
+df.index = pd.DatetimeIndex(df.Date)
+</code></pre>
+<pre><code class="language-python"># Now drop the Date column as it is a part of the index
+df.drop(columns='Date', inplace=True)
+</code></pre>
+<pre><code class="language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist East Sidewalk</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist West Sidewalk</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2022-08-01 00:00:00</th>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 01:00:00</th>
+      <td>12.0</td>
+      <td>5.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 02:00:00</th>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 03:00:00</th>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 04:00:00</th>
+      <td>10.0</td>
+      <td>2.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Rename the columns to make them simpler to use
+df.columns = ['Total', 'East', 'West']
+</code></pre>
+<h2 id="data-exploration">Data Exploration</h2>
+<pre><code class="language-python">df.shape
+</code></pre>
+<pre><code>(95640, 3)
+</code></pre>
+<pre><code class="language-python"># Check the maximum and the minimum dates in our data
+print(df.index.max())
+print(df.index.min())
+</code></pre>
+<pre><code>2023-08-31 23:00:00
+2012-10-03 00:00:00
+</code></pre>
+<pre><code class="language-python"># Let us drop NaN values
+df.dropna(inplace=True)
+df.shape
+</code></pre>
+<pre><code>(95614, 3)
+</code></pre>
+<pre><code class="language-python"># Let us look at some sample rows
+df.head(10)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2022-08-01 00:00:00</th>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 01:00:00</th>
+      <td>12.0</td>
+      <td>5.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 02:00:00</th>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 03:00:00</th>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 04:00:00</th>
+      <td>10.0</td>
+      <td>2.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 05:00:00</th>
+      <td>27.0</td>
+      <td>5.0</td>
+      <td>22.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 06:00:00</th>
+      <td>100.0</td>
+      <td>43.0</td>
+      <td>57.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 07:00:00</th>
+      <td>219.0</td>
+      <td>90.0</td>
+      <td>129.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 08:00:00</th>
+      <td>335.0</td>
+      <td>143.0</td>
+      <td>192.0</td>
+    </tr>
+    <tr>
+      <th>2022-08-01 09:00:00</th>
+      <td>212.0</td>
+      <td>85.0</td>
+      <td>127.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># We plot the data 
+# Pandas knows that this is a time-series, and creates the right plot
+
+df.plot(kind = 'line',figsize=(12,6));
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_17_0.png" /></p>
+<pre><code class="language-python"># Let us look at just the first 200 data points
+
+title='Bicycle Crossings'
+ylabel='Count'
+xlabel='Date'
+
+
+ax = df.iloc[:200,:].plot(figsize=(18,6),title=title)
+ax.autoscale(axis='x',tight=True)
+ax.set(xlabel=xlabel, ylabel=ylabel);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_18_0.png" /></p>
+<h3 id="resampling">Resampling</h3>
+<p><code>resample()</code> is a time-based groupby pandas has a simple, powerful, and efficient functionality for performing resampling operations during frequency conversion (e.g., converting secondly data into 5-minutely data). This is extremely common in, but not limited to, financial applications.  </p>
+<p>The resample function is very flexible and allows you to specify many different parameters to control the frequency conversion and resampling operation.  </p>
+<p>Many functions are available as a method of the returned object, including sum, mean, std, sem, max, min, median, first, last, ohlc.  </p>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td>business day frequency</td>
+</tr>
+<tr>
+<td>D</td>
+<td>calendar day frequency</td>
+</tr>
+<tr>
+<td>W</td>
+<td>weekly frequency</td>
+</tr>
+<tr>
+<td>M</td>
+<td>month end frequency</td>
+</tr>
+<tr>
+<td>SM</td>
+<td>semi-month end frequency (15th and end of month)</td>
+</tr>
+<tr>
+<td>BM</td>
+<td>business month end frequency</td>
+</tr>
+<tr>
+<td>MS</td>
+<td>month start frequency</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>quarter end frequency</td>
+</tr>
+<tr>
+<td>A, Y</td>
+<td>year end frequency</td>
+</tr>
+<tr>
+<td>H</td>
+<td>hourly frequency</td>
+</tr>
+<tr>
+<td>T, min</td>
+<td>minutely frequency</td>
+</tr>
+<tr>
+<td>S</td>
+<td>secondly frequency</td>
+</tr>
+<tr>
+<td>N</td>
+<td>nanoseconds</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python"># Let us resample the data to be monthly
+
+df.resample(rule='M').sum().plot(figsize = (18,6));
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_20_0.png" /></p>
+<pre><code class="language-python"># Let us examine monthly data
+# We create a new monthly dataframe
+
+df_monthly = df.resample(rule='M').sum()
+</code></pre>
+<pre><code class="language-python"># Just to keep our analysis clean and be able to understand concepts,
+# we will limit ourselves to pre-Covid data
+
+df_precovid = df_monthly[df_monthly.index &lt; pd.to_datetime('2019-12-31')]
+</code></pre>
+<pre><code class="language-python">df_precovid.plot(figsize = (18,6));
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_23_0.png" /></p>
+<pre><code class="language-python"># We suppress some warnings pandas produces, more for 
+# visual cleanliness than any other reason
+
+pd.options.mode.chained_assignment = None 
+</code></pre>
+<pre><code class="language-python">df_monthly
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2012-10-31</th>
+      <td>65695.0</td>
+      <td>33764.0</td>
+      <td>31931.0</td>
+    </tr>
+    <tr>
+      <th>2012-11-30</th>
+      <td>50647.0</td>
+      <td>26062.0</td>
+      <td>24585.0</td>
+    </tr>
+    <tr>
+      <th>2012-12-31</th>
+      <td>36369.0</td>
+      <td>18608.0</td>
+      <td>17761.0</td>
+    </tr>
+    <tr>
+      <th>2013-01-31</th>
+      <td>44884.0</td>
+      <td>22910.0</td>
+      <td>21974.0</td>
+    </tr>
+    <tr>
+      <th>2013-02-28</th>
+      <td>50027.0</td>
+      <td>25898.0</td>
+      <td>24129.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2023-04-30</th>
+      <td>60494.0</td>
+      <td>23784.0</td>
+      <td>36710.0</td>
+    </tr>
+    <tr>
+      <th>2023-05-31</th>
+      <td>105039.0</td>
+      <td>40303.0</td>
+      <td>64736.0</td>
+    </tr>
+    <tr>
+      <th>2023-06-30</th>
+      <td>102158.0</td>
+      <td>38076.0</td>
+      <td>64082.0</td>
+    </tr>
+    <tr>
+      <th>2023-07-31</th>
+      <td>112791.0</td>
+      <td>43064.0</td>
+      <td>69727.0</td>
+    </tr>
+    <tr>
+      <th>2023-08-31</th>
+      <td>108541.0</td>
+      <td>38967.0</td>
+      <td>69574.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>131 rows × 3 columns</p>
+</div>
+
+<h3 id="filtering-time-series">Filtering time series</h3>
+<p>Source: https://pandas.pydata.org/docs/user_guide/timeseries.html#indexing</p>
+<p>Using the index for time series provides us the advantage of being able to filter easily by year or month.</p>
+<p>for example, you can do <code>df.loc['2017']</code> to list all observations for 2017, or <code>df.loc['2017-02']</code>, or <code>df.loc['2017-02-15']</code>.</p>
+<pre><code class="language-python">df.loc['2017-02-15']
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-02-15 00:00:00</th>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 01:00:00</th>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 02:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 03:00:00</th>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 04:00:00</th>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 05:00:00</th>
+      <td>18.0</td>
+      <td>8.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 06:00:00</th>
+      <td>60.0</td>
+      <td>45.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 07:00:00</th>
+      <td>188.0</td>
+      <td>117.0</td>
+      <td>71.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 08:00:00</th>
+      <td>262.0</td>
+      <td>152.0</td>
+      <td>110.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 09:00:00</th>
+      <td>147.0</td>
+      <td>68.0</td>
+      <td>79.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 10:00:00</th>
+      <td>49.0</td>
+      <td>25.0</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 11:00:00</th>
+      <td>23.0</td>
+      <td>13.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 12:00:00</th>
+      <td>12.0</td>
+      <td>7.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 13:00:00</th>
+      <td>22.0</td>
+      <td>9.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 14:00:00</th>
+      <td>17.0</td>
+      <td>2.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 15:00:00</th>
+      <td>47.0</td>
+      <td>22.0</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 16:00:00</th>
+      <td>99.0</td>
+      <td>29.0</td>
+      <td>70.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 17:00:00</th>
+      <td>272.0</td>
+      <td>54.0</td>
+      <td>218.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 18:00:00</th>
+      <td>181.0</td>
+      <td>48.0</td>
+      <td>133.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 19:00:00</th>
+      <td>76.0</td>
+      <td>16.0</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 20:00:00</th>
+      <td>43.0</td>
+      <td>14.0</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 21:00:00</th>
+      <td>15.0</td>
+      <td>5.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 22:00:00</th>
+      <td>16.0</td>
+      <td>6.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2017-02-15 23:00:00</th>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">df.loc['2018']
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-01-01 00:00:00</th>
+      <td>28.0</td>
+      <td>14.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 01:00:00</th>
+      <td>16.0</td>
+      <td>2.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 02:00:00</th>
+      <td>8.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 03:00:00</th>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-01-01 04:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 19:00:00</th>
+      <td>14.0</td>
+      <td>9.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 20:00:00</th>
+      <td>26.0</td>
+      <td>12.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 21:00:00</th>
+      <td>14.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 22:00:00</th>
+      <td>7.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>2018-12-31 23:00:00</th>
+      <td>13.0</td>
+      <td>7.0</td>
+      <td>6.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8759 rows × 3 columns</p>
+</div>
+
+<pre><code class="language-python">df.loc['2018-02']
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-02-01 00:00:00</th>
+      <td>8.0</td>
+      <td>2.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-01 01:00:00</th>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-01 02:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-01 03:00:00</th>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-01 04:00:00</th>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-02-28 19:00:00</th>
+      <td>77.0</td>
+      <td>17.0</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-28 20:00:00</th>
+      <td>35.0</td>
+      <td>7.0</td>
+      <td>28.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-28 21:00:00</th>
+      <td>32.0</td>
+      <td>14.0</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-28 22:00:00</th>
+      <td>13.0</td>
+      <td>2.0</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>2018-02-28 23:00:00</th>
+      <td>9.0</td>
+      <td>3.0</td>
+      <td>6.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>672 rows × 3 columns</p>
+</div>
+
+<p><strong>You can also use the regular methods for filtering date ranges</strong></p>
+<pre><code class="language-python">df[(df.index &gt; pd.to_datetime('1/31/2020')) &amp; (df.index &lt; pd.to_datetime('1/1/2022'))]
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2020-01-31 01:00:00</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2020-01-31 02:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2020-01-31 03:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2020-01-31 04:00:00</th>
+      <td>8.0</td>
+      <td>6.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2020-01-31 05:00:00</th>
+      <td>14.0</td>
+      <td>7.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2021-12-31 19:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2021-12-31 20:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2021-12-31 21:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2021-12-31 22:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2021-12-31 23:00:00</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>16821 rows × 3 columns</p>
+</div>
+
+<p><strong>Sometimes, the date may be contained in a column.</strong></p>
+<p>In such cases, we filter as follows:</p>
+<pre><code class="language-python"># We create a temporary dataframe to illustrate
+temporary_df = df.loc['2017-01'].copy()
+temporary_df.reset_index(inplace = True)
+temporary_df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2017-01-01 00:00:00</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2017-01-01 01:00:00</td>
+      <td>19.0</td>
+      <td>5.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2017-01-01 02:00:00</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2017-01-01 03:00:00</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2017-01-01 04:00:00</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>739</th>
+      <td>2017-01-31 19:00:00</td>
+      <td>116.0</td>
+      <td>27.0</td>
+      <td>89.0</td>
+    </tr>
+    <tr>
+      <th>740</th>
+      <td>2017-01-31 20:00:00</td>
+      <td>64.0</td>
+      <td>25.0</td>
+      <td>39.0</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>2017-01-31 21:00:00</td>
+      <td>32.0</td>
+      <td>19.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>742</th>
+      <td>2017-01-31 22:00:00</td>
+      <td>19.0</td>
+      <td>4.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>743</th>
+      <td>2017-01-31 23:00:00</td>
+      <td>15.0</td>
+      <td>6.0</td>
+      <td>9.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>744 rows × 4 columns</p>
+</div>
+
+<pre><code class="language-python">temporary_df['Date'].dt.day==2
+</code></pre>
+<pre><code>0      False
+1      False
+2      False
+3      False
+4      False
+       ...  
+739    False
+740    False
+741    False
+742    False
+743    False
+Name: Date, Length: 744, dtype: bool
+</code></pre>
+<pre><code class="language-python">temporary_df[temporary_df['Date'].dt.month == 1]
+
+# or use temporary_df['Date'].dt.day and year as well
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2017-01-01 00:00:00</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2017-01-01 01:00:00</td>
+      <td>19.0</td>
+      <td>5.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2017-01-01 02:00:00</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2017-01-01 03:00:00</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2017-01-01 04:00:00</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>739</th>
+      <td>2017-01-31 19:00:00</td>
+      <td>116.0</td>
+      <td>27.0</td>
+      <td>89.0</td>
+    </tr>
+    <tr>
+      <th>740</th>
+      <td>2017-01-31 20:00:00</td>
+      <td>64.0</td>
+      <td>25.0</td>
+      <td>39.0</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>2017-01-31 21:00:00</td>
+      <td>32.0</td>
+      <td>19.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>742</th>
+      <td>2017-01-31 22:00:00</td>
+      <td>19.0</td>
+      <td>4.0</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>743</th>
+      <td>2017-01-31 23:00:00</td>
+      <td>15.0</td>
+      <td>6.0</td>
+      <td>9.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>744 rows × 4 columns</p>
+</div>
+
+<h3 id="plot-by-month-and-quarter">Plot by month and quarter</h3>
+<pre><code class="language-python">from statsmodels.graphics.tsaplots import month_plot, quarter_plot
+</code></pre>
+<pre><code class="language-python"># Plot the months to see trends over months
+month_plot(df_precovid.Total);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_38_0.png" /></p>
+<pre><code class="language-python"># Plot the quarter to see trends over quarters
+quarter_plot(df_precovid.resample(rule='Q').Total.sum());
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_39_0.png" /></p>
+<h2 id="ets-decomposition">ETS Decomposition</h2>
+<p>When we decompose a time series, we are essentially expressing a belief that our data has several discrete components to it, each which can be isolated and studied separately.  </p>
+<p>Generally, time series data is split into 3 components: error, trend and seasonality (hence ‘ETS Decomposition’):<br />
+ 1. Seasonal component<br />
+ 2. Trend/cycle component<br />
+ 2. Residual, or error component which is not explained by the above two.  </p>
+<p><strong>Multiplicative vs Additive Decomposition</strong> <br />
+If we assume an additive decomposition, then we can write:  </p>
+<p>
+<script type="math/tex">y_t = S_t + T_t + R_t</script>
+<br />
+where <script type="math/tex">y_t</script> is the data,<br />
+- <script type="math/tex">S_t</script> is the seasonal component,<br />
+- <script type="math/tex">T_t</script> is the trend-cycle component, and<br />
+- <script type="math/tex">R_t</script> is the remainder component
+at time period <script type="math/tex">t</script>.</p>
+<p>A multiplicative decomposition would be similarly written<br />
+<script type="math/tex">y_t = S_t * T_t * R_t</script>
+</p>
+<p>The additive decomposition is the most appropriate if the magnitude of the seasonal fluctuations, or the variation around the trend-cycle, does not vary with the level of the time series.  </p>
+<p>When the variation in the seasonal pattern, or the variation around the trend-cycle, appears to be proportional to the level of the time series, then a multiplicative decomposition is more appropriate. Multiplicative decompositions are common with economic time series.  </p>
+<ul>
+<li>Components are additive when the components do not change over time, and  </li>
+<li>Components are multiplicative when their levels are changing with time. </li>
+</ul>
+<p><img alt="image.png" src="../11_Time_Series_files/a4fd8ac2-69e4-43b3-8791-418ae9d2ab7e.png" /></p>
+<h3 id="multiplicative">Multiplicative</h3>
+<p>The Statsmodels library gives us the functionality to decompose time series.  Below, we decompose the time series using multiplicative decomposition.   Let us spend a couple of moments looking at the chart below.  Note that the first panel, <strong>‘Total’</strong>, is the sum of the other three, ie Trend, Seasonal and Resid.</p>
+<pre><code class="language-python"># Now we decompose our time series
+
+import matplotlib.pyplot as plt
+from statsmodels.tsa.seasonal import seasonal_decompose
+
+# We use the multiplicative model
+
+result = seasonal_decompose(df_precovid['Total'], model = 'multiplicative') 
+plt.rcParams['figure.figsize'] = (20, 9)
+result.plot();
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_42_0.png" /></p>
+<pre><code class="language-python"># Each of the above components are contained in our `result`
+# object as trend, seasonal and error.
+# Let us put them in a dataframe
+ets = pd.DataFrame({'Total': df_precovid['Total'], 
+              'trend': result.trend, 
+              'seasonality': result.seasonal, 
+              'error': result.resid}).head(20)
+# ets.to_excel('ets_mul.xlsx')
+ets
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>trend</th>
+      <th>seasonality</th>
+      <th>error</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2012-10-31</th>
+      <td>65695.0</td>
+      <td>NaN</td>
+      <td>1.001160</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2012-11-30</th>
+      <td>50647.0</td>
+      <td>NaN</td>
+      <td>0.731912</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2012-12-31</th>
+      <td>36369.0</td>
+      <td>NaN</td>
+      <td>0.536130</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-01-31</th>
+      <td>44884.0</td>
+      <td>NaN</td>
+      <td>0.702895</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-02-28</th>
+      <td>50027.0</td>
+      <td>NaN</td>
+      <td>0.588604</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-03-31</th>
+      <td>66089.0</td>
+      <td>NaN</td>
+      <td>0.837828</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-04-30</th>
+      <td>71998.0</td>
+      <td>75386.958333</td>
+      <td>0.980757</td>
+      <td>0.973785</td>
+    </tr>
+    <tr>
+      <th>2013-05-31</th>
+      <td>108574.0</td>
+      <td>76398.625000</td>
+      <td>1.392398</td>
+      <td>1.020650</td>
+    </tr>
+    <tr>
+      <th>2013-06-30</th>
+      <td>99280.0</td>
+      <td>77057.250000</td>
+      <td>1.327268</td>
+      <td>0.970710</td>
+    </tr>
+    <tr>
+      <th>2013-07-31</th>
+      <td>117974.0</td>
+      <td>77981.125000</td>
+      <td>1.427836</td>
+      <td>1.059543</td>
+    </tr>
+    <tr>
+      <th>2013-08-31</th>
+      <td>104549.0</td>
+      <td>78480.583333</td>
+      <td>1.347373</td>
+      <td>0.988712</td>
+    </tr>
+    <tr>
+      <th>2013-09-30</th>
+      <td>80729.0</td>
+      <td>78247.375000</td>
+      <td>1.125840</td>
+      <td>0.916396</td>
+    </tr>
+    <tr>
+      <th>2013-10-31</th>
+      <td>81352.0</td>
+      <td>78758.291667</td>
+      <td>1.001160</td>
+      <td>1.031736</td>
+    </tr>
+    <tr>
+      <th>2013-11-30</th>
+      <td>59270.0</td>
+      <td>79796.916667</td>
+      <td>0.731912</td>
+      <td>1.014822</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>43553.0</td>
+      <td>80700.958333</td>
+      <td>0.536130</td>
+      <td>1.006629</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>59873.0</td>
+      <td>81297.708333</td>
+      <td>0.702895</td>
+      <td>1.047762</td>
+    </tr>
+    <tr>
+      <th>2014-02-28</th>
+      <td>47025.0</td>
+      <td>81740.875000</td>
+      <td>0.588604</td>
+      <td>0.977386</td>
+    </tr>
+    <tr>
+      <th>2014-03-31</th>
+      <td>63494.0</td>
+      <td>82772.958333</td>
+      <td>0.837828</td>
+      <td>0.915565</td>
+    </tr>
+    <tr>
+      <th>2014-04-30</th>
+      <td>86855.0</td>
+      <td>83550.500000</td>
+      <td>0.980757</td>
+      <td>1.059948</td>
+    </tr>
+    <tr>
+      <th>2014-05-31</th>
+      <td>118644.0</td>
+      <td>83531.833333</td>
+      <td>1.392398</td>
+      <td>1.020071</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Check if things work in the multiplicative model
+
+print('Total = ', 71998.0)
+print('Trend * Factor for Seasonality * Factor for Error =',75386.958333 * 0.980757 * 0.973785)
+
+</code></pre>
+<pre><code>Total =  71998.0
+Trend * Factor for Seasonality * Factor for Error = 71998.04732763417
+</code></pre>
+<h3 id="additive">Additive</h3>
+<p>We do the same thing as before, except that we change the model to be <code>additive</code>.</p>
+<pre><code class="language-python">result = seasonal_decompose(df_precovid['Total'], model = 'additive') 
+plt.rcParams['figure.figsize'] = (20, 9)
+result.plot();
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_46_0.png" /></p>
+<p>Here, an additive model seems to make sense. This is because the residuals seem to be better centered around zero.  </p>
+<p><strong>Obtaining the components numerically</strong><br />
+While this is great from a visual or graphical perspective, sometimes we may need to get the actual numbers for the three decomposed components.  We can do so easily - the code below provides us this data in a dataframe.</p>
+<pre><code class="language-python"># Each of the above components are contained in our `result`
+# object as trend, seasonal and error.
+# Let us put them in a dataframe
+ets = pd.DataFrame({'Total': df_precovid['Total'], 
+              'trend': result.trend, 
+              'seasonality': result.seasonal, 
+              'error': result.resid}).head(20)
+# ets.to_excel('ets_add.xlsx')
+ets
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>trend</th>
+      <th>seasonality</th>
+      <th>error</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2012-10-31</th>
+      <td>65695.0</td>
+      <td>NaN</td>
+      <td>315.920635</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2012-11-30</th>
+      <td>50647.0</td>
+      <td>NaN</td>
+      <td>-22171.933532</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2012-12-31</th>
+      <td>36369.0</td>
+      <td>NaN</td>
+      <td>-38436.746032</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-01-31</th>
+      <td>44884.0</td>
+      <td>NaN</td>
+      <td>-24517.440476</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-02-28</th>
+      <td>50027.0</td>
+      <td>NaN</td>
+      <td>-34696.308532</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-03-31</th>
+      <td>66089.0</td>
+      <td>NaN</td>
+      <td>-13329.627976</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2013-04-30</th>
+      <td>71998.0</td>
+      <td>75386.958333</td>
+      <td>-1536.224206</td>
+      <td>-1852.734127</td>
+    </tr>
+    <tr>
+      <th>2013-05-31</th>
+      <td>108574.0</td>
+      <td>76398.625000</td>
+      <td>32985.115079</td>
+      <td>-809.740079</td>
+    </tr>
+    <tr>
+      <th>2013-06-30</th>
+      <td>99280.0</td>
+      <td>77057.250000</td>
+      <td>26951.087302</td>
+      <td>-4728.337302</td>
+    </tr>
+    <tr>
+      <th>2013-07-31</th>
+      <td>117974.0</td>
+      <td>77981.125000</td>
+      <td>35276.733135</td>
+      <td>4716.141865</td>
+    </tr>
+    <tr>
+      <th>2013-08-31</th>
+      <td>104549.0</td>
+      <td>78480.583333</td>
+      <td>28635.517857</td>
+      <td>-2567.101190</td>
+    </tr>
+    <tr>
+      <th>2013-09-30</th>
+      <td>80729.0</td>
+      <td>78247.375000</td>
+      <td>10523.906746</td>
+      <td>-8042.281746</td>
+    </tr>
+    <tr>
+      <th>2013-10-31</th>
+      <td>81352.0</td>
+      <td>78758.291667</td>
+      <td>315.920635</td>
+      <td>2277.787698</td>
+    </tr>
+    <tr>
+      <th>2013-11-30</th>
+      <td>59270.0</td>
+      <td>79796.916667</td>
+      <td>-22171.933532</td>
+      <td>1645.016865</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>43553.0</td>
+      <td>80700.958333</td>
+      <td>-38436.746032</td>
+      <td>1288.787698</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>59873.0</td>
+      <td>81297.708333</td>
+      <td>-24517.440476</td>
+      <td>3092.732143</td>
+    </tr>
+    <tr>
+      <th>2014-02-28</th>
+      <td>47025.0</td>
+      <td>81740.875000</td>
+      <td>-34696.308532</td>
+      <td>-19.566468</td>
+    </tr>
+    <tr>
+      <th>2014-03-31</th>
+      <td>63494.0</td>
+      <td>82772.958333</td>
+      <td>-13329.627976</td>
+      <td>-5949.330357</td>
+    </tr>
+    <tr>
+      <th>2014-04-30</th>
+      <td>86855.0</td>
+      <td>83550.500000</td>
+      <td>-1536.224206</td>
+      <td>4840.724206</td>
+    </tr>
+    <tr>
+      <th>2014-05-31</th>
+      <td>118644.0</td>
+      <td>83531.833333</td>
+      <td>32985.115079</td>
+      <td>2127.051587</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">ets.describe()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>trend</th>
+      <th>seasonality</th>
+      <th>error</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>20.000000</td>
+      <td>14.000000</td>
+      <td>20.000000</td>
+      <td>14.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>72844.050000</td>
+      <td>79692.997024</td>
+      <td>-5069.362252</td>
+      <td>-284.346372</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>25785.957067</td>
+      <td>2640.000168</td>
+      <td>25620.440647</td>
+      <td>3935.011207</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>36369.000000</td>
+      <td>75386.958333</td>
+      <td>-38436.746032</td>
+      <td>-8042.281746</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>50492.000000</td>
+      <td>78047.687500</td>
+      <td>-24517.440476</td>
+      <td>-2388.509425</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>65892.000000</td>
+      <td>79277.604167</td>
+      <td>-7432.926091</td>
+      <td>634.610615</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>89961.250000</td>
+      <td>81630.083333</td>
+      <td>14630.701885</td>
+      <td>2240.103671</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>118644.000000</td>
+      <td>83550.500000</td>
+      <td>35276.733135</td>
+      <td>4840.724206</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>What is this useful for?</strong><br />
+ - Time series decomposition is primarily useful for studying time series data, and exploring historical trends over time.<br />
+ - It is also useful for calculating 'seasonally adjusted' numbers, which is really just the trend number. The trend has no seasonality.<br />
+ - Seasonally adjusted number = <script type="math/tex">y_t - S_t = T_t + R_t</script>
+ - Note that seasons are different from cycles.  Cycles have no fixed length, and we can never be sure of when they begin, peak and end.  The timing of cycles is unpredictable.  </p>
+<h2 id="moving-average-and-exponentially-weighted-moving-average">Moving Average and Exponentially Weighted Moving Average</h2>
+<p>Moving averages are an easy way to understand and describe time series.  </p>
+<p>By using a sliding window along which observations are averaged, they can suppress seasonality and noise, and expose the trend.  </p>
+<p>Moving averages are not generally used for forecasting, and don’t inform us about the future behavior of our time series.  Their huge advantage is they are simple to understand, and explain, and get to a high level view of what is in the data.</p>
+<p><strong>Simple Moving Averages</strong><br />
+Simple moving averages (SMA) tend to even out seasonality, and offer an easy way to examine the trend.  Consider the 6 month and 12 month moving averages in the graphic below.  SMAs are difficult to use for forecasting, and will lag by the window size.</p>
+<p><strong>Exponentially Weighted Moving Average (EWMA)</strong><br />
+EWMA is a more advanced method than SMA, and puts more weight on values that occurred more recently.  Forecasts produced using exponential smoothing methods are weighted averages of past observations, with the weights decaying exponentially as the observations get older. The more recent the observation, the higher the associated weight.  </p>
+<p>This framework generates reliable forecasts quickly and for a wide range of time series, which is a great advantage and of major importance to applications in industry.</p>
+<p>EWMA can be easily calculated using the <code>ewm()</code> function in pandas.  The parameter <code>adjust</code> controls how the EWMA term is calculated.  </p>
+<ul>
+<li>
+<p>When <code>adjust=True</code> (default), the EW function is calculated using weights <script type="math/tex">w_i = (1 - \alpha)^i</script>. For example, the EW moving average of the series [<script type="math/tex">x_0, x_1, ..., x_t</script>] would be: <script type="math/tex">y_t = \frac{x_t + (1 - \alpha)x_{t-1} + (1 - \alpha)^2 x_{t-2} + ... + (1 -
+\alpha)^t x_0}{1 + (1 - \alpha) + (1 - \alpha)^2 + ... + (1 - \alpha)^t}</script>
+</p>
+</li>
+<li>
+<p>When <code>adjust=False</code>, the exponentially weighted function is calculated recursively:<br />
+<script type="math/tex">
+<script type="math/tex; mode=display">\begin{split}\begin{split}
+y_0 &= x_0\\
+y_t &= (1 - \alpha) y_{t-1} + \alpha x_t,
+\end{split}</script>\end{split}</script>
+</p>
+</li>
+</ul>
+<p>(<em>Source: Pandas documentation at https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.ewm.html</em>)</p>
+<p>The alpha parameter can be specified in the formula in one of four ways:
+ - <strong>Alpha</strong> specifies the smoothing factor directly.  Specify smoothing factor <script type="math/tex">\alpha</script> directly <script type="math/tex">0 < \alpha \leq 1</script>
+ - <strong>Span</strong> corresponds to what is commonly called an "N-day Exponentially Weighted Moving Average".  Specify decay in terms of span
+<script type="math/tex">\alpha = 2 / (span + 1)</script> , for <script type="math/tex">span \geq 1</script>.<br />
+ - <strong>COM</strong> (Center of mass):   Specify decay in terms of center of mass
+<script type="math/tex">\alpha = 1 / (1 + com)</script> , for <script type="math/tex">com \geq 0</script>.
+ - <strong>Half-life</strong> is the period of time for the exponential weight to reduce to one half.  Specify decay in terms of half-life
+<script type="math/tex">\alpha = 1 - \exp\left(-\ln(2) / halflife\right)</script> , for <script type="math/tex">halflife > 0</script>.  If <code>times</code> is specified, the time unit (str or timedelta) over which an observation decays to half its value. Only applicable to <code>mean()</code>, and halflife value will not apply to the other functions.</p>
+<p>.</p>
+<pre><code class="language-python"># let us look at rolling averages &amp; EWM together
+
+new_df = df_precovid[['Total']]
+new_df['Moving_Avg_6m'] = new_df['Total'].rolling(window=6).mean()
+new_df['Moving_Avg_12m'] = new_df['Total'].rolling(window=12).mean()
+</code></pre>
+<pre><code class="language-python">new_df['EWMA12'] = new_df['Total'].ewm(span=12,adjust=False).mean() 
+
+# Note that available EW functions include mean(), var(), std(), corr(), cov().
+
+new_df.plot();
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_54_0.png" /></p>
+<pre><code class="language-python"># new_df.to_excel('temp.xlsx')
+</code></pre>
+<pre><code class="language-python">2/(12+1) 
+</code></pre>
+<pre><code>0.15384615384615385
+</code></pre>
+<p>In the graph above, the red line is the EWMA with span=12, or alpha=2/(12+1) ≈ 0.15.  </p>
+<p>EWMA has a single smoothing parameter, <script type="math/tex">\alpha</script>, and does not account for seasonality or trend.  It is only suitable for data with no clear trend or seasonal pattern.  </p>
+<p>Note that we haven’t talked about forecasting yet – that comes next.  We have so far only ‘fitted’ the EWMA model to a given time series.  Know that EWMA is just a weighted average, with more (or less, depending on alpha) weight to recent observations.</p>
+<hr />
+<h2 id="stationarity">Stationarity</h2>
+<p><strong>What is Stationarity?</strong><br />
+A stationary series has constant mean and variance over time.  Which means there is no trend, and no seasonality either.  Stationarity is important for forecasting time series because if the mean and variance are changing with the passage of time, any estimates using a regression model will start to drift very quickly as we forecast into the future.  </p>
+<p>If a time series is not stationary, we need to ‘difference’ it with itself so it becomes stationary.  Differencing means you subtract the previous observation from the current observation.  </p>
+<p><strong>How do we know if a series is stationary?</strong><br />
+ - We can examine stationarity by visually inspecting the time series.<br />
+ - Or, we can run a statistical test (The Augmented Dickey-Fuller test) to check for stationarity.  </p>
+<p>Fortunately, an ARIMA model takes care of most issues with non-stationarity for us and we do not need to adjust it.  However, if we are using ARMA, we do need to ensure that our series is stationary.  </p>
+<p>Let us look at two real time series to get a sense of stationarity.  We import some stock price data, and also look at stock price returns.  We just pick the S&amp;P500 index, though we could have picked any listed company.</p>
+<pre><code class="language-python"># Let us get some data.  We download the daily time series for the S&amp;P500 for 30 months
+import yfinance as yf
+SPY = yf.download('SPY', start = '2013-01-01', end = '2015-06-30')
+</code></pre>
+<pre><code>[*********************100%%**********************]  1 of 1 completed
+</code></pre>
+<pre><code class="language-python"># Clean up
+SPY.index = pd.DatetimeIndex(SPY.index) # Set index
+SPY = SPY.asfreq('B') # This creates rows for any missing dates
+SPY.fillna(method = 'bfill', inplace=True) # Fills missing dates with last observation
+</code></pre>
+<pre><code class="language-python">SPY.info()
+</code></pre>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+DatetimeIndex: 649 entries, 2013-01-02 to 2015-06-29
+Freq: B
+Data columns (total 6 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   Open       649 non-null    float64
+ 1   High       649 non-null    float64
+ 2   Low        649 non-null    float64
+ 3   Close      649 non-null    float64
+ 4   Adj Close  649 non-null    float64
+ 5   Volume     649 non-null    float64
+dtypes: float64(6)
+memory usage: 35.5 KB
+</code></pre>
+<p><strong>Example of stationary vs non-stationary time series</strong><br />
+The top panel shows stock returns, that appear to have a mean close to zero.  The bottom is stock prices, which appear to have a trend</p>
+<pre><code class="language-python">SPY['Returns'] = (SPY['Close'].shift(1) / SPY['Close']) - 1
+SPY[['Returns']].plot(figsize = (22,6));
+
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_63_0.png" /></p>
+<pre><code class="language-python">SPY[['Close']].plot(figsize = (22,6));
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_64_0.png" /></p>
+<p><strong>Making a series stationary</strong><br />
+If data is not stationary, ‘differencing’ can make it stationary.  Differencing is subtracting the prior observation from the current one.  </p>
+<p>
+<script type="math/tex">Difference_t = Observation_t - Observation_{t-1}</script>
+</p>
+<p>If the differenced time series is not stationary either, we can continue differencing till we get to a stationary time series.  </p>
+<p>The number of times we have to difference a time series to get to stationarity is the ‘order’ of differencing.  This reflects the <script type="math/tex">d</script> parameter in ARIMA.  </p>
+<p>We can difference a series using Pandas <code>series.diff()</code> function, however there are libraries available that will automatically use an appropriate value for the parameter <code>d</code>.</p>
+<h3 id="dickey-fuller-test-for-stationarity">Dickey Fuller Test for Stationarity</h3>
+<p>We can run the Dickey Fuller test for stationarity - If p-value &gt; 0.05, we decide that the dataset is not stationary.  Let us run this test against our stock price time series.  </p>
+<p>When we run this test in Python, we get a cryptic output in the form of a tuple.  The help text for this function shows the complete explanation for how to interpret the results:</p>
+<pre><code>Returns
+-------
+adf : float
+    The test statistic.
+pvalue : float
+    MacKinnon's approximate p-value based on MacKinnon (1994, 2010).
+usedlag : int
+    The number of lags used.
+nobs : int
+    The number of observations used for the ADF regression and calculation
+    of the critical values.
+critical values : dict
+    Critical values for the test statistic at the 1 %, 5 %, and 10 %
+    levels. Based on MacKinnon (2010).
+icbest : float
+    The maximized information criterion if autolag is not None.
+resstore : ResultStore, optional
+    A dummy class with results attached as attributes.
+</code></pre>
+<p>For us, the second value is the p-value that we are interested in.  If this is &gt; 0.05, we decide the series is not stationary.  </p>
+<pre><code class="language-python"># Test the stock price data
+
+from statsmodels.tsa.stattools import adfuller
+adfuller(SPY['Close'])
+</code></pre>
+<pre><code>(-1.6928673813673563,
+ 0.4347911128784576,
+ 0,
+ 648,
+ {'1%': -3.4404817800778034,
+  '5%': -2.866010569916275,
+  '10%': -2.569150763698369},
+ 2126.1002309138994)
+</code></pre>
+<pre><code class="language-python"># Test the stock returns data  
+
+adfuller(SPY['Returns'].dropna())
+</code></pre>
+<pre><code>(-26.546757517762995,
+ 0.0,
+ 0,
+ 647,
+ {'1%': -3.4404975024933813,
+  '5%': -2.8660174956716795,
+  '10%': -2.569154453750397},
+ -4424.286299515888)
+</code></pre>
+<hr />
+<h2 id="auto-correlation-and-partial-auto-correlation-acf-and-pacf-plots">Auto-Correlation and Partial Auto-Correlation (ACF and PACF plots)</h2>
+<p>Autocorrelation in a time series is the correlation of an observation to the observations that precede it.  Autocorrelation is the basis for being able to use auto regression to forecast a time series.  </p>
+<p>To calculate autocorrelation for a series, we shift the series by one step, and calculate the correlation between the two.  We keep increasing the number of steps to see correlations with past periods.  </p>
+<p>Fortunately, libraries exist that allow us to do these tedious calculations and present a tidy graph.  </p>
+<p>Next, we will look at Autocorrelation plots for both our stock price series, and also the total number of bicycle crossings in Seattle.  </p>
+<pre><code class="language-python"># Autocorrelation and partial autocorrelation plots for stock prices  
+
+plt.rc(&quot;figure&quot;, figsize=(18,4))
+from statsmodels.graphics.tsaplots import plot_acf,plot_pacf
+plot_acf(SPY['Close']);
+plot_pacf(SPY['Close']);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_70_0.png" /></p>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_70_1.png" /></p>
+<p>The shaded area represents the 95% confidence level.</p>
+<p>PACF for ARIMA:
+ - The PACF plot can be used to identify the value of p, the AR order.
+ - The ACF plot can be used to identify the value of q, the MA order.
+ - The interpretation of ACF and PACF plots to determine values of p &amp; q for ARIMA can be complex.</p>
+<p>Below, we see the ACF and PACF plots for the bicycle crossings.  Their seasonality is quite visible.  </p>
+<pre><code class="language-python"># Autocorrelation and partial autocorrelation plots for stock prices  
+
+plot_acf(new_df.Total);
+plot_pacf(new_df.Total);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_72_0.png" /></p>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_72_1.png" /></p>
+<pre><code class="language-python"># Get raw values for auto-correlations
+
+from statsmodels.tsa.stattools import acf
+acf(new_df.Total)
+</code></pre>
+<pre><code>array([ 1.        ,  0.77571582,  0.52756191,  0.09556274, -0.30509232,
+       -0.60545323, -0.73226582, -0.64087121, -0.37044611, -0.01811217,
+        0.35763185,  0.59437737,  0.7515538 ,  0.61992343,  0.40344956,
+        0.06119329, -0.28745883, -0.53888819, -0.65309667, -0.57442506])
+</code></pre>
+<pre><code class="language-python"># Slightly nicer output making it easy to read lag and correlation
+[(n,x ) for n, x in enumerate(acf(new_df.Total))]
+</code></pre>
+<pre><code>[(0, 1.0),
+ (1, 0.7757158156417427),
+ (2, 0.5275619080263295),
+ (3, 0.09556274009387859),
+ (4, -0.30509232288765453),
+ (5, -0.6054532313442101),
+ (6, -0.732265815426328),
+ (7, -0.6408712113652556),
+ (8, -0.3704461111442763),
+ (9, -0.018112170681472205),
+ (10, 0.35763184544832965),
+ (11, 0.5943773727598759),
+ (12, 0.7515538007556243),
+ (13, 0.6199234263452077),
+ (14, 0.4034495609681654),
+ (15, 0.061193291548871764),
+ (16, -0.28745882651811744),
+ (17, -0.5388881889155354),
+ (18, -0.6530966725971313),
+ (19, -0.5744250570228712)]
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<hr />
+<h2 id="granger-causality-tests">Granger Causality Tests</h2>
+<p>The Granger Causality tests are used to check if two time series are related with each other, specifically, given two time series, whether the time series in the second column can be used to predict the time series in the first column.  </p>
+<p>The ‘maxlag’ parameter needs to be specified and the code will identify the p-values at different lag points up to the maxlag value.  If p-value&lt;0.05 for any lag, that may be a valid predictor (or causal factor).  </p>
+<p><img alt="image.png" src="../11_Time_Series_files/17f8e9ea-b223-426a-9bef-35d25d6dd040.png" /></p>
+<p><strong>Example</strong><br />
+This test is quite easy for us to run using statsmodels.  As an example, we apply it to two separate time series, one showing the average daily temperature, and the other showing the average daily household power consumption.  This data was adapted from a Kaggle dataset to create this illustration.  </p>
+<pre><code class="language-python">from statsmodels.tsa.stattools import grangercausalitytests
+</code></pre>
+<pre><code class="language-python"># Data adapted from: 
+# https://www.kaggle.com/srinuti/residential-power-usage-3years-data-timeseries
+
+df_elec = pd.read_csv('pwr_usage.csv')
+df_elec.index = pd.DatetimeIndex(df_elec.Date, freq='W-SUN')
+df_elec.drop(['Date'], axis = 1, inplace = True)
+df_elec
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Temp_avg</th>
+      <th>kwh</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-08</th>
+      <td>75.542857</td>
+      <td>106.549</td>
+    </tr>
+    <tr>
+      <th>2017-01-15</th>
+      <td>71.014286</td>
+      <td>129.096</td>
+    </tr>
+    <tr>
+      <th>2017-01-22</th>
+      <td>64.414286</td>
+      <td>68.770</td>
+    </tr>
+    <tr>
+      <th>2017-01-29</th>
+      <td>56.728571</td>
+      <td>71.378</td>
+    </tr>
+    <tr>
+      <th>2017-02-05</th>
+      <td>66.128571</td>
+      <td>107.829</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019-12-08</th>
+      <td>74.371429</td>
+      <td>167.481</td>
+    </tr>
+    <tr>
+      <th>2019-12-15</th>
+      <td>61.242857</td>
+      <td>86.248</td>
+    </tr>
+    <tr>
+      <th>2019-12-22</th>
+      <td>50.000000</td>
+      <td>73.206</td>
+    </tr>
+    <tr>
+      <th>2019-12-29</th>
+      <td>60.128571</td>
+      <td>35.655</td>
+    </tr>
+    <tr>
+      <th>2020-01-05</th>
+      <td>7.185714</td>
+      <td>4.947</td>
+    </tr>
+  </tbody>
+</table>
+<p>157 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python"># Check if Average Temperature can be used to predict kwh
+
+grangercausalitytests(df_elec[[&quot;kwh&quot;, &quot;Temp_avg&quot;]], maxlag = 6);
+</code></pre>
+<pre><code>Granger Causality
+number of lags (no zero) 1
+ssr based F test:         F=0.1022  , p=0.7496  , df_denom=153, df_num=1
+ssr based chi2 test:   chi2=0.1042  , p=0.7468  , df=1
+likelihood ratio test: chi2=0.1042  , p=0.7469  , df=1
+parameter F test:         F=0.1022  , p=0.7496  , df_denom=153, df_num=1
+
+Granger Causality
+number of lags (no zero) 2
+ssr based F test:         F=0.9543  , p=0.3874  , df_denom=150, df_num=2
+ssr based chi2 test:   chi2=1.9722  , p=0.3730  , df=2
+likelihood ratio test: chi2=1.9597  , p=0.3754  , df=2
+parameter F test:         F=0.9543  , p=0.3874  , df_denom=150, df_num=2
+
+Granger Causality
+number of lags (no zero) 3
+ssr based F test:         F=1.6013  , p=0.1916  , df_denom=147, df_num=3
+ssr based chi2 test:   chi2=5.0327  , p=0.1694  , df=3
+likelihood ratio test: chi2=4.9523  , p=0.1753  , df=3
+parameter F test:         F=1.6013  , p=0.1916  , df_denom=147, df_num=3
+
+Granger Causality
+number of lags (no zero) 4
+ssr based F test:         F=1.5901  , p=0.1801  , df_denom=144, df_num=4
+ssr based chi2 test:   chi2=6.7579  , p=0.1492  , df=4
+likelihood ratio test: chi2=6.6129  , p=0.1578  , df=4
+parameter F test:         F=1.5901  , p=0.1801  , df_denom=144, df_num=4
+
+Granger Causality
+number of lags (no zero) 5
+ssr based F test:         F=1.2414  , p=0.2930  , df_denom=141, df_num=5
+ssr based chi2 test:   chi2=6.6913  , p=0.2446  , df=5
+likelihood ratio test: chi2=6.5482  , p=0.2565  , df=5
+parameter F test:         F=1.2414  , p=0.2930  , df_denom=141, df_num=5
+
+Granger Causality
+number of lags (no zero) 6
+ssr based F test:         F=1.0930  , p=0.3697  , df_denom=138, df_num=6
+ssr based chi2 test:   chi2=7.1759  , p=0.3049  , df=6
+likelihood ratio test: chi2=7.0106  , p=0.3199  , df=6
+parameter F test:         F=1.0930  , p=0.3697  , df_denom=138, df_num=6
+</code></pre>
+<pre><code class="language-python"># Check if kwh can be used to predict Average Temperature 
+# While we get p&lt;0.05 at lag 3, the result is obviously absurd
+grangercausalitytests(df_elec[[&quot;Temp_avg&quot;, &quot;kwh&quot;]], maxlag = 6);
+</code></pre>
+<pre><code>Granger Causality
+number of lags (no zero) 1
+ssr based F test:         F=3.1953  , p=0.0758  , df_denom=153, df_num=1
+ssr based chi2 test:   chi2=3.2580  , p=0.0711  , df=1
+likelihood ratio test: chi2=3.2244  , p=0.0725  , df=1
+parameter F test:         F=3.1953  , p=0.0758  , df_denom=153, df_num=1
+
+Granger Causality
+number of lags (no zero) 2
+ssr based F test:         F=2.8694  , p=0.0599  , df_denom=150, df_num=2
+ssr based chi2 test:   chi2=5.9301  , p=0.0516  , df=2
+likelihood ratio test: chi2=5.8194  , p=0.0545  , df=2
+parameter F test:         F=2.8694  , p=0.0599  , df_denom=150, df_num=2
+
+Granger Causality
+number of lags (no zero) 3
+ssr based F test:         F=3.0044  , p=0.0324  , df_denom=147, df_num=3
+ssr based chi2 test:   chi2=9.4423  , p=0.0240  , df=3
+likelihood ratio test: chi2=9.1642  , p=0.0272  , df=3
+parameter F test:         F=3.0044  , p=0.0324  , df_denom=147, df_num=3
+
+Granger Causality
+number of lags (no zero) 4
+ssr based F test:         F=1.3019  , p=0.2722  , df_denom=144, df_num=4
+ssr based chi2 test:   chi2=5.5329  , p=0.2369  , df=4
+likelihood ratio test: chi2=5.4352  , p=0.2455  , df=4
+parameter F test:         F=1.3019  , p=0.2722  , df_denom=144, df_num=4
+
+Granger Causality
+number of lags (no zero) 5
+ssr based F test:         F=0.8068  , p=0.5466  , df_denom=141, df_num=5
+ssr based chi2 test:   chi2=4.3488  , p=0.5004  , df=5
+likelihood ratio test: chi2=4.2877  , p=0.5088  , df=5
+parameter F test:         F=0.8068  , p=0.5466  , df_denom=141, df_num=5
+
+Granger Causality
+number of lags (no zero) 6
+ssr based F test:         F=0.5381  , p=0.7785  , df_denom=138, df_num=6
+ssr based chi2 test:   chi2=3.5328  , p=0.7396  , df=6
+likelihood ratio test: chi2=3.4921  , p=0.7450  , df=6
+parameter F test:         F=0.5381  , p=0.7785  , df_denom=138, df_num=6
+</code></pre>
+<p>In short, we don't find any causality above, though our intuition would have told us that something should exist.  Perhaps there are variables other than temperature that impact power consumption that we have not thought of.  </p>
+<p>That is the power of data - commonly held conceptions can be challenged.  </p>
+<hr />
+<h2 id="forecasting-with-simple-exponential-smoothing-holt-and-holt-winters-method">Forecasting with Simple Exponential Smoothing, Holt and Holt-Winters Method</h2>
+<p><strong>(a) Simple Exponential Smoothing</strong><br />
+In simple exponential smoothing, we reduce the time series to a single variable.  </p>
+<p>Simple exponential smoothing is suitable for forecasting data that has no clear trend or seasonal component.  Obviously, this sort of data will have no pattern, so how do we forecast it?  Consider two extreme approaches:<br />
+ - Every future value will be equal to the average of all prior values,<br />
+ - Every future value is the same as the last one.  </p>
+<p>The difference between the two extreme situations above is that in the first one, we weigh all past observations as equally important, and in the second, we give all the weight to the last observation and none to the ones prior to that.  </p>
+<p>The Simple Exponential Smoothing method takes an approach in between - it gives the most weight to the last observation, and gradually reduces the weight as we go further back in the past.  It does so using a single parameter called alpha.  </p>
+<p>
+<script type="math/tex">\hat{y}_{T+1|T} = \alpha y_T + \alpha(1-\alpha) y_{T-1} + \alpha(1-\alpha)^2 y_{T-2}+ \cdots</script>
+</p>
+<p>(Source: https://otexts.com/fpp2/ses.html)</p>
+<p><strong>(b) Holt's Method - Double Exponential Smoothing</strong><br />
+Holt extended simple exponential smoothing described above to account for a trend.  This is captured in a parameter called <script type="math/tex">\beta</script>.  </p>
+<p>This method involves calculating a ‘level’, with the smoothing parameter α, as well as the trend using a smoothing parameter β.  These parameters are used in a way similar to what we saw with EWMA.  </p>
+<p>Because we are using two parameters, it is called ‘double exponential smoothing’.  </p>
+<p>
+<script type="math/tex">
+<script type="math/tex; mode=display">\begin{align*}
+  \text{Forecast equation}&& \hat{y}_{t+h|t} &= \ell_{t} + hb_{t} \\
+  \text{Level equation}   && \ell_{t} &= \alpha y_{t} + (1 - \alpha)(\ell_{t-1} + b_{t-1})\\
+  \text{Trend equation}   && b_{t}    &= \beta^*(\ell_{t} - \ell_{t-1}) + (1 -\beta^*)b_{t-1},
+\end{align*}</script>
+</script>
+</p>
+<p>We can specify additive or multiplicative trends.  Additive trends are preferred when the level of change over time is constant.  Multiplicative trends make sense when the trend varies proportional to the current values of the series.</p>
+<p><strong>(c) Holt-Winters' Method - Triple Exponential Smoothing</strong><br />
+The Holt-Winters’ seasonal method accounts for the level, as well as the trend and seasonality, with corresponding smoothing parameters α, β and γ respectively. 
+ - Level: α<br />
+ - Trend: β<br />
+ - Seasonality: γ  </p>
+<p>We also specify the frequency of the seasonality, i.e., the number of periods that comprise a season. For example, for quarterly data the frequency would be 4 , and for monthly data, it would be 12.  </p>
+<p>Like for trend, we can specify whether the seasonality is additive or multiplicative.  </p>
+<p>The equations for Triple Exponential Smoothing look as follows:<br />
+<script type="math/tex">
+<script type="math/tex; mode=display">\begin{align*}
+  \hat{y}_{t+h|t} &= \ell_{t} + hb_{t} + s_{t+h-m(k+1)} \\
+  \ell_{t} &= \alpha(y_{t} - s_{t-m}) + (1 - \alpha)(\ell_{t-1} + b_{t-1})\\
+  b_{t} &= \beta^*(\ell_{t} - \ell_{t-1}) + (1 - \beta^*)b_{t-1}\\
+  s_{t} &= \gamma (y_{t}-\ell_{t-1}-b_{t-1}) + (1-\gamma)s_{t-m},
+\end{align*}</script>
+</script>
+</p>
+<p>We will not cover these equations in detail as the code does everything for us.  As practitioners, we need to think about the problems we can solve with this, and while being aware of the underlying logic.  The code will calculate the values of <script type="math/tex">\alpha</script>, <script type="math/tex">\beta</script> and <script type="math/tex">\gamma</script> and use these in the equations above to make predictions.  </p>
+<pre><code class="language-python"># Let us look at the index of our data frame that has the bicycle crossing data
+
+new_df.index
+</code></pre>
+<pre><code>DatetimeIndex(['2012-10-31', '2012-11-30', '2012-12-31', '2013-01-31',
+               '2013-02-28', '2013-03-31', '2013-04-30', '2013-05-31',
+               '2013-06-30', '2013-07-31', '2013-08-31', '2013-09-30',
+               '2013-10-31', '2013-11-30', '2013-12-31', '2014-01-31',
+               '2014-02-28', '2014-03-31', '2014-04-30', '2014-05-31',
+               '2014-06-30', '2014-07-31', '2014-08-31', '2014-09-30',
+               '2014-10-31', '2014-11-30', '2014-12-31', '2015-01-31',
+               '2015-02-28', '2015-03-31', '2015-04-30', '2015-05-31',
+               '2015-06-30', '2015-07-31', '2015-08-31', '2015-09-30',
+               '2015-10-31', '2015-11-30', '2015-12-31', '2016-01-31',
+               '2016-02-29', '2016-03-31', '2016-04-30', '2016-05-31',
+               '2016-06-30', '2016-07-31', '2016-08-31', '2016-09-30',
+               '2016-10-31', '2016-11-30', '2016-12-31', '2017-01-31',
+               '2017-02-28', '2017-03-31', '2017-04-30', '2017-05-31',
+               '2017-06-30', '2017-07-31', '2017-08-31', '2017-09-30',
+               '2017-10-31', '2017-11-30', '2017-12-31', '2018-01-31',
+               '2018-02-28', '2018-03-31', '2018-04-30', '2018-05-31',
+               '2018-06-30', '2018-07-31', '2018-08-31', '2018-09-30',
+               '2018-10-31', '2018-11-30', '2018-12-31', '2019-01-31',
+               '2019-02-28', '2019-03-31', '2019-04-30', '2019-05-31',
+               '2019-06-30', '2019-07-31', '2019-08-31', '2019-09-30',
+               '2019-10-31', '2019-11-30'],
+              dtype='datetime64[ns]', name='Date', freq='M')
+</code></pre>
+<pre><code class="language-python"># Clean up the data frame, set index frequency explicitly to Monthly
+# This is needed as Holt-Winters will not work otherwise
+
+new_df.index.freq = 'M'
+</code></pre>
+<pre><code class="language-python"># Let us drop an NaN entries, just in case
+
+new_df.dropna(inplace=True)
+</code></pre>
+<pre><code class="language-python">new_df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>Moving_Avg_6m</th>
+      <th>Moving_Avg_12m</th>
+      <th>EWMA12</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-09-30</th>
+      <td>80729.0</td>
+      <td>97184.000000</td>
+      <td>74734.583333</td>
+      <td>82750.448591</td>
+    </tr>
+    <tr>
+      <th>2013-10-31</th>
+      <td>81352.0</td>
+      <td>98743.000000</td>
+      <td>76039.333333</td>
+      <td>82535.302654</td>
+    </tr>
+    <tr>
+      <th>2013-11-30</th>
+      <td>59270.0</td>
+      <td>90525.666667</td>
+      <td>76757.916667</td>
+      <td>78956.025322</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>43553.0</td>
+      <td>81237.833333</td>
+      <td>77356.583333</td>
+      <td>73509.406042</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>59873.0</td>
+      <td>71554.333333</td>
+      <td>78605.666667</td>
+      <td>71411.497420</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>101472.833333</td>
+      <td>91343.750000</td>
+      <td>100389.020732</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>119192.000000</td>
+      <td>93894.166667</td>
+      <td>106854.402158</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>123644.833333</td>
+      <td>95221.833333</td>
+      <td>107672.801826</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>126405.833333</td>
+      <td>96348.166667</td>
+      <td>107184.370776</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>119045.833333</td>
+      <td>97725.833333</td>
+      <td>103765.698349</td>
+    </tr>
+  </tbody>
+</table>
+<p>75 rows × 4 columns</p>
+</div>
+
+<pre><code class="language-python"># Set warnings to ignore so we don't get the ugly orange boxes
+
+import warnings
+warnings.filterwarnings('ignore')
+</code></pre>
+<pre><code class="language-python"># Some library imports 
+
+from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from sklearn.metrics import mean_squared_error as mse
+</code></pre>
+<h3 id="simple-exponential-smoothing-same-as-ewma">Simple Exponential Smoothing (same as EWMA)</h3>
+<pre><code class="language-python"># Train-test split
+train_samples = int(new_df.shape[0] * 0.8)
+
+train_set = new_df.iloc[:train_samples]
+test_set = new_df.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  60
+Test set:  15
+</code></pre>
+<pre><code class="language-python"># Fit model using Simple Exponential Smoothing
+model = SimpleExpSmoothing(train_set['Total']).fit()
+</code></pre>
+<pre><code class="language-python">predictions = model.forecast(15)
+</code></pre>
+<pre><code class="language-python"># let us plot the predictions and the training values
+train_set['Total'].plot(legend=True,label='Training Set')
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_93_0.png" /></p>
+<pre><code class="language-python"># Now we plot test (observed) values as well
+train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(16,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_94_0.png" /></p>
+<pre><code class="language-python"># Now we plot test (observed) values as well
+# train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(14,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_95_0.png" /></p>
+<pre><code class="language-python">model.params
+</code></pre>
+<pre><code>{'smoothing_level': 0.995,
+ 'smoothing_trend': nan,
+ 'smoothing_seasonal': nan,
+ 'damping_trend': nan,
+ 'initial_level': 80729.0,
+ 'initial_trend': nan,
+ 'initial_seasons': array([], dtype=float64),
+ 'use_boxcox': False,
+ 'lamda': None,
+ 'remove_bias': False}
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Total']
+y_pred = predictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>111889.675227</td>
+      <td>-15647.675227</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>111889.675227</td>
+      <td>-20907.675227</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>111889.675227</td>
+      <td>-43458.675227</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>111889.675227</td>
+      <td>-64948.675227</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>111889.675227</td>
+      <td>-39006.675227</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>111889.675227</td>
+      <td>-75790.675227</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>111889.675227</td>
+      <td>-26432.675227</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>111889.675227</td>
+      <td>-23957.675227</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>111889.675227</td>
+      <td>17233.324773</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>111889.675227</td>
+      <td>20622.324773</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>111889.675227</td>
+      <td>25824.324773</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>111889.675227</td>
+      <td>30524.324773</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>111889.675227</td>
+      <td>284.324773</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>111889.675227</td>
+      <td>-7391.675227</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>111889.675227</td>
+      <td>-26926.675227</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  1228535508.79919
+RMSE =  35050.47087842316
+MAE =  29263.82507577501
+</code></pre>
+<h3 id="double-exponential-smoothing">Double Exponential Smoothing</h3>
+<pre><code class="language-python"># Train-test split
+train_samples = int(new_df.shape[0] * 0.8)
+
+train_set = new_df.iloc[:train_samples]
+test_set = new_df.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  60
+Test set:  15
+</code></pre>
+<pre><code class="language-python"># Fit model using Simple Exponential Smoothing
+# model = SimpleExpSmoothing(train_set['Total']).fit()
+</code></pre>
+<pre><code class="language-python"># Double Exponential Smoothing
+model = ExponentialSmoothing(train_set['Total'], trend='mul').fit()
+</code></pre>
+<pre><code class="language-python">predictions = model.forecast(15)
+</code></pre>
+<pre><code class="language-python"># let us plot the predictions and the training values
+train_set['Total'].plot(legend=True,label='Training Set')
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_104_0.png" /></p>
+<pre><code class="language-python"># Now we plot test (observed) values as well
+train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(16,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_105_0.png" /></p>
+<pre><code class="language-python"># Now we plot test (observed) values as well
+# train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(14,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_106_0.png" /></p>
+<pre><code class="language-python">model.params
+</code></pre>
+<pre><code>{'smoothing_level': 0.995,
+ 'smoothing_trend': 0.04738095238095238,
+ 'smoothing_seasonal': nan,
+ 'damping_trend': nan,
+ 'initial_level': 51251.999999999985,
+ 'initial_trend': 1.084850613368525,
+ 'initial_seasons': array([], dtype=float64),
+ 'use_boxcox': False,
+ 'lamda': None,
+ 'remove_bias': False}
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Total']
+y_pred = predictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>117626.951449</td>
+      <td>-21384.951449</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>123616.042220</td>
+      <td>-32634.042220</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>129910.073380</td>
+      <td>-61479.073380</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>136524.571266</td>
+      <td>-89583.571266</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>143475.852752</td>
+      <td>-70592.852752</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>150781.065503</td>
+      <td>-114682.065503</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>158458.230275</td>
+      <td>-73001.230275</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>166526.285367</td>
+      <td>-78594.285367</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>175005.133341</td>
+      <td>-45882.133341</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>183915.690115</td>
+      <td>-51403.690115</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>193279.936564</td>
+      <td>-55565.936564</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>203120.972739</td>
+      <td>-60706.972739</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>213463.074854</td>
+      <td>-101289.074854</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>224331.755168</td>
+      <td>-119833.755168</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>235753.824924</td>
+      <td>-150790.824924</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  6789777046.197141
+RMSE =  82400.10343559734
+MAE =  75161.63066121914
+</code></pre>
+<h3 id="triple-exponential-smoothing">Triple Exponential Smoothing</h3>
+<pre><code class="language-python"># Train-test split
+train_samples = int(new_df.shape[0] * 0.8)
+
+train_set = new_df.iloc[:train_samples]
+test_set = new_df.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  60
+Test set:  15
+</code></pre>
+<pre><code class="language-python"># Let us use the triple exponential smoothing model
+model = ExponentialSmoothing(train_set['Total'],trend='add', \
+                             seasonal='add',seasonal_periods=12).fit()
+</code></pre>
+<pre><code class="language-python">predictions = model.forecast(15)
+</code></pre>
+<pre><code class="language-python"># let us plot the predictions and the training values
+train_set['Total'].plot(legend=True,label='Training Set')
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_114_0.png" /></p>
+<pre><code class="language-python"># Now we plot test (observed) values as well
+train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(16,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_115_0.png" /></p>
+<pre><code class="language-python"># Test vs observed - closeup of the predictions
+# train_set['Total'].plot(legend=True,label='Training Set')
+test_set['Total'].plot(legend=True,label='Test Set',figsize=(14,10))
+predictions.plot(legend=True,label='Model prediction');
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_116_0.png" /></p>
+<pre><code class="language-python">model.params
+</code></pre>
+<pre><code>{'smoothing_level': 0.2525,
+ 'smoothing_trend': 0.0001,
+ 'smoothing_seasonal': 0.0001,
+ 'damping_trend': nan,
+ 'initial_level': 82880.52777777775,
+ 'initial_trend': 233.32297979798386,
+ 'initial_seasons': array([ 12706.58333333,  -1150.10416667, -23387.98958333, -38062.89583333,
+        -27297.51041667, -29627.21875   , -15820.59375   ,   1298.15625   ,
+         30509.6875    ,  28095.90625   ,  32583.70833333,  30152.27083333]),
+ 'use_boxcox': False,
+ 'lamda': None,
+ 'remove_bias': False}
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Total']
+y_pred = predictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>100914.043265</td>
+      <td>-4672.043265</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>87291.600234</td>
+      <td>3690.399766</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>65286.060329</td>
+      <td>3144.939671</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>50843.440823</td>
+      <td>-3902.440823</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>61841.794519</td>
+      <td>11041.205481</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>59743.301291</td>
+      <td>-23644.301291</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>73783.743291</td>
+      <td>11673.256709</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>91133.340351</td>
+      <td>-3201.340351</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>120579.559129</td>
+      <td>8543.440871</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>118396.387406</td>
+      <td>14115.612594</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>123117.725595</td>
+      <td>14596.274405</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>120917.981585</td>
+      <td>21496.018415</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>103703.284649</td>
+      <td>8470.715351</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>90080.841618</td>
+      <td>14417.158382</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>68075.301713</td>
+      <td>16887.698287</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  160014279.71049073
+RMSE =  12649.675083198412
+MAE =  10899.78971069559
+</code></pre>
+<pre><code class="language-python">model = ExponentialSmoothing(new_df['Total'], trend='mul').fit()
+</code></pre>
+<pre><code class="language-python"># Fit values
+pd.DataFrame({'fitted':model.fittedvalues.shift(-1), 'actual':new_df['Total']})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>fitted</th>
+      <th>actual</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-09-30</th>
+      <td>88374.142596</td>
+      <td>80729.0</td>
+    </tr>
+    <tr>
+      <th>2013-10-31</th>
+      <td>89066.318586</td>
+      <td>81352.0</td>
+    </tr>
+    <tr>
+      <th>2013-11-30</th>
+      <td>64512.628727</td>
+      <td>59270.0</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>47037.321040</td>
+      <td>43553.0</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>64853.079989</td>
+      <td>59873.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>147204.031288</td>
+      <td>137714.0</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>152114.454701</td>
+      <td>142414.0</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>119265.035267</td>
+      <td>112174.0</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>110660.795745</td>
+      <td>104498.0</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>NaN</td>
+      <td>84963.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>75 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python"># Examine model parameters
+model.params
+</code></pre>
+<pre><code>{'smoothing_level': 0.995,
+ 'smoothing_trend': 0.02369047619047619,
+ 'smoothing_seasonal': nan,
+ 'damping_trend': nan,
+ 'initial_level': 51251.999999999985,
+ 'initial_trend': 1.084850613368525,
+ 'initial_seasons': array([], dtype=float64),
+ 'use_boxcox': False,
+ 'lamda': None,
+ 'remove_bias': False}
+</code></pre>
+<pre><code class="language-python"># RMSE calculation
+x = pd.DataFrame({'fitted':model.fittedvalues.shift(-1), 'actual':new_df['Total']}).dropna()
+rmse = np.sqrt(mse(x.fitted, x.actual))
+rmse
+</code></pre>
+<pre><code>6017.795365317929
+</code></pre>
+<pre><code class="language-python"># predict the next 15 values
+predictions = model.forecast(15)
+predictions
+</code></pre>
+<pre><code>2019-12-31     89553.250900
+2020-01-31     94248.964768
+2020-02-29     99190.897823
+2020-03-31    104391.960540
+2020-04-30    109865.740351
+2020-05-31    115626.537143
+2020-06-30    121689.400618
+2020-07-31    128070.169604
+2020-08-31    134785.513440
+2020-09-30    141852.975517
+2020-10-31    149291.019112
+2020-11-30    157119.075623
+2020-12-31    165357.595328
+2021-01-31    174028.100817
+2021-02-28    183153.243211
+Freq: M, dtype: float64
+</code></pre>
+<pre><code class="language-python">model.fittedvalues
+</code></pre>
+<pre><code>Date
+2013-09-30     55600.763636
+2013-10-31     88374.142596
+2013-11-30     89066.318586
+2013-12-31     64512.628727
+2014-01-31     47037.321040
+                  ...      
+2019-07-31    141747.388757
+2019-08-31    147204.031288
+2019-09-30    152114.454701
+2019-10-31    119265.035267
+2019-11-30    110660.795745
+Freq: M, Length: 75, dtype: float64
+</code></pre>
+<h2 id="arima-auto-regressive-integrated-moving-average">ARIMA - Auto Regressive Integrated Moving Average</h2>
+<p>ARIMA stands for Auto Regressive Integrated Moving Average.  It is a general method for understanding and predicting time series data.  </p>
+<p>ARIMA models come in several different flavors, for example:
+ - Non-seasonal ARIMA<br />
+ - Seasonal ARIMA (Called SARIMA)<br />
+ - SARIMA with external variables, called SARIMAX<br />
+Which one should we use? ARIMA or Holt-Winters?  </p>
+<blockquote>
+<p>Try both.  Whatever works better for your use case is the one to use.</p>
+</blockquote>
+<p>ARIMA models have three non-negative integer parameters – <em>p</em>, <em>d</em> and <em>q</em>.
+ - <em>p</em> represents the Auto-Regression component, AR.  This is the part of the model that leverages the linear regression between an observation and past observations.<br />
+ - <em>d</em> represents differencing, the I component.  This is the number of times the series has to be differenced to make it stationary.<br />
+ - <em>q</em> represents the MA component, the number of lagged forecast errors in the prediction.  This considers the relationship between an observation and the residual error from a moving average model.  </p>
+<p>A correct choice of the ‘order’ of your ARIMA model, ie deciding the values of <em>p</em>, <em>d</em> and <em>q</em>, is essential to building a good ARIMA model.  </p>
+<p><strong>Deciding the values of <em>p</em>, <em>d</em> and <em>q</em></strong><br />
+ - Values of <em>p</em> and <em>q</em> can be determined manually by examining auto-correlation and partial-autocorrelation plots.<br />
+ - The value of <em>d</em> can be determined by repeatedly differencing a series till we get to a stationary series.  </p>
+<p>The manual methods are time consuming, and less precise.  An overview of these is provided in the Appendix to this slide deck.  </p>
+<p>In reality, we let the computer do a grid search (a brute force test of a set of permutations for <em>p</em>, <em>d</em> and <em>q</em>) to determine the order of our ARIMA model.  The Pyramid ARIMA library in Python allows searching through multiple combinations of <em>p</em>, <em>d</em> and <em>q</em> to identify the best model.  </p>
+<p><strong>ARIMA in Action</strong><br />
+1. Split dataset into train and test.<br />
+2. Test set should be the last <em><strong>n</strong></em> entries.  Can’t use random selection for train-test split.<br />
+3. Pyramid ARIMA is a Python package that can identify the values of p, d and q to use.  Use Auto ARIMA from Pyramid ARIMA to find good values of p, d and q based on the training data set.<br />
+4. Fit a model on the training data set.<br />
+5. Predict the test set, and evaluate using MSE, MAE or RMSE.  </p>
+<pre><code class="language-python"># Library imports
+
+from pmdarima import auto_arima
+</code></pre>
+<pre><code class="language-python"># Train-test split
+
+train_samples = int(new_df.shape[0] * 0.8)
+
+train_set = new_df.iloc[:train_samples]
+test_set = new_df.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  60
+Test set:  15
+</code></pre>
+<pre><code class="language-python"># Clean up
+
+train_set.dropna(inplace=True)
+</code></pre>
+<h3 id="use-auto-arima-to-find-out-order">Use Auto ARIMA to find out order</h3>
+<pre><code class="language-python"># Build a model using auto_arima
+
+model = auto_arima(train_set['Total'],seasonal=False)
+</code></pre>
+<pre><code class="language-python">order = model.get_params()['order']
+seasonal_order = model.get_params()['seasonal_order']
+print('Order = ', order)
+print('Seasonal Order = ', seasonal_order)
+</code></pre>
+<pre><code>Order =  (5, 0, 1)
+Seasonal Order =  (0, 0, 0, 0)
+</code></pre>
+<pre><code class="language-python"># Create and fit model
+
+from statsmodels.tsa.arima.model import ARIMA
+
+model_ARIMA = ARIMA(train_set['Total'], order = order)
+model_ARIMA = model_ARIMA.fit()
+</code></pre>
+<pre><code class="language-python"># Predict with ARIMA 
+
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+ARIMApredictions = model_ARIMA.predict(start=start, end=end, dynamic=False, typ='levels').rename('ARIMA Predictions')
+# model_ARIMA.summary()
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Total']
+y_pred = ARIMApredictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>97178.782841</td>
+      <td>-936.782841</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>68163.166776</td>
+      <td>22818.833224</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>56095.942557</td>
+      <td>12335.057443</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>41005.329654</td>
+      <td>5935.670346</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>42591.251732</td>
+      <td>30291.748268</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>51555.855575</td>
+      <td>-15456.855575</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>71734.836673</td>
+      <td>13722.163327</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>91198.670052</td>
+      <td>-3266.670052</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>110818.433668</td>
+      <td>18304.566332</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>121161.132303</td>
+      <td>11350.867697</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>122198.078813</td>
+      <td>15515.921187</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>111847.671126</td>
+      <td>30566.328874</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>94763.626480</td>
+      <td>17410.373520</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>73934.456312</td>
+      <td>30563.543688</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>56060.536900</td>
+      <td>28902.463100</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Calculate evaluation metrics
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  385065542.1818603
+RMSE =  19623.086968717747
+MAE =  17158.523031611756
+</code></pre>
+<pre><code class="language-python"># Plot results
+train_set['Total'].rename('Training Set').plot(legend=True)
+test_set['Total'].rename('Test Set').plot(legend=True)
+ARIMApredictions.plot(legend=True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_137_0.png" /></p>
+<hr />
+<h2 id="seasonal-arima-sarima">Seasonal ARIMA - SARIMA</h2>
+<p>SARIMA, or Seasonal ARIMA, accounts for seasonality.  In order to account for seasonality, we need three more parameters – <em>P</em>, <em>D</em> and <em>Q</em> – to take care of seasonal variations.  </p>
+<p>Auto ARIMA takes care of seasonality as well, and provides us the values for <em>P</em>, <em>D</em> and <em>Q</em> just like it does for <em>p</em>, <em>d</em> and <em>q</em>.  </p>
+<p>To use SARIMA, we now need 7 parameters for our function:<br />
+ - <em>p</em><br />
+ - <em>d</em><br />
+ - <em>q</em><br />
+   - <em>P</em><br />
+   - <em>D</em><br />
+   - <em>Q</em><br />
+ - <em>m</em> (frequency of our seasons, eg, 12)  </p>
+<p><strong>SARIMA in Action</strong><br />
+1. Split dataset into train and test.<br />
+2. Test set should be the last n entries.  Can’t use random selection for train-test split.<br />
+3. Pyramid ARIMA is a Python package that can identify the values of p, d, q, P, D and Q to use.  Use Auto ARIMA from Pyramid ARIMA to find good values of p, d and q based on the training data set.<br />
+4. Fit a model on the training data set.<br />
+5. Predict the test set, and evaluate using MSE, MAE or RMSE.   </p>
+<pre><code class="language-python"># Create a model with auto_arima
+
+model = auto_arima(train_set['Total'],seasonal=True,m=12)
+</code></pre>
+<pre><code class="language-python"># Get values of p, d, q, P, D and Q
+
+order = model.get_params()['order']
+seasonal_order = model.get_params()['seasonal_order']
+
+print('Order = ', order)
+print('Seasonal Order = ', seasonal_order)
+</code></pre>
+<pre><code>Order =  (1, 0, 0)
+Seasonal Order =  (0, 1, 1, 12)
+</code></pre>
+<pre><code class="language-python"># Create and fit model
+
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+model_SARIMA = SARIMAX(train_set['Total'], order=order, seasonal_order=seasonal_order)
+model_SARIMA = model_SARIMA.fit()
+model_SARIMA.params
+</code></pre>
+<pre><code>ar.L1       2.438118e-01
+ma.S.L12   -6.668071e-02
+sigma2      7.885998e+07
+dtype: float64
+</code></pre>
+<pre><code class="language-python"># Create SARIMA predictions  
+
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+SARIMApredictions = model_SARIMA.predict(start=start, end=end, dynamic=False, typ='levels').rename('SARIMA Predictions')
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+
+y_test = test_set['Total']
+y_pred = SARIMApredictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>94423.659176</td>
+      <td>1818.340824</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>86518.880961</td>
+      <td>4463.119039</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>57965.336973</td>
+      <td>10465.663027</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>45396.267772</td>
+      <td>1544.732228</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>58009.524643</td>
+      <td>14873.475357</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>50177.757219</td>
+      <td>-14078.757219</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>76096.865509</td>
+      <td>9360.134491</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>79286.971453</td>
+      <td>8645.028547</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>128451.795674</td>
+      <td>671.204326</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>112789.442695</td>
+      <td>19722.557305</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>127353.588372</td>
+      <td>10360.411628</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>112330.356235</td>
+      <td>30083.643765</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>94550.771990</td>
+      <td>17623.228010</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>86549.872568</td>
+      <td>17948.127432</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>57972.893093</td>
+      <td>26990.106907</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Metrics
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  231993016.88445473
+RMSE =  15231.316978004716
+MAE =  12576.56867360885
+</code></pre>
+<pre><code class="language-python"># Plot results
+
+train_set['Total'].rename('Training Set').plot(legend=True)
+test_set['Total'].rename('Test Set').plot(legend=True)
+SARIMApredictions.plot(legend = True)
+ARIMApredictions.plot(legend=True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_145_0.png" /></p>
+<pre><code class="language-python"># Models compared to each other - calculate MAE, RMSE
+
+from sklearn.metrics import mean_squared_error as mse
+from sklearn.metrics import mean_absolute_error as mae
+print('SARIMA:')
+print('  RMSE = ' ,mse(SARIMApredictions, test_set['Total'], squared = False))
+print('  MAE = ', mae(SARIMApredictions, test_set['Total']))
+print('\nARIMA:')
+print('  RMSE = ' ,mse(ARIMApredictions, test_set['Total'], squared = False))
+print('  MAE = ', mae(ARIMApredictions, test_set['Total']))
+print('\n')
+print('  Mean of the data = ', new_df.Total.mean())
+print('  St Dev of the data = ', new_df.Total.std())
+</code></pre>
+<pre><code>SARIMA:
+  RMSE =  15231.316978004716
+  MAE =  12576.56867360885
+
+ARIMA:
+  RMSE =  19623.086968717747
+  MAE =  17158.523031611756
+
+
+  Mean of the data =  85078.8
+  St Dev of the data =  28012.270090473237
+</code></pre>
+<h2 id="sarimax">SARIMAX</h2>
+<p>SARIMAX = Seasonal ARIMA with eXogenous variable</p>
+<p>SARIMAX is the same as SARIMA, but there is an additional predictor variable in addition to just the time series itself.  </p>
+<p>Let us load some data showing weekly power consumption as well as average daily temperature.  We will try to predict kwh as a time series, and also use Temp_avg as an exogenous variable.</p>
+<p>In order to predict the future, you need the past data series, plus observed values for the exogenous variable.  That can sometimes be difficult because the future may not yet have revealed itself yet, and while you may be able to build a model that evaluates well, you will not be able to use it.  </p>
+<pre><code class="language-python"># Data adapted from: 
+# https://www.kaggle.com/srinuti/residential-power-usage-3years-data-timeseries  
+# The data shows weekly electricity usage and the average temperature of the week.  
+# Our hypothesis is that the power consumed can be predicted using the average 
+# temperature, and the pattern found in the time series.
+
+df_elec = pd.read_csv('pwr_usage.csv')
+df_elec
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Temp_avg</th>
+      <th>kwh</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1/8/2017</td>
+      <td>75.542857</td>
+      <td>106.549</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1/15/2017</td>
+      <td>71.014286</td>
+      <td>129.096</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1/22/2017</td>
+      <td>64.414286</td>
+      <td>68.770</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1/29/2017</td>
+      <td>56.728571</td>
+      <td>71.378</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2/5/2017</td>
+      <td>66.128571</td>
+      <td>107.829</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>12/8/2019</td>
+      <td>74.371429</td>
+      <td>167.481</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>12/15/2019</td>
+      <td>61.242857</td>
+      <td>86.248</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>12/22/2019</td>
+      <td>50.000000</td>
+      <td>73.206</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>12/29/2019</td>
+      <td>60.128571</td>
+      <td>35.655</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>1/5/2020</td>
+      <td>7.185714</td>
+      <td>4.947</td>
+    </tr>
+  </tbody>
+</table>
+<p>157 rows × 3 columns</p>
+</div>
+
+<h3 id="data-exploration_1">Data exploration</h3>
+<pre><code class="language-python">df_elec.index = pd.DatetimeIndex(df_elec.Date, freq='W-SUN')
+df_elec.drop(['Date'], axis = 1, inplace = True)
+df_elec
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Temp_avg</th>
+      <th>kwh</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-08</th>
+      <td>75.542857</td>
+      <td>106.549</td>
+    </tr>
+    <tr>
+      <th>2017-01-15</th>
+      <td>71.014286</td>
+      <td>129.096</td>
+    </tr>
+    <tr>
+      <th>2017-01-22</th>
+      <td>64.414286</td>
+      <td>68.770</td>
+    </tr>
+    <tr>
+      <th>2017-01-29</th>
+      <td>56.728571</td>
+      <td>71.378</td>
+    </tr>
+    <tr>
+      <th>2017-02-05</th>
+      <td>66.128571</td>
+      <td>107.829</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019-12-08</th>
+      <td>74.371429</td>
+      <td>167.481</td>
+    </tr>
+    <tr>
+      <th>2019-12-15</th>
+      <td>61.242857</td>
+      <td>86.248</td>
+    </tr>
+    <tr>
+      <th>2019-12-22</th>
+      <td>50.000000</td>
+      <td>73.206</td>
+    </tr>
+    <tr>
+      <th>2019-12-29</th>
+      <td>60.128571</td>
+      <td>35.655</td>
+    </tr>
+    <tr>
+      <th>2020-01-05</th>
+      <td>7.185714</td>
+      <td>4.947</td>
+    </tr>
+  </tbody>
+</table>
+<p>157 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python">df_elec.index
+</code></pre>
+<pre><code>DatetimeIndex(['2017-01-08', '2017-01-15', '2017-01-22', '2017-01-29',
+               '2017-02-05', '2017-02-12', '2017-02-19', '2017-02-26',
+               '2017-03-05', '2017-03-12',
+               ...
+               '2019-11-03', '2019-11-10', '2019-11-17', '2019-11-24',
+               '2019-12-01', '2019-12-08', '2019-12-15', '2019-12-22',
+               '2019-12-29', '2020-01-05'],
+              dtype='datetime64[ns]', name='Date', length=157, freq='W-SUN')
+</code></pre>
+<pre><code class="language-python">df_elec['kwh'][:60].plot()
+</code></pre>
+<pre><code>&lt;Axes: xlabel='Date'&gt;
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_152_1.png" /></p>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python">plt.rc(&quot;figure&quot;, figsize=(18,4))
+from statsmodels.graphics.tsaplots import plot_acf,plot_pacf
+plot_acf(df_elec['kwh']);
+plot_pacf(df_elec['kwh']);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_154_0.png" /></p>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_154_1.png" /></p>
+<pre><code class="language-python">result = seasonal_decompose(df_elec['kwh'], model = 'additive') 
+plt.rcParams['figure.figsize'] = (20, 9)
+result.plot();
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_155_0.png" /></p>
+<pre><code class="language-python"># Plot the months to see trends over months
+month_plot(df_elec[['kwh']].resample(rule='M').kwh.sum());
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_156_0.png" /></p>
+<pre><code class="language-python"># Plot the quarter to see trends over quarters
+quarter_plot(df_elec[['kwh']].resample(rule='Q').kwh.sum());
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_157_0.png" /></p>
+<h3 id="train-test-split">Train-test split</h3>
+<pre><code class="language-python"># Train-test split
+test_samples = 12
+
+train_set = df_elec.iloc[:-test_samples]
+test_set = df_elec.iloc[-test_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  145
+Test set:  12
+</code></pre>
+<pre><code class="language-python">train_set
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Temp_avg</th>
+      <th>kwh</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-01-08</th>
+      <td>75.542857</td>
+      <td>106.5490</td>
+    </tr>
+    <tr>
+      <th>2017-01-15</th>
+      <td>71.014286</td>
+      <td>129.0960</td>
+    </tr>
+    <tr>
+      <th>2017-01-22</th>
+      <td>64.414286</td>
+      <td>68.7700</td>
+    </tr>
+    <tr>
+      <th>2017-01-29</th>
+      <td>56.728571</td>
+      <td>71.3780</td>
+    </tr>
+    <tr>
+      <th>2017-02-05</th>
+      <td>66.128571</td>
+      <td>107.8290</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019-09-15</th>
+      <td>76.800000</td>
+      <td>168.3470</td>
+    </tr>
+    <tr>
+      <th>2019-09-22</th>
+      <td>79.385714</td>
+      <td>157.7260</td>
+    </tr>
+    <tr>
+      <th>2019-09-29</th>
+      <td>80.928571</td>
+      <td>191.8260</td>
+    </tr>
+    <tr>
+      <th>2019-10-06</th>
+      <td>70.771429</td>
+      <td>137.1698</td>
+    </tr>
+    <tr>
+      <th>2019-10-13</th>
+      <td>74.285714</td>
+      <td>147.5200</td>
+    </tr>
+  </tbody>
+</table>
+<p>145 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python">test_set
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Temp_avg</th>
+      <th>kwh</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-10-20</th>
+      <td>73.471429</td>
+      <td>137.847</td>
+    </tr>
+    <tr>
+      <th>2019-10-27</th>
+      <td>64.557143</td>
+      <td>84.999</td>
+    </tr>
+    <tr>
+      <th>2019-11-03</th>
+      <td>62.928571</td>
+      <td>76.744</td>
+    </tr>
+    <tr>
+      <th>2019-11-10</th>
+      <td>77.985714</td>
+      <td>175.708</td>
+    </tr>
+    <tr>
+      <th>2019-11-17</th>
+      <td>49.042857</td>
+      <td>77.927</td>
+    </tr>
+    <tr>
+      <th>2019-11-24</th>
+      <td>62.785714</td>
+      <td>62.805</td>
+    </tr>
+    <tr>
+      <th>2019-12-01</th>
+      <td>69.557143</td>
+      <td>74.079</td>
+    </tr>
+    <tr>
+      <th>2019-12-08</th>
+      <td>74.371429</td>
+      <td>167.481</td>
+    </tr>
+    <tr>
+      <th>2019-12-15</th>
+      <td>61.242857</td>
+      <td>86.248</td>
+    </tr>
+    <tr>
+      <th>2019-12-22</th>
+      <td>50.000000</td>
+      <td>73.206</td>
+    </tr>
+    <tr>
+      <th>2019-12-29</th>
+      <td>60.128571</td>
+      <td>35.655</td>
+    </tr>
+    <tr>
+      <th>2020-01-05</th>
+      <td>7.185714</td>
+      <td>4.947</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>Uncomment this cell to run auto-ARIMA (very time consuming)<br />
+Determine parameters for SARIMAX using Auto-ARIMA</strong>  </p>
+<pre><code class="language-Python">model = auto_arima(train_set['kwh'],seasonal=True,m=52)  
+order = model.get_params()['order']  
+seasonal_order = model.get_params()['seasonal_order']  
+
+print('Order = ', order)  
+print('Seasonal Order = ', seasonal_order)  
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python"># Set the order, ie the values of p, d, q and P, D, Q and m.
+
+order =  (1, 0, 1)
+seasonal_order =  (1, 0, 1, 52)
+</code></pre>
+<h3 id="first-let-us-try-sarima-ignoring-temperature">First, let us try SARIMA, ignoring temperature</h3>
+<pre><code class="language-python"># Create and fit model
+
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+model_SARIMA = SARIMAX(train_set['kwh'],order=order,seasonal_order=seasonal_order)
+model_SARIMA = model_SARIMA.fit()
+# model_SARIMA.summary()
+model_SARIMA.params
+</code></pre>
+<pre><code>ar.L1         0.983883
+ma.L1        -0.703757
+ar.S.L52      0.994796
+ma.S.L52     -0.842830
+sigma2      781.564879
+dtype: float64
+</code></pre>
+<pre><code class="language-python"># Create SARIMA predictions
+
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+SARIMApredictions = model_SARIMA.predict(start=start, end=end, dynamic=False, typ='levels').rename('SARIMA Predictions')
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+
+y_test = test_set['kwh']
+y_pred = SARIMApredictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-10-20</th>
+      <td>137.847</td>
+      <td>108.432110</td>
+      <td>29.414890</td>
+    </tr>
+    <tr>
+      <th>2019-10-27</th>
+      <td>84.999</td>
+      <td>84.006054</td>
+      <td>0.992946</td>
+    </tr>
+    <tr>
+      <th>2019-11-03</th>
+      <td>76.744</td>
+      <td>99.242296</td>
+      <td>-22.498296</td>
+    </tr>
+    <tr>
+      <th>2019-11-10</th>
+      <td>175.708</td>
+      <td>164.413570</td>
+      <td>11.294430</td>
+    </tr>
+    <tr>
+      <th>2019-11-17</th>
+      <td>77.927</td>
+      <td>92.077521</td>
+      <td>-14.150521</td>
+    </tr>
+    <tr>
+      <th>2019-11-24</th>
+      <td>62.805</td>
+      <td>74.425502</td>
+      <td>-11.620502</td>
+    </tr>
+    <tr>
+      <th>2019-12-01</th>
+      <td>74.079</td>
+      <td>81.382111</td>
+      <td>-7.303111</td>
+    </tr>
+    <tr>
+      <th>2019-12-08</th>
+      <td>167.481</td>
+      <td>164.427999</td>
+      <td>3.053001</td>
+    </tr>
+    <tr>
+      <th>2019-12-15</th>
+      <td>86.248</td>
+      <td>95.116618</td>
+      <td>-8.868618</td>
+    </tr>
+    <tr>
+      <th>2019-12-22</th>
+      <td>73.206</td>
+      <td>65.763267</td>
+      <td>7.442733</td>
+    </tr>
+    <tr>
+      <th>2019-12-29</th>
+      <td>35.655</td>
+      <td>81.148805</td>
+      <td>-45.493805</td>
+    </tr>
+    <tr>
+      <th>2020-01-05</th>
+      <td>4.947</td>
+      <td>113.466587</td>
+      <td>-108.519587</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Model evaluation
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  1323.1768701198491
+RMSE =  36.375498211293944
+MAE =  22.55437004082181
+</code></pre>
+<pre><code class="language-python"># Plot results
+
+train_set['kwh'].rename('Training Set').plot(legend=True)
+test_set['kwh'].rename('Test Set').plot(legend=True)
+SARIMApredictions.plot(legend = True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_170_0.png" /></p>
+<pre><code class="language-python">y_test
+</code></pre>
+<pre><code>Date
+2019-10-20    137.847
+2019-10-27     84.999
+2019-11-03     76.744
+2019-11-10    175.708
+2019-11-17     77.927
+2019-11-24     62.805
+2019-12-01     74.079
+2019-12-08    167.481
+2019-12-15     86.248
+2019-12-22     73.206
+2019-12-29     35.655
+2020-01-05      4.947
+Freq: W-SUN, Name: kwh, dtype: float64
+</code></pre>
+<h3 id="let-us-use-sarimax-seasonal-arima-with-exogenous-variable">Let us use SARIMAX - Seasonal ARIMA with eXogenous Variable</h3>
+<pre><code class="language-python">model = SARIMAX(endog=train_set['kwh'],exog=train_set['Temp_avg'],order=(1,0,0),seasonal_order=(2,0,0,7),enforce_invertibility=False)
+results = model.fit()
+results.summary()
+</code></pre>
+<table class="simpletable">
+<caption>SARIMAX Results</caption>
+<tr>
+  <th>Dep. Variable:</th>                <td>kwh</td>              <th>  No. Observations:  </th>    <td>145</td>  
+</tr>
+<tr>
+  <th>Model:</th>           <td>SARIMAX(1, 0, 0)x(2, 0, 0, 7)</td> <th>  Log Likelihood     </th> <td>-732.174</td>
+</tr>
+<tr>
+  <th>Date:</th>                  <td>Fri, 10 Nov 2023</td>        <th>  AIC                </th> <td>1474.348</td>
+</tr>
+<tr>
+  <th>Time:</th>                      <td>22:42:32</td>            <th>  BIC                </th> <td>1489.232</td>
+</tr>
+<tr>
+  <th>Sample:</th>                   <td>01-08-2017</td>           <th>  HQIC               </th> <td>1480.396</td>
+</tr>
+<tr>
+  <th></th>                         <td>- 10-13-2019</td>          <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>              <td>opg</td>              <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Temp_avg</th> <td>    2.1916</td> <td>    0.096</td> <td>   22.781</td> <td> 0.000</td> <td>    2.003</td> <td>    2.380</td>
+</tr>
+<tr>
+  <th>ar.L1</th>    <td>    0.6524</td> <td>    0.064</td> <td>   10.202</td> <td> 0.000</td> <td>    0.527</td> <td>    0.778</td>
+</tr>
+<tr>
+  <th>ar.S.L7</th>  <td>   -0.2007</td> <td>    0.089</td> <td>   -2.261</td> <td> 0.024</td> <td>   -0.375</td> <td>   -0.027</td>
+</tr>
+<tr>
+  <th>ar.S.L14</th> <td>   -0.0945</td> <td>    0.090</td> <td>   -1.048</td> <td> 0.294</td> <td>   -0.271</td> <td>    0.082</td>
+</tr>
+<tr>
+  <th>sigma2</th>   <td> 1414.9974</td> <td>  193.794</td> <td>    7.302</td> <td> 0.000</td> <td> 1035.169</td> <td> 1794.826</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Ljung-Box (L1) (Q):</th>     <td>0.20</td> <th>  Jarque-Bera (JB):  </th> <td>2.42</td>
+</tr>
+<tr>
+  <th>Prob(Q):</th>                <td>0.65</td> <th>  Prob(JB):          </th> <td>0.30</td>
+</tr>
+<tr>
+  <th>Heteroskedasticity (H):</th> <td>1.42</td> <th>  Skew:              </th> <td>0.30</td>
+</tr>
+<tr>
+  <th>Prob(H) (two-sided):</th>    <td>0.23</td> <th>  Kurtosis:          </th> <td>2.80</td>
+</tr>
+</table>
+<p>Warnings:[1] Covariance matrix calculated using the outer product of gradients (complex-step).</p>
+<pre><code class="language-python"># Create and fit model
+
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+model_SARIMAX = SARIMAX(train_set['kwh'], exog = train_set['Temp_avg'], order=order,seasonal_order=seasonal_order)
+model_SARIMAX = model_SARIMAX.fit()
+# model_SARIMA.summary()
+model_SARIMAX.params
+</code></pre>
+<pre><code>Temp_avg      4.494951
+ar.L1         0.994501
+ma.L1        -0.672744
+ar.S.L52      0.996258
+ma.S.L52     -0.936537
+sigma2      680.303411
+dtype: float64
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<pre><code class="language-python"># Create SARIMAX predictions
+
+exog = test_set[['Temp_avg']]
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+SARIMAXpredictions = model_SARIMAX.predict(start=start, end=end, exog = exog, dynamic=False, typ='levels').rename('SARIMAX Predictions')
+</code></pre>
+<pre><code class="language-python"># Calculate Evaluation Metrics 
+
+y_test = test_set['kwh']
+y_pred = SARIMAXpredictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<p><br/><br/><br/><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-10-20</th>
+      <td>137.847</td>
+      <td>135.762630</td>
+      <td>2.084370</td>
+    </tr>
+    <tr>
+      <th>2019-10-27</th>
+      <td>84.999</td>
+      <td>90.884021</td>
+      <td>-5.885021</td>
+    </tr>
+    <tr>
+      <th>2019-11-03</th>
+      <td>76.744</td>
+      <td>81.577953</td>
+      <td>-4.833953</td>
+    </tr>
+    <tr>
+      <th>2019-11-10</th>
+      <td>175.708</td>
+      <td>172.860135</td>
+      <td>2.847865</td>
+    </tr>
+    <tr>
+      <th>2019-11-17</th>
+      <td>77.927</td>
+      <td>35.830430</td>
+      <td>42.096570</td>
+    </tr>
+    <tr>
+      <th>2019-11-24</th>
+      <td>62.805</td>
+      <td>89.152707</td>
+      <td>-26.347707</td>
+    </tr>
+    <tr>
+      <th>2019-12-01</th>
+      <td>74.079</td>
+      <td>120.706976</td>
+      <td>-46.627976</td>
+    </tr>
+    <tr>
+      <th>2019-12-08</th>
+      <td>167.481</td>
+      <td>150.329857</td>
+      <td>17.151143</td>
+    </tr>
+    <tr>
+      <th>2019-12-15</th>
+      <td>86.248</td>
+      <td>100.167290</td>
+      <td>-13.919290</td>
+    </tr>
+    <tr>
+      <th>2019-12-22</th>
+      <td>73.206</td>
+      <td>22.178695</td>
+      <td>51.027305</td>
+    </tr>
+    <tr>
+      <th>2019-12-29</th>
+      <td>35.655</td>
+      <td>96.057753</td>
+      <td>-60.402753</td>
+    </tr>
+    <tr>
+      <th>2020-01-05</th>
+      <td>4.947</td>
+      <td>-156.713632</td>
+      <td>161.660632</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</p>
+<pre><code class="language-python"># Metrics
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  3132.1077834193397
+RMSE =  55.96523727653926
+MAE =  36.240382161713455
+</code></pre>
+<pre><code class="language-python"># Plot results
+
+train_set['kwh'].rename('Training Set').plot(legend=True)
+test_set['kwh'].rename('Test Set').plot(legend=True)
+SARIMAXpredictions.plot(legend = True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_179_0.png" /></p>
+<pre><code class="language-python">y_test
+</code></pre>
+<pre><code>Date
+2019-10-20    137.847
+2019-10-27     84.999
+2019-11-03     76.744
+2019-11-10    175.708
+2019-11-17     77.927
+2019-11-24     62.805
+2019-12-01     74.079
+2019-12-08    167.481
+2019-12-15     86.248
+2019-12-22     73.206
+2019-12-29     35.655
+2020-01-05      4.947
+Freq: W-SUN, Name: kwh, dtype: float64
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h2 id="fb-prophet">FB Prophet</h2>
+<p>https://facebook.github.io/prophet/</p>
+<p>Prophet is a procedure for forecasting time series data based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects. </p>
+<p>It works best with time series that have strong seasonal effects and several seasons of historical data. Prophet is robust to missing data and shifts in the trend, and typically handles outliers well.</p>
+<p>Prophet is superior to other methods as it can detect and account for multiple layers of seasonality in the same dataset. 
+(What does this mean: Data may have hourly, weekly as well as monthly seasonality, all distinct from each other.  Other methods will calculate seasonality at the granularity level of the data, ie, to get monthly seasonality you need to provide monthly data using resampling.)</p>
+<pre><code class="language-python"># Python
+import pandas as pd
+from prophet import Prophet
+
+</code></pre>
+<pre><code class="language-python"># Train-test split
+train_samples = int(new_df.shape[0] * 0.8)
+
+train_set = new_df.iloc[:train_samples]
+test_set = new_df.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  60
+Test set:  15
+</code></pre>
+<pre><code class="language-python">train_set.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>Moving_Avg_6m</th>
+      <th>Moving_Avg_12m</th>
+      <th>EWMA12</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2013-09-30</th>
+      <td>80729.0</td>
+      <td>97184.000000</td>
+      <td>74734.583333</td>
+      <td>82750.448591</td>
+    </tr>
+    <tr>
+      <th>2013-10-31</th>
+      <td>81352.0</td>
+      <td>98743.000000</td>
+      <td>76039.333333</td>
+      <td>82535.302654</td>
+    </tr>
+    <tr>
+      <th>2013-11-30</th>
+      <td>59270.0</td>
+      <td>90525.666667</td>
+      <td>76757.916667</td>
+      <td>78956.025322</td>
+    </tr>
+    <tr>
+      <th>2013-12-31</th>
+      <td>43553.0</td>
+      <td>81237.833333</td>
+      <td>77356.583333</td>
+      <td>73509.406042</td>
+    </tr>
+    <tr>
+      <th>2014-01-31</th>
+      <td>59873.0</td>
+      <td>71554.333333</td>
+      <td>78605.666667</td>
+      <td>71411.497420</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Create the ds and y columns for Prophet
+train_set_prophet = train_set.reset_index()
+train_set_prophet = train_set_prophet[['Date', 'Total']]
+train_set_prophet.columns = ['ds', 'y']
+train_set_prophet.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013-09-30</td>
+      <td>80729.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013-10-31</td>
+      <td>81352.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013-11-30</td>
+      <td>59270.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013-12-31</td>
+      <td>43553.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2014-01-31</td>
+      <td>59873.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">model = Prophet()
+model.fit(train_set_prophet)
+</code></pre>
+<pre><code>22:42:37 - cmdstanpy - INFO - Chain [1] start processing
+22:42:37 - cmdstanpy - INFO - Chain [1] done processing
+
+
+
+
+
+&lt;prophet.forecaster.Prophet at 0x14408a54c10&gt;
+</code></pre>
+<pre><code class="language-python">future = model.make_future_dataframe(periods=15,freq = 'm')
+future.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>70</th>
+      <td>2019-07-31</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>2019-08-31</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>2019-09-30</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>2019-10-31</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>2019-11-30</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">future.shape
+</code></pre>
+<pre><code>(75, 1)
+</code></pre>
+<pre><code class="language-python"># Python
+forecast = model.predict(future)
+</code></pre>
+<pre><code class="language-python">forecast.columns
+</code></pre>
+<pre><code>Index(['ds', 'trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper',
+       'additive_terms', 'additive_terms_lower', 'additive_terms_upper',
+       'yearly', 'yearly_lower', 'yearly_upper', 'multiplicative_terms',
+       'multiplicative_terms_lower', 'multiplicative_terms_upper', 'yhat'],
+      dtype='object')
+</code></pre>
+<pre><code class="language-python">forecast.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+      <th>trend</th>
+      <th>yhat_lower</th>
+      <th>yhat_upper</th>
+      <th>trend_lower</th>
+      <th>trend_upper</th>
+      <th>additive_terms</th>
+      <th>additive_terms_lower</th>
+      <th>additive_terms_upper</th>
+      <th>yearly</th>
+      <th>yearly_lower</th>
+      <th>yearly_upper</th>
+      <th>multiplicative_terms</th>
+      <th>multiplicative_terms_lower</th>
+      <th>multiplicative_terms_upper</th>
+      <th>yhat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013-09-30</td>
+      <td>83323.589562</td>
+      <td>85819.953093</td>
+      <td>99008.026474</td>
+      <td>83323.589562</td>
+      <td>83323.589562</td>
+      <td>9120.391098</td>
+      <td>9120.391098</td>
+      <td>9120.391098</td>
+      <td>9120.391098</td>
+      <td>9120.391098</td>
+      <td>9120.391098</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>92443.980660</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013-10-31</td>
+      <td>83286.808660</td>
+      <td>73361.637478</td>
+      <td>86911.006692</td>
+      <td>83286.808660</td>
+      <td>83286.808660</td>
+      <td>-2989.685567</td>
+      <td>-2989.685567</td>
+      <td>-2989.685567</td>
+      <td>-2989.685567</td>
+      <td>-2989.685567</td>
+      <td>-2989.685567</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>80297.123093</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013-11-30</td>
+      <td>83251.214239</td>
+      <td>53784.220687</td>
+      <td>66821.426791</td>
+      <td>83251.214239</td>
+      <td>83251.214239</td>
+      <td>-23011.327489</td>
+      <td>-23011.327489</td>
+      <td>-23011.327489</td>
+      <td>-23011.327489</td>
+      <td>-23011.327489</td>
+      <td>-23011.327489</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>60239.886750</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013-12-31</td>
+      <td>83214.433337</td>
+      <td>36997.798701</td>
+      <td>50727.126628</td>
+      <td>83214.433337</td>
+      <td>83214.433337</td>
+      <td>-39468.043632</td>
+      <td>-39468.043632</td>
+      <td>-39468.043632</td>
+      <td>-39468.043632</td>
+      <td>-39468.043632</td>
+      <td>-39468.043632</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43746.389705</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2014-01-31</td>
+      <td>83177.652434</td>
+      <td>49717.718616</td>
+      <td>62756.802402</td>
+      <td>83177.652434</td>
+      <td>83177.652434</td>
+      <td>-26943.934360</td>
+      <td>-26943.934360</td>
+      <td>-26943.934360</td>
+      <td>-26943.934360</td>
+      <td>-26943.934360</td>
+      <td>-26943.934360</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>56233.718075</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">preds = pd.DataFrame({'Prediction': forecast.yhat[-15:]})
+preds.index = pd.to_datetime(forecast.ds[-15:])
+preds.index.names = ['Date']
+preds
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Prediction</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96887.285693</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>88140.126499</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>62980.805485</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>50953.542730</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>62367.352742</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>56888.480539</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>76208.358529</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>86669.010005</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>122794.851343</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>120372.674873</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>128458.704108</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>114207.558640</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>101186.010180</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>95354.181624</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>64717.364105</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Calculate Evaluation Metrics
+
+y_test = test_set['Total'] 
+y_pred = preds['Prediction']
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-09-30</th>
+      <td>96242.0</td>
+      <td>96887.285693</td>
+      <td>-645.285693</td>
+    </tr>
+    <tr>
+      <th>2018-10-31</th>
+      <td>90982.0</td>
+      <td>88140.126499</td>
+      <td>2841.873501</td>
+    </tr>
+    <tr>
+      <th>2018-11-30</th>
+      <td>68431.0</td>
+      <td>62980.805485</td>
+      <td>5450.194515</td>
+    </tr>
+    <tr>
+      <th>2018-12-31</th>
+      <td>46941.0</td>
+      <td>50953.542730</td>
+      <td>-4012.542730</td>
+    </tr>
+    <tr>
+      <th>2019-01-31</th>
+      <td>72883.0</td>
+      <td>62367.352742</td>
+      <td>10515.647258</td>
+    </tr>
+    <tr>
+      <th>2019-02-28</th>
+      <td>36099.0</td>
+      <td>56888.480539</td>
+      <td>-20789.480539</td>
+    </tr>
+    <tr>
+      <th>2019-03-31</th>
+      <td>85457.0</td>
+      <td>76208.358529</td>
+      <td>9248.641471</td>
+    </tr>
+    <tr>
+      <th>2019-04-30</th>
+      <td>87932.0</td>
+      <td>86669.010005</td>
+      <td>1262.989995</td>
+    </tr>
+    <tr>
+      <th>2019-05-31</th>
+      <td>129123.0</td>
+      <td>122794.851343</td>
+      <td>6328.148657</td>
+    </tr>
+    <tr>
+      <th>2019-06-30</th>
+      <td>132512.0</td>
+      <td>120372.674873</td>
+      <td>12139.325127</td>
+    </tr>
+    <tr>
+      <th>2019-07-31</th>
+      <td>137714.0</td>
+      <td>128458.704108</td>
+      <td>9255.295892</td>
+    </tr>
+    <tr>
+      <th>2019-08-31</th>
+      <td>142414.0</td>
+      <td>114207.558640</td>
+      <td>28206.441360</td>
+    </tr>
+    <tr>
+      <th>2019-09-30</th>
+      <td>112174.0</td>
+      <td>101186.010180</td>
+      <td>10987.989820</td>
+    </tr>
+    <tr>
+      <th>2019-10-31</th>
+      <td>104498.0</td>
+      <td>95354.181624</td>
+      <td>9143.818376</td>
+    </tr>
+    <tr>
+      <th>2019-11-30</th>
+      <td>84963.0</td>
+      <td>64717.364105</td>
+      <td>20245.635895</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Model evaluation
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  157807682.19504696
+RMSE =  12562.15276913344
+MAE =  10071.55405527476
+</code></pre>
+<pre><code class="language-python"># Plot results
+
+train_set['Total'].rename('Training Set').plot(legend=True)
+test_set['Total'].rename('Test Set').plot(legend=True)
+preds.Prediction.plot(legend = True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_196_0.png" /></p>
+<pre><code class="language-python">model.plot_components(forecast);
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_197_0.png" /></p>
+<h3 id="modeling-daily-data-with-prophet">Modeling Daily Data with Prophet</h3>
+<pre><code class="language-python">df = pd.read_csv('https://data.seattle.gov/api/views/65db-xm6k/rows.csv')
+</code></pre>
+<pre><code class="language-python">df
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist East Sidewalk</th>
+      <th>Fremont Bridge Sidewalks, south of N 34th St Cyclist West Sidewalk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>08/01/2022 12:00:00 AM</td>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>08/01/2022 01:00:00 AM</td>
+      <td>12.0</td>
+      <td>5.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>08/01/2022 02:00:00 AM</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>08/01/2022 03:00:00 AM</td>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>08/01/2022 04:00:00 AM</td>
+      <td>10.0</td>
+      <td>2.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95635</th>
+      <td>08/31/2023 07:00:00 PM</td>
+      <td>224.0</td>
+      <td>72.0</td>
+      <td>152.0</td>
+    </tr>
+    <tr>
+      <th>95636</th>
+      <td>08/31/2023 08:00:00 PM</td>
+      <td>142.0</td>
+      <td>59.0</td>
+      <td>83.0</td>
+    </tr>
+    <tr>
+      <th>95637</th>
+      <td>08/31/2023 09:00:00 PM</td>
+      <td>67.0</td>
+      <td>35.0</td>
+      <td>32.0</td>
+    </tr>
+    <tr>
+      <th>95638</th>
+      <td>08/31/2023 10:00:00 PM</td>
+      <td>43.0</td>
+      <td>18.0</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>95639</th>
+      <td>08/31/2023 11:00:00 PM</td>
+      <td>12.0</td>
+      <td>8.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>95640 rows × 4 columns</p>
+</div>
+
+<pre><code class="language-python"># Rename the columns to make them simpler to use
+df.columns = ['Date', 'Total', 'East', 'West']
+</code></pre>
+<pre><code class="language-python"># Create the Date column
+df['Date'] = pd.DatetimeIndex(df.Date)
+</code></pre>
+<pre><code class="language-python">df.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>East</th>
+      <th>West</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-08-01 00:00:00</td>
+      <td>23.0</td>
+      <td>7.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-08-01 01:00:00</td>
+      <td>12.0</td>
+      <td>5.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-08-01 02:00:00</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-08-01 03:00:00</td>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-08-01 04:00:00</td>
+      <td>10.0</td>
+      <td>2.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Create the ds and y columns for Prophet
+
+df2 = df[['Date', 'Total']]
+df2.columns = ['ds', 'y']
+df2
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-08-01 00:00:00</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-08-01 01:00:00</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-08-01 02:00:00</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-08-01 03:00:00</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-08-01 04:00:00</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95635</th>
+      <td>2023-08-31 19:00:00</td>
+      <td>224.0</td>
+    </tr>
+    <tr>
+      <th>95636</th>
+      <td>2023-08-31 20:00:00</td>
+      <td>142.0</td>
+    </tr>
+    <tr>
+      <th>95637</th>
+      <td>2023-08-31 21:00:00</td>
+      <td>67.0</td>
+    </tr>
+    <tr>
+      <th>95638</th>
+      <td>2023-08-31 22:00:00</td>
+      <td>43.0</td>
+    </tr>
+    <tr>
+      <th>95639</th>
+      <td>2023-08-31 23:00:00</td>
+      <td>12.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>95640 rows × 2 columns</p>
+</div>
+
+<pre><code class="language-python"># Remove post-Covid data 
+
+df_precovid = df2[df2.ds &lt; pd.to_datetime('2019-12-31')]
+</code></pre>
+<pre><code class="language-python">%%time
+model = Prophet()
+model.fit(df_precovid)
+</code></pre>
+<pre><code>22:42:53 - cmdstanpy - INFO - Chain [1] start processing
+22:43:07 - cmdstanpy - INFO - Chain [1] done processing
+
+
+CPU times: total: 1.7 s
+Wall time: 19.3 s
+
+
+
+
+
+&lt;prophet.forecaster.Prophet at 0x144193be390&gt;
+</code></pre>
+<pre><code class="language-python">future = model.make_future_dataframe(periods=365)
+future.tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>63829</th>
+      <td>2020-12-25 23:00:00</td>
+    </tr>
+    <tr>
+      <th>63830</th>
+      <td>2020-12-26 23:00:00</td>
+    </tr>
+    <tr>
+      <th>63831</th>
+      <td>2020-12-27 23:00:00</td>
+    </tr>
+    <tr>
+      <th>63832</th>
+      <td>2020-12-28 23:00:00</td>
+    </tr>
+    <tr>
+      <th>63833</th>
+      <td>2020-12-29 23:00:00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">type(future)
+</code></pre>
+<pre><code>pandas.core.frame.DataFrame
+</code></pre>
+<pre><code class="language-python">future.shape
+</code></pre>
+<pre><code>(63834, 1)
+</code></pre>
+<pre><code class="language-python">%%time
+forecast = model.predict(future)
+</code></pre>
+<pre><code>CPU times: total: 2.3 s
+Wall time: 8.74 s
+</code></pre>
+<pre><code class="language-python">type(forecast)
+</code></pre>
+<pre><code>pandas.core.frame.DataFrame
+</code></pre>
+<pre><code class="language-python">forecast.shape
+</code></pre>
+<pre><code>(63834, 22)
+</code></pre>
+<pre><code class="language-python">forecast.columns
+</code></pre>
+<pre><code>Index(['ds', 'trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper',
+       'additive_terms', 'additive_terms_lower', 'additive_terms_upper',
+       'daily', 'daily_lower', 'daily_upper', 'weekly', 'weekly_lower',
+       'weekly_upper', 'yearly', 'yearly_lower', 'yearly_upper',
+       'multiplicative_terms', 'multiplicative_terms_lower',
+       'multiplicative_terms_upper', 'yhat'],
+      dtype='object')
+</code></pre>
+<pre><code class="language-python"># forecast.to_excel('forecast.xlsx')
+</code></pre>
+<pre><code class="language-python">forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ds</th>
+      <th>yhat</th>
+      <th>yhat_lower</th>
+      <th>yhat_upper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>63829</th>
+      <td>2020-12-25 23:00:00</td>
+      <td>-16.020172</td>
+      <td>-142.659821</td>
+      <td>105.518723</td>
+    </tr>
+    <tr>
+      <th>63830</th>
+      <td>2020-12-26 23:00:00</td>
+      <td>-67.037196</td>
+      <td>-191.451418</td>
+      <td>42.315426</td>
+    </tr>
+    <tr>
+      <th>63831</th>
+      <td>2020-12-27 23:00:00</td>
+      <td>-22.832529</td>
+      <td>-145.837458</td>
+      <td>87.747590</td>
+    </tr>
+    <tr>
+      <th>63832</th>
+      <td>2020-12-28 23:00:00</td>
+      <td>27.544487</td>
+      <td>-85.548906</td>
+      <td>145.626637</td>
+    </tr>
+    <tr>
+      <th>63833</th>
+      <td>2020-12-29 23:00:00</td>
+      <td>26.487504</td>
+      <td>-87.689924</td>
+      <td>157.621258</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Python
+fig1 = model.plot(forecast, include_legend=True)
+
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_216_0.png" /></p>
+<pre><code class="language-python"># Python
+fig2 = model.plot_components(forecast)
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_217_0.png" /></p>
+<hr />
+<h2 id="deep-learning-timeseries-prediction-using-rnns">Deep Learning - Timeseries prediction using RNNs</h2>
+<p>Prediction with a deep neural network:<br />
+1. Split the data into train and test.<br />
+2. Decide how many time periods to use for prediction, and divide the data into <script type="math/tex">X</script> and <script type="math/tex">y</script> using <code>Timeseries.Generator</code> from Tensorflow.<br />
+3. Create a model and predict the first observation.<br />
+4. Then predict subsequent observations after including the earlier prediction.<br />
+5. Repeat to get as many prediction as you need (typically equal to the test set size).
+Evaluate the model.  </p>
+<pre><code class="language-python"># We use the same train and test sets that were created in the previous example
+# Let us look at the dates in the train_set.  
+
+train_set.index
+</code></pre>
+<pre><code>DatetimeIndex(['2013-09-30', '2013-10-31', '2013-11-30', '2013-12-31',
+               '2014-01-31', '2014-02-28', '2014-03-31', '2014-04-30',
+               '2014-05-31', '2014-06-30', '2014-07-31', '2014-08-31',
+               '2014-09-30', '2014-10-31', '2014-11-30', '2014-12-31',
+               '2015-01-31', '2015-02-28', '2015-03-31', '2015-04-30',
+               '2015-05-31', '2015-06-30', '2015-07-31', '2015-08-31',
+               '2015-09-30', '2015-10-31', '2015-11-30', '2015-12-31',
+               '2016-01-31', '2016-02-29', '2016-03-31', '2016-04-30',
+               '2016-05-31', '2016-06-30', '2016-07-31', '2016-08-31',
+               '2016-09-30', '2016-10-31', '2016-11-30', '2016-12-31',
+               '2017-01-31', '2017-02-28', '2017-03-31', '2017-04-30',
+               '2017-05-31', '2017-06-30', '2017-07-31', '2017-08-31',
+               '2017-09-30', '2017-10-31', '2017-11-30', '2017-12-31',
+               '2018-01-31', '2018-02-28', '2018-03-31', '2018-04-30',
+               '2018-05-31', '2018-06-30', '2018-07-31', '2018-08-31'],
+              dtype='datetime64[ns]', name='Date', freq='M')
+</code></pre>
+<pre><code class="language-python">train_set = train_set[['Total']]
+test_set = test_set[['Total']]
+</code></pre>
+<pre><code class="language-python"># We will do standard scaling as we are using a neural net
+
+from sklearn.preprocessing import StandardScaler
+std_scaler = StandardScaler()
+</code></pre>
+<pre><code class="language-python"># IGNORE WARNING ITS JUST CONVERTING TO FLOATS
+# WE ONLY FIT TO TRAININ DATA, OTHERWISE WE ARE CHEATING ASSUMING INFO ABOUT TEST SET
+
+std_scaler.fit(train_set)
+</code></pre>
+<style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style>
+<div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>StandardScaler()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">StandardScaler</label><div class="sk-toggleable__content"><pre>StandardScaler()</pre></div></div></div></div></div>
+
+<pre><code class="language-python"># Now we transform using the standard scaler instantiated above
+
+std_train = std_scaler.transform(train_set)
+std_test = std_scaler.transform(test_set)
+</code></pre>
+<pre><code class="language-python">std_train.shape
+</code></pre>
+<pre><code>(60, 1)
+</code></pre>
+<pre><code class="language-python">std_test.shape
+</code></pre>
+<pre><code>(15, 1)
+</code></pre>
+<h3 id="create-sequences">Create Sequences</h3>
+<pre><code class="language-python">from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
+
+# define generator
+lag = 12
+batch_size = 1
+sequences = TimeseriesGenerator(std_train, std_train, length=lag, batch_size=batch_size)
+</code></pre>
+<pre><code class="language-python"># Let us see what our standard scaled training data looks like.
+
+std_train
+</code></pre>
+<pre><code>array([[-0.06864305],
+       [-0.0450607 ],
+       [-0.88092804],
+       [-1.47586179],
+       [-0.85810276],
+       [-1.34443658],
+       [-0.72103747],
+       [ 0.16324371],
+       [ 1.36654898],
+       [ 1.07368123],
+       [ 1.44320106],
+       [ 1.13360234],
+       [ 0.56838311],
+       [ 0.02428578],
+       [-0.96723261],
+       [-1.28833861],
+       [-0.82944812],
+       [-0.90405615],
+       [-0.43146292],
+       [ 0.04370431],
+       [ 0.955126  ],
+       [ 1.18004783],
+       [ 1.14457968],
+       [ 0.78766485],
+       [ 0.32544331],
+       [ 0.01743441],
+       [-0.97942124],
+       [-1.45924438],
+       [-1.16622522],
+       [-0.83887349],
+       [-0.48218578],
+       [ 0.42003766],
+       [ 1.1967788 ],
+       [ 0.94914525],
+       [ 0.87593777],
+       [ 1.12943852],
+       [ 0.43964545],
+       [-0.47919541],
+       [-0.69821218],
+       [-1.6505907 ],
+       [-1.23920557],
+       [-1.53460946],
+       [-0.9007251 ],
+       [-0.53483914],
+       [ 1.00486469],
+       [ 0.95611018],
+       [ 1.37639073],
+       [ 1.42499383],
+       [ 0.52825905],
+       [ 0.21199822],
+       [-0.94096271],
+       [-1.38845949],
+       [-0.90663015],
+       [-1.20619786],
+       [-0.19904623],
+       [-0.098244  ],
+       [ 1.78932782],
+       [ 1.15839598],
+       [ 1.72138189],
+       [ 1.10782453]])
+</code></pre>
+<pre><code class="language-python">len(std_train)
+</code></pre>
+<pre><code>60
+</code></pre>
+<pre><code class="language-python">len(sequences) # n_input = 2
+</code></pre>
+<pre><code>48
+</code></pre>
+<pre><code class="language-python"># What does the first batch look like?
+X,y = sequences[0]
+</code></pre>
+<pre><code class="language-python">X
+</code></pre>
+<pre><code>array([[[-0.06864305],
+        [-0.0450607 ],
+        [-0.88092804],
+        [-1.47586179],
+        [-0.85810276],
+        [-1.34443658],
+        [-0.72103747],
+        [ 0.16324371],
+        [ 1.36654898],
+        [ 1.07368123],
+        [ 1.44320106],
+        [ 1.13360234]]])
+</code></pre>
+<pre><code class="language-python">y
+</code></pre>
+<pre><code>array([[0.56838311]])
+</code></pre>
+<pre><code class="language-python"># What does the second batch look like?
+X,y = sequences[1]
+</code></pre>
+<pre><code class="language-python">X
+</code></pre>
+<pre><code>array([[[-0.0450607 ],
+        [-0.88092804],
+        [-1.47586179],
+        [-0.85810276],
+        [-1.34443658],
+        [-0.72103747],
+        [ 0.16324371],
+        [ 1.36654898],
+        [ 1.07368123],
+        [ 1.44320106],
+        [ 1.13360234],
+        [ 0.56838311]]])
+</code></pre>
+<pre><code class="language-python">y
+</code></pre>
+<pre><code>array([[0.02428578]])
+</code></pre>
+<h3 id="create-the-model">Create the Model</h3>
+<pre><code class="language-python"># First, some library imports
+
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+import tensorflow as tf
+</code></pre>
+<pre><code class="language-python"># We will go with a very simple architecture, a sequential model 
+# with just one hidden LSTM layer. Define model:  
+
+model = Sequential()
+model.add(LSTM(100, input_shape=(lag, batch_size)))
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
+</code></pre>
+<pre><code class="language-python">model.summary()
+</code></pre>
+<pre><code>Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lstm (LSTM)                 (None, 100)               40800
+
+ dense (Dense)               (None, 1)                 101
+
+=================================================================
+Total params: 40901 (159.77 KB)
+Trainable params: 40901 (159.77 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+</code></pre>
+<pre><code class="language-python"># fit model
+
+callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=4)
+history = model.fit_generator(sequences,epochs=50, callbacks=[callback])
+</code></pre>
+<pre><code>Epoch 1/50
+48/48 [==============================] - 2s 7ms/step - loss: 0.5581
+Epoch 2/50
+48/48 [==============================] - 0s 7ms/step - loss: 0.2086
+Epoch 3/50
+48/48 [==============================] - 0s 5ms/step - loss: 0.2686
+Epoch 4/50
+48/48 [==============================] - 0s 5ms/step - loss: 0.1574
+Epoch 5/50
+48/48 [==============================] - 0s 4ms/step - loss: 0.1408
+Epoch 6/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1744
+Epoch 7/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1421
+Epoch 8/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1696
+Epoch 9/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1318
+Epoch 10/50
+48/48 [==============================] - 0s 4ms/step - loss: 0.1321
+Epoch 11/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1318
+Epoch 12/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1423
+Epoch 13/50
+48/48 [==============================] - 0s 5ms/step - loss: 0.1208
+Epoch 14/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1472
+Epoch 15/50
+48/48 [==============================] - 0s 4ms/step - loss: 0.1156
+Epoch 16/50
+48/48 [==============================] - 0s 5ms/step - loss: 0.1262
+Epoch 17/50
+48/48 [==============================] - 0s 5ms/step - loss: 0.1403
+Epoch 18/50
+48/48 [==============================] - 0s 6ms/step - loss: 0.1193
+Epoch 19/50
+48/48 [==============================] - 0s 7ms/step - loss: 0.1363
+</code></pre>
+<pre><code class="language-python">loss_per_epoch = model.history.history['loss']
+plt.plot(range(len(loss_per_epoch)),loss_per_epoch)
+</code></pre>
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x14490d21310&gt;]
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_242_1.png" /></p>
+<h3 id="evaluate-on-test-data">Evaluate on Test Data</h3>
+<p>As part of our training, we used the preceding 12 values to predict the next one.  Now we will use the last 12 values of the training data to predict the first value of the test data.  Then we will add this predicted value to our sequence, and predict the next one, and so on. </p>
+<pre><code class="language-python">lag
+</code></pre>
+<pre><code>12
+</code></pre>
+<pre><code class="language-python"># Pick the last 12 values in the training data
+
+predictors = std_train[-lag:]
+</code></pre>
+<pre><code class="language-python"># See what they look like...
+
+predictors
+</code></pre>
+<pre><code>array([[ 0.52825905],
+       [ 0.21199822],
+       [-0.94096271],
+       [-1.38845949],
+       [-0.90663015],
+       [-1.20619786],
+       [-0.19904623],
+       [-0.098244  ],
+       [ 1.78932782],
+       [ 1.15839598],
+       [ 1.72138189],
+       [ 1.10782453]])
+</code></pre>
+<p>We will need to reshape this data to feed into our LSTM layer which expects a 3 dimensional input.  We do that next.  </p>
+<pre><code class="language-python">predictors = predictors.reshape((1, lag, 1))
+</code></pre>
+<p>Next, we perform the prediction to get the first item after the training data has ended.  This prediction will come in as standard-scaled, so we will need to reverse out the scaling to get the true prediction.  </p>
+<pre><code class="language-python"># Predict 
+
+x = model.predict(predictors)
+x
+</code></pre>
+<pre><code>1/1 [==============================] - 0s 414ms/step
+
+
+
+
+
+array([[0.45122966]], dtype=float32)
+</code></pre>
+<pre><code class="language-python"># Do an inverse transform to get the actual prediction
+
+std_scaler.inverse_transform(x)
+</code></pre>
+<pre><code>array([[94463.03]], dtype=float32)
+</code></pre>
+<pre><code class="language-python"># Let us see what the actual value in the test set was.
+
+test_set.iloc[1]
+</code></pre>
+<pre><code>Total    90982.0
+Name: 2018-10-31 00:00:00, dtype: float64
+</code></pre>
+<p>Now we can predict the next data point.  However, doing this manually is going to be very tedious, so we write some code to loop through this and do it for as many times as we need the predictions for.  </p>
+<pre><code class="language-python">predictors = std_train[-lag:].reshape((1, lag, 1))
+predictions = []
+for i in range(len(std_test)):
+    next_pred = model.predict(predictors)[0]
+    predictions.append(next_pred) 
+    predictors = np.append(predictors[:,1:,:],[[next_pred]],axis=1)
+
+predictions
+</code></pre>
+<pre><code>1/1 [==============================] - 0s 22ms/step
+1/1 [==============================] - 0s 27ms/step
+1/1 [==============================] - 0s 30ms/step
+1/1 [==============================] - 0s 26ms/step
+1/1 [==============================] - 0s 35ms/step
+1/1 [==============================] - 0s 27ms/step
+1/1 [==============================] - 0s 32ms/step
+1/1 [==============================] - 0s 29ms/step
+1/1 [==============================] - 0s 30ms/step
+1/1 [==============================] - 0s 28ms/step
+1/1 [==============================] - 0s 33ms/step
+1/1 [==============================] - 0s 21ms/step
+1/1 [==============================] - 0s 30ms/step
+1/1 [==============================] - 0s 31ms/step
+1/1 [==============================] - 0s 25ms/step
+
+
+
+
+
+[array([0.45122966], dtype=float32),
+ array([-0.3290154], dtype=float32),
+ array([-1.0449202], dtype=float32),
+ array([-1.4312159], dtype=float32),
+ array([-1.4465744], dtype=float32),
+ array([-1.1398427], dtype=float32),
+ array([-0.48234788], dtype=float32),
+ array([0.2781088], dtype=float32),
+ array([1.047395], dtype=float32),
+ array([1.4374696], dtype=float32),
+ array([1.5440987], dtype=float32),
+ array([1.1877004], dtype=float32),
+ array([0.53592247], dtype=float32),
+ array([-0.24500774], dtype=float32),
+ array([-0.94227564], dtype=float32)]
+</code></pre>
+<pre><code class="language-python"># We inverse transform these scaled predictions
+
+final_predictions = std_scaler.inverse_transform(predictions)
+final_predictions
+</code></pre>
+<pre><code>array([[ 94463.03240163],
+       [ 73850.4654616 ],
+       [ 54937.64395903],
+       [ 44732.45864597],
+       [ 44326.71497745],
+       [ 52429.97380651],
+       [ 69799.71784522],
+       [ 89889.51390621],
+       [110212.56840795],
+       [120517.58586778],
+       [123334.52152427],
+       [113919.16595602],
+       [ 96700.45268135],
+       [ 76069.78565349],
+       [ 57649.31496236]])
+</code></pre>
+<pre><code class="language-python"># Now let us plot the actuals versus the predicted values
+
+pd.DataFrame({'actual': test_set.Total, 'forecast': final_predictions.flatten()}).plot()
+</code></pre>
+<pre><code>&lt;Axes: xlabel='Date'&gt;
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_256_1.png" /></p>
+<pre><code class="language-python"># Next, we evaluate our model using some metrics
+
+y_test = test_set.Total
+y_pred = final_predictions.flatten()
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  341904917.8754553
+RMSE =  18490.671103977144
+MAE =  16140.603957905736
+</code></pre>
+<h2 id="which-method-performed-best">Which method performed best?</h2>
+<p>Here is a summary of model performance above.  The numbers would change each time you run it, but should give us a picture.</p>
+<p>EWMA<br />
+MSE =  1228535508.79919<br />
+RMSE =  35050.47087842316<br />
+MAE =  29263.82507577501  </p>
+<p>DES<br />
+MSE =  6789777046.197141<br />
+RMSE =  82400.10343559734<br />
+MAE =  75161.63066121914  </p>
+<p>TES<br />
+MSE =  160014279.71049073<br />
+RMSE =  12649.675083198412<br />
+MAE =  10899.78971069559  </p>
+<p>ARIMA no seasonality<br />
+MSE =  385065540.80112064<br />
+RMSE =  19623.086933536237<br />
+MAE =  17158.523051864664  </p>
+<p>SARIMA<br />
+MSE =  231993016.8844547<br />
+RMSE =  15231.316978004716<br />
+MAE =  12576.568673608848  </p>
+<p>Prophet<br />
+MSE =  157807679.90652037<br />
+RMSE =  12562.152678045286<br />
+MAE =  10071.553953152606  </p>
+<p>Deep Learning<br />
+MSE =  449731703.1802<br />
+RMSE =  21206.87867603811<br />
+MAE =  18007.781001223593  </p>
+<pre><code class="language-python">
+</code></pre>
+<hr />
+<h2 id="experiment-can-we-predict-the-sp500">Experiment - Can we predict the S&amp;P500</h2>
+<pre><code class="language-python"># Let us get some data.  We download the daily time series for the S&amp;P500 for 30 months
+
+import yfinance as yf
+SPY = yf.download('SPY', start = '2013-01-01', end = '2015-06-30')
+</code></pre>
+<pre><code>[*********************100%%**********************]  1 of 1 completed
+</code></pre>
+<pre><code class="language-python"># Clean up
+
+SPY.index = pd.DatetimeIndex(SPY.index) # Set index
+SPY = SPY.asfreq('B') # This creates rows for any missing dates
+SPY.fillna(method = 'bfill', inplace=True) # Fills missing dates with last observation
+</code></pre>
+<pre><code class="language-python">SPY.info()
+</code></pre>
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+DatetimeIndex: 649 entries, 2013-01-02 to 2015-06-29
+Freq: B
+Data columns (total 6 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   Open       649 non-null    float64
+ 1   High       649 non-null    float64
+ 2   Low        649 non-null    float64
+ 3   Close      649 non-null    float64
+ 4   Adj Close  649 non-null    float64
+ 5   Volume     649 non-null    float64
+dtypes: float64(6)
+memory usage: 35.5 KB
+</code></pre>
+<pre><code class="language-python">SPY['Returns'] = (SPY['Close'].shift(1) / SPY['Close']) - 1
+SPY[['Returns']].plot(figsize = (22,6));
+
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_265_0.png" /></p>
+<pre><code class="language-python">SPY[['Close']].plot(figsize = (22,6));
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_266_0.png" /></p>
+<pre><code class="language-python"># Train-test split
+train_samples = int(SPY.shape[0] * 0.8)
+
+train_set = SPY.iloc[:train_samples]
+test_set = SPY.iloc[train_samples:]
+
+print(&quot;Training set: &quot;, train_set.shape[0])
+print(&quot;Test set: &quot;, test_set.shape[0])
+</code></pre>
+<pre><code>Training set:  519
+Test set:  130
+</code></pre>
+<pre><code class="language-python">model = auto_arima(train_set['Close'], seasonal=True , m = 12)
+</code></pre>
+<pre><code class="language-python">order = model.get_params()['order']
+seasonal_order = model.get_params()['seasonal_order']
+
+print('Order = ', order)
+print('Seasonal Order = ', seasonal_order)
+</code></pre>
+<pre><code>Order =  (0, 1, 0)
+Seasonal Order =  (0, 0, 0, 12)
+</code></pre>
+<pre><code class="language-python">model = ARIMA(train_set['Close'],order = order)
+results = model.fit()
+results.summary()
+
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+predictions = results.predict(start=start, end=end, dynamic=False, typ='levels').rename('ARIMA Predictions')
+
+train_set['Close'].rename('Training Set').plot(legend=True)
+test_set['Close'].rename('Test Set').plot(legend=True)
+predictions.plot(legend = True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_270_0.png" /></p>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Close']
+y_pred = predictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-12-30</th>
+      <td>207.600006</td>
+      <td>208.720001</td>
+      <td>-1.119995</td>
+    </tr>
+    <tr>
+      <th>2014-12-31</th>
+      <td>205.539993</td>
+      <td>208.720001</td>
+      <td>-3.180008</td>
+    </tr>
+    <tr>
+      <th>2015-01-01</th>
+      <td>205.429993</td>
+      <td>208.720001</td>
+      <td>-3.290009</td>
+    </tr>
+    <tr>
+      <th>2015-01-02</th>
+      <td>205.429993</td>
+      <td>208.720001</td>
+      <td>-3.290009</td>
+    </tr>
+    <tr>
+      <th>2015-01-05</th>
+      <td>201.720001</td>
+      <td>208.720001</td>
+      <td>-7.000000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2015-06-23</th>
+      <td>212.039993</td>
+      <td>208.720001</td>
+      <td>3.319992</td>
+    </tr>
+    <tr>
+      <th>2015-06-24</th>
+      <td>210.500000</td>
+      <td>208.720001</td>
+      <td>1.779999</td>
+    </tr>
+    <tr>
+      <th>2015-06-25</th>
+      <td>209.860001</td>
+      <td>208.720001</td>
+      <td>1.139999</td>
+    </tr>
+    <tr>
+      <th>2015-06-26</th>
+      <td>209.820007</td>
+      <td>208.720001</td>
+      <td>1.100006</td>
+    </tr>
+    <tr>
+      <th>2015-06-29</th>
+      <td>205.419998</td>
+      <td>208.720001</td>
+      <td>-3.300003</td>
+    </tr>
+  </tbody>
+</table>
+<p>130 rows × 3 columns</p>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  11.971797943699102
+RMSE =  3.460028604462556
+MAE =  2.769538996769832
+</code></pre>
+<pre><code class="language-python">plt.rcParams['figure.figsize'] = (20, 9)
+</code></pre>
+<pre><code class="language-python"># Create and fit model
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+model = SARIMAX(train_set['Close'],order=order,seasonal_order=seasonal_order)
+results = model.fit()
+
+
+start=len(train_set)
+end=len(train_set)+len(test_set)-1
+predictions = results.predict(start=start, end=end, dynamic=False, typ='levels').rename('SARIMA Predictions')
+
+train_set['Close'].rename('Training Set').plot(legend=True)
+test_set['Close'].rename('Test Set').plot(legend=True)
+predictions.plot(legend = True)
+plt.show()
+</code></pre>
+<p><img alt="png" src="../11_Time_Series_files/11_Time_Series_274_0.png" /></p>
+<pre><code class="language-python"># Calculate Evaluation Metrics
+y_test = test_set['Close']
+y_pred = predictions
+pd.DataFrame({'y_test': y_test, 'y_pred' : y_pred, 'diff':y_test - y_pred})
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y_test</th>
+      <th>y_pred</th>
+      <th>diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2014-12-30</th>
+      <td>207.600006</td>
+      <td>208.720001</td>
+      <td>-1.119995</td>
+    </tr>
+    <tr>
+      <th>2014-12-31</th>
+      <td>205.539993</td>
+      <td>208.720001</td>
+      <td>-3.180008</td>
+    </tr>
+    <tr>
+      <th>2015-01-01</th>
+      <td>205.429993</td>
+      <td>208.720001</td>
+      <td>-3.290009</td>
+    </tr>
+    <tr>
+      <th>2015-01-02</th>
+      <td>205.429993</td>
+      <td>208.720001</td>
+      <td>-3.290009</td>
+    </tr>
+    <tr>
+      <th>2015-01-05</th>
+      <td>201.720001</td>
+      <td>208.720001</td>
+      <td>-7.000000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2015-06-23</th>
+      <td>212.039993</td>
+      <td>208.720001</td>
+      <td>3.319992</td>
+    </tr>
+    <tr>
+      <th>2015-06-24</th>
+      <td>210.500000</td>
+      <td>208.720001</td>
+      <td>1.779999</td>
+    </tr>
+    <tr>
+      <th>2015-06-25</th>
+      <td>209.860001</td>
+      <td>208.720001</td>
+      <td>1.139999</td>
+    </tr>
+    <tr>
+      <th>2015-06-26</th>
+      <td>209.820007</td>
+      <td>208.720001</td>
+      <td>1.100006</td>
+    </tr>
+    <tr>
+      <th>2015-06-29</th>
+      <td>205.419998</td>
+      <td>208.720001</td>
+      <td>-3.300003</td>
+    </tr>
+  </tbody>
+</table>
+<p>130 rows × 3 columns</p>
+</div>
+
+<pre><code class="language-python">from sklearn.metrics import mean_absolute_error, mean_squared_error
+print('MSE = ', mean_squared_error(y_test,y_pred))
+print('RMSE = ', np.sqrt(mean_squared_error(y_test,y_pred)))
+print('MAE = ', mean_absolute_error(y_test,y_pred))
+</code></pre>
+<pre><code>MSE =  11.971797943699102
+RMSE =  3.460028604462556
+MAE =  2.769538996769832
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../10_Deep_Learning/" class="btn btn-neutral float-left" title="Deep Learning"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../12_Text_Data/" class="btn btn-neutral float-right" title="Text as Data">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../10_Deep_Learning/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../12_Text_Data/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
