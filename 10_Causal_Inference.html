@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Causal Inference – Business Analytics - Mukul Pareek</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11_Recommender_Systems.html" rel="next">
+<link href="./09_Introduction_to_Modeling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-12eeb4b20e9f5a2b0bfc604bfaf942bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10_Causal_Inference.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Causal Inference</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Business Analytics - Mukul Pareek</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Introduction_to_Business_Analytics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to Business Analytics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Acknowledgments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Acknowledgments</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Descriptive_Statistics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Hypothesis_Testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_AB_Testing_Experimental_Design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">AB Testing &amp; Experimental Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Exploratory_Data_Analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Visualization_Basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Visualization Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Data_Preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Data Preparation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Introduction_to_Modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Causal_Inference.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Causal Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_Recommender_Systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Recommender Systems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_Feature_Engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Feature Engineering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_Synthetic_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Synthetic Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_Machine_Learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_MLOps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">MLOps</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_Deep_Learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Deep Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_Time_Series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Time Series</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_Text_Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Text Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_HuggingFace_LLMs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">HuggingFace LLMs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21_ServerlessAPIs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Serverless APIs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22_Local_LLMs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Local LLMs</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./23_Prompt_Engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Prompt Engineering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_RAG_Pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">RAG Pipeline</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./25_LLM_Practical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">LLM Practical</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_LLM_Safety.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">LLM Safety</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./27_Agentic_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Agentic AI</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-fundamental-problem" id="toc-the-fundamental-problem" class="nav-link active" data-scroll-target="#the-fundamental-problem"><span class="header-section-number">11.1</span> The Fundamental Problem</a></li>
+  <li><a href="#directed-acyclic-graphs" id="toc-directed-acyclic-graphs" class="nav-link" data-scroll-target="#directed-acyclic-graphs"><span class="header-section-number">11.2</span> Directed Acyclic Graphs</a></li>
+  <li><a href="#simpsons-paradox" id="toc-simpsons-paradox" class="nav-link" data-scroll-target="#simpsons-paradox"><span class="header-section-number">11.3</span> Simpson’s Paradox</a></li>
+  <li><a href="#randomized-controlled-trials" id="toc-randomized-controlled-trials" class="nav-link" data-scroll-target="#randomized-controlled-trials"><span class="header-section-number">11.4</span> Randomized Controlled Trials</a></li>
+  <li><a href="#difference-in-differences" id="toc-difference-in-differences" class="nav-link" data-scroll-target="#difference-in-differences"><span class="header-section-number">11.5</span> Difference-in-Differences</a></li>
+  <li><a href="#regression-discontinuity" id="toc-regression-discontinuity" class="nav-link" data-scroll-target="#regression-discontinuity"><span class="header-section-number">11.6</span> Regression Discontinuity</a></li>
+  <li><a href="#propensity-score-matching" id="toc-propensity-score-matching" class="nav-link" data-scroll-target="#propensity-score-matching"><span class="header-section-number">11.7</span> Propensity Score Matching</a></li>
+  <li><a href="#double-machine-learning" id="toc-double-machine-learning" class="nav-link" data-scroll-target="#double-machine-learning"><span class="header-section-number">11.8</span> Double Machine Learning</a></li>
+  <li><a href="#instrumental-variables" id="toc-instrumental-variables" class="nav-link" data-scroll-target="#instrumental-variables"><span class="header-section-number">11.9</span> Instrumental Variables</a></li>
+  <li><a href="#choosing-a-method" id="toc-choosing-a-method" class="nav-link" data-scroll-target="#choosing-a-method"><span class="header-section-number">11.10</span> Choosing a Method</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Causal Inference</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Correlation is not causation</em> is the most frequently cited statistical warning in business analytics — and the most frequently ignored.</p>
+<p>Companies with more fire stations tend to have more fires. Ice cream sales and drowning rates are correlated. Users who see a premium ad are more likely to buy — but was the ad effective, or did the algorithm show it to people who were already going to buy?</p>
+<p>Correlation tells us that two things move together. Causation tells us that changing one thing <em>will cause</em> the other to change. Most business decisions require causation, not correlation. And most observational analyses — even sophisticated ones — are not equipped to deliver it.</p>
+<p>In this chapter we look at the fundamental problem of causal inference, the graphical language of causal models (DAGs), why aggregated data can reverse apparent relationships (Simpson’s Paradox), and the main methods for estimating causal effects from observational data: Difference-in-Differences, Regression Discontinuity, Propensity Score Matching, and Double ML.</p>
+<div id="6151fa98e8914104" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries loaded."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="the-fundamental-problem" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="the-fundamental-problem"><span class="header-section-number">11.1</span> The Fundamental Problem</h2>
+<p>The reason causal inference is hard is simple: we can never observe the same unit in two states simultaneously. We either send a customer an email <em>or</em> we do not. We can never know what would have happened to <em>that specific customer</em> had we done the opposite. This unobserved outcome is called the <strong>counterfactual</strong>.</p>
+<p>In the <strong>Potential Outcomes Framework</strong> (also called the Rubin Causal Model), we define <span class="math inline">\(Y_i(1)\)</span> as the outcome for unit <span class="math inline">\(i\)</span> under treatment and <span class="math inline">\(Y_i(0)\)</span> as the outcome under no treatment. The individual treatment effect <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span> is never observable. The quantity we can estimate from data is the <strong>Average Treatment Effect</strong>:</p>
+<p><span class="math display">\[\tau = E[Y(1) - Y(0)]\]</span></p>
+<p>When treatment is randomly assigned, the two groups are identical on average in all characteristics — observed and unobserved. Any difference in outcomes can then be attributed to the treatment. When treatment is <em>not</em> randomly assigned, the people who received it differ systematically from those who did not, and comparing outcomes conflates the treatment effect with those pre-existing differences.</p>
+</section>
+<section id="directed-acyclic-graphs" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="directed-acyclic-graphs"><span class="header-section-number">11.2</span> Directed Acyclic Graphs</h2>
+<p>A <strong>Directed Acyclic Graph (DAG)</strong> is a visual tool for representing causal assumptions. Nodes are variables; directed arrows represent causal relationships. Getting the DAG right is not a statistical question — it requires domain knowledge.</p>
+<p>Three patterns matter most.</p>
+<p>A <strong>confounder</strong> is a common cause of both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>: <code>Z → X</code> and <code>Z → Y</code>. <span class="math inline">\(Z\)</span> creates a spurious correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. We must control for <span class="math inline">\(Z\)</span> to estimate the true <span class="math inline">\(X \to Y\)</span> effect. <em>Example: socioeconomic status causes both exercise and health. Not controlling for it overstates the benefit of exercise.</em></p>
+<p>A <strong>mediator</strong> lies on the causal path: <code>X → M → Y</code>. Controlling for <span class="math inline">\(M\)</span> blocks the effect we are trying to measure. <em>Example: a drug lowers blood pressure, which reduces heart attacks. Controlling for blood pressure removes the very effect we want.</em></p>
+<p>A <strong>collider</strong> is caused by both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>: <code>X → Z ← Y</code>. Conditioning on a collider creates a spurious correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. <em>Example: analyzing only hospitalized patients creates associations between diseases that do not exist in the general population.</em></p>
+<p>The rule is: control for confounders, but do not control for mediators or colliders. Getting this wrong produces biased estimates regardless of sample size.</p>
+</section>
+<section id="simpsons-paradox" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="simpsons-paradox"><span class="header-section-number">11.3</span> Simpson’s Paradox</h2>
+<p>Simpson’s Paradox occurs when a trend that appears in aggregated data reverses when the data is broken into subgroups. It is one of the most compelling illustrations of why aggregate statistics can mislead.</p>
+<p>The classic example is the UC Berkeley graduate admissions study from 1973. Aggregate data showed men were admitted at a higher rate than women (44% vs 35%). But examined department by department, women were admitted at a higher or equal rate in most departments. The explanation: women disproportionately applied to highly competitive departments — the very factor that creates the paradox.</p>
+<p>Let us construct a business example. Two salespeople. Aggregated, Salesperson A looks stronger. But A handles mostly small deals, which are easier to close. B handles mostly large deals. Within each deal size, B wins.</p>
+<div id="01a604f085484139" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simpson's Paradox: sales performance</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'salesperson'</span>: [<span class="st">'A'</span>]<span class="op">*</span><span class="dv">100</span> <span class="op">+</span> [<span class="st">'B'</span>]<span class="op">*</span><span class="dv">100</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'deal_size'</span>:   ([<span class="st">'small'</span>]<span class="op">*</span><span class="dv">80</span> <span class="op">+</span> [<span class="st">'large'</span>]<span class="op">*</span><span class="dv">20</span>) <span class="op">+</span> ([<span class="st">'small'</span>]<span class="op">*</span><span class="dv">20</span> <span class="op">+</span> [<span class="st">'large'</span>]<span class="op">*</span><span class="dv">80</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'closed'</span>:      (np.random.binomial(<span class="dv">1</span>, <span class="fl">0.70</span>, <span class="dv">80</span>).tolist() <span class="op">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                    np.random.binomial(<span class="dv">1</span>, <span class="fl">0.40</span>, <span class="dv">20</span>).tolist() <span class="op">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                    np.random.binomial(<span class="dv">1</span>, <span class="fl">0.80</span>, <span class="dv">20</span>).tolist() <span class="op">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                    np.random.binomial(<span class="dv">1</span>, <span class="fl">0.55</span>, <span class="dv">80</span>).tolist())</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Aggregate close rate (misleading):'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.groupby(<span class="st">'salesperson'</span>)[<span class="st">'closed'</span>].mean().rename(<span class="st">'close_rate'</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Close rate by deal size (true picture):'</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.groupby([<span class="st">'salesperson'</span>,<span class="st">'deal_size'</span>])[<span class="st">'closed'</span>].mean().<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Salesperson B outperforms A in BOTH categories.'</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'The confounder (deal size) reverses the apparent result in the aggregate.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="randomized-controlled-trials" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="randomized-controlled-trials"><span class="header-section-number">11.4</span> Randomized Controlled Trials</h2>
+<p>The cleanest solution to the causal inference problem is to <strong>randomly assign</strong> units to treatment and control. Randomization ensures that, on average, the two groups are identical in all characteristics — both observed and unobserved. Any difference in outcomes can therefore be attributed to the treatment.</p>
+<p>In many business and policy settings, randomization is expensive, unethical, or impossible. We cannot randomly assign people to smoke to study lung cancer. We cannot go back in time and re-randomize historical data. We may not be able to run a full experiment before a decision must be made.</p>
+<p>For these situations, <strong>observational study methods</strong> aim to approximate the conditions of a randomized experiment using data where assignment was not random. Each method requires a different identification assumption, and that assumption cannot always be tested — it must be argued on substantive grounds.</p>
+</section>
+<section id="difference-in-differences" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="difference-in-differences"><span class="header-section-number">11.5</span> Difference-in-Differences</h2>
+<p><strong>Difference-in-Differences (DiD)</strong> compares the <em>change</em> in outcomes for a treated group to the <em>change</em> for a control group over the same time period. The difference between these two changes is the estimated treatment effect:</p>
+<p><span class="math display">\[\hat{\tau}_{DiD} = (\bar{Y}_{\text{treated, after}} - \bar{Y}_{\text{treated, before}}) - (\bar{Y}_{\text{control, after}} - \bar{Y}_{\text{control, before}})\]</span></p>
+<p>The key assumption is <strong>parallel trends</strong>: in the absence of treatment, the treated group would have followed the same trend as the control group. If the two groups were already diverging before the treatment, the DiD estimate is biased.</p>
+<p>Card and Krueger (1994) used DiD to study the effect of a minimum wage increase in New Jersey by comparing fast-food employment trends with neighboring Pennsylvania. They found no negative employment effect, a famous result that reshaped the debate around minimum wage policy.</p>
+<div id="2ab5d06b70144291" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DiD: loyalty program rolled out in 12 of 24 cities</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n_cities <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sales_before_ctrl    <span class="op">=</span> np.random.normal(<span class="dv">100</span>, <span class="dv">10</span>, n_cities)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sales_before_treated <span class="op">=</span> np.random.normal(<span class="dv">102</span>, <span class="dv">10</span>, n_cities)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>program_effect <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sales_after_ctrl    <span class="op">=</span> sales_before_ctrl    <span class="op">+</span> np.random.normal(<span class="dv">5</span>, <span class="dv">3</span>, n_cities)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>sales_after_treated <span class="op">=</span> sales_before_treated <span class="op">+</span> np.random.normal(<span class="dv">5</span>, <span class="dv">3</span>, n_cities) <span class="op">+</span> program_effect</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>did <span class="op">=</span> ((sales_after_treated <span class="op">-</span> sales_before_treated).mean() <span class="op">-</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>       (sales_after_ctrl    <span class="op">-</span> sales_before_ctrl).mean())</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Control:  before=</span><span class="sc">{</span>sales_before_ctrl<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">, after=</span><span class="sc">{</span>sales_after_ctrl<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">, change=</span><span class="sc">{</span>( sales_after_ctrl<span class="op">-</span>sales_before_ctrl)<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">'</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Treated:  before=</span><span class="sc">{</span>sales_before_treated<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">, after=</span><span class="sc">{</span>sales_after_treated<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">, change=</span><span class="sc">{</span>(sales_after_treated<span class="op">-</span>sales_before_treated)<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">'</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'DiD estimate: </span><span class="sc">{</span>did<span class="sc">:.2f}</span><span class="ss">  (true effect = </span><span class="sc">{</span>program_effect<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_cities):</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    ax.plot([<span class="dv">0</span>,<span class="dv">1</span>],[sales_before_ctrl[i], sales_after_ctrl[i]],       color<span class="op">=</span><span class="st">'steelblue'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    ax.plot([<span class="dv">0</span>,<span class="dv">1</span>],[sales_before_treated[i], sales_after_treated[i]], color<span class="op">=</span><span class="st">'darkorange'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">0</span>,<span class="dv">1</span>],[sales_before_ctrl.mean(), sales_after_ctrl.mean()],       color<span class="op">=</span><span class="st">'steelblue'</span>, lw<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Control'</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>ax.plot([<span class="dv">0</span>,<span class="dv">1</span>],[sales_before_treated.mean(), sales_after_treated.mean()], color<span class="op">=</span><span class="st">'darkorange'</span>, lw<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Treated'</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="dv">0</span>,<span class="dv">1</span>])<span class="op">;</span> ax.set_xticklabels([<span class="st">'Before'</span>,<span class="st">'After'</span>])</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Sales Index'</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'Difference-in-Differences  (estimated effect = </span><span class="sc">{</span>did<span class="sc">:.1f}</span><span class="ss">)'</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="regression-discontinuity" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="regression-discontinuity"><span class="header-section-number">11.6</span> Regression Discontinuity</h2>
+<p><strong>Regression Discontinuity (RD)</strong> exploits situations where treatment is assigned based on a threshold in some running variable — a credit score, an age cutoff, an exam score. Units just above and just below the threshold are nearly identical in every way except whether they crossed it. Assignment near the threshold is therefore <em>as good as random</em>, and any jump in outcomes at the threshold can be attributed to the treatment.</p>
+<p>A bank that approves loans to applicants with credit score <span class="math inline">\(\geq 700\)</span> provides a natural experiment: comparing default rates for borrowers just above and below 700 estimates the causal effect of loan approval. A loyalty program that grants gold status at $1{,}000 annual spend can similarly be evaluated by comparing retention just above and below the threshold.</p>
+<p><em>Sharp RD</em> assigns treatment deterministically at the threshold. <em>Fuzzy RD</em> allows some non-compliance — crossing the threshold changes the <em>probability</em> of treatment but does not guarantee it.</p>
+<div id="a3a11de3b66c4b26" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression Discontinuity: credit score threshold for loan approval</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> np.random.uniform(<span class="dv">600</span>, <span class="dv">800</span>, n)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">700</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>treatment <span class="op">=</span> (score <span class="op">&gt;=</span> threshold).astype(<span class="bu">float</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>true_effect <span class="op">=</span> <span class="fl">0.10</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>repayment <span class="op">=</span> <span class="fl">0.40</span> <span class="op">+</span> <span class="fl">0.0005</span><span class="op">*</span>(score<span class="op">-</span><span class="dv">600</span>) <span class="op">+</span> true_effect<span class="op">*</span>treatment <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.08</span>, n)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>repayment <span class="op">=</span> np.clip(repayment, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>bandwidth <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> np.<span class="bu">abs</span>(score <span class="op">-</span> threshold) <span class="op">&lt;=</span> bandwidth</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'score'</span>: score[mask], <span class="st">'repay'</span>: repayment[mask], <span class="st">'treated'</span>: treatment[mask]})</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>left  <span class="op">=</span> df[df.treated<span class="op">==</span><span class="dv">0</span>]<span class="op">;</span> right <span class="op">=</span> df[df.treated<span class="op">==</span><span class="dv">1</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>cl <span class="op">=</span> np.polyfit(left.score, left.repay, <span class="dv">1</span>)<span class="op">;</span> cr <span class="op">=</span> np.polyfit(right.score, right.repay, <span class="dv">1</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>jump <span class="op">=</span> np.polyval(cr, threshold) <span class="op">-</span> np.polyval(cl, threshold)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Estimated treatment effect at threshold: </span><span class="sc">{</span>jump<span class="sc">:.3f}</span><span class="ss">  (true = </span><span class="sc">{</span>true_effect<span class="sc">:.3f}</span><span class="ss">)'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>xl <span class="op">=</span> np.linspace(left.score.<span class="bu">min</span>(), threshold, <span class="dv">100</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>xr <span class="op">=</span> np.linspace(threshold, right.score.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>ax.scatter(df[df.treated<span class="op">==</span><span class="dv">0</span>].score, df[df.treated<span class="op">==</span><span class="dv">0</span>].repay, alpha<span class="op">=</span><span class="fl">0.4</span>, color<span class="op">=</span><span class="st">'steelblue'</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>ax.scatter(df[df.treated<span class="op">==</span><span class="dv">1</span>].score, df[df.treated<span class="op">==</span><span class="dv">1</span>].repay, alpha<span class="op">=</span><span class="fl">0.4</span>, color<span class="op">=</span><span class="st">'darkorange'</span>, s<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>ax.plot(xl, np.polyval(cl, xl), color<span class="op">=</span><span class="st">'steelblue'</span>,  lw<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="st">'Not approved'</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>ax.plot(xr, np.polyval(cr, xr), color<span class="op">=</span><span class="st">'darkorange'</span>, lw<span class="op">=</span><span class="fl">2.5</span>, label<span class="op">=</span><span class="st">'Approved'</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>ax.axvline(threshold, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Credit Score'</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">'Repayment Rate'</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Regression Discontinuity: Loan Approval at Score 700'</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="propensity-score-matching" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="propensity-score-matching"><span class="header-section-number">11.7</span> Propensity Score Matching</h2>
+<p><strong>Propensity Score Matching (PSM)</strong> matches each treated unit to control units that had a similar <em>probability of receiving treatment</em> given their observed characteristics. The propensity score <span class="math inline">\(e(X) = P(T=1 \mid X)\)</span> is estimated using logistic regression. Comparing outcomes within matched pairs removes the bias from observed confounders.</p>
+<p>The critical limitation is that PSM only controls for <em>observed</em> confounders. If important confounders are unmeasured, the estimate remains biased — unlike an RCT, there is no guarantee of balance on unobservables. Always check balance diagnostics after matching: the covariate distributions in the matched treated and control groups should be visually similar.</p>
+<div id="8b504e10716844f7" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Training program: experienced, high-scoring workers self-select in</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">600</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> np.random.normal(<span class="dv">35</span>, <span class="dv">8</span>, n).clip(<span class="dv">22</span>, <span class="dv">60</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>prior_score <span class="op">=</span> np.random.normal(<span class="dv">70</span>, <span class="dv">15</span>, n).clip(<span class="dv">30</span>, <span class="dv">100</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>logit_p <span class="op">=</span> <span class="op">-</span><span class="dv">4</span> <span class="op">+</span> <span class="fl">0.05</span><span class="op">*</span>age <span class="op">+</span> <span class="fl">0.04</span><span class="op">*</span>prior_score</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>treatment <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>np.exp(<span class="op">-</span>logit_p)))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>true_effect <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>outcome <span class="op">=</span> <span class="dv">50</span> <span class="op">+</span> <span class="fl">0.3</span><span class="op">*</span>prior_score <span class="op">+</span> <span class="fl">0.1</span><span class="op">*</span>age <span class="op">+</span> true_effect<span class="op">*</span>treatment <span class="op">+</span> np.random.normal(<span class="dv">0</span>,<span class="dv">8</span>,n)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>df_psm <span class="op">=</span> pd.DataFrame({<span class="st">'age'</span>:age,<span class="st">'prior_score'</span>:prior_score,<span class="st">'treatment'</span>:treatment,<span class="st">'outcome'</span>:outcome})</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> StandardScaler().fit_transform(df_psm[[<span class="st">'age'</span>,<span class="st">'prior_score'</span>]])</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>df_psm[<span class="st">'pscore'</span>] <span class="op">=</span> LogisticRegression().fit(X, treatment).predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>naive_ate <span class="op">=</span> df_psm[df_psm.treatment<span class="op">==</span><span class="dv">1</span>].outcome.mean() <span class="op">-</span> df_psm[df_psm.treatment<span class="op">==</span><span class="dv">0</span>].outcome.mean()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Naive estimate (biased): </span><span class="sc">{</span>naive_ate<span class="sc">:.2f}</span><span class="ss">'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>treated <span class="op">=</span> df_psm[df_psm.treatment<span class="op">==</span><span class="dv">1</span>]<span class="op">;</span> untreated <span class="op">=</span> df_psm[df_psm.treatment<span class="op">==</span><span class="dv">0</span>]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>matched <span class="op">=</span> [untreated.loc[np.<span class="bu">abs</span>(untreated.pscore <span class="op">-</span> ps).idxmin(), <span class="st">'outcome'</span>] <span class="cf">for</span> ps <span class="kw">in</span> treated.pscore]</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>att <span class="op">=</span> treated.outcome.values.mean() <span class="op">-</span> np.mean(matched)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'PSM estimate (ATT):      </span><span class="sc">{</span>att<span class="sc">:.2f}</span><span class="ss">  (true effect = </span><span class="sc">{</span>true_effect<span class="sc">}</span><span class="ss">)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="double-machine-learning" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="double-machine-learning"><span class="header-section-number">11.8</span> Double Machine Learning</h2>
+<p>PSM and standard regression work well when there are few confounders. When dozens of features could be confounders, these methods become unreliable. <strong>Double Machine Learning (Double ML)</strong>, introduced by Chernozhukov et al.&nbsp;(2018), handles high-dimensional controls using any machine learning algorithm.</p>
+<p>The procedure residualizes both the outcome and the treatment on the controls: 1. Fit an ML model predicting <span class="math inline">\(Y\)</span> from controls <span class="math inline">\(X\)</span> (not treatment). Compute residuals <span class="math inline">\(\tilde{Y}\)</span>. 2. Fit an ML model predicting <span class="math inline">\(T\)</span> from controls <span class="math inline">\(X\)</span>. Compute residuals <span class="math inline">\(\tilde{T}\)</span>. 3. Regress <span class="math inline">\(\tilde{Y}\)</span> on <span class="math inline">\(\tilde{T}\)</span>. The coefficient is the causal effect estimate.</p>
+<p>Cross-fitting (train on one fold, predict on another) avoids overfitting bias. The <code>econml</code> library implements this correctly:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> econml.dml <span class="im">import</span> LinearDML</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor, GradientBoostingClassifier</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearDML(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    model_y<span class="op">=</span>GradientBoostingRegressor(),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    model_t<span class="op">=</span>GradientBoostingClassifier(),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>model.fit(Y<span class="op">=</span>y, T<span class="op">=</span>t, X<span class="op">=</span>x_for_heterogeneity, W<span class="op">=</span>w_controls)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.ate(x_for_heterogeneity))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Install: <code>pip install econml</code></p>
+</section>
+<section id="instrumental-variables" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="instrumental-variables"><span class="header-section-number">11.9</span> Instrumental Variables</h2>
+<p>Sometimes there are unmeasured confounders that no matching or ML method can address. <strong>Instrumental Variables (IV)</strong> offer a different route: find a variable <span class="math inline">\(Z\)</span> that causes the treatment but has no direct effect on the outcome (other than through treatment).</p>
+<p>Distance to college as an instrument for years of education is the classic example. Growing up near a college makes you more likely to attend (relevant to treatment), but proximity to a college does not directly affect your earnings — it only does so through the education it facilitates (exclusion restriction).</p>
+<p>Finding a valid instrument requires domain knowledge and is often the hardest part. The <code>linearmodels</code> library implements two-stage least squares:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> IV2SLS.from_formula(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'outcome ~ 1 + controls + [treatment ~ instrument]'</span>, data<span class="op">=</span>df</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>).fit()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result.summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Install: <code>pip install linearmodels</code></p>
+</section>
+<section id="choosing-a-method" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="choosing-a-method"><span class="header-section-number">11.10</span> Choosing a Method</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Recommended Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>We control treatment assignment</td>
+<td>Randomized Controlled Trial</td>
+</tr>
+<tr class="even">
+<td>Before/after data with a control group</td>
+<td>Difference-in-Differences</td>
+</tr>
+<tr class="odd">
+<td>Treatment assigned by a threshold</td>
+<td>Regression Discontinuity</td>
+</tr>
+<tr class="even">
+<td>Rich observational data, few confounders</td>
+<td>Propensity Score Matching</td>
+</tr>
+<tr class="odd">
+<td>Rich observational data, many confounders</td>
+<td>Double ML (EconML)</td>
+</tr>
+<tr class="even">
+<td>Unmeasured confounders, valid instrument exists</td>
+<td>Instrumental Variables</td>
+</tr>
+</tbody>
+</table>
+<p>What is not an option is running a regression on observational data and calling the coefficient a causal effect without satisfying the identification assumptions. This is one of the most common analytical errors in business data science.</p>
+<p>The <strong>DoWhy</strong> library (Microsoft Research) enforces good causal hygiene by requiring a four-step process: model the causal graph, identify the estimand, estimate it, then <em>refute</em> the estimate with sensitivity checks. Install: <code>pip install dowhy</code>.</p>
+<p><em>Recommended reading:</em> - <em>The Book of Why</em> — Pearl and Mackenzie (accessible, conceptual) - <em>Causal Inference: The Mixtape</em> — Cunningham (free online, practitioner-focused) - <em>Mostly Harmless Econometrics</em> — Angrist and Pischke (rigorous, applied)</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09_Introduction_to_Modeling.html" class="pagination-link" aria-label="Introduction to Modeling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11_Recommender_Systems.html" class="pagination-link" aria-label="Recommender Systems">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Recommender Systems</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

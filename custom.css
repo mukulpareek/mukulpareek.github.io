@@ -1,0 +1,20 @@
+/* Add vertical spacing between sidebar chapter entries */
+.sidebar-item {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+/* Right-side in-page TOC: spacing and lighter text */
+#TOC ul li {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+#TOC .nav-link {
+  color: #6c757d;
+}
+
+#TOC .nav-link:hover,
+#TOC .nav-link.active {
+  color: #343a40;
+}
